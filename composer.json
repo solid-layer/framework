@@ -1,0 +1,41 @@
+{
+    "name": "phalconslayer/framework",
+    "keywords": [
+        "skeleton",
+        "boilerplate",
+        "framework",
+        "phalcon",
+        "slayer",
+        "bootstrap"
+    ],
+    "description": "The foundation of Phalcon Slayer",
+    "license": "MIT",
+    "homepage": "http://github.com/phalconslayer/framework",
+    "support": {
+        "issues": "https://github.com/phalconslayer/framework/issues",
+        "source": "https://github.com/phalconslayer/framework"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+        "clarity/contracts": "dev-master",
+        "clarity/kernel": "dev-master",
+        "clarity/support": "dev-master",
+        "clarity/exceptions": "dev-master",
+        "clarity/view": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7",
+        "mockery/mockery": "^0.9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clarity\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
