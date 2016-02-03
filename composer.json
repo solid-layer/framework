@@ -35,6 +35,9 @@
     "autoload": {
         "psr-4": {
             "Clarity\\": "src/"
-        }
+        },
+        "files": [
+            "src/Clarity/Support/Helpers/init.php"
+        ]
     }
 }
