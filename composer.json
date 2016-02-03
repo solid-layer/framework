@@ -21,7 +21,7 @@
             "email": "daison12006013@gmail.com"
         }
     ],
-    "require": {
+    "replace": {
         "clarity/contracts": "self.version",
         "clarity/kernel": "self.version",
         "clarity/support": "self.version",
