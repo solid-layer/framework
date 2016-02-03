@@ -1,0 +1,25 @@
+{
+    "name": "clarity/view",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/view",
+    "support": {
+        "issues": "https://github.com/ps-clarity/view/issues",
+        "source": "https://github.com/ps-clarity/view"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+        "clarity/support": "dev-master",
+        "illuminate/view": "5.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clarity\\View\\": ""
+        }
+    }
+}

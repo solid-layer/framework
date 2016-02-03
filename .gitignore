@@ -1,0 +1,4 @@
+/vendor
+.subsplit
+composer.lock
+composer.phar

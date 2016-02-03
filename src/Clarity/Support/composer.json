@@ -1,0 +1,33 @@
+{
+    "name": "clarity/support",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/support",
+    "support": {
+        "issues": "https://github.com/ps-clarity/support/issues",
+        "source": "https://github.com/ps-clarity/support"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "5.2.*",
+        "fzaninotto/faker": "~1.4",
+        "league/tactician": "^0.6",
+        "paragonie/random_compat": "1.1.*",
+        "clarity/contracts": "dev-master",
+        "clarity/exceptions": "dev-master",
+        "robmorgan/phinx": "0.5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clarity\\Support\\": ""
+        },
+        "files": [
+            "Helpers/init.php"
+        ]
+    }
+}
