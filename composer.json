@@ -36,6 +36,5 @@
         "psr-4": {
             "Clarity\\": "src/"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
