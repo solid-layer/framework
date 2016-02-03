@@ -22,11 +22,11 @@
         }
     ],
     "require": {
-        "clarity/contracts": "dev-master",
-        "clarity/kernel": "dev-master",
-        "clarity/support": "dev-master",
-        "clarity/exceptions": "dev-master",
-        "clarity/view": "dev-master"
+        "clarity/contracts": "self.version",
+        "clarity/kernel": "self.version",
+        "clarity/support": "self.version",
+        "clarity/exceptions": "self.version",
+        "clarity/view": "self.version"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.7",
