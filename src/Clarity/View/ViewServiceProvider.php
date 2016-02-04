@@ -7,6 +7,7 @@ use Phalcon\Mvc\View\Engine\Php;
 use Clarity\View\Volt\VoltAdapter;
 use Clarity\View\Blade\BladeAdapter;
 use Clarity\Support\Phalcon\Mvc\View;
+use Clarity\Providers\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {

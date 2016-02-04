@@ -21,6 +21,27 @@
             "email": "daison12006013@gmail.com"
         }
     ],
+    "require": {
+        "classpreloader/classpreloader": "^2.0",
+        "classpreloader/console": "^1.0",
+        "fzaninotto/faker": "~1.4",
+        "illuminate/support": "5.2.*",
+        "illuminate/view": "5.2.*",
+        "paragonie/random_compat": "1.1.*",
+        "league/flysystem": "^1.0",
+        "league/tactician": "^0.6",
+        "mailgun/mailgun-php": "~1.7.2",
+        "monolog/monolog": "^1.15",
+        "robmorgan/phinx": "0.5.*",
+        "swiftmailer/swiftmailer": "^5.4",
+        "symfony/console": "^2.7",
+        "symfony/debug": "^2.7",
+        "symfony/process": "^2.7",
+        "symfony/var-dumper": "^2.7",
+        "tijsverkoyen/css-to-inline-styles": "^1.5",
+        "vlucas/phpdotenv": "^2.0",
+        "respect/validation": "1.0.*"
+    },
     "replace": {
         "clarity/contracts": "self.version",
         "clarity/kernel": "self.version",
@@ -34,7 +55,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Clarity\\": "src/"
+            "Clarity\\": "src/Clarity/"
         },
         "files": [
             "src/Clarity/Support/Helpers/init.php"
