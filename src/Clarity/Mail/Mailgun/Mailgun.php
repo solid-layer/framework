@@ -1,10 +1,10 @@
 <?php
-namespace Clarity\Adapters\Mail;
+namespace Clarity\Mail\Mailgun;
 
-use Mailgun\Mailgun;
+use Mailgun\Mailgun as BaseMailgun;
 use Clarity\Contracts\Mail\MailInterface;
 
-class MailgunAdapter implements MailInterface
+class Mailgun implements MailInterface
 {
     private $files;
     private $encryption;
@@ -104,7 +104,7 @@ class MailgunAdapter implements MailInterface
 
     public function send()
     {
-        $mailgun = new Mailgun($this->getSecretKey());
+        $mailgun = new BaseMailgun($this->getSecretKey());
 
         return $mailgun->sendMessage(
             $this->getDomain()

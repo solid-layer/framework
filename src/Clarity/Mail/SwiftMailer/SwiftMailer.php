@@ -1,5 +1,5 @@
 <?php
-namespace Clarity\Adapters\Mail;
+namespace Clarity\Mail\SwiftMailer;
 
 use Swift_Mailer;
 use Swift_Message;
@@ -7,7 +7,7 @@ use Swift_Attachment;
 use Swift_SmtpTransport;
 use Clarity\Contracts\Mail\MailInterface;
 
-class SwiftMailerAdapter implements MailInterface
+class SwiftMailer implements MailInterface
 {
     private $message;
     private $transport;
