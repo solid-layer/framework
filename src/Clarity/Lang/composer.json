@@ -1,0 +1,23 @@
+{
+    "name": "clarity/lang",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/lang",
+    "support": {
+        "issues": "https://github.com/ps-clarity/lang/issues",
+        "source": "https://github.com/ps-clarity/lang"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Clarity\\Lang\\": ""
+        }
+    }
+}

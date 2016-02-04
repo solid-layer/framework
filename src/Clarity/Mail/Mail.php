@@ -1,5 +1,5 @@
 <?php
-namespace Clarity\Support\Mail;
+namespace Clarity\Mail;
 
 use Clarity\Contracts\Mail\MailInterface;
 

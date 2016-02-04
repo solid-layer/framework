@@ -1,4 +1,5 @@
 git subsplit init git@github.com:phalconslayer/framework.git
+git subsplit publish --heads="master dev" src/Clarity/Lang:git@github.com:ps-clarity/lang.git
 git subsplit publish --heads="master dev" src/Clarity/Mail:git@github.com:ps-clarity/mail.git
 git subsplit publish --heads="master dev" src/Clarity/Console:git@github.com:ps-clarity/console.git
 git subsplit publish --heads="master dev" src/Clarity:git@github.com:ps-clarity/kernel.git

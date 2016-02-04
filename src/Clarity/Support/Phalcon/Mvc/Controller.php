@@ -4,20 +4,21 @@ namespace Clarity\Support\Phalcon\Mvc;
 use Phalcon\Config;
 use League\Tactician\CommandBus;
 use Clarity\Support\Http\Middleware\Kernel;
+use Phalcon\Mvc\Controller as BaseController;
 
-class Controller extends \Phalcon\Mvc\Controller
+class Controller extends BaseController
 {
     public function middleware($alias, $options = [])
     {
         $middlewares = [];
 
-        if ( di()->has('middlewares') ) {
-            $middlewares = di()->get('middlewares')->toArray();
+        if ( di()->has('assigned_middlewares') ) {
+            $middlewares = di()->get('assigned_middlewares')->toArray();
         }
 
         $middlewares[] = $alias;
 
-        di()->set('middlewares', function () use ($middlewares) {
+        di()->set('assigned_middlewares', function () use ($middlewares) {
 
             return new Config($middlewares);
         }, true);
@@ -29,19 +30,18 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->initialize();
         }
 
-        if ( di()->has('middlewares') === false ) {
+        if ( di()->has('assigned_middlewares') === false ) {
             return;
         }
 
-        $middlewares = di()->get('middlewares')->toArray();
+        $assigned_m = di()->get('assigned_middlewares')->toArray();
 
-        $kernel = new Kernel;
-        $kernel->initialize();
+        $kernel = new Kernel(config()->app->middlewares);
 
         $instances = [];
 
-        foreach ($middlewares as $mid) {
-            $class = $kernel->getClass($mid);
+        foreach ($assigned_m as $mid) {
+            $class = $kernel->get($mid);
 
             $instances[] = new $class;
         }
