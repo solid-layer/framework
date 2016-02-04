@@ -1,5 +1,5 @@
 <?php
-namespace Clarity\Support\Lang;
+namespace Clarity\Lang;
 
 use Clarity\Exceptions\FileNotFoundException;
 

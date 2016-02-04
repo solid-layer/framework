@@ -1,7 +1,9 @@
 <?php
-namespace Clarity\Facades;
+namespace Clarity\Lang;
 
-class Lang extends Facade
+use Clarity\Facades\Facade;
+
+class LangFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
