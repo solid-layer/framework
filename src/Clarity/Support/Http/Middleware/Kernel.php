@@ -5,6 +5,10 @@ use InvalidArgumentException;
 
 class Kernel
 {
+    public function initialize()
+    {
+    }
+
     public function getClass($alias)
     {
         if ( ! isset($this->middlewares[$alias]) ) {
