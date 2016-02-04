@@ -1,0 +1,8 @@
+<?php
+
+require dirname(__DIR__) . '/bootstrap/autoload.php';
+
+$kernel
+    ->modules()
+    ->run({arg_name})
+    ->render();

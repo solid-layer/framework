@@ -1,0 +1,28 @@
+{
+    "name": "clarity/console",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/console",
+    "support": {
+        "issues": "https://github.com/ps-clarity/console/issues",
+        "source": "https://github.com/ps-clarity/console"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+        "clarity/suppoer": "dev-dev",
+        "symfony/console": "^2.7",
+        "league/flysystem": "^1.0",
+        "tijsverkoyen/css-to-inline-styles": "^1.5",
+        "symfony/process": "^2.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clarity\\Console\\": "src/"
+        }
+    }
+}
