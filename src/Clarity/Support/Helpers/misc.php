@@ -22,14 +22,10 @@ if (!function_exists('csrf_field')) {
     }
 }
 
-if (!function_exists('slayer_process_time')) {
-    function slayer_process_time()
+if (!function_exists('processing_time')) {
+    function processing_time($starting_time = 0)
     {
-        # TODO: remove the SLAYER_START, it should be passed on the
-        # parameter, and the function name should be renamed to
-        # "compute_processing_time(<microtime>)"
-
-        return microtime(true) - SLAYER_START;
+        return microtime(true) - $starting_time;
     }
 }
 
