@@ -5,7 +5,14 @@ use InvalidArgumentException;
 
 class Kernel
 {
-    public function getClass($alias)
+    protected $middlewares = [];
+
+    public function __construct($middlewares = [])
+    {
+        $this->middlewares = $middlewares;
+    }
+
+    public function get($alias)
     {
         if ( ! isset($this->middlewares[$alias]) ) {
             throw new InvalidArgumentException(
@@ -16,8 +23,10 @@ class Kernel
         return $this->middlewares[$alias];
     }
 
-    public function getClasses()
+    public function set($middlewares)
     {
-        return $this->middlewares;
+        $this->middlewares = $middlewares;
+
+        return $this;
     }
 }

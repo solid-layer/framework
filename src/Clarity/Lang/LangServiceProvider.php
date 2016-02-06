@@ -1,9 +1,9 @@
 <?php
-namespace Clarity\Providers;
+namespace Clarity\Lang;
 
-use Clarity\Support\Lang\Lang as SupportLang;
+use Clarity\Providers\ServiceProvider;
 
-class Lang extends ServiceProvider
+class LangServiceProvider extends ServiceProvider
 {
     protected $alias  = 'lang';
     protected $shared = false;
@@ -12,7 +12,7 @@ class Lang extends ServiceProvider
     {
         $language = config()->app->lang;
 
-        $translation = new SupportLang($dir);
+        $translation = new Lang($dir);
         $translation
             ->setLanguage($language)
             ->setLangDir(config()->path->lang);

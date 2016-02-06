@@ -1,0 +1,22 @@
+{
+    "name": "clarity/mail",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/mail",
+    "support": {
+        "issues": "https://github.com/ps-clarity/mail/issues",
+        "source": "https://github.com/ps-clarity/mail"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Clarity\\Mail\\": ""
+        }
+    }
+}

@@ -1,0 +1,10 @@
+<?php
+namespace Components\Collection;
+
+class {collectionName} extends Collection
+{
+    public function getSource()
+    {
+        return '{sourceName}';
+    }
+}

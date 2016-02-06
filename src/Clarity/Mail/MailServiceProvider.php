@@ -1,10 +1,10 @@
 <?php
-namespace Clarity\Providers;
+namespace Clarity\Mail;
 
 use Exception;
-use Clarity\Support\Mail\Mail as SupportMail;
+use Clarity\Providers\ServiceProvider;
 
-class Mail extends ServiceProvider
+class MailServiceProvider extends ServiceProvider
 {
     protected $alias  = 'mail';
     protected $shared = false;
@@ -25,6 +25,6 @@ class Mail extends ServiceProvider
 
         unset($settings['class']);
 
-        return new SupportMail(new $class, $settings);
+        return new Mail(new $class, $settings);
     }
 }
