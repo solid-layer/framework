@@ -1,88 +1,19 @@
 <?php
 
-/*
-|-------------------------------------------------------------
-| Security from DI
-|-------------------------------------------------------------
-| Returning the injected 'security' in the DI
-*/
-if (!function_exists('security')) {
-    function security()
+if (!function_exists('auth')) {
+    function auth()
     {
-        return di()->get('security');
+        return di()->get('auth');
     }
 }
 
-/*
-|-------------------------------------------------------------
-| Tag from DI
-|-------------------------------------------------------------
-| Returning the injected 'tag' in the DI
-*/
-if (!function_exists('tag')) {
-    function tag()
+if (!function_exists('cache')) {
+    function cache()
     {
-        return di()->get('tag');
+        return di()->get('cache');
     }
 }
 
-/*
-|-------------------------------------------------------------
-| Route from DI
-|-------------------------------------------------------------
-| Returning the injected 'router' in the DI
-*/
-if (!function_exists('route')) {
-    function route($name = null, $params = [])
-    {
-        if ($name === null) {
-            return di()->get('router');
-        }
-
-        return url()->route($name, $params);
-    }
-}
-
-
-/*
-|-------------------------------------------------------------
-| Response from DI
-|-------------------------------------------------------------
-| Returning the injected 'response' in the DI
-*/
-if (!function_exists('response')) {
-    function response()
-    {
-        return di()->get('response');
-    }
-}
-
-
-/*
-|-------------------------------------------------------------
-| View from DI
-|-------------------------------------------------------------
-| Returning the injected 'view' in the DI
-*/
-if (!function_exists('view')) {
-    function view($path = null, $params = [])
-    {
-        $view = di()->get('view');
-        if ($path === null) {
-            return $view;
-        }
-
-        return $view->make($path, $params);
-    }
-}
-
-
-/*
-|-------------------------------------------------------------
-| Config from DI
-|-------------------------------------------------------------
-| Returning the injected 'config' in the DI
-*/
 if (!function_exists('config')) {
     function config($path = null)
     {
@@ -102,32 +33,62 @@ if (!function_exists('config')) {
     }
 }
 
-
-/*
-|-------------------------------------------------------------
-| URL from DI
-|-------------------------------------------------------------
-| Returning the injected 'url' in the DI
-*/
-if (!function_exists('url')) {
-    function url($href = null, $params = [])
+if (!function_exists('db')) {
+    function db()
     {
-        $url = di()->get('url');
-        if ($href === null) {
-            return $url;
-        }
-
-        return $url->get($href, $params);
+        return di()->get('db');
     }
 }
 
+if (!function_exists('filter')) {
+    function filter()
+    {
+        return di()->get('filter');
+    }
+}
 
-/*
-|-------------------------------------------------------------
-| Redirect from DI
-|-------------------------------------------------------------
-| Returning the injected 'redirect' in the DI
-*/
+if (!function_exists('flash')) {
+    function flash()
+    {
+        return di()->get('flash');
+    }
+}
+
+if (!function_exists('flashbag')) {
+    function flashbag()
+    {
+        return di()->get('flashbag');
+    }
+}
+
+if (!function_exists('flysystem')) {
+    function flysystem()
+    {
+        return di()->get('flysystem');
+    }
+}
+
+if (!function_exists('flysystem_manager')) {
+    function flysystem_manager()
+    {
+        return di()->get('flysystem_manager');
+    }
+}
+
+if (!function_exists('log')) {
+    function log()
+    {
+        return di()->get('log');
+    }
+}
+
+if (!function_exists('queue')) {
+    function queue()
+    {
+        return di()->get('queue');
+    }
+}
+
 if (!function_exists('redirect')) {
     function redirect($to = null)
     {
@@ -140,15 +101,74 @@ if (!function_exists('redirect')) {
     }
 }
 
-/*
-|-------------------------------------------------------------
-| Request from DI
-|-------------------------------------------------------------
-| Returning the injected 'request' in the DI
-*/
 if (!function_exists('request')) {
     function request()
     {
         return di()->get('request');
+    }
+}
+
+if (!function_exists('response')) {
+    function response()
+    {
+        return di()->get('response');
+    }
+}
+
+if (!function_exists('route')) {
+    function route($name = null, $params = [])
+    {
+        if ($name === null) {
+            return di()->get('router');
+        }
+
+        return url()->route($name, $params);
+    }
+}
+
+if (!function_exists('security')) {
+    function security()
+    {
+        return di()->get('security');
+    }
+}
+
+if (!function_exists('session')) {
+    function session()
+    {
+        return di()->get('session');
+    }
+}
+
+if (!function_exists('tag')) {
+    function tag()
+    {
+        return di()->get('tag');
+    }
+}
+
+if (!function_exists('url')) {
+    function url($href = null, $params = [])
+    {
+        $url = di()->get('url');
+
+        if ($href === null) {
+            return $url;
+        }
+
+        return $url->get($href, $params);
+    }
+}
+
+if (!function_exists('view')) {
+    function view($path = null, $params = [])
+    {
+        $view = di()->get('view');
+
+        if ($path === null) {
+            return $view;
+        }
+
+        return $view->make($path, $params);
     }
 }
