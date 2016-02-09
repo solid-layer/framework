@@ -27,10 +27,19 @@ class VoltAdapter extends Volt
     ) {
         parent::__construct($view, $di);
 
+        $debug = false;
+
+        if (
+            config()->app->debug === 'true' &&
+            config()->app->debug === true
+        ) {
+            $debug = true;
+        }
+
         $this->setOptions([
             'compiledSeparator' => '_',
             'compiledPath'      => config()->path->storage_views,
-            'compileAlways'     => config()->app->debug ?: false,
+            'compileAlways'     => $debug,
         ]);
 
         foreach ($this->functions as $func) {
