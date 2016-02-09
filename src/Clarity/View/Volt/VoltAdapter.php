@@ -30,6 +30,7 @@ class VoltAdapter extends Volt
         $this->setOptions([
             'compiledSeparator' => '_',
             'compiledPath'      => config()->path->storage_views,
+            'compileAlways'     => config()->app->volt_autocompile ?: false,
         ]);
 
         foreach ($this->functions as $func) {
