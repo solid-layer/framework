@@ -54,10 +54,10 @@ if (!function_exists('flash')) {
     }
 }
 
-if (!function_exists('flashbag')) {
-    function flashbag()
+if (!function_exists('flash_bag')) {
+    function flash_bag()
     {
-        return di()->get('flashbag');
+        return di()->get('flash_bag');
     }
 }
 
