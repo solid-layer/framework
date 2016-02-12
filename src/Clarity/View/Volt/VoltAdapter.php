@@ -9,13 +9,17 @@ class VoltAdapter extends Volt
 {
     private $functions = [
         # misc
-        'di', 'env', 'csrf_field',
+        'di', 'env',    'csrf_field',
         'dd', 'config',
 
         # facades
-        'security', 'tag', 'route',
-        'response', 'view', 'config',
-        'config', 'url', 'request',
+        'auth',      'cache',     'config',
+        'db',        'filter',    'flash',
+        'flash_bag', 'flysystem', 'flysystem_manager',
+        'log',       'queue',     'redirect',
+        'request',   'response',  'route',
+        'security',  'session',   'tag',
+        'url',       'view',
 
         # path
         'base_uri',
