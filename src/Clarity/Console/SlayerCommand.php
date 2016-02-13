@@ -4,9 +4,11 @@ namespace Clarity\Console;
 use Clarity\Services\ServiceMagicMethods;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 abstract class SlayerCommand extends Command
 {
@@ -89,6 +91,24 @@ abstract class SlayerCommand extends Command
     public function error($string)
     {
         $this->output->writeln("<error>$string</error>");
+    }
+
+    public function ask($message, $default)
+    {
+        $helper = $this->getHelper('question');
+
+        $question = new Question($message, $default);
+
+        return $helper->ask($this->input, $this->output, $question);
+    }
+
+    public function confirm($message)
+    {
+        $helper = $this->getHelper('question');
+
+        $question = new ConfirmationQuestion($message, false);
+
+        return $helper->ask($this->input, $this->output, $question);
     }
 
     public function callDumpAutoload()

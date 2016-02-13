@@ -8,32 +8,43 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class PublishCommand extends SlayerCommand
 {
-    protected $name        = 'vendor:publish';
-
+    protected $name = 'vendor:publish';
     protected $description = 'Publish a vendor package';
 
     public function slash()
     {
+        $tag_name = $this->input->getOption('tag');
         $alias = $this->input->getArgument('alias');
-        $tag = $this->input->getOption('tag');
 
         foreach (config()->app->services as $service) {
+
             $obj = new $service;
-            if ($alias != $obj->getAlias()) {
+
+            if ( $alias != $obj->getAlias() ) {
                 continue;
             }
 
             $obj->boot();
 
             try {
-                $tags = $obj->getToBePublished($tag);
+                $tags = $obj->getToBePublished($tag_name);
 
                 foreach ($tags as $tag) {
+
                     foreach ($tag as $source => $dest) {
+
+                        if ( ! $this->confirm('Are you sure you want to run this? [y/n]: ') ) {
+                            return;
+                        }
+
                         cp($source, $dest);
+
+                        $this->info("Publishing tag \"$tag_name\" from [$source] to [$dest]");
                     }
                 }
+
             } catch (Exception $e) {
+
                 $this->error($e->getMessage());
             }
         }
