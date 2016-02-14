@@ -29,12 +29,15 @@ class PublishCommand extends SlayerCommand
             try {
                 $tags = $obj->getToBePublished($tag_name);
 
-                foreach ($tags as $tag) {
+                foreach ($tags as $tag_name => $tag) {
 
                     foreach ($tag as $source => $dest) {
 
-                        if ( ! $this->confirm('Are you sure you want to run this? [y/n]: ') ) {
-                            return;
+                        $are_you_sure = 'Are you sure you want to '.
+                                        'publish "'.$tag_name.'"? [y/n]: ';
+
+                        if ( ! $this->confirm($are_you_sure) ) {
+                            continue;
                         }
 
                         cp($source, $dest);
