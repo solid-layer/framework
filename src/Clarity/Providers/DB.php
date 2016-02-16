@@ -9,7 +9,7 @@ use Phalcon\Events\Manager as EventsManager;
 class DB extends ServiceProvider
 {
     private $adapters;
-    protected $alias  = 'db';
+    protected $alias = 'db';
     protected $shared = false;
 
     public function __construct()

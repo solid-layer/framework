@@ -3,7 +3,7 @@ namespace Clarity\Providers;
 
 class Cache extends ServiceProvider
 {
-    protected $alias  = 'cache';
+    protected $alias = 'cache';
     protected $shared = false;
 
     private function getSelectedAdapter()

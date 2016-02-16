@@ -7,7 +7,7 @@ use Monolog\Handler\StreamHandler;
 
 class Log extends ServiceProvider
 {
-    protected $alias  = 'log';
+    protected $alias = 'log';
     protected $shared = true;
 
     public function register()

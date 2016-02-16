@@ -3,7 +3,7 @@ namespace Clarity\Providers;
 
 class Session extends ServiceProvider
 {
-    protected $alias  = 'session';
+    protected $alias = 'session';
     protected $shared = false;
 
     protected function getSelectedAdapter()

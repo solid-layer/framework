@@ -8,7 +8,7 @@ use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
 class Dispatcher extends ServiceProvider
 {
-    protected $alias  = 'dispatcher';
+    protected $alias = 'dispatcher';
     protected $shared = true;
 
     public function boot()

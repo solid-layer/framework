@@ -1,15 +1,15 @@
 <?php
 namespace Clarity\Providers;
 
-use Clarity\Support\Redirect\Redirect as SupportRedirect;
+use Clarity\Support\Redirect\Redirect as BaseRedirect;
 
 class Redirect extends ServiceProvider
 {
-    protected $alias  = 'redirect';
+    protected $alias = 'redirect';
     protected $shared = false;
 
     public function register()
     {
-        return new SupportRedirect;
+        return new BaseRedirect;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Clarity\Providers;
 
-use Clarity\Support\Phalcon\Mvc\Router as PhalconRouter;
+use Clarity\Support\Phalcon\Mvc\Router as BaseRouter;
 
 class Router extends ServiceProvider
 {
@@ -10,7 +10,7 @@ class Router extends ServiceProvider
 
     public function register()
     {
-        $router = new PhalconRouter(false);
+        $router = new BaseRouter(false);
 
         $router->removeExtraSlashes(true);
 

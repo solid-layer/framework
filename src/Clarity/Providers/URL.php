@@ -1,7 +1,7 @@
 <?php
 namespace Clarity\Providers;
 
-use Clarity\Support\Phalcon\Mvc\URL as UrlResolver;
+use Clarity\Support\Phalcon\Mvc\URL as BaseURL;
 
 class URL extends ServiceProvider
 {
@@ -11,7 +11,7 @@ class URL extends ServiceProvider
 
     public function register()
     {
-        $url = new UrlResolver();
+        $url = new BaseURL();
 
         return $url;
     }

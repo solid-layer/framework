@@ -1,15 +1,15 @@
 <?php
 namespace Clarity\Providers;
 
-use Phalcon\Mvc\Collection\Manager;
+use Phalcon\Mvc\Collection\Manager as BaseCollectionManager;
 
 class CollectionManager extends ServiceProvider
 {
-    protected $shared = true;
     protected $alias = 'collectionManager';
+    protected $shared = true;
 
     public function register()
     {
-        return new Manager;
+        return new BaseCollectionManager;
     }
 }
