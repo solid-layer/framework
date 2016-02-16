@@ -11,7 +11,7 @@ class URL extends ServiceProvider
 
     public function register()
     {
-        $url = new BaseURL();
+        $url = new BaseURL;
 
         return $url;
     }

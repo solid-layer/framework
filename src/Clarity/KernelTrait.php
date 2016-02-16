@@ -3,8 +3,6 @@ namespace Clarity;
 
 use Dotenv\Dotenv;
 use Phalcon\Config;
-use Phalcon\Mvc\Application;
-use Clarity\Facades\Facade;
 use Phalcon\Di\FactoryDefault;
 use Clarity\Services\Service\ServiceContainer;
 
@@ -13,8 +11,6 @@ trait KernelTrait
     protected function loadFactory()
     {
         $this->di = new FactoryDefault;
-
-        $this->app = new Application($this->di);
 
         return $this;
     }
@@ -71,13 +67,7 @@ trait KernelTrait
 
     protected function loadServices($after_module = false)
     {
-        # - load our global facade class to handle singleton
-        # like access
-
-        Facade::setFacadeApplication($this->app);
-
-
-        # - load all the service providers, providing our
+        # load all the service providers, providing our
         # native phalcon classes
 
         $container = new ServiceContainer;

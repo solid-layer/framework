@@ -9,7 +9,7 @@ class URL extends BaseURL
 
     public function __construct()
     {
-        $this->app = di()->get('app');
+        $this->app = di()->get('application');
         $this->setBaseUri($this->getScheme() . $this->getHost() . '/');
     }
 

@@ -22,10 +22,6 @@ class Kernel
         $this->loadTimeZone();
 
         $this->loadServices();
-
-        $this->di->set('app', function() {
-            return $this->app;
-        });
     }
 
     /**
@@ -59,7 +55,7 @@ class Kernel
      */
     public function modules()
     {
-        $this->app->registerModules($this->modules);
+        di()->get('application')->registerModules($this->modules);
 
         return $this;
     }
@@ -69,7 +65,7 @@ class Kernel
      */
     public function render()
     {
-        echo $this->app->handle()->getContent();
+        echo di()->get('application')->handle()->getContent();
     }
 
     /**
@@ -80,7 +76,7 @@ class Kernel
      */
     public function run($module_name)
     {
-        $this->app->setDefaultModule($module_name);
+        di()->get('application')->setDefaultModule($module_name);
 
         $path = url_trimmer(config()->path->app.'/'.$module_name.'/routes.php');
 
