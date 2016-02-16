@@ -9,7 +9,6 @@ class Kernel
     use KernelTrait;
 
     private $di;
-    private $app;
     private $path;
     private $modules;
 

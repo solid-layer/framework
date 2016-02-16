@@ -17,7 +17,7 @@ trait KernelTrait
 
     protected function loadConfig()
     {
-        # - let's create an empty config with just an empty
+        # let's create an empty config with just an empty
         # array, this is just for us to prepare the config
 
         $this->di->set('config', function() {
@@ -25,13 +25,13 @@ trait KernelTrait
         }, true);
 
 
-        # - get the paths and merge the array values to the
+        # get the paths and merge the array values to the
         # empty config as we instantiated above
 
-        $this->di->get('config')->merge( new Config(['path' => $this->path]) );
+        $this->di->get('config')->merge(new Config(['path' => $this->path]));
 
 
-        # - iterate all the base config files and require
+        # iterate all the base config files and require
         # the files to return an array values
 
         $base_config_files = iterate_require(
@@ -39,10 +39,10 @@ trait KernelTrait
         );
 
 
-        # - iterate all the environment config files and
+        # iterate all the environment config files and
         # process the same thing as the base config files
 
-        $env_config_files  = iterate_require(
+        $env_config_files = iterate_require(
             folder_files(
                 url_trimmer(
                     $this->path['config'].'/'.env('APP_ENV', '')
@@ -51,7 +51,7 @@ trait KernelTrait
         );
 
 
-        # - merge the base config files and the environment
+        # merge the base config files and the environment
         # config files as one in the our DI 'config'
 
         config()->merge( new Config($base_config_files) );
@@ -60,9 +60,7 @@ trait KernelTrait
 
     protected function loadTimeZone()
     {
-        date_default_timezone_set(
-            di()->get('config')->app->timezone
-        );
+        date_default_timezone_set(config()->app->timezone);
     }
 
     protected function loadServices($after_module = false)
