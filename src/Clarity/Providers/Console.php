@@ -1,7 +1,7 @@
 <?php
 namespace Clarity\Providers;
 
-use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Application as ConsoleApplication;
 
 class Console extends ServiceProvider
 {
@@ -12,7 +12,7 @@ class Console extends ServiceProvider
 
     public function register()
     {
-        $app = new Application(self::DESCRIPTION, self::VERSION);
+        $app = new ConsoleApplication(self::DESCRIPTION, self::VERSION);
 
         if ( php_sapi_name() === 'cli' ) {
             foreach (config()->consoles as $console) {
