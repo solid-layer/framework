@@ -40,6 +40,13 @@ if (!function_exists('db')) {
     }
 }
 
+if (!function_exists('dispatcher')) {
+    function dispatcher()
+    {
+        return di()->get('dispatcher');
+    }
+}
+
 if (!function_exists('filter')) {
     function filter()
     {
