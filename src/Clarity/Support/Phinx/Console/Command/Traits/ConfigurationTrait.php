@@ -1,6 +1,7 @@
 <?php
 namespace Clarity\Support\Phinx\Console\Command\Traits;
 
+use Exception;
 use Phinx\Config\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,6 +12,19 @@ trait ConfigurationTrait
     {
         $env = env('APP_ENV');
 
+        $selected_adapter = config()->app->db_adapter;
+
+        $adapters = config()->database->phinx_migrations->toArray();
+
+        if ( !isset($adapters[$selected_adapter]) ) {
+            throw new Exception(
+                "Adapter [$selected_adapter] not found ".
+                "on config/database.phinx_migrations"
+            );
+        }
+
+        $settings = $adapters[$selected_adapter];
+
         $config = new Config(
             [
                 'paths'        => [
@@ -20,15 +34,7 @@ trait ConfigurationTrait
                 'environments' => [
                     'default_migration_table' => 'migrations',
                     'default_database'        => $env,
-                    $env                      => [
-                        'adapter' => env('DB_ADAPTER', 'mysql'),
-                        'host'    => env('DB_HOST', 'localhost'),
-                        'name'    => env('DB_DATABASE'),
-                        'user'    => env('DB_USERNAME'),
-                        'pass'    => env('DB_PASSWORD'),
-                        'port'    => env('DB_PORT'),
-                        'charset' => env('DB_CHARSET'),
-                    ],
+                    $env                      => $settings,
                 ],
             ]
         );
