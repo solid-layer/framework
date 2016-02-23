@@ -1,5 +1,5 @@
 <?php
-namespace Clarity;
+namespace Clarity\Kernel;
 
 use Dotenv\Dotenv;
 use Phalcon\Config;
@@ -28,7 +28,20 @@ trait KernelTrait
         # get the paths and merge the array values to the
         # empty config as we instantiated above
 
-        $this->di->get('config')->merge(new Config(['path' => $this->path]));
+        config()->merge(
+            new Config([
+                'path' => $this->path
+            ])
+        );
+
+
+        # now merge the assigned environment
+
+        config()->merge(
+            new Config([
+                'environment' => $this->getEnvironment()
+            ])
+        );
 
 
         # iterate all the base config files and require
@@ -45,7 +58,7 @@ trait KernelTrait
         $env_config_files = iterate_require(
             folder_files(
                 url_trimmer(
-                    $this->path['config'].'/'.env('APP_ENV', '')
+                    $this->path['config'].'/'.$this->getEnvironment()
                 )
             )
         );

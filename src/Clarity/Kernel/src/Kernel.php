@@ -1,5 +1,5 @@
 <?php
-namespace Clarity;
+namespace Clarity\Kernel;
 
 use Clarity\Providers\Log;
 use Clarity\Services\Service\ServiceContainer;
@@ -9,6 +9,7 @@ class Kernel
     use KernelTrait;
 
     private $di;
+    private $env;
     private $path;
     private $modules;
 
@@ -45,6 +46,23 @@ class Kernel
         $this->modules = $modules;
 
         return $this;
+    }
+
+    /**
+     * Set the environment
+     *
+     * @param string $env
+     */
+    public function setEnvironment($env)
+    {
+        $this->env = $env;
+
+        return $this;
+    }
+
+    public function getEnvironment()
+    {
+        return $this->env;
     }
 
     /**
