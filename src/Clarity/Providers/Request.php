@@ -1,7 +1,7 @@
 <?php
 namespace Clarity\Providers;
 
-use Phalcon\Http\Request as BaseRequest;
+use Clarity\Support\Phalcon\Http\Request as BaseRequest;
 
 class Request extends ServiceProvider
 {
