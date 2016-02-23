@@ -3,7 +3,7 @@ namespace Clarity\Support\Phalcon\Mvc;
 
 use Phalcon\Config;
 use League\Tactician\CommandBus;
-use Clarity\Support\Http\Middleware\Kernel;
+use Clarity\Support\Phalcon\Http\Middleware;
 use Phalcon\Mvc\Controller as BaseController;
 
 class Controller extends BaseController
@@ -12,41 +12,64 @@ class Controller extends BaseController
     {
         $middlewares = [];
 
-        if ( di()->has('assigned_middlewares') ) {
-            $middlewares = di()->get('assigned_middlewares')->toArray();
+        # get previously assigned aliases
+        if ( di()->has('middleware_aliases') ) {
+            $middlewares = di()->get('middleware_aliases')->toArray();
         }
 
-        $middlewares[] = $alias;
+        $append_alias = true;
+        $action_name = dispatcher()->getActionName();
 
-        di()->set('assigned_middlewares', function () use ($middlewares) {
+        if ( isset($options['only']) ) {
+            if ( in_array($action_name, $options['only']) === false ) {
+                $append_alias = false;
+            }
+        }
 
+        if ( isset($options['except']) ) {
+            if ( in_array($action_name, $options['except']) ) {
+                $append_alias = false;
+            }
+        }
+
+        if ( $append_alias === true ) {
+            $middlewares[] = $alias;
+        }
+
+        di()->set('middleware_aliases', function () use ($middlewares) {
             return new Config($middlewares);
-        }, true);
+        });
     }
 
     public function beforeExecuteRoute()
     {
+        # call the initialize to work with the middleware()
         if ( method_exists($this, 'initialize') ) {
             $this->initialize();
         }
 
-        if ( di()->has('assigned_middlewares') === false ) {
+        $this->middlewareHandler();
+    }
+
+    private function middlewareHandler()
+    {
+        if ( di()->has('middleware_aliases') === false ) {
             return;
         }
 
-        $assigned_m = di()->get('assigned_middlewares')->toArray();
-
-        $kernel = new Kernel(config()->app->middlewares);
+        # get all the middlewares in the config/app.php
+        $middleware = new Middleware(config()->app->middlewares);
 
         $instances = [];
+        $aliases   = di()->get('middleware_aliases')->toArray();
 
-        foreach ($assigned_m as $mid) {
-            $class = $kernel->get($mid);
-
+        foreach ($aliases as $alias) {
+            $class       = $middleware->get($alias);
             $instances[] = new $class;
         }
 
+        # register all the middlewares
         $command_bus = new CommandBus($instances);
-        $command_bus->handle($this);
+        $command_bus->handle($this->request);
     }
 }
