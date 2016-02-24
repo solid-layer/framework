@@ -25,6 +25,7 @@
         "classpreloader/classpreloader": "^2.0",
         "classpreloader/console": "^1.0",
         "fzaninotto/faker": "~1.4",
+        "guzzlehttp/guzzle": "6.1.*",
         "illuminate/support": "5.2.*",
         "illuminate/view": "5.2.*",
         "paragonie/random_compat": "1.1.*",

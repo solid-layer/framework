@@ -11,8 +11,6 @@ class URL extends ServiceProvider
 
     public function register()
     {
-        $url = new BaseURL;
-
-        return $url;
+        return BaseURL::getInstance();
     }
 }
