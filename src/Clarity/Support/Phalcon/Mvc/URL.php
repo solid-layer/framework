@@ -9,7 +9,8 @@ class URL extends BaseURL
     public static function getInstance()
     {
         $instance = new static;
-        $instance->setBaseUri($instance->getFullUrl());
+
+        $instance->setBaseUri($instance->getFullUrl().'/');
 
         return $instance;
     }
@@ -62,7 +63,7 @@ class URL extends BaseURL
     public function getFullUrl($module = null)
     {
         return url_trimmer(
-            $this->getScheme($module).$this->getHost($module).'/'
+            $this->getScheme($module).'/'.$this->getHost($module)
         );
     }
 
@@ -85,11 +86,11 @@ class URL extends BaseURL
 
     public function current()
     {
-        return url_trimmer($this->getBaseUri() . $this->getRequestUri());
+        return url_trimmer($this->getBaseUri().'/'.$this->getRequestUri());
     }
 
     public function to($path)
     {
-        return url_trimmer($this->getBaseUri() . '/' . $path);
+        return url_trimmer($this->getBaseUri().'/'.$path);
     }
 }
