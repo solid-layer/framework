@@ -27,6 +27,16 @@ abstract class SlayerCommand extends Command
         $this->slash();
     }
 
+    protected function getInput()
+    {
+        return $this->input;
+    }
+
+    protected function getOutput()
+    {
+        return $this->output;
+    }
+
     protected function configure()
     {
         $this
@@ -91,6 +101,19 @@ abstract class SlayerCommand extends Command
     public function error($string)
     {
         $this->output->writeln("<error>$string</error>");
+    }
+
+    public function exception($e)
+    {
+        $message = sprintf(
+            '%s: %s (uncaught exception) at %s line %s',
+            get_class($e),
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine()
+        );
+
+        $this->error("\n".$message."\n");
     }
 
     public function ask($message, $default)
