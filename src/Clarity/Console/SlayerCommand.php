@@ -58,7 +58,7 @@ abstract class SlayerCommand extends Command
             }
         }
 
-        if ( $environment_option ) {
+        if ( $this->environment_option ) {
             $this->addOption(
                 'env',
                 'e',
@@ -68,7 +68,7 @@ abstract class SlayerCommand extends Command
             );
         }
 
-        if ( $timeout_option ) {
+        if ( $this->timeout_option ) {
             $this->addOption(
                 'timeout',
                 't',
