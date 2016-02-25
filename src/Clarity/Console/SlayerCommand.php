@@ -16,6 +16,8 @@ abstract class SlayerCommand extends Command
 
     protected $input;
     protected $output;
+    protected $environment_option = true;
+    protected $timeout_option = true;
 
     abstract public function slash();
 
@@ -56,21 +58,25 @@ abstract class SlayerCommand extends Command
             }
         }
 
-        $this->addOption(
-            'env',
-            'e',
-            InputOption::VALUE_OPTIONAL,
-            'The environment to be used',
-            'production'
-        );
+        if ( $environment_option ) {
+            $this->addOption(
+                'env',
+                'e',
+                InputOption::VALUE_OPTIONAL,
+                'The environment to be used',
+                'production'
+            );
+        }
 
-        $this->addOption(
-            'timeout',
-            't',
-            InputOption::VALUE_OPTIONAL,
-            'Set timeout to bypass default execution time',
-            60
-        );
+        if ( $timeout_option ) {
+            $this->addOption(
+                'timeout',
+                't',
+                InputOption::VALUE_OPTIONAL,
+                'Set timeout to bypass default execution time',
+                60
+            );
+        }
 
 
         if ( !empty($this->options()) ) {
