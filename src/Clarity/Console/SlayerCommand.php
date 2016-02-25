@@ -43,8 +43,7 @@ abstract class SlayerCommand extends Command
             ->setName($this->name)
             ->setDescription($this->description);
 
-
-        if ( count($this->arguments()) ) {
+        if ( !empty($this->arguments()) ) {
 
             foreach ( $this->arguments() as $arg ) {
 
@@ -57,9 +56,26 @@ abstract class SlayerCommand extends Command
             }
         }
 
-        if ( count($this->options()) ) {
+        $this->addOption(
+            'env',
+            'e',
+            InputOption::VALUE_OPTIONAL,
+            'The environment to be used',
+            'production'
+        );
 
-            foreach ($this->options() as $opt) {
+        $this->addOption(
+            'timeout',
+            't',
+            InputOption::VALUE_OPTIONAL,
+            'Set timeout to bypass default execution time',
+            60
+        );
+
+
+        if ( !empty($this->options()) ) {
+
+            foreach ( $this->options() as $opt ) {
 
                 $this->addOption(
                     isset($opt[0]) ? $opt[0] : null,
