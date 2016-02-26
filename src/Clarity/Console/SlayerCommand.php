@@ -1,6 +1,7 @@
 <?php
 namespace Clarity\Console;
 
+use Phalcon\Config;
 use Clarity\Services\ServiceMagicMethods;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -9,6 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 
 abstract class SlayerCommand extends Command
 {
@@ -26,7 +28,49 @@ abstract class SlayerCommand extends Command
         $this->input = $input;
         $this->output = $output;
 
+        $this->loadEnv();
+
+        $this->loadTimeout();
+
         $this->slash();
+    }
+
+    protected function loadEnv()
+    {
+        $env = $this->getInput()->getOption('env');
+
+        config()->merge(new Config(['environment' => $env]));
+
+        $folder = '';
+
+        if ( $env !== 'production') {
+            $folder = $env;
+        }
+
+        $folder_path = url_trimmer(config()->path->config.'/'.$folder);
+
+        if ( file_exists($folder_path) === false ) {
+            throw new InvalidOptionException("Environment [$env] not found.");
+        }
+
+        config()->merge(
+            new Config(
+                iterate_require(folder_files($folder_path))
+            )
+        );
+
+        return $this;
+    }
+
+    protected function loadTimeout()
+    {
+        $timeout = $this->getInput()->getOption('timeout');
+
+        if ( $timeout !== 30 ) {
+            set_time_limit($timeout);
+        }
+
+        return $this;
     }
 
     protected function getInput()
@@ -74,7 +118,7 @@ abstract class SlayerCommand extends Command
                 't',
                 InputOption::VALUE_OPTIONAL,
                 'Set timeout to bypass default execution time',
-                60
+                30
             );
         }
 
