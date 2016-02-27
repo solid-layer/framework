@@ -12,9 +12,8 @@ class SeedFactory extends SlayerCommand
 
     public function slash()
     {
+        $factory = new Factory($this);
         $files = folder_files(config()->path->database . 'factories');
-
-        $factory = new Factory;
 
         if ( !empty($files) ) {
 
@@ -27,5 +26,7 @@ class SeedFactory extends SlayerCommand
                 $this->info('Done.' . "\n");
             }
         }
+
+        return $this;
     }
 }
