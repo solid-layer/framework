@@ -6,7 +6,7 @@ use League\Flysystem\MountManager;
 
 class Flysystem extends ServiceProvider
 {
-    protected $alias  = 'flysystem';
+    protected $alias = 'flysystem';
     protected $shared = true;
 
     public function register()

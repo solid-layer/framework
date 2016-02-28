@@ -5,13 +5,24 @@ use Faker\Factory as FakerFactory;
 
 class Factory
 {
-    public function define($class, $callback)
+    private $seed_factory;
+
+    public function __construct($seed_factory)
     {
-        $data = call_user_func($callback, FakerFactory::create());
+        $this->seed_factory = $seed_factory;
+    }
 
-        $instance = new $class;
-        $instance->create($data);
+    public function define($class, $callback, $loop = 1)
+    {
+        for ($i = 1; $i <= $loop; $i++) {
 
-        return true;
+            $data = call_user_func($callback, FakerFactory::create());
+            $instance = new $class;
+            $instance->create($data);
+
+            $this->seed_factory->comment("\nLoop #".$i.": \n   ".json_encode($data)."\n");
+        }
+
+        return $this;
     }
 }

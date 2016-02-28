@@ -1,5 +1,5 @@
 <?php
-namespace Clarity;
+namespace Clarity\Kernel;
 
 use Clarity\Providers\Log;
 use Clarity\Services\Service\ServiceContainer;
@@ -9,7 +9,7 @@ class Kernel
     use KernelTrait;
 
     private $di;
-    private $app;
+    private $env;
     private $path;
     private $modules;
 
@@ -22,10 +22,6 @@ class Kernel
         $this->loadTimeZone();
 
         $this->loadServices();
-
-        $this->di->set('app', function() {
-            return $this->app;
-        });
     }
 
     /**
@@ -53,13 +49,30 @@ class Kernel
     }
 
     /**
+     * Set the environment
+     *
+     * @param string $env
+     */
+    public function setEnvironment($env)
+    {
+        $this->env = $env;
+
+        return $this;
+    }
+
+    public function getEnvironment()
+    {
+        return $this->env;
+    }
+
+    /**
      * Register modules
      *
      * @return mixed
      */
     public function modules()
     {
-        $this->app->registerModules($this->modules);
+        di()->get('application')->registerModules($this->modules);
 
         return $this;
     }
@@ -69,7 +82,7 @@ class Kernel
      */
     public function render()
     {
-        echo $this->app->handle()->getContent();
+        echo di()->get('application')->handle()->getContent();
     }
 
     /**
@@ -80,7 +93,7 @@ class Kernel
      */
     public function run($module_name)
     {
-        $this->app->setDefaultModule($module_name);
+        di()->get('application')->setDefaultModule($module_name);
 
         $path = url_trimmer(config()->path->app.'/'.$module_name.'/routes.php');
 

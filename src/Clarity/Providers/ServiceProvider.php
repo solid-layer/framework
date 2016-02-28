@@ -115,12 +115,12 @@ class ServiceProvider
     {
         if ( $tag ) {
 
-            if ( ! isset($this->publishStack[ $tag ]) ) {
+            if ( ! isset($this->publishStack[$tag]) ) {
                 throw new Exception('Tag not found.');
             }
 
             return [
-                $this->publishStack[ $tag ]
+                $tag => $this->publishStack[$tag]
             ];
         }
 

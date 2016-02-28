@@ -5,12 +5,12 @@ use MongoClient;
 
 class Mongo extends ServiceProvider
 {
-    protected $alias  = 'mongo';
+    protected $alias = 'mongo';
     protected $shared = false;
 
     public function register()
     {
-        if ( !class_exists(MongoClient::class) ) {
+        if ( ! class_exists(MongoClient::class) ) {
 
             return $this;
         }

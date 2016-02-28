@@ -9,16 +9,23 @@ class VoltAdapter extends Volt
 {
     private $functions = [
         # misc
-        'di', 'env', 'csrf_field',
+        'di', 'env',    'csrf_field',
         'dd', 'config',
 
         # facades
-        'security', 'tag', 'route',
-        'response', 'view', 'config',
-        'config', 'url', 'request',
+        'auth',      'cache',     'config',
+        'db',        'filter',    'flash',
+        'flash_bag', 'flysystem', 'flysystem_manager',
+        'log',       'queue',     'redirect',
+        'request',   'response',  'route',
+        'security',  'session',   'tag',
+        'url',       'view',
 
         # path
         'base_uri',
+
+        # php
+        'strtotime',
     ];
 
     public function __construct(
@@ -27,9 +34,19 @@ class VoltAdapter extends Volt
     ) {
         parent::__construct($view, $di);
 
+        $debug = false;
+
+        if (
+            config()->app->debug === 'true' ||
+            config()->app->debug === true
+        ) {
+            $debug = true;
+        }
+
         $this->setOptions([
             'compiledSeparator' => '_',
             'compiledPath'      => config()->path->storage_views,
+            'compileAlways'     => $debug,
         ]);
 
         foreach ($this->functions as $func) {

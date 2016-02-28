@@ -3,7 +3,7 @@ namespace Clarity\Providers;
 
 class Queue extends ServiceProvider
 {
-    protected $alias  = 'queue';
+    protected $alias = 'queue';
     protected $shared = false;
 
     /**

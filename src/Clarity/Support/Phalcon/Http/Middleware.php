@@ -1,9 +1,9 @@
 <?php
-namespace Clarity\Support\Http\Middleware;
+namespace Clarity\Support\Phalcon\Http;
 
 use InvalidArgumentException;
 
-class Kernel
+class Middleware
 {
     protected $middlewares = [];
 
