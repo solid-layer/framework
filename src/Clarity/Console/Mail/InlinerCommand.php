@@ -24,7 +24,7 @@ class InlinerCommand extends SlayerCommand
         foreach ($css_files as $css) {
             $combined_css .=
                 file_get_contents(
-                    remove_double_slash($css)
+                    url_trimmer($css)
                 );
         }
 
@@ -47,7 +47,7 @@ class InlinerCommand extends SlayerCommand
 
         # - let's get the views dir combine the record file
 
-        $base_file = remove_double_slash(
+        $base_file = url_trimmer(
             di()->get('view')->getViewsDir() . $record->file . '.*'
         );
 

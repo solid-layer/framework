@@ -10,11 +10,12 @@ class ViewsCommand extends SlayerCommand
     use ClearTrait;
 
     protected $name = 'clear:views';
-
     protected $description = 'Clear the storage/views folder';
 
     public function slash()
     {
-        $this->clear(config()->path->storage_views);
+        $this->clear(
+            url_trimmer(storage_path('views'))
+        );
     }
 }
