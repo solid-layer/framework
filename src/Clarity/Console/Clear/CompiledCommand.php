@@ -5,15 +5,17 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class CacheCommand extends SlayerCommand
+class CompiledCommand extends SlayerCommand
 {
     use ClearTrait;
 
-    protected $name = 'clear:cache';
-    protected $description = 'Clear the storage/cache folder';
+    protected $name = 'clear:compiled';
+    protected $description = 'Clear the compiled classes';
 
     public function slash()
     {
-        $this->clear(storage_path('cache'));
+        $this->clear(
+            url_trimmer(storage_path('slayer'))
+        );
     }
 }

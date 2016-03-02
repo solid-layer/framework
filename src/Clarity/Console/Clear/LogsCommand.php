@@ -10,11 +10,10 @@ class LogsCommand extends SlayerCommand
     use ClearTrait;
 
     protected $name = 'clear:logs';
-
     protected $description = 'Clear the storage/logs folder';
 
     public function slash()
     {
-        $this->clear(config()->path->logs);
+        $this->clear(storage_path('logs'));
     }
 }

@@ -16,7 +16,7 @@ class Log extends ServiceProvider
 
         $logger->pushHandler(
             new StreamHandler(
-                config()->path->logs . 'slayer-'.logging_extension().'.log',
+                storage_path('logs').'/slayer-'.logging_extension().'.log',
                 Logger::DEBUG
             )
         );

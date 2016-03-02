@@ -45,7 +45,7 @@ class VoltAdapter extends Volt
 
         $this->setOptions([
             'compiledSeparator' => '_',
-            'compiledPath'      => config()->path->storage_views,
+            'compiledPath'      => storage_path('views').'/',
             'compileAlways'     => $debug,
         ]);
 

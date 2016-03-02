@@ -96,7 +96,7 @@ class DB extends ServiceProvider
                 $logger = new Logger('DB');
                 $logger->pushHandler(
                     new StreamHandler(
-                        config()->path->logs.'db-'.logging_extension().'.log',
+                        storage_path('logs').'/db-'.logging_extension().'.log',
                         Logger::INFO
                     )
                 );

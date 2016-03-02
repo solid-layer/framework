@@ -15,7 +15,7 @@ class BladeAdapter extends Engine
         parent::__construct($view, $di);
 
         $this->blade = new CompilerEngine(
-            new BladeCompiler(new Filesystem, config()->path->storage_views)
+            new BladeCompiler(new Filesystem, storage_path('views').'/')
         );
     }
 
