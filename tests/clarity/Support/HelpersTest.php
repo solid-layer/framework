@@ -22,11 +22,6 @@ use Clarity\Support\Redirect\Redirect;
 
 class HelpersTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $GLOBALS['kernel']->modules()->run('main');
-    }
-
     public function testFacades()
     {
         $this->assertInstanceOf(Auth::class,             auth());

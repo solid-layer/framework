@@ -3,11 +3,6 @@ namespace Slayer\Config;
 
 class AppTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $GLOBALS['kernel']->modules()->run('main');
-    }
-
     public function testAppFile()
     {
         $this->assertContains(config()->app->debug, [

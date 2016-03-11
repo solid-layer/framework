@@ -5,11 +5,6 @@ use Clarity\Console\CLI;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $GLOBALS['kernel']->modules()->run('main');
-    }
-
     public function tearDown()
     {
         $compiled_file = 'storage/slayer/compiled.php';

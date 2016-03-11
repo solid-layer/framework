@@ -5,11 +5,6 @@ use Clarity\Console\CLI;
 
 class AppTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $GLOBALS['kernel']->modules()->run('main');
-    }
-
     public function tearDown()
     {
         $test_module_index = 'public/test_module.php';
