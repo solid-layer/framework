@@ -12,9 +12,23 @@ class Aliaser extends ServiceProvider
 
             if ( !class_exists($alias) ) {
 
-                class_alias($class, $alias);
+                $this->append($alias, $class);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Attach the alias clas
+     *
+     * @param  string $alias
+     * @param  string $class
+     * @return mixed
+     */
+    public function append($alias, $class)
+    {
+        class_alias($class, $alias);
 
         return $this;
     }
