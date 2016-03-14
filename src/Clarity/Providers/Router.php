@@ -14,6 +14,9 @@ class Router extends ServiceProvider
 
         $router->removeExtraSlashes(true);
 
+        // $router->setUriSource(BaseRouter::URI_SOURCE_GET_URL); // default
+        $router->setUriSource(BaseRouter::URI_SOURCE_SERVER_REQUEST_URI);
+
         return $router;
     }
 }
