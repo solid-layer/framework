@@ -44,10 +44,17 @@
         "respect/validation": "1.0.*"
     },
     "replace": {
+        "clarity/console": "self.version",
         "clarity/contracts": "self.version",
-        "clarity/kernel": "self.version",
-        "clarity/support": "self.version",
         "clarity/exceptions": "self.version",
+        "clarity/facades": "self.version",
+        "clarity/kernel": "self.version",
+        "clarity/lang": "self.version",
+        "clarity/mail": "self.version",
+        "clarity/providers": "self.version",
+        "clarity/services": "self.version",
+        "clarity/support": "self.version",
+        "clarity/util": "self.version",
         "clarity/view": "self.version"
     },
     "require-dev": {

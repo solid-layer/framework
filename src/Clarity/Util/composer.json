@@ -1,0 +1,24 @@
+{
+    "name": "clarity/util",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/util",
+    "support": {
+        "issues": "https://github.com/ps-clarity/util/issues",
+        "source": "https://github.com/ps-clarity/util"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+        "behat/mink": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clarity\\Util\\": ""
+        }
+    }
+}
