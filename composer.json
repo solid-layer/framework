@@ -58,6 +58,7 @@
         "clarity/view": "self.version"
     },
     "require-dev": {
+        "behat/mink": "^1.7",
         "phpunit/phpunit": "^4.7",
         "mockery/mockery": "^0.9.4"
     },
