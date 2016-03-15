@@ -13,9 +13,6 @@
             "email": "daison12006013@gmail.com"
         }
     ],
-    "require": {
-        "behat/mink": "^1.7"
-    },
     "autoload": {
         "psr-4": {
             "Clarity\\Util\\": ""

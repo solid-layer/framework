@@ -54,6 +54,7 @@
         "clarity/providers": "self.version",
         "clarity/services": "self.version",
         "clarity/support": "self.version",
+        "clarity/test-suite": "self.version",
         "clarity/util": "self.version",
         "clarity/view": "self.version"
     },

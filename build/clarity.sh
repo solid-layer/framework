@@ -10,6 +10,7 @@ git subsplit publish --heads="master dev" src/Clarity/Providers:git@github.com:p
 git subsplit publish --heads="master dev" src/Clarity/Services:git@github.com:ps-clarity/services.git
 git subsplit publish --heads="master dev" src/Clarity/Support:git@github.com:ps-clarity/support.git
 git subsplit publish --heads="master dev" src/Clarity/Util:git@github.com:ps-clarity/util.git
+git subsplit publish --heads="master dev" src/Clarity/TestSuite:git@github.com:ps-clarity/test-suite.git
 git subsplit publish --heads="master dev" src/Clarity/View:git@github.com:ps-clarity/view.git
 
 rm -rf .subsplit/
