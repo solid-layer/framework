@@ -80,6 +80,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $register_page->fillField('repassword', $this->password);
         $register_btn->click();
 
+        sleep(10);
+
         $user = User::query()->where('email = :email: AND activated = :activated:')
             ->bind([
                 'email' => $this->email,
@@ -113,6 +115,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $login_page->fillField('email', $this->email);
         $login_page->fillField('password', $this->password);
         $login_btn->click();
+
+        sleep(10);
 
         $this->assertContains($this->url.'/newsfeed', $this->session->getCurrentUrl()); // === $this->url.'newsfeed'
     }
