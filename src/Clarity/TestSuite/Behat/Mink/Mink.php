@@ -18,7 +18,7 @@ class Mink
     public function setAdapters(array $adapters)
     {
         if (empty($adapters)) {
-            $adapters = require __DIR__.'config.php';
+            $adapters = require __DIR__.'/config.php';
         }
 
         $this->adapters = $adapters;
