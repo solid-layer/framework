@@ -35,9 +35,9 @@ class Mink
         $adapter = $this->adapters[$name];
 
         $class = $adapter['class'];
-        $parameters = $adapter['parameters'];
+        $args = $adapter['args'];
 
-        $instance = call_user_func(new $class, $parameters);
+        $instance = new $class($args);
 
         return new Session($instance->driver());
     }

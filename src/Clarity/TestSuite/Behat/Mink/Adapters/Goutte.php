@@ -1,16 +1,17 @@
 <?php
 namespace Clarity\TestSuite\Behat\Mink\Adapters;
 
-use Behat\Mink\Session;
+use ReflectionClass;
 use Behat\Mink\Driver\GoutteDriver;
 
-class Goutte extends Adapter implements DriverInteface
+class Goutte implements DriverInterface
 {
     private $driver;
 
-    public function __construct($parameters)
+    public function __construct($args)
     {
-        $this->driver = call_user_func(new GoutteDriver, $parameters);
+        $reflect = new ReflectionClass(GoutteDriver::class);
+        $this->driver = $reflect->newInstanceArgs($args);
     }
 
     public function driver()
