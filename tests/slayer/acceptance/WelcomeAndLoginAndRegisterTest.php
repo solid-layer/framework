@@ -88,6 +88,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
             ->execute()
             ->getFirst();
 
+        var_dump($user->toArray());
+
         $this->session->visit($this->url.'/auth/activation/'.$user->token);
     }
 
