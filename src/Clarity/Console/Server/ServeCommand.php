@@ -12,8 +12,8 @@ class ServeCommand extends SlayerCommand
 
     public function slash()
     {
-        $base = config()->path->root;
-        chdir(url_trimmer($base.'public'));
+        chdir(url_trimmer(config()->path->root.'public'));
+        $current_dir = getcwd();
 
         $host = $this->input->getOption('host');
         $port = $this->input->getOption('port');
@@ -21,7 +21,7 @@ class ServeCommand extends SlayerCommand
 
         $this->info("Phalcon Slayer development server started on http://{$host}:{$port}/");
 
-        passthru(PHP_BINARY." -S {$host}:{$port} -F {$file}");
+        passthru(PHP_BINARY." -S {$host}:{$port} -t {$current_dir} -F {$file}");
     }
 
     protected function options()
