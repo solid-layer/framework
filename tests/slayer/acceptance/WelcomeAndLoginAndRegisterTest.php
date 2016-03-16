@@ -44,6 +44,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $welcome_page = $this->session->getPage();
 
+        var_dump($welcome_page->getHtml());
+
         $slayer_logo = $welcome_page->find(
             'named',
             ['id', 'frameworkTitle']
@@ -59,6 +61,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testRegistration()
     {
+        var_dump("Registration | User Count: ".User::count());
+
         if ( User::count() ) {
             $this->testLogin();
             return;
@@ -72,6 +76,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $register_page = $this->session->getPage();
 
+        // var_dump($register_page->getHtml());
+
         $register_btn = $register_page->find(
             'named',
             ['id', 'register-btn']
@@ -84,7 +90,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         sleep(5);
 
-        echo "User Count: ". User::count();
+        var_dump("Registered | User Count: ".User::count());
 
         $user = User::query()->where('email = :email: AND activated = :activated:')
             ->bind([
@@ -101,6 +107,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testLogin()
     {
+        var_dump("Login | User Count: ".User::count());
+
         if ( !User::count() ) {
             $this->testRegistration();
         }
@@ -112,6 +120,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($this->url.'/auth/login', $this->session->getCurrentUrl()); // === $this->url.'auth/register'
 
         $login_page = $this->session->getPage();
+
+        var_dump($login_page->getHtml());
 
         $login_btn = $login_page->find(
             'named',
