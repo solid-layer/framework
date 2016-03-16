@@ -53,6 +53,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $try_sample_forms = $welcome_page->find('xpath', '//a[@href="'.$this->url.'/try-sample-forms"]');
         $try_sample_forms->click();
+
+        sleep(5);
     }
 
     public function testRegistration()
@@ -79,6 +81,10 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $register_page->fillField('password', $this->password);
         $register_page->fillField('repassword', $this->password);
         $register_btn->click();
+
+        sleep(5);
+
+        echo "User Count: ". User::count();
 
         $user = User::query()->where('email = :email: AND activated = :activated:')
             ->bind([
@@ -115,6 +121,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $login_page->fillField('email', $this->email);
         $login_page->fillField('password', $this->password);
         $login_btn->click();
+
+        sleep(5);
 
         $this->assertContains($this->url.'/newsfeed', $this->session->getCurrentUrl()); // === $this->url.'newsfeed'
     }
