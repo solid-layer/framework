@@ -21,7 +21,7 @@ class ServeCommand extends SlayerCommand
 
         $this->info("Phalcon Slayer development server started on http://{$host}:{$port}/");
 
-        passthru(PHP_BINARY." -S {$host}:{$port} {$file}");
+        passthru(PHP_BINARY." -S {$host}:{$port} -F {$file}");
     }
 
     protected function options()
