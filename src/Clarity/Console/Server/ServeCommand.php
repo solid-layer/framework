@@ -26,8 +26,8 @@ class ServeCommand extends SlayerCommand
 
     protected function options()
     {
-        $host = 'localhost';
-        $port = 8000;
+        $host = '0.0.0.0';
+        $port = 8080;
 
         if (getenv('SERVE_HOST')) {
             $host = getenv('SERVE_HOST');
@@ -57,7 +57,7 @@ class ServeCommand extends SlayerCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The php file to be used.',
-                null,
+                'index.php',
             ]
         ];
     }

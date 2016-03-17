@@ -23,6 +23,8 @@ abstract class SlayerCommand extends Command
 
     abstract public function slash();
 
+    const TIMEOUT = 60;
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
@@ -66,7 +68,7 @@ abstract class SlayerCommand extends Command
     {
         $timeout = $this->getInput()->getOption('timeout');
 
-        if ( $timeout !== 30 ) {
+        if ( $timeout !== static::TIMEOUT ) {
             set_time_limit($timeout);
         }
 
@@ -118,7 +120,7 @@ abstract class SlayerCommand extends Command
                 't',
                 InputOption::VALUE_OPTIONAL,
                 'Set timeout to bypass default execution time',
-                30
+                static::TIMEOUT
             );
         }
 
@@ -131,7 +133,8 @@ abstract class SlayerCommand extends Command
                     isset($opt[0]) ? $opt[0] : null,
                     isset($opt[1]) ? $opt[1] : null,
                     isset($opt[2]) ? $opt[2] : null,
-                    isset($opt[3]) ? $opt[3] : null
+                    isset($opt[3]) ? $opt[3] : null,
+                    isset($opt[4]) ? $opt[4] : null
                 );
             }
         }
