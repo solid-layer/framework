@@ -15,10 +15,10 @@
     ],
     "require": {
         "clarity/support": "1.2.*",
-        "symfony/console": "^2.7",
         "league/flysystem": "^1.0",
-        "tijsverkoyen/css-to-inline-styles": "^1.5",
-        "symfony/process": "^2.7"
+        "symfony/console": "^2.7",
+        "symfony/process": "^2.7",
+        "tijsverkoyen/css-to-inline-styles": "^1.5"
     },
     "autoload": {
         "psr-4": {

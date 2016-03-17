@@ -18,8 +18,8 @@
         "fzaninotto/faker": "~1.4",
         "league/tactician": "^0.6",
         "paragonie/random_compat": "1.1.*",
-        "clarity/contracts": "dev-master",
-        "clarity/exceptions": "dev-master",
+        "clarity/contracts": "1.2.*",
+        "clarity/exceptions": "1.2.*",
         "robmorgan/phinx": "0.5.*"
     },
     "autoload": {

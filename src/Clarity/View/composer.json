@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "clarity/kernel": "dev-master",
-        "clarity/support": "dev-master",
+        "clarity/kernel": "1.2.*",
+        "clarity/support": "1.2.*",
         "illuminate/view": "5.2.*"
     },
     "autoload": {
