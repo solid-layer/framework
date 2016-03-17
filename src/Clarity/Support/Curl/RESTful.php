@@ -14,6 +14,11 @@ class RESTful
         ]);
     }
 
+    public function getClient()
+    {
+        return $this->client;
+    }
+
     public function __call($method, $params)
     {
         return call_user_func_array([$this->client, $method], $params);
