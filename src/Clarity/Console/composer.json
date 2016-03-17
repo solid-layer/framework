@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "clarity/support": "1.2.*",
+        "clarity/support": "1.3.*",
         "league/flysystem": "^1.0",
         "symfony/console": "^2.7",
         "symfony/process": "^2.7",

@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "clarity/kernel": "1.2.*",
-        "clarity/support": "1.2.*",
+        "clarity/kernel": "1.3.*",
+        "clarity/support": "1.3.*",
         "illuminate/view": "5.2.*"
     },
     "autoload": {
