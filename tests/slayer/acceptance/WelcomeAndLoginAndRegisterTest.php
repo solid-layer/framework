@@ -44,7 +44,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $welcome_page = $this->session->getPage();
 
-        var_dump($welcome_page->getHtml());
+        echo $welcome_page->getHtml();
 
         $slayer_logo = $welcome_page->find(
             'named',
@@ -76,7 +76,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $register_page = $this->session->getPage();
 
-        // var_dump($register_page->getHtml());
+        echo $register_page->getHtml();
 
         $register_btn = $register_page->find(
             'named',
@@ -121,7 +121,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $login_page = $this->session->getPage();
 
-        var_dump($login_page->getHtml());
+        echo $login_page->getHtml();
 
         $login_btn = $login_page->find(
             'named',
