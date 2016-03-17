@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "clarity/suppoer": "dev-dev",
+        "clarity/support": "1.2.*",
         "symfony/console": "^2.7",
         "league/flysystem": "^1.0",
         "tijsverkoyen/css-to-inline-styles": "^1.5",
