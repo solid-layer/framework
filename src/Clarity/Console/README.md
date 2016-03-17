@@ -1,6 +1,6 @@
 # Clarity Console
 
-use this to build your own console command
+use this to build your own console command for your Phalcon applications.
 
 ## Console
 
