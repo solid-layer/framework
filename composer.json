@@ -72,5 +72,10 @@
         "files": [
             "src/Clarity/Support/Helpers/init.php"
         ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev"
+        }
     }
 }
