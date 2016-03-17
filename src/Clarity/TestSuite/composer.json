@@ -20,5 +20,11 @@
         "psr-4": {
             "Clarity\\TestSuite\\": ""
         }
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

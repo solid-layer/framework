@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "clarity/support": "1.3.*",
+        "clarity/support": "1.4.*",
         "symfony/console": "^2.7",
         "league/flysystem": "^1.0",
         "monolog/monolog": "^1.15"
@@ -23,5 +23,11 @@
         "psr-4": {
             "Clarity\\Kernel\\": ""
         }
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

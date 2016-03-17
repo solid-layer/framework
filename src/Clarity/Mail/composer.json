@@ -18,5 +18,11 @@
         "psr-4": {
             "Clarity\\Mail\\": ""
         }
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

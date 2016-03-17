@@ -19,5 +19,11 @@
         "psr-4": {
             "Clarity\\Lang\\": ""
         }
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }
