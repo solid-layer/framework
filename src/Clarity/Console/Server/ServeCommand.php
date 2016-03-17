@@ -12,21 +12,22 @@ class ServeCommand extends SlayerCommand
 
     public function slash()
     {
-        $base = config()->path->root;
-        chdir($base . 'public');
+        chdir(url_trimmer(config()->path->root.'public'));
+        $current_dir = getcwd();
 
         $host = $this->input->getOption('host');
         $port = $this->input->getOption('port');
+        $file = $this->input->getOption('file');
 
         $this->info("Phalcon Slayer development server started on http://{$host}:{$port}/");
 
-        passthru('"' . PHP_BINARY . '"' . " -S {$host}:{$port} \"{$base}\".htrouter.php");
+        passthru(PHP_BINARY." -S {$host}:{$port} -t {$current_dir} -F {$file}");
     }
 
     protected function options()
     {
-        $host = 'localhost';
-        $port = 8000;
+        $host = '0.0.0.0';
+        $port = 8080;
 
         if (getenv('SERVE_HOST')) {
             $host = getenv('SERVE_HOST');
@@ -51,6 +52,13 @@ class ServeCommand extends SlayerCommand
                 'The port to serve the application on.',
                 $port,
             ],
+            [
+                'file',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The php file to be used.',
+                'index.php',
+            ]
         ];
     }
 }

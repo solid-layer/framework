@@ -1,0 +1,21 @@
+{
+    "name": "clarity/facades",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/facades",
+    "support": {
+        "issues": "https://github.com/ps-clarity/facades/issues",
+        "source": "https://github.com/ps-clarity/facades"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Clarity\\Facades\\": ""
+        }
+    }
+}

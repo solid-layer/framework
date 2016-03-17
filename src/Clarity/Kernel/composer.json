@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "clarity/support": "dev-master",
+        "clarity/support": "1.2.*",
         "symfony/console": "^2.7",
         "league/flysystem": "^1.0",
         "monolog/monolog": "^1.15"

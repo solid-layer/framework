@@ -1,5 +1,12 @@
 <?php
 
+if (!function_exists('application')) {
+    function application()
+    {
+        return di()->get('application');
+    }
+}
+
 if (!function_exists('auth')) {
     function auth()
     {

@@ -1,0 +1,21 @@
+{
+    "name": "clarity/services",
+    "description": "",
+    "license": "MIT",
+    "homepage": "http://github.com/ps-clarity/services",
+    "support": {
+        "issues": "https://github.com/ps-clarity/services/issues",
+        "source": "https://github.com/ps-clarity/services"
+    },
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Clarity\\Services\\": ""
+        }
+    }
+}
