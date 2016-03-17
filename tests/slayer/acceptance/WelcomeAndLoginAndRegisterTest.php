@@ -56,7 +56,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $try_sample_forms = $welcome_page->find('xpath', '//a[@href="'.$this->url.'/try-sample-forms"]');
         $try_sample_forms->click();
 
-        sleep(5);
+        sleep(20);
     }
 
     public function testRegistration()
@@ -89,7 +89,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         // $register_btn->press();
         $register_page->pressButton('register-btn');
 
-        sleep(5);
+        sleep(20);
 
         var_dump("Registered | User Count: ".User::count());
 
@@ -134,7 +134,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         // $login_btn->press();
         $login_page->pressButton('login-btn');
 
-        sleep(5);
+        sleep(20);
 
         $this->assertContains($this->url.'/newsfeed', $this->session->getCurrentUrl()); // === $this->url.'newsfeed'
     }
