@@ -5,7 +5,7 @@ use Exception;
 use Clarity\Services\ServiceMagicMethods;
 use Clarity\Exceptions\ServiceAliasNotFoundException;
 
-class ServiceProvider
+abstract class ServiceProvider
 {
     use ServiceMagicMethods;
 
@@ -84,21 +84,20 @@ class ServiceProvider
      *
      * @return bool
      */
-    public function register()
-    {
-        return false;
-    }
+    abstract public function register();
 
     /**
      * Folders or Files to be copied from going to application path
      *
      * @param  mixed  $paths The array paths to be copied from and to
      * @param  string $tag   The tag name to be triggered upon running command
+     *
+     * @return void
      */
     public function publish(array $paths, $tag = null)
     {
         if ( $tag ) {
-            $this->publishStack[ $tag ] = $paths;
+            $this->publishStack[$tag] = $paths;
         } else {
             $this->publishStack[] = $paths;
         }
@@ -107,9 +106,9 @@ class ServiceProvider
     /**
      * Get published stacks based on tag
      *
-     * @param  string $tag The tag name to be triggered upon running command
+     * @param string $tag The tag name to be triggered upon running command
      *
-     * @return mixed       Stack of all publish keys
+     * @return mixed Stack of all publish keys
      */
     public function getToBePublished($tag = null)
     {
