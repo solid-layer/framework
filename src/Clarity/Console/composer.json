@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "clarity/support": "1.3.*",
+        "clarity/support": "1.4.*",
         "league/flysystem": "^1.0",
         "symfony/console": "^2.7",
         "symfony/process": "^2.7",
@@ -24,5 +24,14 @@
         "psr-4": {
             "Clarity\\Console\\": ""
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "vendor-dir": "Vendor"
     }
 }
