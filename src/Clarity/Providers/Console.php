@@ -5,7 +5,7 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 
 class Console extends ServiceProvider
 {
-    const VERSION = 'v0.0.1';
+    const VERSION = 'v1.4.0';
     const DESCRIPTION = 'Brood (c) Daison Cariño';
 
     protected $alias = 'console';
