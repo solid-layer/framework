@@ -11,7 +11,7 @@ abstract class ServiceProvider
 
     protected $alias = null;
     protected $shared = false;
-    protected $publishStack = [];
+    protected $publish_stack = [];
     protected $after_module = false;
 
     /**
@@ -97,9 +97,9 @@ abstract class ServiceProvider
     public function publish(array $paths, $tag = null)
     {
         if ( $tag ) {
-            $this->publishStack[$tag] = $paths;
+            $this->publish_stack[$tag] = $paths;
         } else {
-            $this->publishStack[] = $paths;
+            $this->publish_stack[] = $paths;
         }
     }
 
@@ -114,15 +114,15 @@ abstract class ServiceProvider
     {
         if ( $tag ) {
 
-            if ( ! isset($this->publishStack[$tag]) ) {
+            if ( ! isset($this->publish_stack[$tag]) ) {
                 throw new Exception('Tag not found.');
             }
 
             return [
-                $tag => $this->publishStack[$tag]
+                $tag => $this->publish_stack[$tag]
             ];
         }
 
-        return $this->publishStack;
+        return $this->publish_stack;
     }
 }
