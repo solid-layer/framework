@@ -22,6 +22,7 @@
         }
     ],
     "require": {
+        "jenssegers/blade": "^1.0",
         "classpreloader/classpreloader": "^2.0",
         "classpreloader/console": "^1.0",
         "fzaninotto/faker": "~1.4",
