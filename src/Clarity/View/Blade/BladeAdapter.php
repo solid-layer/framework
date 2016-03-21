@@ -1,35 +1,25 @@
 <?php
 namespace Clarity\View\Blade;
 
+use Jenssegers\Blade\Blade;
 use Phalcon\Mvc\View\Engine;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\View\Engines\CompilerEngine;
-use Illuminate\View\Compilers\BladeCompiler;
 
 class BladeAdapter extends Engine
 {
-    protected $blade;
-
-    public function __construct($view, $di)
-    {
-        parent::__construct($view, $di);
-
-        $this->blade = new CompilerEngine(
-            new BladeCompiler(new Filesystem, storage_path('views').'/')
-        );
-    }
-
     public function render($path, $params = [])
     {
         $path = str_replace($this->getView()->getViewsDir(), '', $path);
         $path = str_replace('.blade.php', '', $path);
 
-        $view = new Factory($this->blade, $this->getView()->getViewsDir());
+        $blade = new Blade(
+            $this->getView()->getViewsDir(),
+            storage_path('views').'/'
+        );
 
         di()
             ->get('view')
             ->setContent(
-                $view
+                $blade
                     ->make($path, $params)
                     ->render()
             );
