@@ -27,7 +27,6 @@
         "fzaninotto/faker": "~1.4",
         "guzzlehttp/guzzle": "6.1.*",
         "illuminate/support": "5.2.*",
-        "illuminate/view": "5.2.*",
         "jenssegers/blade": "^1.0",
         "paragonie/random_compat": "1.1.*",
         "league/flysystem": "^1.0",
