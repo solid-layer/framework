@@ -9,11 +9,4 @@ class Router extends BaseRouter
     {
         parent::__construct($bool);
     }
-
-    public function style($class, $remove_action_suffix = true)
-    {
-        $class = "\\Clarity\\Support\\Phalcon\\Mvc\\RouteStyler\\$class\\$class";
-
-        return new $class($this, $remove_action_suffix);
-    }
 }
