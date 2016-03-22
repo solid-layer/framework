@@ -22,16 +22,24 @@ if (!function_exists('cache')) {
 }
 
 if (!function_exists('config')) {
-    function config($path = null)
+    function config($option = null)
     {
         $config = di()->get('config');
-        if ($path === null) {
+
+        if (is_array($option)) {
+            config()->merge(new Phalcon\Config($option));
+
+            return true;
+        }
+
+        if ($option === null) {
             return $config;
         }
 
-        $exploded_path = explode('.', $path);
+        $exploded_path = explode('.', $option);
 
         $last = $config;
+
         foreach ($exploded_path as $p) {
             $last = $last->{$p};
         }

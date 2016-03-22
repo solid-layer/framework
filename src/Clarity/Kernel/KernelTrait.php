@@ -28,20 +28,12 @@ trait KernelTrait
         # get the paths and merge the array values to the
         # empty config as we instantiated above
 
-        config()->merge(
-            new Config([
-                'path' => $this->path
-            ])
-        );
+        config(['path' => $this->path]);
 
 
         # now merge the assigned environment
 
-        config()->merge(
-            new Config([
-                'environment' => $this->getEnvironment()
-            ])
-        );
+        config(['environment' => $this->getEnvironment()]);
 
 
         # iterate all the base config files and require
@@ -67,8 +59,8 @@ trait KernelTrait
         # merge the base config files and the environment
         # config files as one in the our DI 'config'
 
-        config()->merge( new Config($base_config_files) );
-        config()->merge( new Config($env_config_files) );
+        config($base_config_files);
+        config($env_config_files);
     }
 
     protected function loadTimeZone()

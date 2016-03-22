@@ -1,7 +1,6 @@
 <?php
 namespace Clarity\Providers;
 
-use Phalcon\Config;
 use Phalcon\Session\Bag as PhalconSessionBag;
 
 class Module extends ServiceProvider
@@ -28,7 +27,7 @@ class Module extends ServiceProvider
         $modules = [];
         $modules[$name] = $closure;
 
-        config()->merge(new Config(['modules' => $modules]));
+        config(['modules' => $modules]);
 
         return $this;
     }

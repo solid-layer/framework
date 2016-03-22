@@ -1,7 +1,6 @@
 <?php
 namespace Clarity\Kernel;
 
-use Phalcon\Config;
 use Clarity\Providers\Log;
 use Clarity\Services\Service\ServiceContainer;
 
@@ -73,9 +72,7 @@ class Kernel
      */
     public function modules()
     {
-        config()->merge(new Config([
-            'modules' => $this->modules,
-        ]));
+        config(['modules' => $this->modules]);
 
         di()->get('application')->registerModules(config()->modules->toArray());
 

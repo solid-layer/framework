@@ -1,7 +1,6 @@
 <?php
 namespace Clarity\Console;
 
-use Phalcon\Config;
 use Clarity\Services\ServiceMagicMethods;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,7 +40,7 @@ abstract class SlayerCommand extends Command
     {
         $env = $this->getInput()->getOption('env');
 
-        config()->merge(new Config(['environment' => $env]));
+        config(['environment' => $env]);
 
         $folder = '';
 
@@ -55,11 +54,7 @@ abstract class SlayerCommand extends Command
             throw new InvalidOptionException("Environment [$env] not found.");
         }
 
-        config()->merge(
-            new Config(
-                iterate_require(folder_files($folder_path))
-            )
-        );
+        config(iterate_require(folder_files($folder_path)));
 
         return $this;
     }
