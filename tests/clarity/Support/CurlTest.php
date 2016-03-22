@@ -7,7 +7,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 {
     public function testRestful()
     {
-        $rest = new RESTful('http://slayer.app');
+        $rest = new RESTful('localhost:8080');
 
         $ret = $rest->getClient()->get('/auth/login');
 
