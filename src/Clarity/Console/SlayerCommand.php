@@ -54,7 +54,10 @@ abstract class SlayerCommand extends Command
             throw new InvalidOptionException("Environment [$env] not found.");
         }
 
-        config(iterate_require(folder_files($folder_path)));
+        config(
+            iterate_require(folder_files($folder_path)),
+            $merge = false
+        );
 
         return $this;
     }
