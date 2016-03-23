@@ -22,21 +22,34 @@ if (!function_exists('cache')) {
 }
 
 if (!function_exists('config')) {
-    function config($option = null)
+    function config($option = null, $merge = true)
     {
         $config = di()->get('config');
 
+        # here, if the $option is null
+        # we should directly pass the di 'config'
+        if ($option === null) {
+            return $config;
+        }
+
+        # here, if the option is array
+        # it should interpreted as updating the di 'config'
+        # current structure
         if (is_array($option)) {
 
-            $new_config = array_replace_recursive(
-                config() ? config()->toArray() : [],
-                $option
-            );
+            $new_config = [];
+
+            if ($merge === true) {
+                $config->merge(new Phalcon\Config($option));
+                $new_config = $config->toArray();
+            } else {
+                $new_config = array_replace_recursive(
+                    $config ? $config->toArray() : [],
+                    $option
+                );
+            }
 
             # we need to re-initialize the config
-            # config()->merge is not a recursive process
-            # it will always add record that is
-            # non-associative array
             di()->set('config', function () use ($new_config) {
                 return new Phalcon\Config($new_config);
             });
@@ -44,10 +57,9 @@ if (!function_exists('config')) {
             return true;
         }
 
-        if ($option === null) {
-            return $config;
-        }
-
+        # recursively point to the last config
+        # by iterating the config and applying object
+        # method chaining call
         $exploded_path = explode('.', $option);
 
         $last = $config;
