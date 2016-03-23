@@ -57,6 +57,14 @@ if (!function_exists('sandbox_path')) {
 }
 
 if (!function_exists('cp')) {
+    /**
+     * To copy a certain source to destination
+     *
+     * @param string $source The source file/folder
+     * @param string $dest The destination file/folder
+     *
+     * @return void
+     */
     function cp($source, $dest)
     {
         if (is_dir($dest) === false) {
@@ -72,12 +80,11 @@ if (!function_exists('cp')) {
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        foreach ($iterator as $item) {
-
+        foreach ($iterator as $item)
+        {
             # check if the item is directory
             if ( $item->isDir() )
             {
-
                 # check if there is existing directory
                 # else create.
 
@@ -88,13 +95,11 @@ if (!function_exists('cp')) {
                     mkdir($dest . '/' . $iterator->getSubPathName(), true);
                 }
 
+                continue;
             }
-            # it is a file
-            else
-            {
 
-                copy($item, $dest . '/' . $iterator->getSubPathName());
-            }
+            # it is a file
+            copy($item, $dest . '/' . $iterator->getSubPathName());
         }
     }
 }
@@ -102,7 +107,8 @@ if (!function_exists('cp')) {
 if (!function_exists('folder_files')) {
     function folder_files($path)
     {
-        if ( file_exists($path) === false ) {
+        if ( file_exists($path) === false )
+        {
             return [];
         }
 
