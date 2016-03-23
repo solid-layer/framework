@@ -1,14 +1,35 @@
 <?php
 
-/*
-|-------------------------------------------------------------
-| Phalcon Mvc Application
-|-------------------------------------------------------------
-| returns the DI instanced in the phalcon factory
-*/
 if (!function_exists('di')) {
-    function di()
+    function di($alias = null)
     {
-        return \Phalcon\DI::getDefault();
+        $default = Phalcon\DI::getDefault();
+
+        if (is_string($alias)) {
+            return $default->get($alias);
+        }
+
+        # if the alias is array then we must check the array
+        # passed in
+        if (is_array($alias)) {
+
+            if (
+                !isset($alias[0]) ||
+                !isset($alias[1])
+            ) {
+                throw new InvalidArgumentException("Provider alias or callback not found");
+            }
+
+            $default->set(
+                $alias[0],
+                $alias[1],
+                isset($alias[2]) ? $alias[2] : false
+            );
+
+            return $default->get($alias[0]);
+        }
+
+        # or just return the default thing
+        return $default;
     }
 }

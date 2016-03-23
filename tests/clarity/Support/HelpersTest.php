@@ -1,46 +1,29 @@
 <?php
 namespace Clarity\Support;
 
-// use Mockery as m;
-use Phalcon\Tag;
-use Phalcon\Session\Bag as Flash;
-use Phalcon\Flash\Session as FlashBag;
-use League\Flysystem\Filesystem as Flysystem;
-use League\Flysystem\MountManager as FlysystemManager;
-use Phalcon\Filter;
-use Monolog\Logger;
-use Phalcon\Config;
-use Phalcon\Mvc\Url;
-use Phalcon\Mvc\View;
-use Phalcon\Security;
-use Phalcon\Mvc\Router;
-use Phalcon\Http\Response;
-use Phalcon\Http\Request;
-use Phalcon\Mvc\Dispatcher;
-use Clarity\Support\Auth\Auth;
-use Clarity\Support\Redirect\Redirect;
-
 class HelpersTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFacades()
+    public function testHelpersFacade()
     {
-        $this->assertInstanceOf(Auth::class,             auth());
-        $this->assertInstanceOf(Config::class,           config());
-        $this->assertInstanceOf(Dispatcher::class,       dispatcher());
-        $this->assertInstanceOf(Filter::class,           filter());
-        $this->assertInstanceOf(Flash::class,            flash());
-        $this->assertInstanceOf(FlashBag::class,         flash_bag());
-        $this->assertInstanceOf(Flysystem::class,        flysystem());
-        $this->assertInstanceOf(FlysystemManager::class, flysystem_manager());
-        $this->assertInstanceOf(Redirect::class,         redirect());
-        $this->assertInstanceOf(Request::class,          request());
-        $this->assertInstanceOf(Response::class,         response());
-        $this->assertInstanceOf(Router::class,           route());
-        $this->assertInstanceOf(Security::class,         security());
-        $this->assertInstanceOf(Tag::class,              tag());
-        $this->assertInstanceOf(Url::class,              url());
-        $this->assertInstanceOf(View::class,             view());
+        $this->assertInstanceOf(\Clarity\Support\Auth\Auth::class, auth());
+        $this->assertInstanceOf(\Phalcon\Config::class, config());
+        $this->assertInstanceOf(\Phalcon\Mvc\Dispatcher::class, dispatcher());
+        $this->assertInstanceOf(\Phalcon\Filter::class, filter());
+        $this->assertInstanceOf(\Phalcon\Session\Bag::class, flash());
+        $this->assertInstanceOf(\Phalcon\Flash\Session::class, flash_bag());
+        $this->assertInstanceOf(\League\Flysystem\Filesystem::class, flysystem());
+        $this->assertInstanceOf(\League\Flysystem\MountManager::class, flysystem_manager());
+        $this->assertInstanceOf(\Clarity\Support\Redirect\Redirect::class, redirect());
+        $this->assertInstanceOf(\Clarity\Support\Phalcon\Http\Request::class, request());
+        $this->assertInstanceOf(\Phalcon\Http\Response::class, response());
+        $this->assertInstanceOf(\Phalcon\Mvc\Router::class, route());
+        $this->assertInstanceOf(\Phalcon\Security::class, security());
+        $this->assertInstanceOf(\Phalcon\Tag::class, tag());
+        $this->assertInstanceOf(\Phalcon\Mvc\Url::class, url());
+        $this->assertInstanceOf(\Phalcon\Mvc\View::class, view());
 
+        # getting an error, will check later on
+        // $this->assertInstanceOf(Logger::class, log());
 
         # adapter base functions
 
@@ -49,25 +32,51 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
         // $this->assertInstanceOf(, queue());
         // $this->assertInstanceOf(, session());
 
-
-        # getting an error, will check later on
-
-        // $this->assertInstanceOf(Logger::class,           log());
-    }
-
-    public function testFacadeCapabilities()
-    {
-        # getting the route should return the full path url
-
         $this->assertContains(
             url()->getBaseUri().'auth/login',
             route('showLoginForm')
         );
 
+        $this->assertInstanceOf(
+            \Phalcon\Mvc\View::class,
+            view('welcome')
+        );
+    }
 
-        # You will get an error if the file 'welcome.volt not found',
-        # the only solution to know if this works is to know the instance
+    public function testHelpersSlayer()
+    {
+        # we are exactly getting the default
+        $this->assertInstanceOf(
+            \Phalcon\Di\FactoryDefault::class,
+            di()
+        );
 
-        $this->assertInstanceOf(View::class, view('welcome'));
+        # we should get the the instance of application
+        # similar with di()->get('application')
+        $this->assertInstanceOf(
+            \Phalcon\Mvc\Application::class,
+            di('application')
+        );
+
+        # this is similar having
+        # di()->set(<alias>, <callback>, <is_shared>) function
+        $this->assertInstanceOf(
+            \stdClass::class,
+            $stdClass = di([
+                'sampleAddingOfDi',
+                function () {
+                    $std = new \stdClass;
+                    $std->my_var = true;
+
+                    return $std;
+                },
+                true
+            ])
+        );
+
+        # when calling the di([..]),
+        # it also returns this di()->get(<alias>)
+        # we must check if the stdClass has $my_var
+        $this->assertTrue($stdClass->my_var);
     }
 }
