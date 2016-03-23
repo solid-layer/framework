@@ -27,7 +27,19 @@ if (!function_exists('config')) {
         $config = di()->get('config');
 
         if (is_array($option)) {
-            config()->merge(new Phalcon\Config($option));
+
+            $new_config = array_replace_recursive(
+                config() ? config()->toArray() : [],
+                $option
+            );
+
+            # we need to re-initialize the config
+            # config()->merge is not a recursive process
+            # it will always add record that is
+            # non-associative array
+            di()->set('config', function () use ($new_config) {
+                return new Phalcon\Config($new_config);
+            });
 
             return true;
         }
