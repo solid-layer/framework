@@ -35,6 +35,7 @@ class DB extends ServiceProvider
      */
     public function boot()
     {
+        var_dump(di()->getServices());
         di($this->alias)
             ->setEventsManager(
                 $this->getEventLogger()
