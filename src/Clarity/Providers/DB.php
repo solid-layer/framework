@@ -14,7 +14,31 @@ class DB extends ServiceProvider
 
     public function __construct()
     {
-        $this->adapters = config()->database->adapters;
+        $this->adapters = static::adapters();
+    }
+
+    /**
+     * Get the database adapters
+     *
+     * @return mixed
+     */
+    public static function adapters()
+    {
+        return config()
+            ->database
+            ->adapters
+            ->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot()
+    {
+        di($this->alias)
+            ->setEventsManager(
+                $this->getEventLogger()
+            );
     }
 
     /**
@@ -22,68 +46,52 @@ class DB extends ServiceProvider
      */
     public function register()
     {
-        # - If empty, then disable DB by just returning itself
+        # get the selected adapter to be our basis
+        $selected_adapter = config()->app->db_adapter;
 
-        $db_adapter = config()->app->db_adapter;
-
+        # here, check selected adapter if empty, then
+        # disable this provider
         if (
-            strlen($db_adapter) == 0 ||
-            $db_adapter === 'false'
+            strlen($selected_adapter) == 0 ||
+            $selected_adapter === 'false'
         ) {
             return $this;
         }
 
-
-        # - loop the adapters and create a service for each
-        # to be used in the model classes to switch over
-
-        foreach ($this->adapters as $alias => $adapter) {
-
-            di()->set($alias, function() use($alias) {
-
-                return $this->connection($alias);
-            });
-        }
-
-
-        # - check if the selected driver is in the lists
-
-        $selected_adapter = strtolower(config()->app->db_adapter);
-
-        if ( !isset($this->adapters[$selected_adapter]) ) {
-
-            throw new Exception('Database adapter '.$selected_adapter.' not found');
-        }
-
-
-        return $this->connection($selected_adapter);
+        return static::connection($selected_adapter);
     }
-
 
     /**
      * Instantiate the class and get the adapter
      *
      * @return mixed An adapter to use you
      */
-    protected function connection($selected_adapter)
+    public static function connection($selected_adapter)
     {
-        $conn = new $this->adapters[$selected_adapter]['class'](
-            config()
-                ->database
-                ->adapters
-                ->{$selected_adapter}
-                ->toArray()
-        );
+        $adapters = static::adapters();
 
-        $conn->setEventsManager($this->getEventLogger());
+        $has_adapter = isset($adapters[$selected_adapter]);
 
-        return $conn;
+        # here, we must check the adapter, if it does not
+        # exists, we should throw an exception error
+        if (!$has_adapter) {
+            throw new Exception(
+                'Database adapter '.$selected_adapter.
+                ' not found'
+            );
+        }
+
+        $options = $adapters[$selected_adapter];
+        $class = $options['class'];
+        unset($options['class']);
+
+        return new $class($options);
     }
 
     /**
      * An event to log our queries
      *
-     * @return  mixed Instatiated event manager
+     * @return mixed Instatiated event manager
      */
     protected function getEventLogger()
     {
