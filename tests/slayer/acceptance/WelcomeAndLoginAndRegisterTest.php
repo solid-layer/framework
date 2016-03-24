@@ -44,8 +44,6 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $welcome_page = $this->session->getPage();
 
-        echo $welcome_page->getHtml();
-
         $slayer_logo = $welcome_page->find(
             'named',
             ['id', 'frameworkTitle']
@@ -74,18 +72,16 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $register_page = $this->session->getPage();
 
-        echo $register_page->getHtml();
-
-        // $register_btn = $register_page->find(
-        //     'named',
-        //     ['id', 'register-btn']
-        // );
+        $register_btn = $register_page->find(
+            'named',
+            ['id', 'register-btn']
+        );
 
         $register_page->fillField('email', $this->email);
         $register_page->fillField('password', $this->password);
         $register_page->fillField('repassword', $this->password);
-        // $register_btn->press();
-        $register_page->pressButton('register-btn');
+        $register_btn->press();
+        // $register_page->pressButton('register-btn');
 
         sleep(5);
 
@@ -114,17 +110,15 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $login_page = $this->session->getPage();
 
-        echo $login_page->getHtml();
-
-        // $login_btn = $login_page->find(
-        //     'named',
-        //     ['id', 'login-btn']
-        // );
+        $login_btn = $login_page->find(
+            'named',
+            ['id', 'login-btn']
+        );
 
         $login_page->fillField('email', $this->email);
         $login_page->fillField('password', $this->password);
-        // $login_btn->press();
-        $login_page->pressButton('login-btn');
+        $login_btn->press();
+        // $login_page->pressButton('login-btn');
 
         sleep(5);
 
