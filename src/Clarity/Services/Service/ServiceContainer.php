@@ -16,15 +16,17 @@ class ServiceContainer
 
     public function boot()
     {
-        foreach ($this->providers as $provider) {
+        $providers_loaded = array_map(function ($provider) {
             di()->set(
                 $provider->getAlias(),
                 $provider->callRegister(),
                 $provider->getShared()
             );
-        }
 
-        foreach ($this->providers as $provider) {
+            return $provider;
+        }, $this->providers);
+
+        foreach ($providers_loaded as $provider) {
             $provider->boot();
         }
     }
