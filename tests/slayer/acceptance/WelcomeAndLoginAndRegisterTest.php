@@ -56,13 +56,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $try_sample_forms = $welcome_page->find('xpath', '//a[@href="'.$this->url.'/try-sample-forms"]');
         $try_sample_forms->click();
 
-        sleep(20);
+        sleep(5);
     }
 
     public function testRegistration()
     {
-        var_dump("Registration | User Count: ".User::count());
-
         if ( User::count() ) {
             $this->testLogin();
             return;
@@ -89,9 +87,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         // $register_btn->press();
         $register_page->pressButton('register-btn');
 
-        sleep(20);
-
-        var_dump("Registered | User Count: ".User::count());
+        sleep(5);
 
         $user = User::query()->where('email = :email: AND activated = :activated:')
             ->bind([
@@ -101,15 +97,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
             ->execute()
             ->getFirst();
 
-        var_dump($user->toArray());
-
         $this->session->visit($this->url.'/auth/activation/'.$user->token);
     }
 
     public function testLogin()
     {
-        var_dump("Login | User Count: ".User::count());
-
         if ( !User::count() ) {
             $this->testRegistration();
         }
@@ -134,7 +126,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         // $login_btn->press();
         $login_page->pressButton('login-btn');
 
-        sleep(20);
+        sleep(5);
 
         $this->assertContains($this->url.'/newsfeed', $this->session->getCurrentUrl()); // === $this->url.'newsfeed'
     }
