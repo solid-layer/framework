@@ -29,11 +29,6 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-       $this->markTestSkipped(
-           'Behat/Mink seems having a problem '.
-           'inside travis-ci, while running '.
-           'this test on local seems working fine'
-       );
         $this->session = (new Mink)->get('goutte');
         $this->url = 'http://localhost:8080';
         $this->email = 'test@example.com';
