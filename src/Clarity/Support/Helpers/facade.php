@@ -127,6 +127,21 @@ if (!function_exists('flash_bag')) {
 if (!function_exists('flysystem')) {
     function flysystem($path = null)
     {
+        $flysystem = di()->get('flysystem');
+
+        # here, if there is assigned path
+        # it is the path to access the requested file
+        if ($path !== null) {
+            return $flysystem->get($path);
+        }
+
+        return $flysystem;
+    }
+}
+
+if (!function_exists('flysystem_manager')) {
+    function flysystem_manager($path = null)
+    {
         # here, if there is assigned path
         # we should directly create an instance
         # based on the $path provided
@@ -137,13 +152,6 @@ if (!function_exists('flysystem')) {
             );
         }
 
-        return di()->get('flysystem');
-    }
-}
-
-if (!function_exists('flysystem_manager')) {
-    function flysystem_manager()
-    {
         return di()->get('flysystem_manager');
     }
 }

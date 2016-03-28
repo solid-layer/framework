@@ -127,7 +127,7 @@ class ControllerCommand extends SlayerCommand
      */
     public function slash()
     {
-        $app_filesystem = flysystem($this->getAppPath());
+        $app_filesystem = flysystem_manager($this->getAppPath());
 
         $module = $this->getModuleName();
 
@@ -168,7 +168,7 @@ class ControllerCommand extends SlayerCommand
         );
 
         # now write the content based on $controller path
-        $module_filesystem = flysystem($this->getModulePath());
+        $module_filesystem = flysystem_manager($this->getModulePath());
         $module_filesystem->put($controller, $buff);
     }
 
