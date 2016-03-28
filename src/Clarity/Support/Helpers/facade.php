@@ -125,8 +125,18 @@ if (!function_exists('flash_bag')) {
 }
 
 if (!function_exists('flysystem')) {
-    function flysystem()
+    function flysystem($path = null)
     {
+        # here, if there is assigned path
+        # we should directly create an instance
+        # based on the $path provided
+        # whilist the adapter is 'local'
+        if ($path !== null) {
+            return new League\Flysystem\Filesystem(
+                new League\Flysystem\Adapter\Local($path, 0)
+            );
+        }
+
         return di()->get('flysystem');
     }
 }
