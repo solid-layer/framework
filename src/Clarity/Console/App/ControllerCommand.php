@@ -1,11 +1,9 @@
 <?php
 namespace Clarity\Console\App;
 
-use League\Flysystem\Filesystem;
 use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use League\Flysystem\Adapter\Local as LeagueFlysystemAdapterLocal;
 
 class ControllerCommand extends SlayerCommand
 {
@@ -125,23 +123,11 @@ class ControllerCommand extends SlayerCommand
     }
 
     /**
-     * Get the flysystem handler based on the path specified
-     *
-     * @return mixed
-     */
-    private function filesystem($path)
-    {
-        return new Filesystem(
-            new LeagueFlysystemAdapterLocal($path, 0)
-        );
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function slash()
     {
-        $app_filesystem = $this->filesystem($this->getAppPath());
+        $app_filesystem = flysystem($this->getAppPath());
 
         $module = $this->getModuleName();
 
@@ -182,7 +168,7 @@ class ControllerCommand extends SlayerCommand
         );
 
         # now write the content based on $controller path
-        $module_filesystem = $this->filesystem($this->getModulePath());
+        $module_filesystem = flysystem($this->getModulePath());
         $module_filesystem->put($controller, $buff);
     }
 
