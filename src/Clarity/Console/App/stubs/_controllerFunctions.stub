@@ -61,7 +61,8 @@
      */
     public function delete($id)
     {
-        # process the post or ajax request
+        # process the request which it must be
+        # post and ajax request
         if ( request()->isPost() && request()->isAjax() ) {
             // ...
         }
