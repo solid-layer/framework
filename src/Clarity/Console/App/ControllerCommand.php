@@ -3,8 +3,8 @@ namespace Clarity\Console\App;
 
 use League\Flysystem\Filesystem;
 use Clarity\Console\SlayerCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use League\Flysystem\Adapter\Local as LeagueFlysystemAdapterLocal;
 
 class ControllerCommand extends SlayerCommand
@@ -43,6 +43,8 @@ class ControllerCommand extends SlayerCommand
     }
 
     /**
+     * Get the namespace to use
+     *
      * @return string
      */
     protected function getNamespace()
@@ -53,13 +55,17 @@ class ControllerCommand extends SlayerCommand
     }
 
     /**
+     * Get the controller name
+     *
+     * @param $is_path
+     *
      * @return string
      */
-    protected function getControllerName($prettify = true)
+    protected function getControllerName($is_path = true)
     {
         $ret = '%s';
 
-        if ($prettify) {
+        if ($is_path) {
             $ret = 'controllers/%sController.php';
         }
 
@@ -119,7 +125,9 @@ class ControllerCommand extends SlayerCommand
     }
 
     /**
+     * Get the flysystem handler based on the path specified
      *
+     * @return mixed
      */
     private function filesystem($path)
     {
