@@ -15,9 +15,26 @@ if (!function_exists('auth')) {
 }
 
 if (!function_exists('cache')) {
-    function cache()
+    function cache($option = null)
     {
-        return di()->get('cache');
+        $cache = di()->get('cache');
+
+        if (is_string($option)) {
+            return $cache->get($option);
+        }
+
+        if (is_array($option)) {
+
+            if (!isset($option[0]) || !isset($option[1])) {
+                throw new InvalidArgumentException("Array must have index[0] for cache alias and index[1] for the value");
+            }
+
+            $cache->save($option[0], $option[1]);
+
+            return true;
+        }
+
+        return $cache;
     }
 }
 
