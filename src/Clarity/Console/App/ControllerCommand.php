@@ -139,9 +139,9 @@ class ControllerCommand extends SlayerCommand
         }
 
         $controller = $this->getControllerName();
-
         # check controller file if exists, throw error if exists
         if ($app_filesystem->has($module.'/'.$controller)) {
+
             $this->error(
                 "Controller [{$this->input->getArgument('name')}] ".
                 "already exists in your Module [{$this->input->getArgument('module')}]"
@@ -172,6 +172,9 @@ class ControllerCommand extends SlayerCommand
         $module_filesystem->put($controller, $buff);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function arguments()
     {
         $arguments = [
@@ -182,6 +185,9 @@ class ControllerCommand extends SlayerCommand
         return $arguments;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function options()
     {
         return [
