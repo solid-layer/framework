@@ -138,12 +138,14 @@ class ControllerCommand extends SlayerCommand
             return;
         }
 
+        $this->info('Crafting Controller...');
+
         $controller = $this->getControllerName();
         # check controller file if exists, throw error if exists
         if ($app_filesystem->has($module.'/'.$controller)) {
 
             $this->error(
-                "Controller [{$this->input->getArgument('name')}] ".
+                "     Controller [{$this->input->getArgument('name')}] ".
                 "already exists in your Module [{$this->input->getArgument('module')}]"
             );
 
@@ -170,6 +172,10 @@ class ControllerCommand extends SlayerCommand
         # now write the content based on $controller path
         $module_filesystem = flysystem_manager($this->getModulePath());
         $module_filesystem->put($controller, $buff);
+
+        $this->info('     '.$controller.' created!');
+
+        $this->callDumpAutoload();
     }
 
     /**
