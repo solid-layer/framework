@@ -1,82 +1,192 @@
 <?php
 namespace Clarity\Console\App;
 
-use League\Flysystem\Filesystem;
 use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use League\Flysystem\Adapter\Local as LeagueFlysystemAdapterLocal;
 
 class ModuleCommand extends SlayerCommand
 {
-    protected $name        = 'app:module';
+    protected $name = 'app:module';
     protected $description = 'Generate a new module';
 
-    private $app;
-    private $public;
-
-    public function __construct()
+    /**
+     * Get the application path
+     *
+     * @return string
+     */
+    protected function getAppPath()
     {
-        $this->app = new Filesystem(
-            new LeagueFlysystemAdapterLocal(config()->path->app, 0)
-        );
-
-        $this->public = new Filesystem(
-            new LeagueFlysystemAdapterLocal(config()->path->public, 0)
-        );
-
-        parent::__construct();
+        return config()->path->app;
     }
 
+    /**
+     * Get the public path
+     *
+     * @return string
+     */
+    protected function getPublicPath()
+    {
+        return config()->path->public;
+    }
+
+    /**
+     * Get the base path
+     *
+     * @return string
+     */
+    protected function getBasePath()
+    {
+        return realpath('');
+    }
+
+    /**
+     * Get the namespace to use
+     *
+     * @return string
+     */
+    protected function getNamespace()
+    {
+        return url_trimmer(
+            $this->getAppPath().'/'.$this->getModuleName().'\\Controllers'
+        );
+    }
+
+    /**
+     * Get the module name
+     *
+     * @return string
+     */
+    protected function getModuleName()
+    {
+        return $this->input->getArgument('name');
+    }
+
+    /**
+     * Get the base controller content stub
+     *
+     * @return string
+     */
+    protected function getBaseControllerStub()
+    {
+        return file_get_contents(__DIR__.'/stubs/baseController.stub');
+    }
+
+    /**
+     * Get the base route content stub
+     *
+     * @return string
+     */
+    protected function getBaseRouteStub()
+    {
+        return file_get_contents(__DIR__.'/stubs/baseRoute.stub');
+    }
+
+    /**
+     * Get the base public index content stub
+     *
+     * @return string
+     */
+    protected function getPublicStub()
+    {
+        return file_get_contents(__DIR__.'/stubs/publicIndex.stub');
+    }
+
+    /**
+     * Get the routes content stub
+     *
+     * @return string
+     */
+    protected function getRoutesStub()
+    {
+        return "<?php\n";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
-        $app_path = str_replace(BASE_PATH, '', config()->path->app);
-        $arg_name = str_slug($this->input->getArgument('name'), '_');
+        $app_filesystem = flysystem_manager($this->getAppPath());
+        $public_filesystem = flysystem_manager($this->getPublicPath());
 
-        $controllers = $arg_name . '/controllers/';
-        $routes      = $arg_name . '/routes/';
+        # get the module name
+        $module = $this->getModuleName();
+
+        $this->info('Crafting Module...');
+
+        $controller_buff = $this->getContentByStub($this->getBaseControllerStub());
+        $router_buff = $this->getContentByStub($this->getBaseRouteStub());
+        $routes_buff = $this->getContentByStub($this->getRoutesStub());
+        $public_buff = stubify($this->getPublicStub(), ['module' => '\''.$module.'\'']);
+
+        # their possible path
+        $base_controller = "$module/controllers/Controller.php";
+        $base_router = "$module/routes/RouteGroup.php";
+        $routes_file = "$module/routes.php";
+        $public_file = $module.".php";
 
 
-        $routes_file      = $arg_name . '/routes.php';
-        $this->app->put($routes_file, "<?php\n");
+        # now save the stubbed content into the their path
+        if ($app_filesystem->has($base_controller) === false) {
+            $this->info('   Base Controller created!');
+            $app_filesystem->put($base_controller, $controller_buff);
+        } else {
+            $this->error('   Base Controller already exists!');
+        }
 
-        $controller_file  = $controllers . 'Controller.php';
-        $this->app->put(
-            $controller_file,
-            $this->getContent(
-                $app_path . $controllers,
-                __DIR__ . '/stubs/baseController.stub'
-            )
-        );
 
-        $route_group_file = $routes . 'RouterGroup.php';
-        $this->app->put(
-            $route_group_file,
-            $this->getContent(
-                $app_path . $routes,
-                __DIR__ . '/stubs/baseRoute.stub'
-            )
-        );
+        if ($app_filesystem->has($base_router) === false) {
+            $this->info('   Router Group created!');
+            $app_filesystem->put($base_router, $router_buff);
+        } else {
+            $this->error('   Route Group already exists!');
+        }
 
-        $this->public->put(
-            $arg_name . '.php',
-            stubify(
-                file_get_contents(__DIR__ . '/stubs/publicIndex.stub'),
-                ['arg_name' => '\''.$arg_name.'\'']
-            )
-        );
+
+        if ($app_filesystem->has($routes_file) === false) {
+            $this->info('   Routes file created!');
+            $app_filesystem->put($routes_file, $routes_buff);
+        } else {
+            $this->error('   Routes file already exists!');
+        }
+
+
+        if ($public_filesystem->has($public_file) === false) {
+            $this->info('   Public Index created!');
+            $public_filesystem->put($public_file, $public_buff);
+        } else {
+            $this->error('   Public Index already exists!');
+        }
+
 
         $this->callDumpAutoload();
     }
 
-    private function getContent($path, $stub)
+    /**
+     * Get the content with 'namespace' by stubifying the
+     * provided content
+     *
+     * @param $stub_content
+     *
+     * @return string
+     */
+    private function getContentByStub($stub_content)
     {
         return stubify(
-            file_get_contents($stub), [
-                'namespace' => path_to_namespace($path),
+            $stub_content,
+            [
+                'namespace' => path_to_namespace(
+                    # here, we must trim the $namespace by
+                    # getting the base path to be our matching trimmer
+                    str_replace($this->getBasePath(), '', $this->getNamespace())
+                ),
             ]
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function arguments()
     {
         return [
