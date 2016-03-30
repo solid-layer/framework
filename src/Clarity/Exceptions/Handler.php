@@ -16,6 +16,8 @@ class Handler extends Exception
 
     /**
      * Handles fatal error, based on the lists
+     *
+     * @return void
      */
     public function handleFatalError()
     {
@@ -34,11 +36,13 @@ class Handler extends Exception
     /**
      * Creates an error exception
      *
-     * @param  [type] $num     error type e.g(E_PARSE | E_ERROR ...)
-     * @param  [type] $str     error message
-     * @param  [type] $file    the file affected by the error
-     * @param  [type] $line    on what line affects
-     * @param  [type] $context the contenxt
+     * @param int    $num     error type e.g(E_PARSE | E_ERROR ...)
+     * @param string $str     error message
+     * @param string $file    the file affected by the error
+     * @param int    $line    on what line affects
+     * @param string $context the context
+     *
+     * @return void
      */
     public function handleError($num, $str, $file, $line, $context = null)
     {
@@ -59,7 +63,14 @@ class Handler extends Exception
         $this->render($e);
     }
 
-    public function render($e)
+    /**
+     * Render the exception
+     *
+     * @param mixed $e
+     *
+     * @return mixed
+     */
+    public function render($e, $status_code = null)
     {
         if ( php_sapi_name() == 'cli' ) {
             dd($e) . "\n";
@@ -70,17 +81,27 @@ class Handler extends Exception
         $content = (new ExceptionHandler($this->getDebugMode()))->getHtml($e);
 
         $response = di()->get('response');
-        $response->setContent($content);
 
-        if ( method_exists($e, 'getStatusCode') ) {
+        if (method_exists($e, 'getStatusCode')) {
             $response->setStatusCode($e->getStatusCode());
         }
+
+        # here, if the $status_code is not empty
+        # that means we should over-ride the current status code
+        # using the provided one
+        if ($status_code) {
+            $response->setStatusCode($status_code);
+        }
+
+        $response->setContent($content);
 
         return $response->send();
     }
 
     /**
      * Processes the error, fatal and exceptions
+     *
+     * @return void
      */
     protected function report()
     {
@@ -102,16 +123,15 @@ class Handler extends Exception
 
     /**
      * Get the environment debug mode value
+     *
+     * @return bool
      */
     protected function getDebugMode()
     {
-        $ret = false;
-        $debug = config()->app->debug == 'true';
-
-        if ( $debug || $debug === true) {
-            $ret = true;
+        if (config()->app->debug) {
+            return true;
         }
 
-        return $ret;
+        return false;
     }
 }
