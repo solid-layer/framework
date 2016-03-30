@@ -1,11 +1,30 @@
 <?php
 
 if (!function_exists('env')) {
-    function env($const, $default = '')
+    function env($const, $default = null)
     {
         $val = getenv($const);
-        if (empty( $val )) {
+
+        if (empty($val)) {
             $val = $default;
+        }
+
+        switch(strtolower($val)) {
+            case 'true':
+                return true;
+            break;
+
+            case 'false':
+                return false;
+            break;
+
+            case 'empty':
+                return '';
+            break;
+
+            case 'null':
+                return;
+            break;
         }
 
         return $val;

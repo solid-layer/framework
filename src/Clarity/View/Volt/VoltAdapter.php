@@ -36,10 +36,7 @@ class VoltAdapter extends Volt
 
         $debug = false;
 
-        if (
-            config()->app->debug === 'true' ||
-            config()->app->debug === true
-        ) {
+        if (config()->app->debug) {
             $debug = true;
         }
 
