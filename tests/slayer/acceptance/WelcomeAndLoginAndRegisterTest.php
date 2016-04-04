@@ -31,7 +31,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
     {
         $this->session = (new Mink)->get('goutte');
         $this->url = 'http://localhost:8080';
-        $this->email = 'test@example.com';
+        $this->email = 'daison12006013@gmail.com';
         $this->password = '123qwe';
     }
 
