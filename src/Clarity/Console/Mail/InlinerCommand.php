@@ -79,7 +79,7 @@ class InlinerCommand extends SlayerCommand
         # -  get the dirname and file name
 
         $dirname = dirname($related_files[ 0 ]);
-        $converted_name = basename($record->file) . '-inligned.volt';
+        $converted_name = basename($record->file) . '-inlined.volt';
 
 
         # - overwrite or create a file based on the dirname
