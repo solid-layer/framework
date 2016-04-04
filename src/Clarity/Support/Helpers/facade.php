@@ -156,6 +156,13 @@ if (!function_exists('flysystem_manager')) {
     }
 }
 
+if (!function_exists('lang')) {
+    function lang()
+    {
+        return di()->get('lang');
+    }
+}
+
 if (!function_exists('log')) {
     function log()
     {

@@ -16,10 +16,10 @@ class VoltAdapter extends Volt
         'auth',      'cache',     'config',
         'db',        'filter',    'flash',
         'flash_bag', 'flysystem', 'flysystem_manager',
-        'log',       'queue',     'redirect',
-        'request',   'response',  'route',
-        'security',  'session',   'tag',
-        'url',       'view',
+        'lang',      'log',       'queue',
+        'redirect',  'request',   'response',
+        'route',     'security',  'session',
+        'tag',       'url',       'view',
 
         # path
         'base_uri',
