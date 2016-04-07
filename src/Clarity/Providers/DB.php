@@ -35,10 +35,11 @@ class DB extends ServiceProvider
      */
     public function boot()
     {
-        di($this->alias)
-            ->setEventsManager(
-                $this->getEventLogger()
-            );
+        $db = di($this->alias);
+
+        if (method_exists($db, 'setEventsManager')) {
+            $db->setEventsManager($this->getEventLogger());
+        }
     }
 
     /**
@@ -51,10 +52,7 @@ class DB extends ServiceProvider
 
         # here, check selected adapter if empty, then
         # disable this provider
-        if (
-            strlen($selected_adapter) == 0 ||
-            $selected_adapter === 'false'
-        ) {
+        if (strlen($selected_adapter) == 0 || $selected_adapter === false) {
             return $this;
         }
 
