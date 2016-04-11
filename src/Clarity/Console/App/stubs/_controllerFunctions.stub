@@ -13,7 +13,7 @@
     public function showAction($id)
     {
         return View::make('{controllerName}.show')
-            ->with('id' => $id)
+            ->with('id', $id)
             ->batch([
                 'var1' => 'val1',
                 'var2' => 'val2',
