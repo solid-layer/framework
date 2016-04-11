@@ -35,11 +35,24 @@ class DB extends ServiceProvider
      */
     public function boot()
     {
-        $db = di($this->alias);
+        di()->set($this->alias, function () {
 
-        if (method_exists($db, 'setEventsManager')) {
+            # get the selected adapter to be our basis
+            $selected_adapter = config()->app->db_adapter;
+
+            # here, check selected adapter if empty, then
+            # disable this provider
+            if (strlen($selected_adapter) == 0 || $selected_adapter === false) {
+                return $this;
+            }
+
+            $db = static::connection($selected_adapter);
+
             $db->setEventsManager($this->getEventLogger());
-        }
+
+            return $db;
+
+        }, $this->shared);
     }
 
     /**
@@ -47,16 +60,7 @@ class DB extends ServiceProvider
      */
     public function register()
     {
-        # get the selected adapter to be our basis
-        $selected_adapter = config()->app->db_adapter;
-
-        # here, check selected adapter if empty, then
-        # disable this provider
-        if (strlen($selected_adapter) == 0 || $selected_adapter === false) {
-            return $this;
-        }
-
-        return static::connection($selected_adapter);
+        return $this;
     }
 
     /**
