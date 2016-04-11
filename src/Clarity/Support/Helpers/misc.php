@@ -1,6 +1,15 @@
 <?php
 
 if (!function_exists('env')) {
+
+    /**
+     * This handles the the global environment variables, it acts as getenv()
+     * that handles the .env file in the root folder of a project
+     *
+     * @param string $const The constant variable
+     * @param string\bool|mixed $default The default value if it is empty
+     * @return mixed The value based on requested variable
+     */
     function env($const, $default = null)
     {
         $val = getenv($const);
@@ -32,6 +41,12 @@ if (!function_exists('env')) {
 }
 
 if (!function_exists('csrf_field')) {
+
+    /**
+     * This generates a csrf field for html forms
+     *
+     * @return string
+     */
     function csrf_field()
     {
         return tag()->hiddenField([
@@ -42,6 +57,13 @@ if (!function_exists('csrf_field')) {
 }
 
 if (!function_exists('processing_time')) {
+
+    /**
+     * This calculates the processing time based on the starting time
+     *
+     * @param int $starting_time The microtime it starts
+     * @return string
+     */
     function processing_time($starting_time = 0)
     {
         return microtime(true) - $starting_time;
@@ -49,6 +71,13 @@ if (!function_exists('processing_time')) {
 }
 
 if (!function_exists('iterate_require')) {
+
+    /**
+     * This iterates and require a php files, useful along folder_files()
+     *
+     * @param mixed $files
+     * @return mixed
+     */
     function iterate_require(array $files)
     {
         $results = [];
@@ -62,6 +91,12 @@ if (!function_exists('iterate_require')) {
 }
 
 if (!function_exists('stubify')) {
+
+    /**
+     * This changes a stub format content
+     *
+     * @return string
+     */
     function stubify($content, $params)
     {
         foreach ($params as $key => $value) {
@@ -73,6 +108,12 @@ if (!function_exists('stubify')) {
 }
 
 if (!function_exists('path_to_namespace')) {
+
+    /**
+     * This converts a path into a namespace
+     *
+     * @return string
+     */
     function path_to_namespace($path)
     {
         $path = trim(str_replace('/', ' ', $path));
@@ -89,6 +130,12 @@ if (!function_exists('path_to_namespace')) {
 }
 
 if (!function_exists('url_trimmer')) {
+
+    /**
+     * This trims a url that has multiple slashes and trimming slash at the end
+     *
+     * @return string
+     */
     function url_trimmer($url)
     {
         return rtrim(preg_replace('/([^:])(\/{2,})/', '$1/', $url), '/');
@@ -96,6 +143,12 @@ if (!function_exists('url_trimmer')) {
 }
 
 if (!function_exists('logging_extension')) {
+
+    /**
+     * This returns an extension name based on the requested logging time
+     *
+     * @return string
+     */
     function logging_extension()
     {
         $ext = '';
@@ -125,12 +178,5 @@ if (!function_exists('logging_extension')) {
         }
 
         return $ext;
-    }
-}
-
-if (!function_exists('str_last_remove')) {
-    function str_last_remove($fullstring, $word_to_remove)
-    {
-        return preg_replace('/'.$fullstring.'$/', '', $word_to_remove);
     }
 }

@@ -1,6 +1,12 @@
 <?php
 
 if (!function_exists('application')) {
+
+    /**
+     * This returns the service provider 'application'
+     *
+     * @return mixed
+     */
     function application()
     {
         return di()->get('application');
@@ -8,6 +14,12 @@ if (!function_exists('application')) {
 }
 
 if (!function_exists('auth')) {
+
+    /**
+     * This returns the service provider 'auth'
+     *
+     * @return mixed
+     */
     function auth()
     {
         return di()->get('auth');
@@ -15,6 +27,15 @@ if (!function_exists('auth')) {
 }
 
 if (!function_exists('cache')) {
+
+    /**
+     * This returns the service provider 'cache'
+     *
+     * @param string|mixed $option If string passed, it will automatically
+     * interpret as ->get(...), if array the index 0 will be the key and value
+     * will be index 1
+     * @return mixed
+     */
     function cache($option = null)
     {
         $cache = di()->get('cache');
@@ -39,6 +60,17 @@ if (!function_exists('cache')) {
 }
 
 if (!function_exists('config')) {
+
+    /**
+     * This returns the service provider 'config'
+     *
+     * @param string|mixed $option If string passed, it will automatically
+     *      interpret as ->get(...), if array it will merge/replace based on
+     *      [$merge = true]
+     * @param bool $merge If true, it will automatically merge, else if false
+     *      it will replace a config
+     * @return mixed
+     */
     function config($option = null, $merge = true)
     {
         $config = di()->get('config');
@@ -90,6 +122,12 @@ if (!function_exists('config')) {
 }
 
 if (!function_exists('db')) {
+
+    /**
+     * This returns the service provider 'db'
+     *
+     * @return mixed
+     */
     function db()
     {
         return di()->get('db');
@@ -97,6 +135,12 @@ if (!function_exists('db')) {
 }
 
 if (!function_exists('dispatcher')) {
+
+    /**
+     * This returns the service provider 'dispatcher'
+     *
+     * @return mixed
+     */
     function dispatcher()
     {
         return di()->get('dispatcher');
@@ -104,6 +148,12 @@ if (!function_exists('dispatcher')) {
 }
 
 if (!function_exists('filter')) {
+
+    /**
+     * This returns the service provider 'filter'
+     *
+     * @return mixed
+     */
     function filter()
     {
         return di()->get('filter');
@@ -111,6 +161,12 @@ if (!function_exists('filter')) {
 }
 
 if (!function_exists('flash')) {
+
+    /**
+     * This returns the service provider 'flash'
+     *
+     * @return mixed
+     */
     function flash()
     {
         return di()->get('flash');
@@ -118,6 +174,12 @@ if (!function_exists('flash')) {
 }
 
 if (!function_exists('flash_bag')) {
+
+    /**
+     * This returns the service provider 'flash_bag'
+     *
+     * @return mixed
+     */
     function flash_bag()
     {
         return di()->get('flash_bag');
@@ -125,6 +187,14 @@ if (!function_exists('flash_bag')) {
 }
 
 if (!function_exists('flysystem')) {
+
+    /**
+     * This returns the service provider 'flysystem',
+     * If you passed a value in argument 1, it will call ->get($path) instead
+     *
+     * @param string $path The path to be referenced
+     * @return mixed
+     */
     function flysystem($path = null)
     {
         $flysystem = di()->get('flysystem');
@@ -140,6 +210,15 @@ if (!function_exists('flysystem')) {
 }
 
 if (!function_exists('flysystem_manager')) {
+
+    /**
+     * This returns the service provider 'flsystem_manager',
+     * If you passed a value in argument 1, it will create a local adapter
+     * based on the provided path
+     *
+     * @param string $path The local path to be referenced
+     * @return mixed
+     */
     function flysystem_manager($path = null)
     {
         # here, if there is assigned path
@@ -157,6 +236,12 @@ if (!function_exists('flysystem_manager')) {
 }
 
 if (!function_exists('lang')) {
+
+    /**
+     * This returns the service provider 'lang'
+     *
+     * @return mixed
+     */
     function lang()
     {
         return di()->get('lang');
@@ -164,6 +249,12 @@ if (!function_exists('lang')) {
 }
 
 if (!function_exists('log')) {
+
+    /**
+     * This returns the service provider 'log'
+     *
+     * @return mixed
+     */
     function log()
     {
         return di()->get('log');
@@ -171,6 +262,12 @@ if (!function_exists('log')) {
 }
 
 if (!function_exists('queue')) {
+
+    /**
+     * This returns the service provider 'queue'
+     *
+     * @return mixed
+     */
     function queue()
     {
         return di()->get('queue');
@@ -178,6 +275,13 @@ if (!function_exists('queue')) {
 }
 
 if (!function_exists('redirect')) {
+
+    /**
+     * This returns the service provider 'redirect'
+     *
+     * @param string $to To be interpreted as uri, where 'to' redirect
+     * @return mixed
+     */
     function redirect($to = null)
     {
         $redirect = di()->get('redirect');
@@ -190,6 +294,12 @@ if (!function_exists('redirect')) {
 }
 
 if (!function_exists('request')) {
+
+    /**
+     * This returns the service provider 'request'
+     *
+     * @return mixed
+     */
     function request()
     {
         return di()->get('request');
@@ -197,6 +307,12 @@ if (!function_exists('request')) {
 }
 
 if (!function_exists('response')) {
+
+    /**
+     * This returns the service provider 'response'
+     *
+     * @return mixed
+     */
     function response()
     {
         return di()->get('response');
@@ -204,6 +320,15 @@ if (!function_exists('response')) {
 }
 
 if (!function_exists('route')) {
+
+    /**
+     * This returns the service provider 'route', if you passed a value on first argument
+     * it will call the url() helper instead and will call ->route($name, $params)
+     *
+     * @param string $name The route name
+     * @param mixed $params The parameters of your route
+     * @return mixed
+     */
     function route($name = null, $params = [])
     {
         if ($name === null) {
@@ -215,6 +340,12 @@ if (!function_exists('route')) {
 }
 
 if (!function_exists('security')) {
+
+    /**
+     * This returns the service provider 'security'
+     *
+     * @return mixed
+     */
     function security()
     {
         return di()->get('security');
@@ -222,6 +353,12 @@ if (!function_exists('security')) {
 }
 
 if (!function_exists('session')) {
+
+    /**
+     * This returns the service provider 'session'
+     *
+     * @return mixed
+     */
     function session()
     {
         return di()->get('session');
@@ -229,6 +366,12 @@ if (!function_exists('session')) {
 }
 
 if (!function_exists('tag')) {
+
+    /**
+     * This returns the service provider 'tag'
+     *
+     * @return mixed
+     */
     function tag()
     {
         return di()->get('tag');
@@ -236,6 +379,15 @@ if (!function_exists('tag')) {
 }
 
 if (!function_exists('url')) {
+
+    /**
+     * This returns the service provider 'url', if $href filled with uri,
+     * it should automatically call the ->get($href, $params = []);
+     *
+     * @param string $href The uri/url to use
+     * @param mixed $params The parameters to append
+     * @return mixed
+     */
     function url($href = null, $params = [])
     {
         $url = di()->get('url');
@@ -249,6 +401,16 @@ if (!function_exists('url')) {
 }
 
 if (!function_exists('view')) {
+
+    /**
+     * This returns the service provider 'view',
+     * If a value passed in argument 1, it will call the view instance along
+     * ->make(<argument 1>, $params = [] | <argument 2>)
+     *
+     * @param string $path
+     * @param mixed $params
+     * @return mixed
+     */
     function view($path = null, $params = [])
     {
         $view = di()->get('view');
