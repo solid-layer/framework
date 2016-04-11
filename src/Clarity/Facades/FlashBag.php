@@ -13,8 +13,14 @@
  */
 namespace Clarity\Facades;
 
+/**
+ * This is the facade calling the alias 'flash_bag'
+ */
 class FlashBag extends Facade
 {
+    /**
+     * {@inheritdoc}
+     */
     protected static function getFacadeAccessor()
     {
         return 'flash_bag';

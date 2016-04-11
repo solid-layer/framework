@@ -13,8 +13,14 @@
  */
 namespace Clarity\Facades;
 
+/**
+ * This is the facade calling the alias 'request'
+ */
 class Request extends Facade
 {
+    /**
+     * {@inheritdoc}
+     */
     protected static function getFacadeAccessor()
     {
         return 'request';

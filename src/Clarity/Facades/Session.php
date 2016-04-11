@@ -13,8 +13,14 @@
  */
 namespace Clarity\Facades;
 
+/**
+ * This is the facade calling the alias 'session'
+ */
 class Session extends Facade
 {
+    /**
+     * {@inheritdoc}
+     */
     protected static function getFacadeAccessor()
     {
         return 'session';
