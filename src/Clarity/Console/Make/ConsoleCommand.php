@@ -16,12 +16,24 @@ namespace Clarity\Console\Make;
 use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that generates a brood console template
+ */
 class ConsoleCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'make:console';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Generate a new console';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $arg_name = ucfirst($this->input->getArgument('name'));
@@ -45,6 +57,9 @@ class ConsoleCommand extends SlayerCommand
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function arguments()
     {
         return [

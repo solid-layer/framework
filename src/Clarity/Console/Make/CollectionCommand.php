@@ -17,12 +17,24 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that generates a collection template
+ */
 class CollectionCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'make:collection';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Create a new collection';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $arg_name = ucfirst($this->input->getArgument('collection'));
@@ -53,6 +65,9 @@ class CollectionCommand extends SlayerCommand
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function arguments()
     {
         return [
@@ -64,6 +79,9 @@ class CollectionCommand extends SlayerCommand
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function options()
     {
         return [

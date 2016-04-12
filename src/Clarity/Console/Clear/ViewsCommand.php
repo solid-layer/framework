@@ -17,13 +17,26 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that clears the cache'd views
+ */
 class ViewsCommand extends SlayerCommand
 {
     use ClearTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'clear:views';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Clear the storage/views folder';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $this->clear(

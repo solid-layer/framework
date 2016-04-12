@@ -18,9 +18,10 @@ if (!function_exists('base_uri')) {
      */
     function base_uri($extend_path = null)
     {
-        return url()->getScheme().url_trimmer(
-            url()->getHost().'/'.$extend_path
-        );
+        $url = url()->getHost();
+        $scheme = url()->getScheme();
+
+        return url_trimmer($scheme.'/'.$url.'/'.$extend_path);
     }
 }
 

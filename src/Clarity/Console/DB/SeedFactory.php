@@ -16,12 +16,24 @@ namespace Clarity\Console\DB;
 use Clarity\Support\DB\Factory;
 use Clarity\Console\SlayerCommand;
 
+/**
+ * A console command that fills/seeds the database
+ */
 class SeedFactory extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'db:seed:factory';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Seed based on the factories';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $factory = new Factory($this);

@@ -50,6 +50,8 @@ class Dispatcher extends ServiceProvider
 
         $dispatcher->setDefaultNamespace('App\Controllers');
 
+        $dispatcher->setActionSuffix('');
+
         return $dispatcher;
     }
 }

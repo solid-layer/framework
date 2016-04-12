@@ -16,11 +16,24 @@ namespace Clarity\Console\Server;
 use Clarity\Console\CLI;
 use Clarity\Console\SlayerCommand;
 
+/**
+ * A console command that determines the current environment
+ */
 class EnvCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'env';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Get current environment';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $timeout = $this->getInput()->getOption('timeout');

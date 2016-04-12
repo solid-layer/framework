@@ -17,12 +17,24 @@ use Clarity\Console\CLI;
 use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that executes a script
+ */
 class RunCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'run';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Automated scripts to be run.';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $script = $this->input->getArgument('script');
@@ -37,13 +49,12 @@ class RunCommand extends SlayerCommand
 
         $lines = $lists[$script];
 
-        $output = CLI::bash($lines);
-
-        if ( $output ) {
-            $this->comment($output);
-        }
+        CLI::bash($lines);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function arguments()
     {
         return [

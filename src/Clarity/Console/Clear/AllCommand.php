@@ -18,13 +18,26 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that calls all the clear commands
+ */
 class AllCommand extends SlayerCommand
 {
     use ClearTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'clear:all';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Clear all listed';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         CLI::bash([

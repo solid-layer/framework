@@ -15,18 +15,27 @@ namespace Clarity\Console;
 
 use Symfony\Component\Process\Process;
 
+/**
+ * A cli class that mock the same cli commands
+ */
 class CLI
 {
-    public static function bash($lines)
+    /**
+     * It executes all the requested commands
+     *
+     * @param mixed $lines An array lists of all bash commands
+     * @return string The output
+     */
+    public static function bash(array $lines)
     {
         foreach ($lines as $line) {
             $proc = new Process($line);
 
             $proc->run(function ($type, $buffer) {
                 if (Process::ERR === $type) {
-                    echo "\e[37m{$buffer}\e[37m";
+                    echo "\e[37m{$buffer}\e[37m\n";
                 } else {
-                    echo "\e[32m{$buffer}\e[37m";
+                    echo "\e[32m{$buffer}\e[37m\n";
                 }
             });
         }

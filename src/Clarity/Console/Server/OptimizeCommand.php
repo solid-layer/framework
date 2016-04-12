@@ -16,32 +16,53 @@ namespace Clarity\Console\Server;
 use Clarity\Console\CLI;
 use Clarity\Console\SlayerCommand;
 
+/**
+ * A console command that optimized the whole system
+ */
 class OptimizeCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'optimize';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = "Compile all the classes in to a single file.";
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $this->callComposerOptimizer();
         $this->callClassPreloader();
     }
 
+    /**
+     * This calls the class preloader to combine class files
+     *
+     * @return void
+     */
     protected function callClassPreloader()
     {
-        $output = CLI::bash([
+        CLI::bash([
             'php vendor/classpreloader/console/classpreloader.php compile ' .
             '--config="bootstrap/compiler.php" ' .
             '--output="' . config()->path->storage . '/slayer/compiled.php" ' .
             '--strip_comments=1',
         ]);
-
-        $this->comment($output);
     }
 
+    /**
+     * This calls the 'composer dumpautoload --optimize'
+     *
+     * @return void
+     */
     protected function callComposerOptimizer()
     {
-        $output = CLI::bash([
+        CLI::bash([
             'composer dumpautoload --optimize',
         ]);
 
@@ -51,7 +72,5 @@ class OptimizeCommand extends SlayerCommand
         if ( file_exists($compiled_file) ) {
             unlink($compiled_file);
         }
-
-        $this->comment($output);
     }
 }

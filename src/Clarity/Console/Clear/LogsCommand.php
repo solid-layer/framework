@@ -17,13 +17,26 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that clears the storage logs
+ */
 class LogsCommand extends SlayerCommand
 {
     use ClearTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'clear:logs';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Clear the storage/logs folder';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $this->clear(storage_path('logs'));

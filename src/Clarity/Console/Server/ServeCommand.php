@@ -16,12 +16,24 @@ namespace Clarity\Console\Server;
 use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * A console command that serves a module
+ */
 class ServeCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'serve';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $description = "Serve the application on the PHP development server";
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         chdir(url_trimmer(config()->path->root.'public'));
@@ -36,6 +48,9 @@ class ServeCommand extends SlayerCommand
         passthru(PHP_BINARY." -S {$host}:{$port} -t {$current_dir} -F {$file}");
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function options()
     {
         $host = '0.0.0.0';

@@ -18,11 +18,24 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that publishes a vendor's contents/files/configurations
+ */
 class PublishCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'vendor:publish';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Publish a vendor package';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $tag_name = $this->input->getOption('tag');
@@ -65,6 +78,9 @@ class PublishCommand extends SlayerCommand
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function arguments()
     {
         return [
@@ -72,6 +88,9 @@ class PublishCommand extends SlayerCommand
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function options()
     {
         return [

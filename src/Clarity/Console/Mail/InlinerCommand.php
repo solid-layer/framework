@@ -17,9 +17,19 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
+/**
+ * A console command that converts templates into inlined
+ */
 class InlinerCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'mail:inliner';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Inline templates to make it suitable for emails';
 
     /**
@@ -48,64 +58,55 @@ class InlinerCommand extends SlayerCommand
      * into an email based html
      *
      * @param mixed $record assigned key from inliner config
-     * @return null
+     * @return void
      */
     protected function parse($record)
     {
-        # - instatiate the package inliner
-
+        # instatiate the package inliner
         $inliner = new CssToInlineStyles;
 
 
-        # - let's get the views dir combine the record file
-
+        # let's get the views dir combine the record file
         $base_file = url_trimmer(
-            di()->get('view')->getViewsDir() . $record->file . '.*'
+            di()->get('view')->getViewsDir().$record->file.'.*'
         );
 
 
-        # - now get all related glob
-
+        # now get all related glob
         $related_files = glob($base_file);
-        if (empty( $related_files ) === true) {
-            $this->comment('   System can\'t find the file: ' . $base_file);
+        if (empty($related_files) === true) {
+            $this->comment('   System can\'t find the file: '.$base_file);
 
             return;
         }
 
 
-        # - set the html
-
+        # set the html
         $inliner->setHTML(
-            file_get_contents($related_files[ 0 ])
+            file_get_contents($related_files[0])
         );
 
 
-        # - set the css files
-
+        # set the css files
         $inliner->setCSS(
-            $this->combineCss($record[ 'css' ])
+            $this->combineCss($record['css'])
         );
 
 
-        # -  get the dirname and file name
+        #  get the dirname and file name
+        $dirname = dirname($related_files[0]);
+        $converted_name = basename($record->file).'-inlined.volt';
 
-        $dirname = dirname($related_files[ 0 ]);
-        $converted_name = basename($record->file) . '-inlined.volt';
 
-
-        # - overwrite or create a file based on the dirname
-        # and file name
-
+        # overwrite or create a file based on the dirname and file name
         file_put_contents(
-            $dirname . '/' . $converted_name,
+            $dirname.'/'.$converted_name,
             rawurldecode($inliner->convert())
         );
 
 
-        # - log, show some sucess
-
-        $this->comment('   ' . basename($record->file) . ' inlined! saved as ' . $converted_name);
+        # log, show some sucess
+        $this->comment('   '.basename($record->file).' inlined! saved as '.$converted_name);
     }
 
     /**
@@ -113,28 +114,24 @@ class InlinerCommand extends SlayerCommand
      */
     public function slash()
     {
-        # - show some pretty comments that we're now inlining
-
+        # show some pretty comments that we're now inlining
         $this->comment('Inlining...');
 
 
-        # - let's get if there's an option assigned to 'record'
-
+        # let's get if there's an option assigned to 'record'
         $record = $this->input->getOption('record');
 
 
-        # - get all the records in inliner.php file
-
+        # get all the records in inliner.php file
         $records = config()->inliner->toArray();
 
 
-        # - determine if option 'record' is not empty
+        # determine if option 'record' is not empty
         # then we should get the specific inline key
-
         if (strlen($record) != 0) {
 
-            if (isset( $records[ $record ] ) === false) {
-                $this->error($record . ' not found!');
+            if (isset($records[$record]) === false) {
+                $this->error($record.' not found!');
 
                 return;
             }
@@ -142,8 +139,7 @@ class InlinerCommand extends SlayerCommand
             $this->parse(config()->inliner->{$record});
         }
 
-        # - or, else parse all the inliner
-
+        # or, else parse all the inliner
         else {
             foreach (config()->inliner as $record) {
                 $this->parse($record, true);

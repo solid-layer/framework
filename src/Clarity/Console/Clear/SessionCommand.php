@@ -17,13 +17,26 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that clears the session storage
+ */
 class SessionCommand extends SlayerCommand
 {
     use ClearTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'clear:session';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Clear the storage/session folder';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $this->clear(storage_path('session'));

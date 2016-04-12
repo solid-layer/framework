@@ -17,13 +17,26 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that clears compiled.php file
+ */
 class CompiledCommand extends SlayerCommand
 {
     use ClearTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'clear:compiled';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Clear the compiled classes';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $this->clear(

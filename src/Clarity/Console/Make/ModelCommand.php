@@ -17,12 +17,24 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that generates a model template
+ */
 class ModelCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'make:model';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Generate a database model';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $arg_name = ucfirst($this->input->getArgument('model'));
@@ -54,6 +66,9 @@ class ModelCommand extends SlayerCommand
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function arguments()
     {
         return [
@@ -65,6 +80,9 @@ class ModelCommand extends SlayerCommand
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function options()
     {
         return [

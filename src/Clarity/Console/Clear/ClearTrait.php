@@ -13,12 +13,27 @@
  */
 namespace Clarity\Console\Clear;
 
+/**
+ * A console command that clears the storage cache
+ */
 trait ClearTrait
 {
+    /**
+     * Lists of ignored files
+     *
+     * @var mixed
+     */
     private $ignored_files = [
         '.gitignore',
     ];
 
+    /**
+     * This recursively clears all files including folders, based on the $path
+     * provided
+     *
+     * @param string $path The designated path to be cleared
+     * @return void
+     */
     public function clear($path)
     {
         $files = new \RecursiveIteratorIterator(

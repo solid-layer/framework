@@ -87,7 +87,7 @@ class Kernel
     {
         config(['modules' => $this->modules]);
 
-        di()->get('application')->registerModules(config()->modules->toArray());
+        di('application')->registerModules(config()->modules->toArray());
 
         return $this;
     }
@@ -97,7 +97,7 @@ class Kernel
      */
     public function render()
     {
-        echo di()->get('application')->handle()->getContent();
+        echo di('application')->handle()->getContent();
     }
 
     /**
@@ -108,7 +108,7 @@ class Kernel
      */
     public function run($module_name)
     {
-        di()->get('application')->setDefaultModule($module_name);
+        di('application')->setDefaultModule($module_name);
 
         $path = url_trimmer(config()->path->app.'/'.$module_name.'/routes.php');
 

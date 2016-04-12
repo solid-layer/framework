@@ -18,9 +18,19 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use League\Flysystem\Adapter\Local as LeagueFlysystemAdapterLocal;
 
+/**
+ * A console command that generates a route template
+ */
 class RouteCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name        = 'app:route';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Generate a new route group';
 
     private $app;
@@ -34,6 +44,9 @@ class RouteCommand extends SlayerCommand
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $app_path = str_replace(BASE_PATH, '', config()->path->app);
@@ -95,6 +108,9 @@ class RouteCommand extends SlayerCommand
         $this->callDumpAutoload();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function arguments()
     {
         $arguments = [

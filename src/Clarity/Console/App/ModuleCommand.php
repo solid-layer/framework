@@ -16,6 +16,9 @@ namespace Clarity\Console\App;
 use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that generate a set of module
+ */
 class ModuleCommand extends SlayerCommand
 {
     protected $name = 'app:module';
@@ -179,7 +182,6 @@ class ModuleCommand extends SlayerCommand
      * provided content
      *
      * @param $stub_content
-     *
      * @return string
      */
     private function getContentByStub($stub_content)

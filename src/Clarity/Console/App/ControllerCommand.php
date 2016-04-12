@@ -17,6 +17,9 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A console command that generates a controller template
+ */
 class ControllerCommand extends SlayerCommand
 {
     protected $name = 'app:controller';
@@ -68,7 +71,6 @@ class ControllerCommand extends SlayerCommand
      * Get the controller name
      *
      * @param $is_path
-     *
      * @return string
      */
     protected function getControllerName($is_path = true)
