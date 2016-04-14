@@ -115,10 +115,16 @@ class DB extends ServiceProvider
 
             if ( $event->getType() == 'beforeQuery' ) {
 
+                $logging_name = 'db';
+
+                if (logging_extension()) {
+                    $logging_name = 'db-'.logging_extension();
+                }
+
                 $logger = new Logger('DB');
                 $logger->pushHandler(
                     new StreamHandler(
-                        storage_path('logs').'/db-'.logging_extension().'.log',
+                        storage_path('logs').'/'.$logging_name.'.log',
                         Logger::INFO
                     )
                 );
