@@ -187,3 +187,14 @@ if (!function_exists('logging_extension')) {
         return $ext;
     }
 }
+
+if (!function_exists('is_cli')) {
+    function is_cli()
+    {
+        if (php_sapi_name() === 'cli') {
+            return true;
+        }
+
+        return false;
+    }
+}

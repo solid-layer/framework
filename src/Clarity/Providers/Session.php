@@ -27,6 +27,10 @@ class Session extends ServiceProvider
 
     public function register()
     {
+        if (is_cli()) {
+            return $this;
+        }
+
         $adapter = config()->session->{$this->getSelectedAdapter()}->toArray();
 
         $config = [];
