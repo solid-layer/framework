@@ -22,7 +22,7 @@ class DB extends ServiceProvider
 {
     private $adapters;
     protected $alias = 'db';
-    protected $shared = false;
+    protected $shared = true;
 
     public function __construct()
     {
