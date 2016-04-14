@@ -13,7 +13,15 @@
  */
 namespace Clarity\Contracts\Flysystem;
 
+/**
+ * An adapter interface for flysystem
+ */
 interface AdapterInterface
 {
+    /**
+     * Get the adapter
+     *
+     * @return mixed
+     */
     public function getAdapter();
 }

@@ -19,8 +19,16 @@ use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use Clarity\Services\Service\ServiceContainer;
 
+/**
+ * A class trait of @see (Clarity\Kernel\Kernel)
+ */
 trait KernelTrait
 {
+    /**
+     * Instantiate a factory dependency injection
+     *
+     * @return \Clarity\Kernel\Kernel
+     */
     protected function loadFactory()
     {
         $this->di = new FactoryDefault;
@@ -28,11 +36,15 @@ trait KernelTrait
         return $this;
     }
 
+    /**
+     * Load the configurations
+     *
+     * @return void
+     */
     protected function loadConfig()
     {
         # let's create an empty config with just an empty
         # array, this is just for us to prepare the config
-
         $this->di->set('config', function() {
             return new Config([]);
         }, true);
@@ -40,18 +52,15 @@ trait KernelTrait
 
         # get the paths and merge the array values to the
         # empty config as we instantiated above
-
         config(['path' => $this->path]);
 
 
         # now merge the assigned environment
-
         config(['environment' => $this->getEnvironment()]);
 
 
         # iterate all the base config files and require
         # the files to return an array values
-
         $base_config_files = iterate_require(
             folder_files($this->path['config'])
         );
@@ -59,7 +68,6 @@ trait KernelTrait
 
         # iterate all the environment config files and
         # process the same thing as the base config files
-
         $env_config_files = iterate_require(
             folder_files(
                 url_trimmer(
@@ -71,21 +79,31 @@ trait KernelTrait
 
         # merge the base config files and the environment
         # config files as one in the our DI 'config'
-
         config($base_config_files);
         config($env_config_files);
     }
 
+    /**
+     * Load the project timezone
+     *
+     * @return void
+     */
     protected function loadTimeZone()
     {
         date_default_timezone_set(config()->app->timezone);
     }
 
+    /**
+     * Load the providers
+     *
+     * @param  boolean $after_module If you want to load services after calling
+     *                               run() function
+     * @return void
+     */
     protected function loadServices($after_module = false)
     {
         # load all the service providers, providing our
         # native phalcon classes
-
         $container = new ServiceContainer;
 
         foreach (config()->app->services as $provider) {

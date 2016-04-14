@@ -19,8 +19,14 @@ use Symfony\Component\Debug\ExceptionHandler;
 use Monolog\ErrorHandler as MonologErrorHandler;
 use Symfony\Component\Debug\Exception\FlattenException;
 
+/**
+ * The main exception handler
+ */
 class Handler extends Exception
 {
+    /**
+     * {@inheritdoc}
+     */
     public function __construct($message = null, $code = null, $previous = null)
     {
         parent::__construct($message, $code, $previous);
@@ -53,7 +59,6 @@ class Handler extends Exception
      * @param string $file    the file affected by the error
      * @param int    $line    on what line affects
      * @param string $context the context
-     *
      * @return void
      */
     public function handleError($num, $str, $file, $line, $context = null)
@@ -69,6 +74,7 @@ class Handler extends Exception
      * Print outs a simple but useful debugging ui
      *
      * @param $e
+     * @return void
      */
     public function handleExceptionError($e)
     {
@@ -79,12 +85,11 @@ class Handler extends Exception
      * Render the exception
      *
      * @param mixed $e
-     *
      * @return mixed
      */
     public function render($e, $status_code = null)
     {
-        if ( php_sapi_name() == 'cli' ) {
+        if (is_cli()) {
             dd($e) . "\n";
 
             return;
@@ -117,17 +122,14 @@ class Handler extends Exception
      */
     protected function report()
     {
-        # - let monolog handle the logging in the errors,
+        # let monolog handle the logging in the errors,
         # unless you want it to, you can refer to method
         # handleExceptionError()
-
         if ( di()->has('log') ) {
             MonologErrorHandler::register(di()->get('log'));
         }
 
-
-        # - register all the the loggers we have
-
+        # register all the the loggers we have
         register_shutdown_function([$this, 'handleFatalError']);
         set_error_handler([$this, 'handleError']);
         set_exception_handler([$this, 'handleExceptionError']);

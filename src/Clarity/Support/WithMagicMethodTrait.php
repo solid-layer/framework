@@ -13,7 +13,7 @@
  */
 namespace Clarity\Support;
 
-use Clarity\Exceptions\BadMethodCallException;
+use BadMethodCallException;
 
 trait WithMagicMethodTrait
 {

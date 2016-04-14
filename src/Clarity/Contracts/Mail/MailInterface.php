@@ -13,10 +13,13 @@
  */
 namespace Clarity\Contracts\Mail;
 
+/**
+ * A mail interface for adapter handling
+ */
 interface MailInterface
 {
     /**
-     * [attach description]
+     * Attach a file
      */
     public function attach($file);
 

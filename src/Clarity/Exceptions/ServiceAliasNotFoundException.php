@@ -13,4 +13,7 @@
  */
 namespace Clarity\Exceptions;
 
+/**
+ * An exception known when a service provider does not have an alias
+ */
 class ServiceAliasNotFoundException extends Handler {}

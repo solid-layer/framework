@@ -13,4 +13,7 @@
  */
 namespace Clarity\Exceptions;
 
+/**
+ * An exception known for CSRF/Unwanted access
+ */
 class AccessNotAllowedException extends Handler {}

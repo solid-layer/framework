@@ -17,15 +17,46 @@ namespace Clarity\Kernel;
 use Clarity\Providers\Log;
 use Clarity\Services\Service\ServiceContainer;
 
+/**
+ * Acts like a manager that initializes all the configurations/environments and module.
+ */
 class Kernel
 {
     use KernelTrait;
 
+    /**
+     * The dependency injection
+     *
+     * @var mixed
+     */
     private $di;
+
+    /**
+     * The configured environment
+     *
+     * @var string
+     */
     private $env;
+
+    /**
+     * The path/paths provided
+     *
+     * @var mixed
+     */
     private $path;
+
+    /**
+     * The modules pre-inserted
+     *
+     * @var mixed
+     */
     private $modules;
 
+    /**
+     * Initialize load
+     *
+     * @return void
+     */
     public function initialize()
     {
         $this->loadFactory();
@@ -73,6 +104,11 @@ class Kernel
         return $this;
     }
 
+    /**
+     * Get the environment
+     *
+     * @return string Current environment
+     */
     public function getEnvironment()
     {
         return $this->env;

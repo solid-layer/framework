@@ -13,4 +13,7 @@
  */
 namespace Clarity\Exceptions;
 
+/**
+ * An exception known for Controller or Action not found
+ */
 class ControllerNotFoundException extends Handler {}

@@ -21,7 +21,14 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class ModuleCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'app:module';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Generate a new module';
 
     /**

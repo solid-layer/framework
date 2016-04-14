@@ -13,4 +13,7 @@
  */
 namespace Clarity\Exceptions;
 
+/**
+ * An exception known for File not found
+ */
 class FileNotFoundException extends Handler {}
