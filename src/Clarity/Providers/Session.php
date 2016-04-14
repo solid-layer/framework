@@ -27,10 +27,6 @@ class Session extends ServiceProvider
 
     public function register()
     {
-        if (is_cli()) {
-            return $this;
-        }
-
         $adapter = config()->session->{$this->getSelectedAdapter()}->toArray();
 
         $config = [];
@@ -54,8 +50,18 @@ class Session extends ServiceProvider
         return $session;
     }
 
+    /**
+     * This handles the session file
+     *
+     * @param  mixed $config
+     * @return void
+     */
     protected function handleSessionFile($config)
     {
+        if (is_cli()) {
+            return;
+        }
+
         $session_path = url_trimmer(config()->path->storage.'/session');
 
         session_save_path($session_path);
