@@ -38,7 +38,7 @@ class Builder
      */
     public function merge($key, array $value)
     {
-        $this->config[$key] = array_merge_recursive(
+        $this->config[$key] = array_merge(
             $this->config[$key],
             $value
         );
@@ -64,7 +64,7 @@ class Builder
     public function validate($check_all = ValidatingArrayLoader::CHECK_ALL)
     {
         $tmpfile = tmpfile();
-        fwrite($tmpfile, json_encode($this->config));
+        fwrite($tmpfile, $this->render());
         fseek($tmpfile, 0);
         $metadata = stream_get_meta_data($tmpfile);
 
