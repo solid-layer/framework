@@ -101,20 +101,22 @@ abstract class SlayerCommand extends Command
     {
         $env = $this->getInput()->getOption('env');
 
+        $used_env = '';
         $folder = '';
+
+        if (config('environment')) {
+            $folder = $used_env = config('environment');
+        }
 
         if ($env !== null) {
             config(['environment' => $env]);
-        }
-
-        if ($env !== 'production') {
-            $folder = $env ?: config('environment');
+            $folder = $used_env = $env;
         }
 
         $folder_path = url_trimmer(config()->path->config.'/'.$folder);
 
         if ( file_exists($folder_path) === false ) {
-            throw new InvalidOptionException("Environment [$env] not found.");
+            $this->error("Config Folder [$used_env] not found.");
         }
 
         config(
