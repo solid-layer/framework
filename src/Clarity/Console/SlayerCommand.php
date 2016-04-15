@@ -108,7 +108,7 @@ abstract class SlayerCommand extends Command
         }
 
         if ($env !== 'production') {
-            $folder = $env;
+            $folder = $env ?: config('environment');
         }
 
         $folder_path = url_trimmer(config()->path->config.'/'.$folder);
