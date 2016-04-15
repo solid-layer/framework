@@ -18,6 +18,10 @@ if (!function_exists('base_uri')) {
      */
     function base_uri($extend_path = null)
     {
+        if (is_cli()) {
+            return;
+        }
+
         $url = url()->getHost();
         $scheme = url()->getScheme();
 
