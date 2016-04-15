@@ -90,7 +90,13 @@ class Handler extends Exception
     public function render($e, $status_code = null)
     {
         if (is_cli()) {
-            dd($e) . "\n";
+
+            dd([
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
 
             return;
         }
