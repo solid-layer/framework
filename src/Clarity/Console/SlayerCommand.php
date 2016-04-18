@@ -277,6 +277,24 @@ abstract class SlayerCommand extends Command
     }
 
     /**
+     * To print a message block
+     *
+     * @param  string $message Your message
+     * @param  string $color   The color to set
+     * @return void
+     */
+    public function block($message, $color = 'bg=blue;fg=white', $large = true)
+    {
+        $formatter = $this->getHelperSet()->get('formatter');
+
+        $this->output->writeln(array(
+            '',
+            $formatter->formatBlock($message, $color, $large),
+            '',
+        ));
+    }
+
+    /**
      * This prints-out an error colored message
      *
      * @param  string $message The message to be printed
@@ -303,7 +321,7 @@ abstract class SlayerCommand extends Command
             $e->getLine()
         );
 
-        $this->error("\n".$message."\n");
+        $this->block($message, 'bg=red;fg=white');
     }
 
     /**

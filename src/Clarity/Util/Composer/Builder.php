@@ -38,7 +38,7 @@ class Builder
      */
     public function merge($key, array $value)
     {
-        $this->config[$key] = array_merge(
+        $this->config[$key] = array_merge_recursive(
             $this->config[$key],
             $value
         );
@@ -61,6 +61,22 @@ class Builder
         );
     }
 
+    /**
+     * Return the raw config
+     *
+     * @return mixed Array of config
+     */
+    public function toArray()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Validate config
+     *
+     * @param  int $check_all
+     * @return mixed
+     */
     public function validate($check_all = ValidatingArrayLoader::CHECK_ALL)
     {
         $tmpfile = tmpfile();
@@ -83,7 +99,7 @@ class Builder
         if (!empty($publish_errors)) {
             return [
                 'valid' => false,
-                'publish_errors' => $publish_errors,
+                'errors' => $publish_errors,
             ];
         }
 
