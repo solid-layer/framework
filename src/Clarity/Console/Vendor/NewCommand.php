@@ -70,13 +70,14 @@ class NewCommand extends SlayerCommand
 
         $composer = new Composer;
 
-        $package = 'root/'.basename(realpath(''));
+        $package = '';
+        $default = 'root/'.basename(realpath(''));
 
         $composer->set(
             'name',
-            $this->ask(
-                'Package name (<vendor>/<name>) ['.$package.']: ',
-                $package
+            $package = $this->ask(
+                'Package name (<vendor>/<name>) ['.$default.']: ',
+                $default
             )
         );
 
