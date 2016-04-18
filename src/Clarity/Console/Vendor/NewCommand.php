@@ -158,10 +158,11 @@ class NewCommand extends SlayerCommand
             $package => '*',
         ]);
 
+        $repo = str_replace(realpath('').'/', '', $this->getSandboxPath()).$package;
         $composer->merge('repositories', [
-            [
+            $repo => [
                 'type' => 'path',
-                'url'  => str_replace(realpath('').'/', '', $this->getSandboxPath()).$package
+                'url'  => $repo,
             ]
         ]);
 
