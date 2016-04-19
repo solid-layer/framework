@@ -12,18 +12,21 @@ class Files extends Adapter
     {
         parent::__construct($options);
 
-        if (isset($options['session_storage']) === false) {
-            $options['session_storage'] = url_trimmer(config()->path->storage.'/session');
+        if (!is_cli()) {
+
+            if (isset($options['session_storage']) === false) {
+                $options['session_storage'] = url_trimmer(config()->path->storage.'/session');
+            }
+
+            session_save_path($options['session_storage']);
+
+            session_set_cookie_params(
+                $options['lifetime'],
+                $options['path'],
+                $options['domain'],
+                $options['secure'],
+                $options['httponly']
+            );
         }
-
-        session_save_path($options['session_storage']);
-
-        session_set_cookie_params(
-            $options['lifetime'],
-            $options['path'],
-            $options['domain'],
-            $options['secure'],
-            $options['httponly']
-        );
     }
 }
