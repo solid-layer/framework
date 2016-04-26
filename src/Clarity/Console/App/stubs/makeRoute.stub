@@ -6,7 +6,7 @@ class {routeName}Routes extends RouteGroup
     public function initialize()
     {
         $this->setPaths([
-            'namespace' => '{controllerNamespace}',
+            'namespace'  => '{controllerNamespace}',
             'controller' => '{routeName}',
         ]);
 

@@ -30,7 +30,7 @@
     public function show($id)
     {
         return view('{folderName}.show')
-            ->with('id' => $id)
+            ->with('id', $id)
             ->batch([
                 'var1' => true,
                 'var2' => 'this is another value for $var2',
