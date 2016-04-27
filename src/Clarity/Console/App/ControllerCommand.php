@@ -22,7 +22,14 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class ControllerCommand extends SlayerCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $name = 'app:controller';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $description = 'Generate a new controller';
 
     /**

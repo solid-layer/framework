@@ -15,20 +15,33 @@ namespace Clarity\Providers;
 
 use Phalcon\Flash\Session as PhalconFlashSession;
 
+/**
+ * Flash messages are used to notify the user about the state of actions he/she
+ * made or simply show information to the users.
+ * These kinds of messages can be generated using this component.
+ */
 class FlashBag extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'flash_bag';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
-        $flash_session = new PhalconFlashSession([
+        return new PhalconFlashSession([
             'error'   => 'alert alert-danger',
             'success' => 'alert alert-success',
             'notice'  => 'alert alert-info',
             'warning' => 'alert alert-warning',
         ]);
-
-        return $flash_session;
     }
 }

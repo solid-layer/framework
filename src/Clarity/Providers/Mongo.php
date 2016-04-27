@@ -15,11 +15,24 @@ namespace Clarity\Providers;
 
 use MongoClient;
 
+/**
+ * This provider instantiates the @see \MongoClient
+ */
 class Mongo extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'mongo';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         if ( ! class_exists(MongoClient::class) ) {

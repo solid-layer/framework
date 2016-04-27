@@ -17,13 +17,35 @@ use Exception;
 use Clarity\Services\ServiceMagicMethods;
 use Clarity\Exceptions\ServiceAliasNotFoundException;
 
+/**
+ * This is the abstract provider that could manage class extenders
+ */
 abstract class ServiceProvider
 {
     use ServiceMagicMethods;
 
+    /**
+     * The provider's alias
+     * @var null
+     */
     protected $alias = null;
+
+    /**
+     * Shared if you want to make your provider as singleton
+     * @var boolean
+     */
     protected $shared = false;
+
+    /**
+     * The lists pushishable stack
+     * @var array
+     */
     protected $publish_stack = [];
+
+    /**
+     * This determines if the provider will be called after the module call
+     * @var boolean
+     */
     protected $after_module = false;
 
     /**
@@ -94,7 +116,7 @@ abstract class ServiceProvider
     /**
      * Registered process based on DI scope
      *
-     * @return bool
+     * @return mixed
      */
     abstract public function register();
 

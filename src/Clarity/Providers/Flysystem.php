@@ -16,11 +16,25 @@ namespace Clarity\Providers;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 
+/**
+ * This provider manages all available file system adapters such as local, aws
+ * copy, ftp, rackspace and more
+ */
 class Flysystem extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'flysystem';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         $manager = $this->manager();
@@ -32,6 +46,11 @@ class Flysystem extends ServiceProvider
         return $manager->getFilesystem(config()->app->flysystem);
     }
 
+    /**
+     * This manages all the available file system adapters
+     *
+     * @return \League\Flysystem\MountManager
+     */
     protected function manager()
     {
         $flies = [];

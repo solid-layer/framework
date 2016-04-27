@@ -34,7 +34,13 @@ class NewCommand extends SlayerCommand
      */
     protected $description = 'Create a new vendor package';
 
-
+    /**
+     * Get other possible composer attributes which triggered
+     * after calling the 'name'
+     *
+     * @param  \Clarity\Util\Composer\Builder $composer
+     * @return \Clarity\Util\Composer\Builder
+     */
     protected function otherComposerKeys($composer)
     {
         $composer->set(
@@ -45,16 +51,31 @@ class NewCommand extends SlayerCommand
         return $composer;
     }
 
+    /**
+     * Get the path to save vendor packages
+     *
+     * @return string Return the path pointing to the sandbox
+     */
     protected function getSandboxPath()
     {
         return config()->path->sandbox;
     }
 
+    /**
+     * Get the filesystem manager
+     *
+     * @return mixed
+     */
     protected function getFlysystem()
     {
         return flysystem_manager($this->getSandboxPath());
     }
 
+    /**
+     * Get the stub to initial the provider
+     *
+     * @return string The service provider stub
+     */
     protected function stubContent()
     {
         return file_get_contents(__DIR__.'/stubs/ServiceProvider.stub');

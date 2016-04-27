@@ -15,11 +15,24 @@ namespace Clarity\Providers;
 
 use Clarity\Support\Auth\Auth as BaseAuth;
 
+/**
+ * This provider handles the general authentication
+ */
 class Auth extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'auth';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return new BaseAuth;

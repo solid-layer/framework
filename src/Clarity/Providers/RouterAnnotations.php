@@ -15,11 +15,28 @@ namespace Clarity\Providers;
 
 use Phalcon\Mvc\Router\Annotations as BaseRouter;
 
+/**
+ * This provider provides an alternative way to create routes by inserting
+ * annotations inside controller's action
+ */
 class RouterAnnotations extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'router_annotations';
+
+    /**
+     * {@inheridoc}
+     */
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return new BaseRouter;

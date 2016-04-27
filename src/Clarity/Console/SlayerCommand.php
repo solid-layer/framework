@@ -281,6 +281,7 @@ abstract class SlayerCommand extends Command
      *
      * @param  string $message Your message
      * @param  string $color   The color to set
+     * @param  string $large   If the block is large all just small (default: true)
      * @return void
      */
     public function block($message, $color = 'bg=blue;fg=white', $large = true)

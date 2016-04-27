@@ -18,6 +18,11 @@ use Phalcon\Mvc\View as BaseView;
 use Clarity\Support\WithMagicMethodTrait;
 use Clarity\Exceptions\ViewFileNotFoundException;
 
+/**
+ * This class extends the existing Phalcon\Mvc\View
+ *
+ * We wrap the parent class to be able to create/inject new functions
+ */
 class View extends BaseView
 {
     use WithMagicMethodTrait;
@@ -29,10 +34,10 @@ class View extends BaseView
     const LEVEL_AFTER_TEMPLATE = 4;
     const LEVEL_MAIN_LAYOUT = 5;
 
-
     /**
      * Replacing dots into slashes
      *
+     * @param  string $path The dotted path
      * @return string
      */
     protected function changeDotToSlash($path)
@@ -42,16 +47,19 @@ class View extends BaseView
         return $path;
     }
 
-
     /**
+     * This validates template if exists
      *
+     * @param  string $path The path needed to validate if
+     * atleast a template file exists
      * @return bool
      */
-    public function checkViewPath($path)
+    protected function checkViewPath($path)
     {
         $full_path = di()->get('view')->getViewsDir() . $path;
 
         $result = glob($full_path . '.*');
+
         if (!$result) {
             throw new ViewFileNotFoundException(
                 'Views file path(' . $full_path . ') not found.'
@@ -59,10 +67,12 @@ class View extends BaseView
         }
     }
 
-
     /**
-     * Assigning the view file path
+     * This calls the pick() function which we basically wrap it based
+     * on our needs
      *
+     * @param  string $path The template path to use
+     * @param  mixed $records The data to be passed going to the template
      * @return mixed
      */
     public function make($path, $records = [])
@@ -70,13 +80,16 @@ class View extends BaseView
         $path = $this->changeDotToSlash($path);
         $this->checkViewPath($path);
 
+        $this->batch($records);
+
         return $this->pick($path);
     }
 
-
     /**
-     * Reconstructing setVar using the popular function 'with'
+     * This injects a variable going to view
      *
+     * @param  string $key The variable name
+     * @param  string|bool|int|mixed $value The value of variable
      * @return mixed
      */
     public function with($key, $val)
@@ -84,10 +97,10 @@ class View extends BaseView
         return $this->setVar($key, $val);
     }
 
-
     /**
-     * Reconstructing setVars into a batch arrays
+     * This injects an array going to view to set as variable in it
      *
+     * @param  string $array The data to be passed going to the template
      * @return mixed
      */
     public function batch($array)
@@ -96,11 +109,11 @@ class View extends BaseView
     }
 
     /**
-     * Reconstructing \Phalcon\Tag::setDefault via method chaining
+     * This will fill an existing form element to set a default/persist
+     * form value
      *
-     * @param string $key
-     * @param string $val
-     *
+     * @param string $key The variable name
+     * @param string $val The value of variable
      * @return mixed
      */
     public function formDefault($key, $val)
@@ -111,11 +124,11 @@ class View extends BaseView
     }
 
     /**
-     * Reconstructing \Phalcon\Tag::setDefaults via method chaining
+     * This will fill an existing form element to set a default/persist
+     * form values
      *
-     * @param array $values
-     * @param bool $merge
-     *
+     * @param array $values An array of variables with values in it
+     * @param bool $merge To override/merge an existing tag value
      * @return mixed
      */
     public function formDefaults($values, $merge = false)
@@ -125,16 +138,17 @@ class View extends BaseView
         return $this;
     }
 
-
     /**
-     * Get the content
+     * This returns a raw php/html
      *
+     * @param  string $path The template path to use
+     * @param  mixed $records The data to be passed going to the template
      * @return string
      */
-    public function take($view, $params = [])
+    public function take($path, $records = [])
     {
-        $view = $this->changeDotToSlash($view);
+        $view = $this->changeDotToSlash($path);
 
-        return $this->getRender(null, $view, $params);
+        return $this->getRender(null, $view, $records);
     }
 }

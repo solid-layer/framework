@@ -15,11 +15,24 @@ namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Http\Request as BaseRequest;
 
+/**
+ * This provider manages the dispatcher requests
+ */
 class Request extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'request';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return new BaseRequest;

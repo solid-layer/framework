@@ -15,12 +15,29 @@ namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Mvc\URL as BaseURL;
 
+/**
+ * This provider instantiates the @see \Clarity\Support\Phalcon\Mvc\URL
+ */
 class URL extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'url';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
+
+    /**
+     * {@inheridoc}
+     */
     protected $after_module = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return BaseURL::getInstance();

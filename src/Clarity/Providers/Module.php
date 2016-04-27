@@ -15,16 +15,35 @@ namespace Clarity\Providers;
 
 use Phalcon\Session\Bag as PhalconSessionBag;
 
+/**
+ * This provider manage all registered and injected modules
+ */
 class Module extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'module';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return $this;
     }
 
+    /**
+     * This sets a batch of modules
+     *
+     * @param mixed $modules
+     * @return \Clarity\Providers\Module Returns itself
+     */
     public function setModules(array $modules)
     {
         foreach ($modules as $name => $closure) {
@@ -34,6 +53,13 @@ class Module extends ServiceProvider
         return $this;
     }
 
+    /**
+     * This set a single module
+     *
+     * @param string $name
+     * @param \Closure $closure
+     * @return \Clarity\Providers\Module Returns itself
+     */
     public function setModule($name, $closure)
     {
         $modules = [];
@@ -44,6 +70,13 @@ class Module extends ServiceProvider
         return $this;
     }
 
+    /**
+     * This returns all the available modules
+     *
+     * Which converted into an array format
+     *
+     * @return mixed
+     */
     public function all()
     {
         return config()->modules->toArray();

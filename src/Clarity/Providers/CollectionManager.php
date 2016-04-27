@@ -15,11 +15,25 @@ namespace Clarity\Providers;
 
 use Phalcon\Mvc\Collection\Manager as BaseCollectionManager;
 
+/**
+ * This provider controls the initialization of models, keeping record
+ * of relations between the different models of the application.
+ */
 class CollectionManager extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'collectionManager';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return new BaseCollectionManager;

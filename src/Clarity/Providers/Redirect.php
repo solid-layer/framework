@@ -15,11 +15,24 @@ namespace Clarity\Providers;
 
 use Clarity\Support\Redirect\Redirect as BaseRedirect;
 
+/**
+ * This provider manages the redirection of a page or dispatched request
+ */
 class Redirect extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'redirect';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return new BaseRedirect;

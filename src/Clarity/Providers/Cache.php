@@ -13,16 +13,34 @@
  */
 namespace Clarity\Providers;
 
+/**
+ * This provider manages the cache drivers
+ */
 class Cache extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'cache';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * Get the selected cache adapter
+     *
+     * @return string
+     */
     private function getSelectedAdapter()
     {
         return config()->app->cache_adapter;
     }
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         $adapter = config()->cache->adapters->{$this->getSelectedAdapter()};

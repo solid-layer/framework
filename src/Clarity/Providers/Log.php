@@ -17,11 +17,25 @@ use Exception;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+/**
+ * This provider handles the logging, which by default logs the errors, database
+ * transactions
+ */
 class Log extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'log';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         $logger = new Logger('slayer');

@@ -15,11 +15,25 @@ namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Mvc\Router as BaseRouter;
 
+/**
+ * This provider manages the url routes, which parses and provides a map
+ * which the dispather could interpret and manages to call controller's action
+ */
 class Router extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias  = 'router';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         $router = new BaseRouter(false);

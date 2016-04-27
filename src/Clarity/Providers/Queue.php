@@ -13,9 +13,23 @@
  */
 namespace Clarity\Providers;
 
+/**
+ * This provider manages the available queue adapters and creates/instantiate in it
+ *
+ * Activities like processing videos, resizing images or sending emails aren’t
+ * suitable to be executed online or in real time because it may slow the
+ * loading time of pages and severely impact the user experience.
+ */
 class Queue extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'queue';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
     /**
@@ -31,6 +45,11 @@ class Queue extends ServiceProvider
         return new $class($config);
     }
 
+    /**
+     * Get the selected queuing adapter
+     *
+     * @return string
+     */
     protected function getSelectedAdapter()
     {
         return config()->app->queue_adapter;

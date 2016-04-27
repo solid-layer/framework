@@ -15,11 +15,27 @@ namespace Clarity\Providers;
 
 use Phalcon\Http\Response as BaseResponse;
 
+/**
+ * This provider manages the response or headers to be passed in
+ */
 class Response extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'response';
+
+    /**
+     * {@inheridoc}
+     */
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         return new BaseResponse;

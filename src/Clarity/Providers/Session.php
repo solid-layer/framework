@@ -15,16 +15,35 @@ namespace Clarity\Providers;
 
 use Phalcon\Session\Adapter\Files as SessionFile;
 
+/**
+ * This provider handles the available session adapters, wherein it manages
+ * the user's activity or browser's unique session id
+ */
 class Session extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'session';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * Get the selected session adapter
+     *
+     * @return string
+     */
     protected function getSelectedAdapter()
     {
         return config()->app->session_adapter;
     }
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         $adapter = config()->session->{$this->getSelectedAdapter()}->toArray();

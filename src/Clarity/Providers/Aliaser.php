@@ -13,11 +13,24 @@
  */
 namespace Clarity\Providers;
 
+/**
+ * This provider manages all class aliases
+ */
 class Aliaser extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'aliaser';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = false;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         foreach (config()->app->aliases as $alias => $class) {
@@ -32,7 +45,7 @@ class Aliaser extends ServiceProvider
     }
 
     /**
-     * Attach the alias clas
+     * Attach the alias and the full class
      *
      * @param  string $alias
      * @param  string $class

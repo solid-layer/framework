@@ -33,8 +33,15 @@ class RouteCommand extends SlayerCommand
      */
     protected $description = 'Generate a new route group';
 
+    /**
+     * This handles the filesystem app folder
+     * @var \League\Flysystem\Filesystem
+     */
     private $app;
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         $this->app = new Filesystem(

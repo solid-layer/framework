@@ -16,11 +16,24 @@ namespace Clarity\Providers;
 use Illuminate\Support\Str;
 use Phalcon\Crypt as BaseCrypt;
 
+/**
+ * This provides encryption facilities to phalcon applications
+ */
 class Crypt extends ServiceProvider
 {
+    /**
+     * {@inheridoc}
+     */
     protected $alias = 'crypt';
+
+    /**
+     * {@inheridoc}
+     */
     protected $shared = true;
 
+    /**
+     * {@inheridoc}
+     */
     public function register()
     {
         $crypt = new BaseCrypt();
