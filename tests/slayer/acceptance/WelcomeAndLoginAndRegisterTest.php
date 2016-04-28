@@ -49,7 +49,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
             ['id', 'frameworkTitle']
         );
 
-        $this->assertContains("Slayer", $slayer_logo->getHtml()); // === "Slayer"
+        $this->assertContains('<span title="Solid">S</span>.<span title="Layer">layer</span>', $slayer_logo->getHtml()); // === "Slayer"
 
         $try_sample_forms = $welcome_page->find('xpath', '//a[@href="'.$this->url.'/try-sample-forms"]');
         $try_sample_forms->click();
