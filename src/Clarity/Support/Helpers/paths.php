@@ -176,7 +176,7 @@ if (!function_exists('folder_files')) {
      * @param string $path The path to be iterated
      * @return mixed
      */
-    function folder_files($path)
+    function folder_files($path, $sub_dir = false)
     {
         if (file_exists($path) === false)
         {
@@ -192,8 +192,13 @@ if (!function_exists('folder_files')) {
 
         foreach ($iterator as $item)
         {
-            if ($item->isDir())
-            {
+            if ($item->isDir()) {
+
+                if ($sub_dir === true) {
+                    $tmp_files = folder_files($item->getPathName(), true);
+                    $files = array_merge($files, $tmp_files);
+                }
+
                 continue;
             }
 

@@ -73,12 +73,12 @@ if (!function_exists('config')) {
      *
      * @param string|mixed $option If string passed, it will automatically
      *      interpret as ->get(...), if array it will merge/replace based on
-     *      [$merge = true]
-     * @param bool $merge If true, it will automatically merge, else if false
+     *      [$merge_or_default_value = true]
+     * @param bool $merge_or_default_value If true, it will automatically merge, else if false
      *      it will replace a config
      * @return mixed
      */
-    function config($option = null, $merge = true)
+    function config($option = null, $merge_or_default_value = true)
     {
         $config = di()->get('config');
 
@@ -95,7 +95,7 @@ if (!function_exists('config')) {
 
             $new_config = [];
 
-            if ($merge === true) {
+            if ($merge_or_default_value === true) {
                 $config->merge(new Phalcon\Config($option));
                 $new_config = $config->toArray();
             } else {
@@ -121,7 +121,16 @@ if (!function_exists('config')) {
         $last = $config;
 
         foreach ($exploded_path as $p) {
-            $last = $last->{$p};
+
+            if (
+                method_exists($last, $p) ||
+                property_exists($last, $p))
+            {
+                $last = $last->{$p};
+                continue;
+            }
+
+            return $merge_or_default_value;
         }
 
         return $last;
