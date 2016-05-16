@@ -23,7 +23,7 @@
     ],
     "require": {
         "classpreloader/classpreloader": "^3.0",
-        "classpreloader/console": "^1.0",
+        "classpreloader/console": "^2.0",
         "composer/composer": "^1.0",
         "fzaninotto/faker": "~1.4",
         "guzzlehttp/guzzle": "6.1.*",
