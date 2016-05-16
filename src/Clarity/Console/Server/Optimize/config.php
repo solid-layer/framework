@@ -19,7 +19,7 @@ return [
     $base.'/vendor/robmorgan/phinx/src/Phinx/Console/Command/Test.php',
     $base.'/vendor/vlucas/phpdotenv/src/Dotenv.php',
     $base.'/vendor/vlucas/phpdotenv/src/Loader.php',
-    // $base.'/vendor/league/tactician/src/Middleware.php',
+    $base.'/vendor/league/tactician/src/Middleware.php',
     // $base.'/vendor/monolog/monolog/src/Monolog/Logger.php',
     // $base.'/vendor/psr/log/Psr/Log/LoggerInterface.php',
     // $base.'/vendor/symfony/console/Helper/HelperSet.php',
