@@ -89,7 +89,7 @@ class View extends BaseView
      * This injects a variable going to view
      *
      * @param  string $key The variable name
-     * @param  string|bool|int|mixed $value The value of variable
+     * @param  string|bool|int|mixed $val The value of variable
      * @return mixed
      */
     public function with($key, $val)

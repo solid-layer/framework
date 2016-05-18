@@ -68,9 +68,9 @@ class RouteCommand extends SlayerCommand
         $file_name = $arg_name . 'Routes.php';
 
         $module = $this->input->getArgument('module');
-        $hasDir = is_dir(config()->path->app . $module);
+        $has_dir = is_dir(config()->path->app . $module);
 
-        if ( $hasDir === false ) {
+        if ( $has_dir === false ) {
             $this->error('Module not found `' . $module . '`');
 
             return;

@@ -84,7 +84,8 @@ class Handler extends Exception
     /**
      * Render the exception
      *
-     * @param mixed $e
+     * @param  mixed $e
+     * @param  int   $status_code
      * @return mixed
      */
     public function render($e, $status_code = null)
@@ -101,7 +102,7 @@ class Handler extends Exception
             return;
         }
 
-        $content = (new ExceptionHandler($this->getDebugMode()))->getHtml($e);
+        $content = (new ExceptionHandler(config()->app->debug))->getHtml($e);
 
         $response = di()->get('response');
 
@@ -139,19 +140,5 @@ class Handler extends Exception
         register_shutdown_function([$this, 'handleFatalError']);
         set_error_handler([$this, 'handleError']);
         set_exception_handler([$this, 'handleExceptionError']);
-    }
-
-    /**
-     * Get the environment debug mode value
-     *
-     * @return bool
-     */
-    protected function getDebugMode()
-    {
-        if (config()->app->debug) {
-            return true;
-        }
-
-        return false;
     }
 }
