@@ -25,26 +25,26 @@ class Controller extends BaseController
         $middlewares = [];
 
         # get previously assigned aliases
-        if ( di()->has('middleware_aliases') ) {
+        if (di()->has('middleware_aliases')) {
             $middlewares = di()->get('middleware_aliases')->toArray();
         }
 
         $append_alias = true;
         $action_name = dispatcher()->getActionName();
 
-        if ( isset($options['only']) ) {
-            if ( in_array($action_name, $options['only']) === false ) {
+        if (isset($options['only'])) {
+            if (in_array($action_name, $options['only']) === false) {
                 $append_alias = false;
             }
         }
 
-        if ( isset($options['except']) ) {
-            if ( in_array($action_name, $options['except']) ) {
+        if (isset($options['except'])) {
+            if (in_array($action_name, $options['except'])) {
                 $append_alias = false;
             }
         }
 
-        if ( $append_alias === true ) {
+        if ($append_alias === true) {
             $middlewares[] = $alias;
         }
 
@@ -56,7 +56,7 @@ class Controller extends BaseController
     public function beforeExecuteRoute()
     {
         # call the initialize to work with the middleware()
-        if ( method_exists($this, 'initialize') ) {
+        if (method_exists($this, 'initialize')) {
             $this->initialize();
         }
 
@@ -65,7 +65,7 @@ class Controller extends BaseController
 
     private function middlewareHandler()
     {
-        if ( di()->has('middleware_aliases') === false ) {
+        if (di()->has('middleware_aliases') === false) {
             return;
         }
 

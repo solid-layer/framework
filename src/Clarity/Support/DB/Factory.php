@@ -27,7 +27,6 @@ class Factory
     public function define($class, $callback, $loop = 1)
     {
         for ($i = 1; $i <= $loop; $i++) {
-
             $data = call_user_func($callback, FakerFactory::create());
             $instance = new $class;
             $instance->create($data);

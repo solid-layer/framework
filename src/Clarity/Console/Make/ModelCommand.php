@@ -57,7 +57,7 @@ class ModelCommand extends SlayerCommand
         $this->comment('Crafting Model...');
 
 
-        if ( file_exists($file_name) ) {
+        if (file_exists($file_name)) {
             $this->error('   Model already exists!');
         } else {
             file_put_contents($file_name, $stub);

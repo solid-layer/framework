@@ -13,7 +13,6 @@ class Files extends Adapter
         parent::__construct($options);
 
         if (!is_cli()) {
-
             if (isset($options['session_storage']) === false) {
                 $options['session_storage'] = url_trimmer(config()->path->storage.'/session');
             }

@@ -67,7 +67,7 @@ abstract class Facade
             return $name;
         }
 
-        if (isset( static::$resolvedInstance[ $name ] )) {
+        if (isset(static::$resolvedInstance[ $name ])) {
             return static::$resolvedInstance[ $name ];
         }
 
@@ -82,7 +82,7 @@ abstract class Facade
      */
     public static function clearResolvedInstance($name)
     {
-        unset( static::$resolvedInstance[ $name ] );
+        unset(static::$resolvedInstance[ $name ]);
     }
 
     /**

@@ -70,7 +70,7 @@ class RouteCommand extends SlayerCommand
         $module = $this->input->getArgument('module');
         $has_dir = is_dir(config()->path->app . $module);
 
-        if ( $has_dir === false ) {
+        if ($has_dir === false) {
             $this->error('Module not found `' . $module . '`');
 
             return;
@@ -78,14 +78,14 @@ class RouteCommand extends SlayerCommand
 
         $module  = $this->input->getArgument('module');
 
-        if ( $this->app->has($module) === false ) {
+        if ($this->app->has($module) === false) {
             $this->error('Module not found `' . $module . '`');
 
             return;
         }
 
         $routes = $module . '/routes/';
-        if ( $this->app->has($routes) === false ) {
+        if ($this->app->has($routes) === false) {
             $this->error('Routes folder not found from your module: `' . $module . '`');
 
             return;
@@ -103,7 +103,7 @@ class RouteCommand extends SlayerCommand
 
         $this->info('Crafting Route...');
 
-        if ( $this->app->has($file_name) ) {
+        if ($this->app->has($file_name)) {
             $this->error('   Route already exists!');
 
             return;

@@ -91,7 +91,6 @@ class Handler extends Exception
     public function render($e, $status_code = null)
     {
         if (is_cli()) {
-
             dd([
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
@@ -132,7 +131,7 @@ class Handler extends Exception
         # let monolog handle the logging in the errors,
         # unless you want it to, you can refer to method
         # handleExceptionError()
-        if ( di()->has('log') ) {
+        if (di()->has('log')) {
             MonologErrorHandler::register(di()->get('log'));
         }
 

@@ -25,7 +25,7 @@ if (!function_exists('env')) {
             $val = $default;
         }
 
-        switch(strtolower($val)) {
+        switch (strtolower($val)) {
             case 'true':
                 return true;
             break;

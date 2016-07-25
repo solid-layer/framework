@@ -19,7 +19,7 @@ trait SeedTrait
     {
         $file = url_trimmer(config()->path->storage.'/stubs/db/SeedCreate.stub');
 
-        if ( file_exists($file) ) {
+        if (file_exists($file)) {
             return $file;
         }
 

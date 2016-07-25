@@ -129,7 +129,6 @@ class InlinerCommand extends SlayerCommand
         # determine if option 'record' is not empty
         # then we should get the specific inline key
         if (strlen($record) != 0) {
-
             if (isset($records[$record]) === false) {
                 $this->error($record.' not found!');
 

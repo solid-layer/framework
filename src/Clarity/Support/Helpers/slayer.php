@@ -26,7 +26,6 @@ if (!function_exists('di')) {
         # if the alias is array then we must check the array
         # passed in
         if (is_array($alias)) {
-
             if (
                 !isset($alias[0]) ||
                 !isset($alias[1])

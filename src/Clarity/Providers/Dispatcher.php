@@ -48,8 +48,7 @@ class Dispatcher extends ServiceProvider
         $event_manager->attach('dispatch:beforeException',
             function ($event, $dispatcher, $exception) {
 
-                if ( $exception instanceof DispatchException ) {
-
+                if ($exception instanceof DispatchException) {
                     throw new ControllerNotFoundException(
                         $exception->getMessage()
                     );

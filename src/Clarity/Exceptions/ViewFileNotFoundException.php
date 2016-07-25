@@ -16,4 +16,6 @@ namespace Clarity\Exceptions;
 /**
  * An exception known for not found View Templates
  */
-class ViewFileNotFoundException extends Handler {}
+class ViewFileNotFoundException extends Handler
+{
+}

@@ -42,10 +42,9 @@ class PublishCommand extends SlayerCommand
         $alias = $this->input->getArgument('alias');
 
         foreach (config()->app->services as $service) {
-
             $obj = new $service;
 
-            if ( $alias != $obj->getAlias() ) {
+            if ($alias != $obj->getAlias()) {
                 continue;
             }
 
@@ -55,13 +54,11 @@ class PublishCommand extends SlayerCommand
                 $tags = $obj->getToBePublished($tag_name);
 
                 foreach ($tags as $tag_name => $tag) {
-
                     foreach ($tag as $source => $dest) {
-
                         $are_you_sure = 'Are you sure you want to '.
                                         'publish "'.$tag_name.'"? [y/n]: ';
 
-                        if ( ! $this->confirm($are_you_sure) ) {
+                        if (! $this->confirm($are_you_sure)) {
                             continue;
                         }
 
@@ -70,9 +67,7 @@ class PublishCommand extends SlayerCommand
                         $this->info("Publishing tag \"$tag_name\" from [$source] to [$dest]");
                     }
                 }
-
             } catch (Exception $e) {
-
                 $this->error($e->getMessage());
             }
         }

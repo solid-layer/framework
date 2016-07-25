@@ -34,9 +34,7 @@ class Aliaser extends ServiceProvider
     public function register()
     {
         foreach (config()->app->aliases as $alias => $class) {
-
-            if ( !class_exists($alias) ) {
-
+            if (!class_exists($alias)) {
                 $this->append($alias, $class);
             }
         }

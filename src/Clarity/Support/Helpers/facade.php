@@ -52,7 +52,6 @@ if (!function_exists('cache')) {
         }
 
         if (is_array($option)) {
-
             if (!isset($option[0]) || !isset($option[1])) {
                 throw new InvalidArgumentException("Array must have index[0] for cache alias and index[1] for the value");
             }
@@ -92,7 +91,6 @@ if (!function_exists('config')) {
         # it should interpreted as updating the di 'config'
         # current structure
         if (is_array($option)) {
-
             $new_config = [];
 
             if ($merge_or_default_value === true) {
@@ -121,11 +119,9 @@ if (!function_exists('config')) {
         $last = $config;
 
         foreach ($exploded_path as $p) {
-
             if (
                 method_exists($last, $p) ||
-                property_exists($last, $p))
-            {
+                property_exists($last, $p)) {
                 $last = $last->{$p};
                 continue;
             }

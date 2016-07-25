@@ -130,13 +130,11 @@ if (!function_exists('cp')) {
      */
     function cp($source, $dest)
     {
-        if (is_dir($dest) === false)
-        {
+        if (is_dir($dest) === false) {
             mkdir($dest, 0755, true);
         }
 
-        $iterator = new \RecursiveIteratorIterator
-        (
+        $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
                 $source,
                 \RecursiveDirectoryIterator::SKIP_DOTS
@@ -144,18 +142,15 @@ if (!function_exists('cp')) {
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        foreach ($iterator as $item)
-        {
+        foreach ($iterator as $item) {
             # check if the item is directory
-            if ( $item->isDir() )
-            {
+            if ($item->isDir()) {
                 # check if there is existing directory
                 # else create.
 
                 $_temp_dir = $dest . '/' . $iterator->getSubPathName();
 
-                if (is_dir($_temp_dir) === false)
-                {
+                if (is_dir($_temp_dir) === false) {
                     mkdir($dest . '/' . $iterator->getSubPathName(), true);
                 }
 
@@ -178,8 +173,7 @@ if (!function_exists('folder_files')) {
      */
     function folder_files($path, $sub_dir = false)
     {
-        if (file_exists($path) === false)
-        {
+        if (file_exists($path) === false) {
             return [];
         }
 
@@ -190,10 +184,8 @@ if (!function_exists('folder_files')) {
 
         $files = [];
 
-        foreach ($iterator as $item)
-        {
+        foreach ($iterator as $item) {
             if ($item->isDir()) {
-
                 if ($sub_dir === true) {
                     $tmp_files = folder_files($item->getPathName(), true);
                     $files = array_merge($files, $tmp_files);

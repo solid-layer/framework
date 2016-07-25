@@ -19,7 +19,7 @@ trait MigrationTrait
     {
         $file = url_trimmer(config()->path->storage.'/stubs/db/MigrationCreate.stub');
 
-        if ( file_exists($file) ) {
+        if (file_exists($file)) {
             return $file;
         }
 

@@ -127,8 +127,7 @@ class DB extends ServiceProvider
 
         $event_manager->attach($this->alias, function ($event, $conn) {
 
-            if ( $event->getType() == 'beforeQuery' ) {
-
+            if ($event->getType() == 'beforeQuery') {
                 $logging_name = 'db';
 
                 if (logging_extension()) {
@@ -145,7 +144,7 @@ class DB extends ServiceProvider
 
                 $variables = $conn->getSQLVariables();
 
-                if ( $variables ) {
+                if ($variables) {
                     $logger->info(
                         $conn->getSQLStatement() .
                         ' ['. join(',', $variables) . ']'

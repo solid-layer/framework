@@ -115,7 +115,7 @@ abstract class SlayerCommand extends Command
 
         $folder_path = url_trimmer(config()->path->config.'/'.$folder);
 
-        if ( file_exists($folder_path) === false ) {
+        if (file_exists($folder_path) === false) {
             $this->error("Config Folder [$used_env] not found.");
         }
 
@@ -136,7 +136,7 @@ abstract class SlayerCommand extends Command
     {
         $timeout = $this->getInput()->getOption('timeout');
 
-        if ( $timeout !== static::TIMEOUT ) {
+        if ($timeout !== static::TIMEOUT) {
             set_time_limit($timeout);
         }
 
@@ -172,10 +172,8 @@ abstract class SlayerCommand extends Command
             ->setName($this->name)
             ->setDescription($this->description);
 
-        if ( !empty($this->arguments()) ) {
-
-            foreach ( $this->arguments() as $arg ) {
-
+        if (!empty($this->arguments())) {
+            foreach ($this->arguments() as $arg) {
                 $this->addArgument(
                     isset($arg[0]) ? $arg[0] : null,
                     isset($arg[1]) ? $arg[1] : null,
@@ -185,7 +183,7 @@ abstract class SlayerCommand extends Command
             }
         }
 
-        if ( $this->environment_option ) {
+        if ($this->environment_option) {
             $this->addOption(
                 'env',
                 'e',
@@ -195,7 +193,7 @@ abstract class SlayerCommand extends Command
             );
         }
 
-        if ( $this->timeout_option ) {
+        if ($this->timeout_option) {
             $this->addOption(
                 'timeout',
                 't',
@@ -206,10 +204,8 @@ abstract class SlayerCommand extends Command
         }
 
 
-        if ( !empty($this->options()) ) {
-
-            foreach ( $this->options() as $opt ) {
-
+        if (!empty($this->options())) {
+            foreach ($this->options() as $opt) {
                 $this->addOption(
                     isset($opt[0]) ? $opt[0] : null,
                     isset($opt[1]) ? $opt[1] : null,

@@ -45,12 +45,11 @@ trait ClearTrait
         );
 
         foreach ($files as $file) {
-
             if (in_array($file->getFileName(), $this->ignored_files)) {
                 continue;
             }
 
-            if ( $file->isDir() ) {
+            if ($file->isDir()) {
                 rmdir($file->getRealPath());
             } else {
                 unlink($file->getRealPath());

@@ -40,7 +40,7 @@ class Auth
     {
         $password_field = config()->app->auth->password_field;
 
-        if ( isset($records[$password_field]) === false ) {
+        if (isset($records[$password_field]) === false) {
             throw new InvalidArgumentException('Invalid argument for password field.');
         }
 
@@ -57,8 +57,7 @@ class Auth
         $conditions = null;
 
         foreach ($records as $key => $record) {
-
-            if ( !$first ) {
+            if (!$first) {
                 $conditions .= 'AND';
             }
 
@@ -80,7 +79,7 @@ class Auth
 
         # - check if there is no record, then return false
 
-        if ( !$records ) {
+        if (!$records) {
             return false;
         }
 
@@ -88,7 +87,7 @@ class Auth
         # - now check if the password given is matched with the
         # existing password recorded.
 
-        if ( $this->security->checkHash($password, $records->{$password_field}) ) {
+        if ($this->security->checkHash($password, $records->{$password_field})) {
             $this->session->set('isAuthenticated', true);
             $this->session->set('user', $records);
 
@@ -109,7 +108,7 @@ class Auth
 
         $redirect_to = $this->request->get($redirect_key);
 
-        if ( $redirect_to ) {
+        if ($redirect_to) {
             return $this->response->redirect($redirect_to);
         }
 

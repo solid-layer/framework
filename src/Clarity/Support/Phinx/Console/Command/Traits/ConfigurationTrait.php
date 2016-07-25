@@ -28,7 +28,7 @@ trait ConfigurationTrait
 
         $adapters = config()->database->phinx_migrations->toArray();
 
-        if ( !isset($adapters[$selected_adapter]) ) {
+        if (!isset($adapters[$selected_adapter])) {
             throw new Exception(
                 "Adapter [$selected_adapter] not found ".
                 "on config/database.phinx_migrations"

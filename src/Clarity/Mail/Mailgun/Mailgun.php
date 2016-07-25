@@ -119,9 +119,7 @@ class Mailgun implements MailInterface
         $mailgun = new BaseMailgun($this->getSecretKey());
 
         return $mailgun->sendMessage(
-            $this->getDomain()
-            ,$this->getData()
-            ,$this->getFiles()
+            $this->getDomain(), $this->getData(), $this->getFiles()
         );
     }
 
@@ -133,15 +131,15 @@ class Mailgun implements MailInterface
             'html'    => $this->html,
         ];
 
-        if ( !empty($this->to) ) {
+        if (!empty($this->to)) {
             $ret['to'] = $this->to;
         }
 
-        if ( !empty($this->cc) ) {
+        if (!empty($this->cc)) {
             $ret['cc'] = $this->cc;
         }
 
-        if ( !empty($this->bcc) ) {
+        if (!empty($this->bcc)) {
             $ret['bcc'] = $this->bcc;
         }
 
@@ -152,7 +150,7 @@ class Mailgun implements MailInterface
     {
         $ret = [];
 
-        if ( count($this->files) ) {
+        if (count($this->files)) {
             foreach ($this->files as $file) {
                 $ret['attachment'][] = $file;
             }

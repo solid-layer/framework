@@ -29,7 +29,7 @@ class URL extends BaseURL
 
     public function getScheme($module = null)
     {
-        if ( $module === null ) {
+        if ($module === null) {
             $module = di()->get('application')->getDefaultModule();
         }
 
@@ -58,14 +58,14 @@ class URL extends BaseURL
             return $_SERVER['HTTP_HOST'];
         }
 
-        if ( $module === null ) {
+        if ($module === null) {
             $module = di()->get('application')->getDefaultModule();
         }
 
         # get all url's
         $uri_modules = config()->app->base_uri->toArray();
 
-        if ( !isset($uri_modules[$module]) ) {
+        if (!isset($uri_modules[$module])) {
             throw new InvalidArgumentException("Module [$module] not found.");
         }
 

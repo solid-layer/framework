@@ -39,10 +39,8 @@ class SeedFactory extends SlayerCommand
         $factory = new Factory($this);
         $files = folder_files(config()->path->database . 'factories');
 
-        if ( !empty($files) ) {
-
-            foreach ( $files as $file ) {
-
+        if (!empty($files)) {
+            foreach ($files as $file) {
                 $this->comment('Processing ' . basename($file) . '...');
 
                 require $file;

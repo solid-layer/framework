@@ -27,7 +27,7 @@ class MailServiceProvider extends ServiceProvider
 
         $settings = config()->mail->{$adapter};
 
-        if ( !$settings ) {
+        if (!$settings) {
             throw new Exception('Adapter not found.');
         }
 

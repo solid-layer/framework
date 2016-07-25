@@ -26,7 +26,7 @@ class Middleware
 
     public function get($alias)
     {
-        if ( ! isset($this->middlewares[$alias]) ) {
+        if (! isset($this->middlewares[$alias])) {
             throw new InvalidArgumentException(
                 "Middleware based on alias [$alias] not found."
             );

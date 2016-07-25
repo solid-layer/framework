@@ -130,7 +130,7 @@ abstract class ServiceProvider
      */
     public function publish(array $paths, $tag = null)
     {
-        if ( $tag ) {
+        if ($tag) {
             $this->publish_stack[$tag] = $paths;
         } else {
             $this->publish_stack[] = $paths;
@@ -146,9 +146,8 @@ abstract class ServiceProvider
      */
     public function getToBePublished($tag = null)
     {
-        if ( $tag ) {
-
-            if ( ! isset($this->publish_stack[$tag]) ) {
+        if ($tag) {
+            if (! isset($this->publish_stack[$tag])) {
                 throw new Exception('Tag not found.');
             }
 

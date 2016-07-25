@@ -148,7 +148,7 @@ class Kernel
 
         $path = url_trimmer(config()->path->app.'/'.$module_name.'/routes.php');
 
-        if ( file_exists($path) ) {
+        if (file_exists($path)) {
             require $path;
         }
 

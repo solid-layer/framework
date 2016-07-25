@@ -42,7 +42,7 @@ class VoltAdapter extends Volt
 
     public function __construct(
         ViewBaseInterface $view,
-        DiInterface $di = NULL
+        DiInterface $di = null
     ) {
         parent::__construct($view, $di);
 

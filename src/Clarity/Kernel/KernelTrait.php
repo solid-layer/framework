@@ -45,7 +45,7 @@ trait KernelTrait
     {
         # let's create an empty config with just an empty
         # array, this is just for us to prepare the config
-        $this->di->set('config', function() {
+        $this->di->set('config', function () {
             return new Config([]);
         }, true);
 
@@ -107,15 +107,13 @@ trait KernelTrait
         $container = new ServiceContainer;
 
         foreach (config()->app->services as $provider) {
-
             $instance = new $provider;
 
-            if ( $instance->getAfterModule() == $after_module ) {
+            if ($instance->getAfterModule() == $after_module) {
                 $container->addServiceProvider($instance);
             }
         }
 
         $container->boot();
     }
-
 }

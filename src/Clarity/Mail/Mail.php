@@ -45,8 +45,7 @@ class Mail
         foreach ($functions as $function) {
 
             # - if the provided config is empty, turn next loop
-            if ( empty($this->config[$function]) ) {
-
+            if (empty($this->config[$function])) {
                 continue;
             }
 

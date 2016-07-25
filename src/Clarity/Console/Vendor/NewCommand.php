@@ -129,7 +129,6 @@ class NewCommand extends SlayerCommand
         $generated_path = url_trimmer($this->getSandboxPath().$package);
 
         if ($sandbox->has($package) === false) {
-
             $this->comment("Crafting vendor folder at {$generated_path}");
             $sandbox->createDir($package);
         } else {

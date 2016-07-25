@@ -35,8 +35,7 @@ class Mongo extends ServiceProvider
      */
     public function register()
     {
-        if ( ! class_exists(MongoClient::class) ) {
-
+        if (! class_exists(MongoClient::class)) {
             return $this;
         }
 
@@ -48,7 +47,6 @@ class Mongo extends ServiceProvider
             empty($selected_adapter) ||
             !isset($adapters[$selected_adapter])
         ) {
-
             return $this;
         }
 
@@ -62,8 +60,7 @@ class Mongo extends ServiceProvider
 
         $str = 'mongodb://'.$username.':'.$password.'@'.$host.':'.$port;
 
-        if (strlen($username) < 1 && strlen($password) < 1 ) {
-
+        if (strlen($username) < 1 && strlen($password) < 1) {
             $str = 'mongodb://'.$host.':'.$port;
         }
 

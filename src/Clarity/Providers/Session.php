@@ -51,7 +51,7 @@ class Session extends ServiceProvider
         $config = [];
         $class = $adapter['class'];
 
-        if ( isset($adapter['config']) ) {
+        if (isset($adapter['config'])) {
             $config = $adapter['config'];
         }
 

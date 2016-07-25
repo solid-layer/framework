@@ -65,14 +65,11 @@ class OptimizeCommand extends SlayerCommand
         $handle = $preloader->prepareOutput($compile_path);
 
         foreach ($this->getClassFiles() as $file) {
-
             try {
-
                 fwrite(
                     $handle,
                     $preloader->getCode($file, false)."\n"
                 );
-
             } catch (VisitorExceptionInterface $e) {
                 //
             }
@@ -147,7 +144,7 @@ class OptimizeCommand extends SlayerCommand
 
         $compiled_file = BASE_PATH . '/storage/slayer/compiled.php';
 
-        if ( file_exists($compiled_file) ) {
+        if (file_exists($compiled_file)) {
             $this->info('Removing previous compiled file...');
             unlink($compiled_file);
         }

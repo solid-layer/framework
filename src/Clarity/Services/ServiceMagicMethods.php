@@ -19,7 +19,7 @@ trait ServiceMagicMethods
 {
     public function __get($name)
     {
-        if ( di()->has($name) === false ) {
+        if (di()->has($name) === false) {
             throw new InvalidArgumentException("Dependency Injection [$name] not found");
         }
 
