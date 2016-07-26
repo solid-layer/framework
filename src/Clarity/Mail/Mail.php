@@ -29,7 +29,7 @@ class Mail
 
     public function initialize($view, $records)
     {
-        # - we require our mail to auto-set the configurations
+        # we require our mail to auto-set the configurations
         # in the functions, so we need to call the possible
         # functions that doesn't require human calls
         $functions = [
@@ -40,35 +40,33 @@ class Mail
             'encryption',
         ];
 
-
-
         foreach ($functions as $function) {
 
-            # - if the provided config is empty, turn next loop
-            if (empty($this->config[$function])) {
+            # if the provided config is empty, turn next loop
+            if (
+                isset($this->config[$function]) &&
+                empty($this->config[$function])
+            ) {
                 continue;
             }
 
-            # - now call the functions
+            # now call the functions
             $this
                 ->adapter
                 ->{$function}($this->config[$function]);
         }
 
-
-        # - render the view as partial
+        # render the view as partial
         $body = di()->get('view')->take($view, $records);
 
-
-        # - we need to insert the global mailer 'from'
+        # we need to insert the global mailer 'from'
         # and insert the body
         $this
             ->adapter
-            ->from($this->config['from'])
+            ->from(isset($this->config['from']) ? $this->config['from'] : '')
             ->body($body);
 
-
-        # - now return the adapter, so that they could still pre-modify
+        # now return the adapter, so that they could still pre-modify
         # the function values
         return $this->adapter;
     }
@@ -84,17 +82,14 @@ class Mail
      */
     public function send($view, $records, $callback)
     {
-        # - we will pass the view path and records
+        # we will pass the view path and records
         $init = $this->initialize($view, $records);
 
-
-        # - we will call the initialize function
+        # we will call the initialize function
         call_user_func($callback, $init);
 
-
-        # - we lastly triggering the send function
+        # we lastly triggering the send function
         $init->send();
-
 
         return true;
     }
