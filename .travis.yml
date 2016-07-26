@@ -10,11 +10,11 @@ services:
 
 env:
   matrix:
-    # - SLAYER_VERSION="1.4.*" PHALCON_FOLDER="phalcon2_1_x"  PHALCON_VERSION="2.1.x"
-    - SLAYER_FOLDER="slayer14" SLAYER_VERSION="1.4.*" PHALCON_FOLDER="phalcon2_0_x"  PHALCON_VERSION="2.0.x"
-    - SLAYER_FOLDER="slayer14" SLAYER_VERSION="1.4.*" PHALCON_FOLDER="phalcon2_0_10" PHALCON_VERSION="phalcon-v2.0.10"
-    - SLAYER_FOLDER="slayer14" SLAYER_VERSION="1.4.*" PHALCON_FOLDER="phalcon2_0_9"  PHALCON_VERSION="phalcon-v2.0.9"
-    - SLAYER_FOLDER="slayer14" SLAYER_VERSION="1.4.*" PHALCON_FOLDER="phalcon2_0_8"  PHALCON_VERSION="phalcon-v2.0.8"
+    # - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_1_x"  PHALCON_VERSION="2.1.x"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_x"  PHALCON_VERSION="2.0.x"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_10" PHALCON_VERSION="phalcon-v2.0.10"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_9"  PHALCON_VERSION="phalcon-v2.0.9"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_8"  PHALCON_VERSION="phalcon-v2.0.8"
 
   global:
     - MAILER_HOST=smtp.mandrillapp.com
