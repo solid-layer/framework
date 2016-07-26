@@ -26,14 +26,23 @@ class ServiceContainer
         return $this;
     }
 
+    /**
+     * Loads all services
+     *
+     * return void
+     */
     public function boot()
     {
         $providers_loaded = array_map(function ($provider) {
-            di()->set(
-                $provider->getAlias(),
-                $provider->callRegister(),
-                $provider->getShared()
-            );
+
+            if (is_object($register = $provider->callRegister())) {
+
+                di()->set(
+                    $provider->getAlias(),
+                    $register,
+                    $provider->getShared()
+                );
+            }
 
             return $provider;
         }, $this->providers);
