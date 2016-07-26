@@ -35,10 +35,6 @@ cache:
   directories:
     - $HOME/.composer/cache
     - ${PHALCON_FOLDER}
-    - ${SLAYER_FOLDER}
-
-before_cache:
-  - rm ${SLAYER_FOLDER}/vendor/compiled.php
 
 install:
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci-build.sh | bash
