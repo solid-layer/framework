@@ -44,7 +44,7 @@ class Mail
 
             # if the provided config is empty, turn next loop
             if (
-                isset($this->config[$function]) &&
+                !isset($this->config[$function]) ||
                 empty($this->config[$function])
             ) {
                 continue;
