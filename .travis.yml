@@ -38,7 +38,22 @@ before_script:
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci-build.sh | bash
 
 script:
+  - cd ${SLAYER_FOLDER}
+
+  # call queue:worker
+  - php brood queue:worker > queue-worker.log 2>&1 &
+
+  # phpunit
+  - chmod a+x ./vendor/bin/phpunit
+  - chmod a+x ./vendor/phalconslayer/framework/phpunit.xml
+  - ./vendor/bin/phpunit -c ./vendor/phalconslayer/framework/phpunit.xml
+  - cat queue-worker.log
+
+  # call brood console commands
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci-script.sh | bash
+
+  # go back to root
+  - cd ..
 
 notifications:
   email:

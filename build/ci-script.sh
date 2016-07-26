@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-cd ${SLAYER_FOLDER}
-
-# call queue:worker
-php brood queue:worker > queue-worker.log 2>&1 &
-
-# +--------------------------+
-# | Run PHPUnit              |
-# +--------------------------+
-chmod a+x ./vendor/bin/phpunit
-chmod a+x ./vendor/phalconslayer/framework/phpunit.xml
-./vendor/bin/phpunit -c ./vendor/phalconslayer/framework/phpunit.xml
-cat queue-worker.log
-
 # +--------------------------+
 # | Run other brood commands |
 # +--------------------------+
@@ -45,5 +32,3 @@ php brood mail:inliner
 php brood make:collection Test
 php brood make:console Test
 php brood make:model Test
-
-cd ..
