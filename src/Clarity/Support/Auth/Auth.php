@@ -45,13 +45,13 @@ class Auth
         }
 
 
-        # - get the password information
+        # get the password information
 
         $password = $records[$password_field];
         unset($records[$password_field]);
 
 
-        # - build the conditions
+        # build the conditions
 
         $first = true;
         $conditions = null;
@@ -67,7 +67,7 @@ class Auth
         }
 
 
-        # - find the informations provided in the $records
+        # find the informations provided in the $records
 
         $auth_model = config()->app->auth->model;
 
@@ -77,14 +77,14 @@ class Auth
         ])->getFirst();
 
 
-        # - check if there is no record, then return false
+        # check if there is no record, then return false
 
         if (!$records) {
             return false;
         }
 
 
-        # - now check if the password given is matched with the
+        # now check if the password given is matched with the
         # existing password recorded.
 
         if ($this->security->checkHash($password, $records->{$password_field})) {

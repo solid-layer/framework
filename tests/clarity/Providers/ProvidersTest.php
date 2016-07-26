@@ -51,11 +51,11 @@ class ProvidersTest extends \PHPUnit_Framework_TestCase
         $container->boot();
 
 
-        # - assert should be instance of ServiceProvider::class
+        # assert should be instance of ServiceProvider::class
 
         $this->assertInstanceOf(ServiceProvider::class, $provider);
 
-        # - assert via array subset, in the first place, the di()
+        # assert via array subset, in the first place, the di()
         # should already injected the 'servicetest' and it should
         # be pullable
 
