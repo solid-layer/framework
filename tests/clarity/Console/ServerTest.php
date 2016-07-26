@@ -17,7 +17,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testOptimizeCommand()
     {
         CLI::bash([
-            'php brood optimize',
+            'php brood optimize --force',
         ]);
 
         $has_file = file_exists(config()->path->storage . 'slayer/compiled.php');
