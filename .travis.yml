@@ -10,11 +10,11 @@ services:
 
 env:
   matrix:
-    - SLAYER_FOLDER="slayer-${TRAVIS_BRANCH}" SLAYER_VERSION="dev-{$TRAVIS_BRANCH}" PHALCON_FOLDER="phalcon2_1_x"  PHALCON_VERSION="2.1.x"
-    - SLAYER_FOLDER="slayer-${TRAVIS_BRANCH}" SLAYER_VERSION="dev-{$TRAVIS_BRANCH}" PHALCON_FOLDER="phalcon2_0_x"  PHALCON_VERSION="2.0.x"
-    - SLAYER_FOLDER="slayer-${TRAVIS_BRANCH}" SLAYER_VERSION="dev-{$TRAVIS_BRANCH}" PHALCON_FOLDER="phalcon2_0_10" PHALCON_VERSION="phalcon-v2.0.10"
-    - SLAYER_FOLDER="slayer-${TRAVIS_BRANCH}" SLAYER_VERSION="dev-{$TRAVIS_BRANCH}" PHALCON_FOLDER="phalcon2_0_9"  PHALCON_VERSION="phalcon-v2.0.9"
-    - SLAYER_FOLDER="slayer-${TRAVIS_BRANCH}" SLAYER_VERSION="dev-{$TRAVIS_BRANCH}" PHALCON_FOLDER="phalcon2_0_8"  PHALCON_VERSION="phalcon-v2.0.8"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_1_x"  PHALCON_VERSION="2.1.x"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_x"  PHALCON_VERSION="2.0.x"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_10" PHALCON_VERSION="phalcon-v2.0.10"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_9"  PHALCON_VERSION="phalcon-v2.0.9"
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_8"  PHALCON_VERSION="phalcon-v2.0.8"
 
   global:
     # built-in web
@@ -34,7 +34,7 @@ cache:
     - $HOME/.composer/cache
     - ${PHALCON_FOLDER}
 
-install:
+before_script:
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci-build.sh | bash
 
 script:
