@@ -22,23 +22,22 @@ if [ ! -f "${SLAYER_FOLDER}/composer.json" ]; then
     # run the composer update
     composer self-update
     php -m
-    # travis_retry composer install --no-interaction --no-scripts --dev
-
-    # copy .env.travis as .env file
-    cp vendor/phalconslayer/framework/tests/.env.travis .env
-    cat .env
-
-    # create 'slayer' database
-    mysql -e 'create database slayer charset=utf8mb4 collate=utf8mb4_unicode_ci;'
-
-    # db migrations
-    php brood db:migrate
 
     cd ..
 
 fi
 
 cd ${SLAYER_FOLDER}
+
+# copy .env.travis as .env file
+cp vendor/phalconslayer/framework/tests/.env.travis .env
+cat .env
+
+# create 'slayer' database
+mysql -e 'create database slayer charset=utf8mb4 collate=utf8mb4_unicode_ci;'
+
+# db migrations
+php brood db:migrate
 
 # built-in web
 php -S ${SERVE_HOST}:${SERVE_PORT} -t public/ > built-in.log 2>&1 &
