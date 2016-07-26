@@ -12,7 +12,7 @@ class PhalconTest extends \PHPUnit_Framework_TestCase
         config([
             'app' => [
                 'base_uri' => [
-                    'main' => 'localhost:8080',
+                    'main' => env('SERVE_HOST').':'.env('SERVE_PORT'),
                 ],
             ],
         ]);

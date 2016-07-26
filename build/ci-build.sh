@@ -41,7 +41,7 @@ fi
 cd ${SLAYER_FOLDER}
 
 # built-in web
-php -S 0.0.0.0:8080 -t public/ > built-in.log 2>&1 &
+php -S ${SERVE_HOST}:${SERVE_PORT} -t public/ > built-in.log 2>&1 &
 sleep 5
 
 cd ..

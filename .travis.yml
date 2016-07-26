@@ -17,9 +17,14 @@ env:
     - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_8"  PHALCON_VERSION="phalcon-v2.0.8"
 
   global:
-    - MAIL_ADAPTER=mailgun
-    - MAILER_MAIL_FROM=postmaster@sandboxa6c86c16840d4756826185daa128e64d.mailgun.org
-    - MAILER_MAILGUN_DOMAIN=sandboxa6c86c16840d4756826185daa128e64d.mailgun.org
+    # built-in web
+    - SERVE_HOST="0.0.0.0"
+    - SERVE_PORT="8080"
+
+    # mail settings
+    - MAIL_ADAPTER="mailgun"
+    - MAILER_MAIL_FROM="postmaster@sandboxa6c86c16840d4756826185daa128e64d.mailgun.org"
+    - MAILER_MAILGUN_DOMAIN="sandboxa6c86c16840d4756826185daa128e64d.mailgun.org"
     # mailgun secret
     - secure: "JaqOj6ozbf1xU/I9ZYvljAmL2ttgC7DKShC7lPwrIe7IZnntYX3t5vpzhEhU4Ymt6uB4E/YYfwr15Yn/yl4hJUj6hzrjQsH8O7AmJv3aCFzIb+WpbWkJ7XdBQzaVXg7mbJpsL/TBZy4/hqYOw0DR542xGcAo5Z84wEZ/W9sei/pvIwTg+rIqA3XPh9vgvUi36xV6/O3n5FBZcK+3U8hwVFqUU8Say99kZOYwc934hhyoA9K4Px8MG7XeC8zl/B3pDHBDyvQ2eU0dUrb2zMx2LhByRGQ4tcERLJslShscb0a/32I3Jk/aesgArt2d0ZaEmanixsfm9lswOgoO/YZkci0n5Lto3/w6PJsko+3jJ7P1ND9BrK+lY5BKRC0Qkt3U8EsrSpjgobGzdXztZo+ZXWD7s2RClQKLI7jjMqW4k/1sO5rQ/50jzEtLoX5jZs5r6OrR6BEN0J4tI7b74sVeqYIoSzuX6eJGCbT7dcRIdNcz1jrvhcmbZ9YLxpHOp8PE2uKISJrUtuioOIjv6j6bRxy1gOcglZlRhv5N/xikCQmmgLgrMvwkaaLSjo5oe81ETX+/VIH/6cMI+qIvKtmOewLes6FszbCKQs/jyWPLQZjAlf9ZJmCspwWvNbIwSBpzRCW95VAhfHhgQZ6tPNCl3LqIDBHVGD4TpLlIg+wKYEU="
 

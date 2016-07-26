@@ -7,7 +7,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 {
     public function testRestful()
     {
-        $rest = new RESTful('localhost:8080');
+        $rest = new RESTful(env('SERVE_HOST').':'.env('SERVE_PORT'));
 
         $ret = $rest->getClient()->get('/auth/login');
 
