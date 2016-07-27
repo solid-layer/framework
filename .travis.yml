@@ -41,7 +41,6 @@ cache:
   apt: true
   directories:
     - $HOME/.composer/cache
-    - ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}
 
 before_install:
   - export PATH=$PATH:~/bin;
