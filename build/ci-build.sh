@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+sudo apt-get update -qq
 sudo apt-get install -y php5-dev
 
 # install  phalcon/cphalcon
