@@ -3,7 +3,7 @@
 # handle slayer installation
 if [ ! -f "${TRAVIS_BUILD_DIR}/${SLAYER_FOLDER}/composer.json" ]; then
 
-    composer create-project phalconslayer/slayer:${SLAYER_VERSION} ${SLAYER_FOLDER}
+    composer create-project phalconslayer/slayer:${SLAYER_VERSION} ${TRAVIS_BUILD_DIR}/${SLAYER_FOLDER}
 
     cd ${TRAVIS_BUILD_DIR}/${SLAYER_FOLDER}
 
