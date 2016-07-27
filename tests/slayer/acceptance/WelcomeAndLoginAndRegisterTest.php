@@ -1,4 +1,5 @@
 <?php
+
 namespace Slayer\Acceptance;
 
 use Components\Model\User;
@@ -39,7 +40,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
     {
         $this->session->visit($this->url);
 
-        $this->assertEquals("200", $this->session->getStatusCode()); // === 200
+        $this->assertEquals('200', $this->session->getStatusCode()); // === 200
         $this->assertContains($this->url, $this->session->getCurrentUrl()); // === $this->url
 
         $welcome_page = $this->session->getPage();
@@ -59,15 +60,16 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testRegistration()
     {
-        if ( User::count() ) {
+        if (User::count()) {
             $this->testLogin();
+
             return;
         }
 
         $this->triggerWelcomeProcess();
 
         # REGISTRATION
-        $this->assertEquals("200", $this->session->getStatusCode()); // === 200
+        $this->assertEquals('200', $this->session->getStatusCode()); // === 200
         $this->assertContains($this->url.'/auth/register', $this->session->getCurrentUrl()); // === $this->url.'auth/register'
 
         $register_page = $this->session->getPage();
@@ -98,14 +100,14 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testLogin()
     {
-        if ( !User::count() ) {
+        if (! User::count()) {
             $this->testRegistration();
         }
 
         $this->triggerWelcomeProcess();
 
         # LOGIN
-        $this->assertEquals("200", $this->session->getStatusCode()); // === 200
+        $this->assertEquals('200', $this->session->getStatusCode()); // === 200
         $this->assertContains($this->url.'/auth/login', $this->session->getCurrentUrl()); // === $this->url.'auth/register'
 
         $login_page = $this->session->getPage();
@@ -124,5 +126,4 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains($this->url.'/newsfeed', $this->session->getCurrentUrl()); // === $this->url.'newsfeed'
     }
-
 }

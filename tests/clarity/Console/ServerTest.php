@@ -1,7 +1,6 @@
 <?php
-namespace Clarity\Console;
 
-use Clarity\Console\CLI;
+namespace Clarity\Console;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,7 +8,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $compiled_file = 'storage/slayer/compiled.php';
 
-        if ( file_exists($compiled_file) ) {
+        if (file_exists($compiled_file)) {
             di()->get('flysystem')->delete($compiled_file);
         }
     }
@@ -20,7 +19,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'php brood optimize --force',
         ]);
 
-        $has_file = file_exists(config()->path->storage . 'slayer/compiled.php');
+        $has_file = file_exists(config()->path->storage.'slayer/compiled.php');
         $this->assertTrue($has_file, 'check if classes were generated and compiled');
     }
 }

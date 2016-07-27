@@ -1,4 +1,5 @@
 <?php
+
 namespace Clarity\Support;
 
 use Clarity\Support\Curl\RESTful;

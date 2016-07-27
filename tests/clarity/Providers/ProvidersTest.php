@@ -1,9 +1,9 @@
 <?php
+
 namespace Clarity\Providers;
 
 use Mockery as m;
 use Clarity\Services\Service\ServiceContainer;
-use Clarity\Providers\ServiceProvider;
 
 class ProvidersTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,7 +49,6 @@ class ProvidersTest extends \PHPUnit_Framework_TestCase
         $container = new ServiceContainer;
         $container->addServiceProvider($provider);
         $container->boot();
-
 
         # assert should be instance of ServiceProvider::class
 

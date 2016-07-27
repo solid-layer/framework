@@ -1,4 +1,5 @@
 <?php
+
 namespace Clarity\Support;
 
 class HelpersTest extends \PHPUnit_Framework_TestCase
@@ -70,7 +71,7 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
 
                     return $std;
                 },
-                true
+                true,
             ])
         );
 

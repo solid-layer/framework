@@ -1,4 +1,5 @@
 <?php
+
 namespace Clarity\Support;
 
 class PhalconTest extends \PHPUnit_Framework_TestCase
