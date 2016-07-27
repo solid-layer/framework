@@ -57,6 +57,7 @@ before_install:
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/beanstalkd.sh | bash
 
   # zephir load determining php version
+  - cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}
   - '[[ "$TRAVIS_PHP_VERSION" == "7.0" ]] || ( zephir fullclean && zephir generate )'
   - '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || ( zephir fullclean && zephir generate --backend=ZendEngine3 )'
 
