@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+sudo apt-get install -y php5-dev
+
 # install  phalcon/cphalcon
 git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b ${PHALCON_VERSION}
 (cd cphalcon/ext; export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks -Wall"; phpize && ./configure --enable-phalcon && make -j4 && make install && echo "extension=phalcon.so" > phalcon.ini && phpenv config-add phalcon.ini)
