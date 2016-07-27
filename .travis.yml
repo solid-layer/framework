@@ -10,6 +10,7 @@ services:
 
 env:
   matrix:
+    - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon3_0_x"  PHALCON_VERSION="3.0.x"
     - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_1_x"  PHALCON_VERSION="2.1.x"
     - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_x"  PHALCON_VERSION="2.0.x"
     - SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_10" PHALCON_VERSION="phalcon-v2.0.10"
