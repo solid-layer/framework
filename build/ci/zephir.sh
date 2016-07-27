@@ -10,3 +10,6 @@ mkdir -p ~/bin
 
 cp bin/zephir-cmd ~/bin/zephir
 rm bin/zephir-cmd
+
+# test zephir
+(cd ${TRAVIS_BUILD_DIR};zephir)
