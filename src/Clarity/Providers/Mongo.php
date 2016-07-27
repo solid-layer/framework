@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,30 +8,28 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
 use MongoClient;
 
 /**
- * This provider instantiates the @see \MongoClient
+ * This provider instantiates the @see \MongoClient.
  */
 class Mongo extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'mongo';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = false;
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     public function register()
     {
@@ -45,18 +43,18 @@ class Mongo extends ServiceProvider
 
         if (
             empty($selected_adapter) ||
-            !isset($adapters[$selected_adapter])
+            ! isset($adapters[$selected_adapter])
         ) {
             return $this;
         }
 
         $adapter = $adapters[$selected_adapter];
 
-        $host     = $adapter->host;
-        $port     = $adapter->port;
+        $host = $adapter->host;
+        $port = $adapter->port;
         $username = $adapter->username;
         $password = $adapter->password;
-        $dbname   = $adapter->dbname;
+        $dbname = $adapter->dbname;
 
         $str = 'mongodb://'.$username.':'.$password.'@'.$host.':'.$port;
 

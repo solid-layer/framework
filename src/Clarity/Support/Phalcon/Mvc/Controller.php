@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Support\Phalcon\Mvc
  */
 namespace Clarity\Support\Phalcon\Mvc;
 
@@ -73,10 +71,10 @@ class Controller extends BaseController
         $middleware = new Middleware(config()->app->middlewares);
 
         $instances = [];
-        $aliases   = di()->get('middleware_aliases')->toArray();
+        $aliases = di()->get('middleware_aliases')->toArray();
 
         foreach ($aliases as $alias) {
-            $class       = $middleware->get($alias);
+            $class = $middleware->get($alias);
             $instances[] = new $class;
         }
 

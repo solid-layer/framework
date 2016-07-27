@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Mail
  */
 namespace Clarity\Mail;
 
@@ -44,7 +42,7 @@ class Mail
 
             # if the provided config is empty, turn next loop
             if (
-                !isset($this->config[$function]) ||
+                ! isset($this->config[$function]) ||
                 empty($this->config[$function])
             ) {
                 continue;
@@ -72,13 +70,13 @@ class Mail
     }
 
     /**
-     * This will trigger the adapter's send function
+     * This will trigger the adapter's send function.
      *
      * @param string $view The view path
      * @param array $records The variables will be used on the view path
      * @param mixed $callback
      *
-     * @return boolean
+     * @return bool
      */
     public function send($view, $records, $callback)
     {

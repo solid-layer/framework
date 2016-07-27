@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\TestSuite\Behat\Mink
  */
 namespace Clarity\TestSuite\Behat\Mink;
 
@@ -40,7 +38,7 @@ class Mink
 
     public function get($name)
     {
-        if (!isset($this->adapters[$name])) {
+        if (! isset($this->adapters[$name])) {
             throw new InvalidArgumentException("Adapter [$name] not found.");
         }
 

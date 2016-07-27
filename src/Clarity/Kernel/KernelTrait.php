@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,24 +8,20 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Kernel
  */
-
 namespace Clarity\Kernel;
 
-use Dotenv\Dotenv;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use Clarity\Services\Service\ServiceContainer;
 
 /**
- * A class trait of @see (Clarity\Kernel\Kernel)
+ * A class trait of @see (Clarity\Kernel\Kernel).
  */
 trait KernelTrait
 {
     /**
-     * Instantiate a factory dependency injection
+     * Instantiate a factory dependency injection.
      *
      * @return \Clarity\Kernel\Kernel
      */
@@ -37,7 +33,7 @@ trait KernelTrait
     }
 
     /**
-     * Load the configurations
+     * Load the configurations.
      *
      * @return void
      */
@@ -49,22 +45,18 @@ trait KernelTrait
             return new Config([]);
         }, true);
 
-
         # get the paths and merge the array values to the
         # empty config as we instantiated above
         config(['path' => $this->path]);
 
-
         # now merge the assigned environment
         config(['environment' => $this->getEnvironment()]);
-
 
         # iterate all the base config files and require
         # the files to return an array values
         $base_config_files = iterate_require(
             folder_files($this->path['config'])
         );
-
 
         # iterate all the environment config files and
         # process the same thing as the base config files
@@ -76,7 +68,6 @@ trait KernelTrait
             )
         );
 
-
         # merge the base config files and the environment
         # config files as one in the our DI 'config'
         config($base_config_files);
@@ -84,7 +75,7 @@ trait KernelTrait
     }
 
     /**
-     * Load the project timezone
+     * Load the project timezone.
      *
      * @return void
      */
@@ -94,9 +85,9 @@ trait KernelTrait
     }
 
     /**
-     * Load the providers
+     * Load the providers.
      *
-     * @param  boolean $after_module If you want to load services after calling
+     * @param  bool $after_module If you want to load services after calling
      *                               run() function
      * @return void
      */

@@ -1,17 +1,16 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phalconslayer.readme.io
  */
-
-if (!function_exists('env')) {
+if (! function_exists('env')) {
 
     /**
      * This handles the the global environment variables, it acts as getenv()
-     * that handles the .env file in the root folder of a project
+     * that handles the .env file in the root folder of a project.
      *
      * @param string $const The constant variable
      * @param string\bool|mixed $default The default value if it is empty
@@ -47,10 +46,10 @@ if (!function_exists('env')) {
     }
 }
 
-if (!function_exists('csrf_field')) {
+if (! function_exists('csrf_field')) {
 
     /**
-     * This generates a csrf field for html forms
+     * This generates a csrf field for html forms.
      *
      * @return string
      */
@@ -63,10 +62,10 @@ if (!function_exists('csrf_field')) {
     }
 }
 
-if (!function_exists('processing_time')) {
+if (! function_exists('processing_time')) {
 
     /**
-     * This calculates the processing time based on the starting time
+     * This calculates the processing time based on the starting time.
      *
      * @param int $starting_time The microtime it starts
      * @return string
@@ -77,10 +76,10 @@ if (!function_exists('processing_time')) {
     }
 }
 
-if (!function_exists('iterate_require')) {
+if (! function_exists('iterate_require')) {
 
     /**
-     * This iterates and require a php files, useful along folder_files()
+     * This iterates and require a php files, useful along folder_files().
      *
      * @param mixed $files
      * @return mixed
@@ -97,10 +96,10 @@ if (!function_exists('iterate_require')) {
     }
 }
 
-if (!function_exists('stubify')) {
+if (! function_exists('stubify')) {
 
     /**
-     * This changes a stub format content
+     * This changes a stub format content.
      *
      * @return string
      */
@@ -114,10 +113,10 @@ if (!function_exists('stubify')) {
     }
 }
 
-if (!function_exists('path_to_namespace')) {
+if (! function_exists('path_to_namespace')) {
 
     /**
-     * This converts a path into a namespace
+     * This converts a path into a namespace.
      *
      * @return string
      */
@@ -136,10 +135,10 @@ if (!function_exists('path_to_namespace')) {
     }
 }
 
-if (!function_exists('url_trimmer')) {
+if (! function_exists('url_trimmer')) {
 
     /**
-     * This trims a url that has multiple slashes and trimming slash at the end
+     * This trims a url that has multiple slashes and trimming slash at the end.
      *
      * @return string
      */
@@ -149,10 +148,10 @@ if (!function_exists('url_trimmer')) {
     }
 }
 
-if (!function_exists('logging_extension')) {
+if (! function_exists('logging_extension')) {
 
     /**
-     * This returns an extension name based on the requested logging time
+     * This returns an extension name based on the requested logging time.
      *
      * @return string
      */
@@ -180,7 +179,7 @@ if (!function_exists('logging_extension')) {
             break;
 
             default:
-                throw new Exception("Logging time[".$logging_time."] not found");
+                throw new Exception('Logging time['.$logging_time.'] not found');
             break;
         }
 
@@ -188,7 +187,7 @@ if (!function_exists('logging_extension')) {
     }
 }
 
-if (!function_exists('is_cli')) {
+if (! function_exists('is_cli')) {
     function is_cli()
     {
         if (php_sapi_name() === 'cli') {

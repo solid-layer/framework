@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
@@ -18,22 +16,22 @@ use Illuminate\Support\Str;
 use Phalcon\Crypt as BaseCrypt;
 
 /**
- * This provides encryption facilities to phalcon applications
+ * This provides encryption facilities to phalcon applications.
  */
 class Crypt extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'crypt';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = true;
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     public function register()
     {
@@ -46,7 +44,7 @@ class Crypt extends ServiceProvider
         $crypt->setKey($key);
         $crypt->setCipher(config('app.encryption.cipher'));
 
-        if (Version::get() <= '2.0.10' ) {
+        if (Version::get() <= '2.0.10') {
             $crypt->setMode(config('app.encryption.mode'));
         }
 

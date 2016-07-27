@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Support\Auth
  */
 namespace Clarity\Support\Auth;
 
@@ -31,7 +29,7 @@ class Auth
     }
 
     /**
-     * Attempt to login using the provided records and the password field
+     * Attempt to login using the provided records and the password field.
      *
      * @param  array $records
      * @return bool
@@ -44,12 +42,10 @@ class Auth
             throw new InvalidArgumentException('Invalid argument for password field.');
         }
 
-
         # get the password information
 
         $password = $records[$password_field];
         unset($records[$password_field]);
-
 
         # build the conditions
 
@@ -57,7 +53,7 @@ class Auth
         $conditions = null;
 
         foreach ($records as $key => $record) {
-            if (!$first) {
+            if (! $first) {
                 $conditions .= 'AND';
             }
 
@@ -65,7 +61,6 @@ class Auth
 
             $first = false;
         }
-
 
         # find the informations provided in the $records
 
@@ -76,13 +71,11 @@ class Auth
             'bind' => $records,
         ])->getFirst();
 
-
         # check if there is no record, then return false
 
-        if (!$records) {
+        if (! $records) {
             return false;
         }
-
 
         # now check if the password given is matched with the
         # existing password recorded.
@@ -98,7 +91,7 @@ class Auth
     }
 
     /**
-     * Redirect based on the key provided in the url
+     * Redirect based on the key provided in the url.
      *
      * @return mixed|bool
      */
@@ -116,7 +109,7 @@ class Auth
     }
 
     /**
-     * To determine if the user is logged in
+     * To determine if the user is logged in.
      *
      * @return bool
      */
@@ -130,7 +123,7 @@ class Auth
     }
 
     /**
-     * Get the stored user information
+     * Get the stored user information.
      *
      * @return mixed
      */
@@ -140,7 +133,7 @@ class Auth
     }
 
     /**
-     * Destroy the current auth
+     * Destroy the current auth.
      *
      * @return bool
      */

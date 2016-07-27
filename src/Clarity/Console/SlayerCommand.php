@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework Helpers
+ * PhalconSlayer\Framework Helpers.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Console
  */
 namespace Clarity\Console;
 
@@ -17,58 +15,56 @@ use Clarity\Services\ServiceMagicMethods;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Exception\InvalidOptionException;
 
 /**
- * An abstract class that handles all slayer console
+ * An abstract class that handles all slayer console.
  */
 abstract class SlayerCommand extends Command
 {
     use ServiceMagicMethods;
 
     /**
-     * The input interface instance
+     * The input interface instance.
      *
      * @var mixed
      */
     protected $input;
 
     /**
-     * The output interface instance
+     * The output interface instance.
      *
      * @var mixed
      */
     protected $output;
 
     /**
-     * The environment option
+     * The environment option.
      *
      * if this is marked as true (boolean), it will activate the --env option
      *
-     * @var boolean
+     * @var bool
      */
     protected $environment_option = true;
 
     /**
-     * The timeout option
+     * The timeout option.
      *
      * if this is marked as true (boolean), it will activate the --timeout option
      *
-     * @var boolean
+     * @var bool
      */
     protected $timeout_option = true;
 
     /**
-     * A default constant timeout
+     * A default constant timeout.
      */
     const TIMEOUT = 60;
 
     /**
-     * An abstract function that will be called on every providers
+     * An abstract function that will be called on every providers.
      *
      * @return mixed
      */
@@ -93,7 +89,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This loads the environment
+     * This loads the environment.
      *
      * @return \Clarity\Console\SlayerCommand
      */
@@ -128,7 +124,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This loads the timeout
+     * This loads the timeout.
      *
      * @return \Clarity\Console\SlayerCommand
      */
@@ -144,7 +140,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * Returns the input interface instance
+     * Returns the input interface instance.
      *
      * @return mixed
      */
@@ -154,7 +150,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * Returns the output interface instance
+     * Returns the output interface instance.
      *
      * @return mixed
      */
@@ -172,7 +168,7 @@ abstract class SlayerCommand extends Command
             ->setName($this->name)
             ->setDescription($this->description);
 
-        if (!empty($this->arguments())) {
+        if (! empty($this->arguments())) {
             foreach ($this->arguments() as $arg) {
                 $this->addArgument(
                     isset($arg[0]) ? $arg[0] : null,
@@ -203,8 +199,7 @@ abstract class SlayerCommand extends Command
             );
         }
 
-
-        if (!empty($this->options())) {
+        if (! empty($this->options())) {
             foreach ($this->options() as $opt) {
                 $this->addOption(
                     isset($opt[0]) ? $opt[0] : null,
@@ -220,7 +215,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This provides the arguments of this console
+     * This provides the arguments of this console.
      *
      * @return mixed
      */
@@ -230,7 +225,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This provides the options of this console
+     * This provides the options of this console.
      *
      * @return mixed
      */
@@ -240,7 +235,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This prints-out an info colored message
+     * This prints-out an info colored message.
      *
      * @param  string $message The message to be printed
      * @return void
@@ -251,7 +246,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This prints-out a line colored message
+     * This prints-out a line colored message.
      *
      * @param  string $message The message to be printed
      * @return void
@@ -262,7 +257,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This prints-out a comment colored message
+     * This prints-out a comment colored message.
      *
      * @param  string $message The message to be printed
      * @return void
@@ -273,7 +268,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * To print a message block
+     * To print a message block.
      *
      * @param  string $message Your message
      * @param  string $color   The color to set
@@ -284,15 +279,15 @@ abstract class SlayerCommand extends Command
     {
         $formatter = $this->getHelperSet()->get('formatter');
 
-        $this->output->writeln(array(
+        $this->output->writeln([
             '',
             $formatter->formatBlock($message, $color, $large),
             '',
-        ));
+        ]);
     }
 
     /**
-     * This prints-out an error colored message
+     * This prints-out an error colored message.
      *
      * @param  string $message The message to be printed
      * @return void
@@ -303,7 +298,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * This handles exception and prints-out error colored message
+     * This handles exception and prints-out error colored message.
      *
      * @param  \Exception $e
      * @return void
@@ -322,7 +317,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * Ask something with a default value
+     * Ask something with a default value.
      *
      * @param  string                $message The message to be printed
      * @param  bool|string|int]mixed $default The default value
@@ -338,7 +333,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * To confirm that only works with [y/n]
+     * To confirm that only works with [y/n].
      *
      * @param  string $message The message to be printed
      * @return mixed
@@ -353,7 +348,7 @@ abstract class SlayerCommand extends Command
     }
 
     /**
-     * Call the composer's dumpautoload
+     * Call the composer's dumpautoload.
      *
      * @return void
      */

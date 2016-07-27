@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Lang
  */
 namespace Clarity\Lang;
 
@@ -39,14 +37,14 @@ class Lang
         $exploded = explode('.', $path);
 
         return [
-            'file'     => $this->dir . '/' . $this->language . '/' . $exploded[ 0 ] . '.php',
+            'file'     => $this->dir.'/'.$this->language.'/'.$exploded[ 0 ].'.php',
             'exploded' => $exploded,
         ];
     }
 
     protected function hasFile($file)
     {
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             return false;
         }
 
@@ -64,7 +62,7 @@ class Lang
     {
         $attribute = $this->getAttribute($path);
 
-        if (!$this->hasFile($attribute[ 'file' ])) {
+        if (! $this->hasFile($attribute[ 'file' ])) {
             return false;
         }
 
@@ -75,7 +73,7 @@ class Lang
     {
         $attribute = $this->getAttribute($path);
 
-        if (!$this->hasFile($attribute[ 'file' ])) {
+        if (! $this->hasFile($attribute[ 'file' ])) {
             throw new FileNotFoundException("File {$file} not found!");
         }
 
@@ -93,7 +91,7 @@ class Lang
 
         if (count($params)) {
             foreach ($params as $key => $val) {
-                $content = str_replace('{' . $key . '}', $val, $content);
+                $content = str_replace('{'.$key.'}', $val, $content);
             }
         }
 

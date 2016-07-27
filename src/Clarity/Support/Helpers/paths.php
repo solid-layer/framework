@@ -1,16 +1,15 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phalconslayer.readme.io
  */
-
-if (!function_exists('base_path')) {
+if (! function_exists('base_path')) {
 
     /**
-     * Get the base path
+     * Get the base path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -21,10 +20,10 @@ if (!function_exists('base_path')) {
     }
 }
 
-if (!function_exists('app_path')) {
+if (! function_exists('app_path')) {
 
     /**
-     * Get the app path
+     * Get the app path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -35,10 +34,10 @@ if (!function_exists('app_path')) {
     }
 }
 
-if (!function_exists('config_path')) {
+if (! function_exists('config_path')) {
 
     /**
-     * Get the config path
+     * Get the config path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -49,10 +48,10 @@ if (!function_exists('config_path')) {
     }
 }
 
-if (!function_exists('database_path')) {
+if (! function_exists('database_path')) {
 
     /**
-     * Get the database path
+     * Get the database path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -63,10 +62,10 @@ if (!function_exists('database_path')) {
     }
 }
 
-if (!function_exists('storage_path')) {
+if (! function_exists('storage_path')) {
 
     /**
-     * Get the storage path
+     * Get the storage path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -77,10 +76,10 @@ if (!function_exists('storage_path')) {
     }
 }
 
-if (!function_exists('public_path')) {
+if (! function_exists('public_path')) {
 
     /**
-     * Get the public path
+     * Get the public path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -91,10 +90,10 @@ if (!function_exists('public_path')) {
     }
 }
 
-if (!function_exists('resources_path')) {
+if (! function_exists('resources_path')) {
 
     /**
-     * Get the resources path
+     * Get the resources path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -105,10 +104,10 @@ if (!function_exists('resources_path')) {
     }
 }
 
-if (!function_exists('sandbox_path')) {
+if (! function_exists('sandbox_path')) {
 
     /**
-     * Get the sandbox path
+     * Get the sandbox path.
      *
      * @param string $extend_path To access file by providing extended path
      * @return string
@@ -119,10 +118,10 @@ if (!function_exists('sandbox_path')) {
     }
 }
 
-if (!function_exists('cp')) {
+if (! function_exists('cp')) {
 
     /**
-     * To copy a certain source to destination
+     * To copy a certain source to destination.
      *
      * @param string $source The source file/folder
      * @param string $dest The destination file/folder
@@ -148,25 +147,25 @@ if (!function_exists('cp')) {
                 # check if there is existing directory
                 # else create.
 
-                $_temp_dir = $dest . '/' . $iterator->getSubPathName();
+                $_temp_dir = $dest.'/'.$iterator->getSubPathName();
 
                 if (is_dir($_temp_dir) === false) {
-                    mkdir($dest . '/' . $iterator->getSubPathName(), true);
+                    mkdir($dest.'/'.$iterator->getSubPathName(), true);
                 }
 
                 continue;
             }
 
             # it is a file
-            copy($item, $dest . '/' . $iterator->getSubPathName());
+            copy($item, $dest.'/'.$iterator->getSubPathName());
         }
     }
 }
 
-if (!function_exists('folder_files')) {
+if (! function_exists('folder_files')) {
 
     /**
-     * Get all the files from assigned path
+     * Get all the files from assigned path.
      *
      * @param string $path The path to be iterated
      * @return mixed

@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,35 +8,33 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Mvc\URL as BaseURL;
 
 /**
- * This provider instantiates the @see \Clarity\Support\Phalcon\Mvc\URL
+ * This provider instantiates the @see \Clarity\Support\Phalcon\Mvc\URL.
  */
 class URL extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'url';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = true;
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $after_module = true;
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     public function register()
     {

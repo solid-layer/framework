@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Support\Phalcon\Mvc
  */
 namespace Clarity\Support\Phalcon\Mvc;
 
@@ -19,7 +17,7 @@ use Clarity\Support\WithMagicMethodTrait;
 use Clarity\Exceptions\ViewFileNotFoundException;
 
 /**
- * This class extends the existing Phalcon\Mvc\View
+ * This class extends the existing Phalcon\Mvc\View.
  *
  * We wrap the parent class to be able to create/inject new functions
  */
@@ -35,7 +33,7 @@ class View extends BaseView
     const LEVEL_MAIN_LAYOUT = 5;
 
     /**
-     * Replacing dots into slashes
+     * Replacing dots into slashes.
      *
      * @param  string $path The dotted path
      * @return string
@@ -48,7 +46,7 @@ class View extends BaseView
     }
 
     /**
-     * This validates template if exists
+     * This validates template if exists.
      *
      * @param  string $path The path needed to validate if
      * atleast a template file exists
@@ -56,20 +54,20 @@ class View extends BaseView
      */
     protected function checkViewPath($path)
     {
-        $full_path = di()->get('view')->getViewsDir() . $path;
+        $full_path = di()->get('view')->getViewsDir().$path;
 
-        $result = glob($full_path . '.*');
+        $result = glob($full_path.'.*');
 
-        if (!$result) {
+        if (! $result) {
             throw new ViewFileNotFoundException(
-                'Views file path(' . $full_path . ') not found.'
+                'Views file path('.$full_path.') not found.'
             );
         }
     }
 
     /**
      * This calls the pick() function which we basically wrap it based
-     * on our needs
+     * on our needs.
      *
      * @param  string $path The template path to use
      * @param  mixed $records The data to be passed going to the template
@@ -86,7 +84,7 @@ class View extends BaseView
     }
 
     /**
-     * This injects a variable going to view
+     * This injects a variable going to view.
      *
      * @param  string $key The variable name
      * @param  string|bool|int|mixed $val The value of variable
@@ -98,7 +96,7 @@ class View extends BaseView
     }
 
     /**
-     * This injects an array going to view to set as variable in it
+     * This injects an array going to view to set as variable in it.
      *
      * @param  string $array The data to be passed going to the template
      * @return mixed
@@ -110,7 +108,7 @@ class View extends BaseView
 
     /**
      * This will fill an existing form element to set a default/persist
-     * form value
+     * form value.
      *
      * @param string $key The variable name
      * @param string $val The value of variable
@@ -125,7 +123,7 @@ class View extends BaseView
 
     /**
      * This will fill an existing form element to set a default/persist
-     * form values
+     * form values.
      *
      * @param array $values An array of variables with values in it
      * @param bool $merge To override/merge an existing tag value
@@ -139,7 +137,7 @@ class View extends BaseView
     }
 
     /**
-     * This returns a raw php/html
+     * This returns a raw php/html.
      *
      * @param  string $path The template path to use
      * @param  mixed $records The data to be passed going to the template
@@ -151,6 +149,7 @@ class View extends BaseView
 
         ob_start();
         $this->partial($view, $records);
+
         return ob_get_contents();
         // return $this->getRender(null, $view, $records);
     }

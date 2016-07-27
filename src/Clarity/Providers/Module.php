@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,30 +8,26 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
-use Phalcon\Session\Bag as PhalconSessionBag;
-
 /**
- * This provider manage all registered and injected modules
+ * This provider manage all registered and injected modules.
  */
 class Module extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'module';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = true;
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     public function register()
     {
@@ -39,7 +35,7 @@ class Module extends ServiceProvider
     }
 
     /**
-     * This sets a batch of modules
+     * This sets a batch of modules.
      *
      * @param mixed $modules
      * @return \Clarity\Providers\Module Returns itself
@@ -54,7 +50,7 @@ class Module extends ServiceProvider
     }
 
     /**
-     * This set a single module
+     * This set a single module.
      *
      * @param string $name
      * @param \Closure $closure
@@ -71,7 +67,7 @@ class Module extends ServiceProvider
     }
 
     /**
-     * This returns all the available modules
+     * This returns all the available modules.
      *
      * Which converted into an array format
      *

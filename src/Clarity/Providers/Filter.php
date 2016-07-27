@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,15 +8,13 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
 use Phalcon\Filter as BaseFilter;
 
 /**
- * This provider handles the filter component of Phalcon Framework
+ * This provider handles the filter component of Phalcon Framework.
  *
  * Sanitizing is the process which removes specific characters from a value,
  * that are not required or desired by the user or application.
@@ -25,17 +23,17 @@ use Phalcon\Filter as BaseFilter;
 class Filter extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'filter';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = false;
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     public function register()
     {

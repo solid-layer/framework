@@ -1,4 +1,5 @@
 <?php
+
 namespace Clarity\Support\Phalcon\Session;
 
 use Phalcon\Session\Adapter\Files as Adapter;
@@ -12,7 +13,7 @@ class Files extends Adapter
     {
         parent::__construct($options);
 
-        if (!is_cli()) {
+        if (! is_cli()) {
             if (isset($options['session_storage']) === false) {
                 $options['session_storage'] = url_trimmer(config()->path->storage.'/session');
             }

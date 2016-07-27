@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Exceptions
  */
 namespace Clarity\Exceptions;
 
@@ -20,7 +18,7 @@ use Monolog\ErrorHandler as MonologErrorHandler;
 use Symfony\Component\Debug\Exception\FlattenException;
 
 /**
- * The main exception handler
+ * The main exception handler.
  */
 class Handler extends Exception
 {
@@ -33,7 +31,7 @@ class Handler extends Exception
     }
 
     /**
-     * Handles fatal error, based on the lists
+     * Handles fatal error, based on the lists.
      *
      * @return void
      */
@@ -52,7 +50,7 @@ class Handler extends Exception
     }
 
     /**
-     * Creates an error exception
+     * Creates an error exception.
      *
      * @param int    $num     error type e.g(E_PARSE | E_ERROR ...)
      * @param string $str     error message
@@ -71,7 +69,7 @@ class Handler extends Exception
     }
 
     /**
-     * Print outs a simple but useful debugging ui
+     * Print outs a simple but useful debugging ui.
      *
      * @param $e
      * @return void
@@ -82,7 +80,7 @@ class Handler extends Exception
     }
 
     /**
-     * Render the exception
+     * Render the exception.
      *
      * @param  mixed $e
      * @param  int   $status_code
@@ -122,7 +120,7 @@ class Handler extends Exception
     }
 
     /**
-     * Processes the error, fatal and exceptions
+     * Processes the error, fatal and exceptions.
      *
      * @return void
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\View
  */
 namespace Clarity\View;
 
@@ -23,14 +21,14 @@ use Clarity\Providers\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {
-    protected $alias  = 'view';
+    protected $alias = 'view';
     protected $shared = true;
 
     public function boot()
     {
         $event_manager = new Manager;
 
-        $event_manager->attach("view:afterRender",
+        $event_manager->attach('view:afterRender',
             function (
                 Event $event,
                 View $dispatcher,

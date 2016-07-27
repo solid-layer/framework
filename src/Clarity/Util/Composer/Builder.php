@@ -1,4 +1,5 @@
 <?php
+
 namespace Clarity\Util\Composer;
 
 use Composer\IO\NullIO;
@@ -17,7 +18,7 @@ class Builder
     }
 
     /**
-     * This overwrite/create a new key-value
+     * This overwrite/create a new key-value.
      *
      * @param string $key
      * @param int|string|bool|mixed $value
@@ -30,7 +31,7 @@ class Builder
     }
 
     /**
-     * This merges an existing key
+     * This merges an existing key.
      *
      * @param  string $key   The key to use
      * @param  array  $value Array value to be merged
@@ -47,7 +48,7 @@ class Builder
     }
 
     /**
-     * This compile the config
+     * This compile the config.
      *
      * @param  int $format Will be used for 2nd arg in json_encode
      * @return string The final composer content
@@ -62,7 +63,7 @@ class Builder
     }
 
     /**
-     * Return the raw config
+     * Return the raw config.
      *
      * @return mixed Array of config
      */
@@ -72,7 +73,7 @@ class Builder
     }
 
     /**
-     * Validate config
+     * Validate config.
      *
      * @param  int $check_all
      * @return mixed
@@ -89,14 +90,14 @@ class Builder
 
         fclose($tmpfile);
 
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             return [
                 'valid' => false,
                 'errors' => $errors,
             ];
         }
 
-        if (!empty($publish_errors)) {
+        if (! empty($publish_errors)) {
             return [
                 'valid' => false,
                 'errors' => $publish_errors,

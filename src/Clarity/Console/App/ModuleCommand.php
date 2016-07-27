@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Console\App
  */
 namespace Clarity\Console\App;
 
@@ -17,7 +15,7 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * A console command that generate a set of module
+ * A console command that generate a set of module.
  */
 class ModuleCommand extends SlayerCommand
 {
@@ -32,7 +30,7 @@ class ModuleCommand extends SlayerCommand
     protected $description = 'Generate a new module';
 
     /**
-     * Get the application path
+     * Get the application path.
      *
      * @return string
      */
@@ -42,7 +40,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the public path
+     * Get the public path.
      *
      * @return string
      */
@@ -52,7 +50,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the base path
+     * Get the base path.
      *
      * @return string
      */
@@ -62,7 +60,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the namespace to use
+     * Get the namespace to use.
      *
      * @return string
      */
@@ -74,7 +72,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the module name
+     * Get the module name.
      *
      * @return string
      */
@@ -84,7 +82,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the base controller content stub
+     * Get the base controller content stub.
      *
      * @return string
      */
@@ -94,7 +92,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the base route content stub
+     * Get the base route content stub.
      *
      * @return string
      */
@@ -104,7 +102,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the base public index content stub
+     * Get the base public index content stub.
      *
      * @return string
      */
@@ -114,7 +112,7 @@ class ModuleCommand extends SlayerCommand
     }
 
     /**
-     * Get the routes content stub
+     * Get the routes content stub.
      *
      * @return string
      */
@@ -145,8 +143,7 @@ class ModuleCommand extends SlayerCommand
         $base_controller = "$module/controllers/Controller.php";
         $base_router = "$module/routes/RouteGroup.php";
         $routes_file = "$module/routes.php";
-        $public_file = $module.".php";
-
+        $public_file = $module.'.php';
 
         # now save the stubbed content into the their path
         if ($app_filesystem->has($base_controller) === false) {
@@ -156,14 +153,12 @@ class ModuleCommand extends SlayerCommand
             $this->error('   Base Controller already exists!');
         }
 
-
         if ($app_filesystem->has($base_router) === false) {
             $this->info('   Router Group created!');
             $app_filesystem->put($base_router, $router_buff);
         } else {
             $this->error('   Route Group already exists!');
         }
-
 
         if ($app_filesystem->has($routes_file) === false) {
             $this->info('   Routes file created!');
@@ -172,7 +167,6 @@ class ModuleCommand extends SlayerCommand
             $this->error('   Routes file already exists!');
         }
 
-
         if ($public_filesystem->has($public_file) === false) {
             $this->info('   Public Index created!');
             $public_filesystem->put($public_file, $public_buff);
@@ -180,13 +174,12 @@ class ModuleCommand extends SlayerCommand
             $this->error('   Public Index already exists!');
         }
 
-
         $this->callDumpAutoload();
     }
 
     /**
      * Get the content with 'namespace' by stubifying the
-     * provided content
+     * provided content.
      *
      * @param $stub_content
      * @return string

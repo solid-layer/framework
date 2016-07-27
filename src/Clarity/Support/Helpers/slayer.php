@@ -1,16 +1,15 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phalconslayer.readme.io
  */
-
-if (!function_exists('di')) {
+if (! function_exists('di')) {
 
     /**
-     * This calls our default dependency injection
+     * This calls our default dependency injection.
      *
      * @param string|mixed $alias The service provider alias
      * @return mixed
@@ -27,10 +26,10 @@ if (!function_exists('di')) {
         # passed in
         if (is_array($alias)) {
             if (
-                !isset($alias[0]) ||
-                !isset($alias[1])
+                ! isset($alias[0]) ||
+                ! isset($alias[1])
             ) {
-                throw new InvalidArgumentException("Provider alias or callback not found");
+                throw new InvalidArgumentException('Provider alias or callback not found');
             }
 
             $default->set(

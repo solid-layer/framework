@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,19 +8,14 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Console\Vendor
  */
 namespace Clarity\Console\Vendor;
 
-use Exception;
 use Clarity\Console\SlayerCommand;
 use Clarity\Util\Composer\Builder as Composer;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * A console command that creates a new package
+ * A console command that creates a new package.
  */
 class NewCommand extends SlayerCommand
 {
@@ -36,7 +31,7 @@ class NewCommand extends SlayerCommand
 
     /**
      * Get other possible composer attributes which triggered
-     * after calling the 'name'
+     * after calling the 'name'.
      *
      * @param  \Clarity\Util\Composer\Builder $composer
      * @return \Clarity\Util\Composer\Builder
@@ -52,7 +47,7 @@ class NewCommand extends SlayerCommand
     }
 
     /**
-     * Get the path to save vendor packages
+     * Get the path to save vendor packages.
      *
      * @return string Return the path pointing to the sandbox
      */
@@ -62,7 +57,7 @@ class NewCommand extends SlayerCommand
     }
 
     /**
-     * Get the filesystem manager
+     * Get the filesystem manager.
      *
      * @return mixed
      */
@@ -72,7 +67,7 @@ class NewCommand extends SlayerCommand
     }
 
     /**
-     * Get the stub to initial the provider
+     * Get the stub to initial the provider.
      *
      * @return string The service provider stub
      */
@@ -107,7 +102,7 @@ class NewCommand extends SlayerCommand
         $composer->set(
             'autoload', [
                 'psr-4' => [
-                    path_to_namespace($package)."\\" => 'src/',
+                    path_to_namespace($package).'\\' => 'src/',
                 ],
             ]
         );
@@ -115,15 +110,12 @@ class NewCommand extends SlayerCommand
         $validation = $composer->validate();
         if ($validation['valid'] === false) {
             $this->error(json_encode($validation['errors']));
+
             return;
         }
 
-
-
         # get the file/folder writer
         $sandbox = $this->getFlysystem();
-
-
 
         # craft vendor folder
         $generated_path = url_trimmer($this->getSandboxPath().$package);
@@ -135,23 +127,17 @@ class NewCommand extends SlayerCommand
             $this->comment("Re-using vendor folder at {$generated_path}");
         }
 
-
-
         # build src folder
         if ($sandbox->has($path = $package.'/src') === false) {
-            $this->comment("    - building /src folder");
+            $this->comment('    - building /src folder');
             $sandbox->createDir($path);
         }
 
-
-
         # build the composer.json file
         if ($sandbox->has($path = url_trimmer($package.'/composer.json')) === false) {
-            $this->comment("    - building composer.json file");
+            $this->comment('    - building composer.json file');
             $sandbox->put($path, $composer->render());
         }
-
-
 
         # craft <Package>ServiceProvider.php inside src/ folder
         $content = stubify($this->stubContent(), [
@@ -160,17 +146,16 @@ class NewCommand extends SlayerCommand
         ]);
 
         if ($sandbox->has($path = $package.'/src/'.$service_file.'.php') === false) {
-            $this->comment("    - building service provider class");
+            $this->comment('    - building service provider class');
             $sandbox->put($path, $content);
         }
-
-
 
         # rebuild the base composer.json
         $composer->config(file_get_contents(base_path('composer.json')));
 
         if (isset($composer->toArray()['require'][$package])) {
             $this->error('Vendor already exists');
+
             return;
         }
 
@@ -183,19 +168,20 @@ class NewCommand extends SlayerCommand
             $repo => [
                 'type' => 'path',
                 'url'  => $repo,
-            ]
+            ],
         ]);
 
         $validation = $composer->validate();
 
         if ($validation['valid'] === false) {
             $this->error(json_encode($validation['errors']));
+
             return;
         }
 
-        $this->comment("    - updating base composer.json");
+        $this->comment('    - updating base composer.json');
         file_put_contents(base_path('composer.json'), $composer->render());
-        $this->info("New vendor loaded, please run the following command:");
-        $this->info(" - composer update");
+        $this->info('New vendor loaded, please run the following command:');
+        $this->info(' - composer update');
     }
 }

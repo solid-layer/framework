@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Console\Mail
  */
 namespace Clarity\Console\Mail;
 
@@ -18,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 /**
- * A console command that converts templates into inlined
+ * A console command that converts templates into inlined.
  */
 class InlinerCommand extends SlayerCommand
 {
@@ -34,7 +32,7 @@ class InlinerCommand extends SlayerCommand
 
     /**
      * It combines all the css provided so that the system could
-     * analyze which class/ids will be used and will be inlined
+     * analyze which class/ids will be used and will be inlined.
      *
      * @param mixed $css_files
      * @return string
@@ -55,7 +53,7 @@ class InlinerCommand extends SlayerCommand
 
     /**
      * A parser function or rebuilder to inline original file
-     * into an email based html
+     * into an email based html.
      *
      * @param mixed $record assigned key from inliner config
      * @return void
@@ -65,12 +63,10 @@ class InlinerCommand extends SlayerCommand
         # instatiate the package inliner
         $inliner = new CssToInlineStyles;
 
-
         # let's get the views dir combine the record file
         $base_file = url_trimmer(
             di()->get('view')->getViewsDir().$record->file.'.*'
         );
-
 
         # now get all related glob
         $related_files = glob($base_file);
@@ -80,23 +76,19 @@ class InlinerCommand extends SlayerCommand
             return;
         }
 
-
         # set the html
         $inliner->setHTML(
             file_get_contents($related_files[0])
         );
-
 
         # set the css files
         $inliner->setCSS(
             $this->combineCss($record['css'])
         );
 
-
         #  get the dirname and file name
         $dirname = dirname($related_files[0]);
         $converted_name = basename($record->file).'-inlined.volt';
-
 
         # overwrite or create a file based on the dirname and file name
         file_put_contents(
@@ -104,27 +96,23 @@ class InlinerCommand extends SlayerCommand
             rawurldecode($inliner->convert())
         );
 
-
         # log, show some sucess
         $this->comment('   '.basename($record->file).' inlined! saved as '.$converted_name);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function slash()
     {
         # show some pretty comments that we're now inlining
         $this->comment('Inlining...');
 
-
         # let's get if there's an option assigned to 'record'
         $record = $this->input->getOption('record');
 
-
         # get all the records in inliner.php file
         $records = config()->inliner->toArray();
-
 
         # determine if option 'record' is not empty
         # then we should get the specific inline key
@@ -147,7 +135,7 @@ class InlinerCommand extends SlayerCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function options()
     {

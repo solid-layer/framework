@@ -29,7 +29,6 @@ return [
     // $base.'/vendor/monolog/monolog/src/Monolog/Handler/AbstractProcessingHandler.php',
     // $base.'/vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php',
 
-
     # phalcon slayer
     $base.'/vendor/phalconslayer/framework/src/Clarity/Kernel/KernelTrait.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Kernel/Kernel.php',

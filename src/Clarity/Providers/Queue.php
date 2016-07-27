@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,13 +8,11 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
 /**
- * This provider manages the available queue adapters and creates/instantiate in it
+ * This provider manages the available queue adapters and creates/instantiate in it.
  *
  * Activities like processing videos, resizing images or sending emails aren’t
  * suitable to be executed online or in real time because it may slow the
@@ -23,12 +21,12 @@ namespace Clarity\Providers;
 class Queue extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'queue';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = false;
 
@@ -46,7 +44,7 @@ class Queue extends ServiceProvider
     }
 
     /**
-     * Get the selected queuing adapter
+     * Get the selected queuing adapter.
      *
      * @return string
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Support\Phinx\Migration
  */
 namespace Clarity\Support\Phinx\Migration;
 
@@ -17,7 +15,7 @@ use Clarity\Support\Phinx\Db\Table;
 use Phinx\Migration\AbstractMigration as BaseAbstractMigration;
 
 /**
- * This class extends the package @see robmorgan\phinx AbstractMigration
+ * This class extends the package @see robmorgan\phinx AbstractMigration.
  *
  * We extended this to wrap the parent class, this will be used for future
  * modifications if needed, while the stub generated when calling db:migrate

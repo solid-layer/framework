@@ -1,8 +1,6 @@
 <?php
-namespace Clarity\Util\Composer;
 
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+namespace Clarity\Util\Composer;
 
 class TestConsole extends Console
 {
@@ -11,7 +9,7 @@ class TestConsole extends Console
     protected $description = 'Testing';
 
     /**
-     * Add your code below
+     * Add your code below.
      */
     public function slash()
     {
@@ -27,13 +25,13 @@ class TestConsole extends Console
 
         $validation = $builder->validate();
 
-        if (!$validation['valid']) {
+        if (! $validation['valid']) {
             if (isset($validation['publish_error'])) {
-                throw new \Exception("Publish Error found ".json_encode($validation['publish_error']));
+                throw new \Exception('Publish Error found '.json_encode($validation['publish_error']));
             }
 
             if (isset($validation['error'])) {
-                throw new \Exception("Error found ".json_encode($validation['error']));
+                throw new \Exception('Error found '.json_encode($validation['error']));
             }
         }
 

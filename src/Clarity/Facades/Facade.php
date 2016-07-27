@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Facades
  */
 namespace Clarity\Facades;
 
@@ -18,7 +16,6 @@ namespace Clarity\Facades;
  */
 abstract class Facade
 {
-
     /**
      * The application instance being facaded.
      *
@@ -52,7 +49,7 @@ abstract class Facade
      */
     protected static function getFacadeAccessor()
     {
-        throw new \RuntimeException("Facade does not implement getFacadeAccessor method.");
+        throw new \RuntimeException('Facade does not implement getFacadeAccessor method.');
     }
 
     /**

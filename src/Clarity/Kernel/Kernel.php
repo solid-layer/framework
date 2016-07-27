@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,14 +8,8 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Kernel
  */
-
 namespace Clarity\Kernel;
-
-use Clarity\Providers\Log;
-use Clarity\Services\Service\ServiceContainer;
 
 /**
  * Acts like a manager that initializes all the configurations/environments and module.
@@ -25,35 +19,35 @@ class Kernel
     use KernelTrait;
 
     /**
-     * The dependency injection
+     * The dependency injection.
      *
      * @var mixed
      */
     private $di;
 
     /**
-     * The configured environment
+     * The configured environment.
      *
      * @var string
      */
     private $env;
 
     /**
-     * The path/paths provided
+     * The path/paths provided.
      *
      * @var mixed
      */
     private $path;
 
     /**
-     * The modules pre-inserted
+     * The modules pre-inserted.
      *
      * @var mixed
      */
     private $modules;
 
     /**
-     * Initialize load
+     * Initialize load.
      *
      * @return void
      */
@@ -69,7 +63,7 @@ class Kernel
     }
 
     /**
-     * Set the path
+     * Set the path.
      *
      * @param mixed $path
      */
@@ -81,7 +75,7 @@ class Kernel
     }
 
     /**
-     * Set the modules
+     * Set the modules.
      *
      * @param mixed $modules
      */
@@ -93,7 +87,7 @@ class Kernel
     }
 
     /**
-     * Set the environment
+     * Set the environment.
      *
      * @param string $env
      */
@@ -105,7 +99,7 @@ class Kernel
     }
 
     /**
-     * Get the environment
+     * Get the environment.
      *
      * @return string Current environment
      */
@@ -115,7 +109,7 @@ class Kernel
     }
 
     /**
-     * Register modules
+     * Register modules.
      *
      * @return mixed
      */
@@ -129,7 +123,7 @@ class Kernel
     }
 
     /**
-     * Render the system content
+     * Render the system content.
      */
     public function render()
     {
@@ -137,7 +131,7 @@ class Kernel
     }
 
     /**
-     * Here, you will be loading the system by defining the module
+     * Here, you will be loading the system by defining the module.
      *
      * @param  string $module_name The module name
      * @return mixed

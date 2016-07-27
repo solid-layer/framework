@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Mail
  */
 namespace Clarity\Mail;
 
@@ -18,7 +16,7 @@ use Clarity\Providers\ServiceProvider;
 
 class MailServiceProvider extends ServiceProvider
 {
-    protected $alias  = 'mail';
+    protected $alias = 'mail';
     protected $shared = false;
 
     public function register()
@@ -27,7 +25,7 @@ class MailServiceProvider extends ServiceProvider
 
         $settings = config()->mail->{$adapter};
 
-        if (!$settings) {
+        if (! $settings) {
             throw new Exception('Adapter not found.');
         }
 

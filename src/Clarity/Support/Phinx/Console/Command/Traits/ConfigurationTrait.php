@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Support\Phinx\Console\Command\Traits
  */
 namespace Clarity\Support\Phinx\Console\Command\Traits;
 
@@ -28,10 +26,10 @@ trait ConfigurationTrait
 
         $adapters = config()->database->phinx_migrations->toArray();
 
-        if (!isset($adapters[$selected_adapter])) {
+        if (! isset($adapters[$selected_adapter])) {
             throw new Exception(
                 "Adapter [$selected_adapter] not found ".
-                "on config/database.phinx_migrations"
+                'on config/database.phinx_migrations'
             );
         }
 

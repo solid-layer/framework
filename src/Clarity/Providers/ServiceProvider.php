@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
@@ -18,40 +16,40 @@ use Clarity\Services\ServiceMagicMethods;
 use Clarity\Exceptions\ServiceAliasNotFoundException;
 
 /**
- * This is the abstract provider that could manage class extenders
+ * This is the abstract provider that could manage class extenders.
  */
 abstract class ServiceProvider
 {
     use ServiceMagicMethods;
 
     /**
-     * The provider's alias
+     * The provider's alias.
      * @var null
      */
     protected $alias = null;
 
     /**
-     * Shared if you want to make your provider as singleton
-     * @var boolean
+     * Shared if you want to make your provider as singleton.
+     * @var bool
      */
     protected $shared = false;
 
     /**
-     * The lists pushishable stack
+     * The lists pushishable stack.
      * @var array
      */
     protected $publish_stack = [];
 
     /**
-     * This determines if the provider will be called after the module call
-     * @var boolean
+     * This determines if the provider will be called after the module call.
+     * @var bool
      */
     protected $after_module = false;
 
     /**
-     * Get the provider if it is a shared or not
+     * Get the provider if it is a shared or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function getShared()
     {
@@ -59,7 +57,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * Get the service alias when accessing to di()->get(<alias>)
+     * Get the service alias when accessing to di()->get(<alias>).
      *
      * @return string
      */
@@ -67,7 +65,7 @@ abstract class ServiceProvider
     {
         if (strlen($this->alias) == 0) {
             throw new ServiceAliasNotFoundException(
-                'protected $alias not found on service "' . get_class($this) . '"'
+                'protected $alias not found on service "'.get_class($this).'"'
             );
         }
 
@@ -75,7 +73,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * To determine if this service must be called after module
+     * To determine if this service must be called after module.
      *
      * @return bool
      */
@@ -86,7 +84,7 @@ abstract class ServiceProvider
 
     /**
      * Call the register() function who extends this class
-     * by default, register() will return a false result
+     * by default, register() will return a false result.
      *
      * @return mixed
      */
@@ -96,7 +94,7 @@ abstract class ServiceProvider
 
         if ($register === false) {
             throw new Exception(
-                'register method not found on service "' . get_class($this) . '"'
+                'register method not found on service "'.get_class($this).'"'
             );
         }
 
@@ -104,7 +102,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * The process after all di are loaded
+     * The process after all di are loaded.
      *
      * @return bool
      */
@@ -114,14 +112,14 @@ abstract class ServiceProvider
     }
 
     /**
-     * Registered process based on DI scope
+     * Registered process based on DI scope.
      *
      * @return mixed
      */
     abstract public function register();
 
     /**
-     * Folders or Files to be copied from going to application path
+     * Folders or Files to be copied from going to application path.
      *
      * @param  mixed  $paths The array paths to be copied from and to
      * @param  string $tag   The tag name to be triggered upon running command
@@ -138,7 +136,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * Get published stacks based on tag
+     * Get published stacks based on tag.
      *
      * @param string $tag The tag name to be triggered upon running command
      *
@@ -152,7 +150,7 @@ abstract class ServiceProvider
             }
 
             return [
-                $tag => $this->publish_stack[$tag]
+                $tag => $this->publish_stack[$tag],
             ];
         }
 

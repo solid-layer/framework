@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Console\Server
  */
 namespace Clarity\Console\Server;
 
@@ -17,7 +15,7 @@ use Clarity\Console\SlayerCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * A console command that serves a module
+ * A console command that serves a module.
  */
 class ServeCommand extends SlayerCommand
 {
@@ -29,7 +27,7 @@ class ServeCommand extends SlayerCommand
     /**
      * {@inheritdoc}
      */
-    protected $description = "Serve the application on the PHP development server";
+    protected $description = 'Serve the application on the PHP development server';
 
     /**
      * {@inheritdoc}
@@ -85,7 +83,7 @@ class ServeCommand extends SlayerCommand
                 InputOption::VALUE_OPTIONAL,
                 'The php file to be used.',
                 'index.php',
-            ]
+            ],
         ];
     }
 }

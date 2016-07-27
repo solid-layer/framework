@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,18 +8,16 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Console\Clear
  */
 namespace Clarity\Console\Clear;
 
 /**
- * A console command that clears the storage cache
+ * A console command that clears the storage cache.
  */
 trait ClearTrait
 {
     /**
-     * Lists of ignored files
+     * Lists of ignored files.
      *
      * @var mixed
      */
@@ -29,7 +27,7 @@ trait ClearTrait
 
     /**
      * This recursively clears all files including folders, based on the $path
-     * provided
+     * provided.
      *
      * @param string $path The designated path to be cleared
      * @return void

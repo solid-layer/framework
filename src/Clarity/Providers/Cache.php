@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,28 +8,26 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
 /**
- * This provider manages the cache drivers
+ * This provider manages the cache drivers.
  */
 class Cache extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'cache';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = false;
 
     /**
-     * Get the selected cache adapter
+     * Get the selected cache adapter.
      *
      * @return string
      */
@@ -39,13 +37,13 @@ class Cache extends ServiceProvider
     }
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     public function register()
     {
         $adapter = config()->cache->adapters->{$this->getSelectedAdapter()};
 
-        $backend  = $adapter->backend;
+        $backend = $adapter->backend;
         $frontend = $adapter->frontend;
 
         $front_cache = new $frontend([

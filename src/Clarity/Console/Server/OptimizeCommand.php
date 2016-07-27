@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Console\Server
  */
 namespace Clarity\Console\Server;
 
@@ -20,7 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
 use ClassPreloader\Exceptions\VisitorExceptionInterface;
 
 /**
- * A console command that optimized the whole system
+ * A console command that optimized the whole system.
  */
 class OptimizeCommand extends SlayerCommand
 {
@@ -32,7 +30,7 @@ class OptimizeCommand extends SlayerCommand
     /**
      * {@inheritdoc}
      */
-    protected $description = "Compile all the classes in to a single file.";
+    protected $description = 'Compile all the classes in to a single file.';
 
     /**
      * {@inheritdoc}
@@ -49,7 +47,6 @@ class OptimizeCommand extends SlayerCommand
             $this->compileClasses();
         }
     }
-
 
     /**
      * Generate the compiled class file.
@@ -132,7 +129,7 @@ class OptimizeCommand extends SlayerCommand
     }
 
     /**
-     * This calls the 'composer dumpautoload --optimize'
+     * This calls the 'composer dumpautoload --optimize'.
      *
      * @return void
      */
@@ -142,7 +139,7 @@ class OptimizeCommand extends SlayerCommand
             'composer dumpautoload --optimize',
         ]);
 
-        $compiled_file = BASE_PATH . '/storage/slayer/compiled.php';
+        $compiled_file = BASE_PATH.'/storage/slayer/compiled.php';
 
         if (file_exists($compiled_file)) {
             $this->info('Removing previous compiled file...');

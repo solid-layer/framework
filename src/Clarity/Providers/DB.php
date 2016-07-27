@@ -1,6 +1,6 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -8,8 +8,6 @@
  */
 
 /**
- * @package Clarity
- * @subpackage Clarity\Providers
  */
 namespace Clarity\Providers;
 
@@ -33,17 +31,17 @@ use Phalcon\Events\Manager as EventsManager;
 class DB extends ServiceProvider
 {
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $alias = 'db';
 
     /**
-     * {@inheridoc}
+     * {@inheridoc}.
      */
     protected $shared = true;
 
     /**
-     * Get the database adapters
+     * Get the database adapters.
      *
      * @return mixed
      */
@@ -56,7 +54,7 @@ class DB extends ServiceProvider
     }
 
     /**
-     * Pull all configurations and return the database connection
+     * Pull all configurations and return the database connection.
      *
      * @return mixed
      */
@@ -83,8 +81,7 @@ class DB extends ServiceProvider
      */
     public function boot()
     {
-        if (!di()->has($this->alias)) {
-
+        if (! di()->has($this->alias)) {
             $db = $this->getDB();
 
             di()->set($this->alias, function () use ($db) {
@@ -102,7 +99,7 @@ class DB extends ServiceProvider
     }
 
     /**
-     * Instantiate the class and get the adapter
+     * Instantiate the class and get the adapter.
      *
      * @param  string $selected_adapter The adapter name
      * @return mixed An adapter to use you
@@ -115,7 +112,7 @@ class DB extends ServiceProvider
 
         # here, we must check the adapter, if it does not
         # exists, we should throw an exception error
-        if (!$has_adapter) {
+        if (! $has_adapter) {
             throw new Exception(
                 'Database adapter '.$selected_adapter.
                 ' not found'
@@ -130,7 +127,7 @@ class DB extends ServiceProvider
     }
 
     /**
-     * An event to log our queries
+     * An event to log our queries.
      *
      * @return mixed Instatiated event manager
      */
@@ -159,8 +156,8 @@ class DB extends ServiceProvider
 
                 if ($variables) {
                     $logger->info(
-                        $conn->getSQLStatement() .
-                        ' ['. join(',', $variables) . ']'
+                        $conn->getSQLStatement().
+                        ' ['.implode(',', $variables).']'
                     );
                 } else {
                     $logger->info($conn->getSQLStatement());

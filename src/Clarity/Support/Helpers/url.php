@@ -1,17 +1,16 @@
 <?php
 /**
- * PhalconSlayer\Framework
+ * PhalconSlayer\Framework.
  *
  * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phalconslayer.readme.io
  */
-
-if (!function_exists('base_uri')) {
+if (! function_exists('base_uri')) {
 
     /**
      * This returns the base uri of the current module, if passed an argument
-     * it automatically appended as uri
+     * it automatically appended as uri.
      *
      * @param $extend_path To provide uri
      * @return string
@@ -29,10 +28,10 @@ if (!function_exists('base_uri')) {
     }
 }
 
-if (!function_exists('back')) {
+if (! function_exists('back')) {
 
     /**
-     * This returns the previous request url
+     * This returns the previous request url.
      *
      * @return string
      */
