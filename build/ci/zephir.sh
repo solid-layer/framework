@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
 
-cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}/vendor/phalcon/zephir
+if [ "$PHALCON_VERSION" != "2.0.x" ]; then
 
-ZEPHIRDIR="$( cd "$( dirname . )" && pwd )"
-sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
-chmod 755 bin/zephir-cmd
+    cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}/vendor/phalcon/zephir
 
-mkdir -p ~/bin
+    ZEPHIRDIR="$( cd "$( dirname . )" && pwd )"
+    sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
+    chmod 755 bin/zephir-cmd
 
-cp bin/zephir-cmd ~/bin/zephir
-rm bin/zephir-cmd
+    mkdir -p ~/bin
 
-# test zephir
-(cd ${TRAVIS_BUILD_DIR};zephir)
+    cp bin/zephir-cmd ~/bin/zephir
+    rm bin/zephir-cmd
+
+    # test zephir
+    (cd ${TRAVIS_BUILD_DIR};zephir)
+
+    # zephir load determining php version
+    ( \
+    cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER} \
+    '[[ "$TRAVIS_PHP_VERSION" == "7.0" ]] || ( zephir fullclean && zephir generate )' \
+    '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || ( zephir fullclean && zephir generate --backend=ZendEngine3 )' \
+    )
+
+fi
