@@ -14,8 +14,8 @@ You can post issues here, submit a pull request, discuss things you can imagine.
 #####Master Status:
 [![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=master)](https://travis-ci.org/phalconslayer/slayer)
 
-#####Dev Status:
-[![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=dev)](https://travis-ci.org/phalconslayer/slayer)
+#####1.3 Status:
+[![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=1.3)](https://travis-ci.org/phalconslayer/slayer)
 
 ---
 
