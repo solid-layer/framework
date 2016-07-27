@@ -45,8 +45,8 @@ cache:
 
 before_install:
   # clone cphalcon
-  - git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b ${PHALCON_VERSION}
-  - (cd cphalcon;travis_retry composer --prefer-source install)
+  - git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b ${PHALCON_VERSION} ${TRAVIS_BUILD_DIR}/cphalcon
+  - (cd ${TRAVIS_BUILD_DIR}/cphalcon;travis_retry composer --prefer-source install)
 
   # run zephir installation
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/zephir.sh | bash
@@ -59,13 +59,13 @@ before_install:
   - '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || ( zephir fullclean && zephir generate --backend=ZendEngine3 )'
 
 before_script:
-  - (cd ${TRAVIS_BUILD_DIR}/cphalcon/ext; export CFLAGS="-g3 -O1 -s${TRAVIS_BUILD_DIR}/td=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize && ./configure --enable-phalcon && make -j4 && make install && echo "extension=phalcon.so" > phalcon.ini && phpenv config-add phalcon.ini)
+  - (cd ${TRAVIS_BUILD_DIR}/cphalcon/ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize && ./configure --enable-phalcon && make -j4 && make install && echo "extension=phalcon.so" > phalcon.ini && phpenv config-add phalcon.ini)
   - ulimit -c unlimited || true
   - php -r 'echo \Phalcon\Version::get()."\n";'
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/build.sh | bash
 
 script:
-  - cd ${SLAYER_FOLDER}
+  - cd ${TRAVIS_BUILD_DIR}/${SLAYER_FOLDER}
 
   # call queue:worker
   - php brood queue:worker > queue-worker.log 2>&1 &

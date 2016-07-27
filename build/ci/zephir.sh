@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd cphalcon/vendor/phalcon/zephir
+cd ${TRAVIS_BUILD_DIR}/cphalcon/vendor/phalcon/zephir
 
 ZEPHIRDIR="$( cd "$( dirname . )" && pwd )"
 sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
