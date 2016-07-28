@@ -57,8 +57,8 @@ before_install:
 
   # zephir load determining php version
   - cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}
-  - '[[ "$TRAVIS_PHP_VERSION" == "7.0" ]] || ( zephir fullclean && zephir generate )'
-  - '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || ( zephir fullclean && zephir generate --backend=ZendEngine3 )'
+  - '[[ "$TRAVIS_PHP_VERSION" != "7.0" && "$PHALCON_VERSION" != "2.0.x" ]] && ( zephir fullclean && zephir generate )'
+  - '[[ "$TRAVIS_PHP_VERSION" == "7.0" && "$PHALCON_VERSION" != "2.0.x" ]] && ( zephir fullclean && zephir generate --backend=ZendEngine3 )'
 
 before_script:
   - (cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}/ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize && ./configure --enable-phalcon && make -j4 && make install && echo "extension=phalcon.so" > phalcon.ini && phpenv config-add phalcon.ini)
