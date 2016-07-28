@@ -17,10 +17,8 @@ if [ "$PHALCON_VERSION" != "2.0.x" ]; then
     (cd ${TRAVIS_BUILD_DIR};zephir)
 
     # zephir load determining php version
-    ( \
-    cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER} \
-    '[[ "$TRAVIS_PHP_VERSION" == "7.0" ]] || ( zephir fullclean && zephir generate )' \
-    '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || ( zephir fullclean && zephir generate --backend=ZendEngine3 )' \
-    )
+    cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}
+    '[[ "$TRAVIS_PHP_VERSION" == "7.0" ]] || ( zephir fullclean && zephir generate )'
+    '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || ( zephir fullclean && zephir generate --backend=ZendEngine3 )'
 
 fi
