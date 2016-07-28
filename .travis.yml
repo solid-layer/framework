@@ -43,6 +43,9 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install php5-dev -y
+
   - export PATH=$PATH:~/bin;
 
   # clone cphalcon
