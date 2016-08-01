@@ -3,7 +3,7 @@
 namespace Clarity\Providers;
 
 use Mockery as m;
-use Clarity\Services\Service\ServiceContainer;
+use Clarity\Services\Container;
 
 class ProvidersTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +46,7 @@ class ProvidersTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('boot')
             ->once();
 
-        $container = new ServiceContainer;
+        $container = new Container;
         $container->addServiceProvider($provider);
         $container->boot();
 
