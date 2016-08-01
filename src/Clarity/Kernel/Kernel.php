@@ -47,20 +47,6 @@ class Kernel
     private $modules;
 
     /**
-     * Initialize load.
-     *
-     * @return void
-     */
-    public function initialize()
-    {
-        $this
-            ->loadFactory()
-            ->loadConfig()
-            ->loadTimeZone()
-            ->loadServices();
-    }
-
-    /**
      * Set the path.
      *
      * @param mixed $path

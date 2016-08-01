@@ -1,5 +1,5 @@
 <?php
 
-require realpath('bootstrap/autoload.php');
+require realpath('bootstrap/start.php');
 
 $kernel->modules()->run('main');
