@@ -13,7 +13,7 @@ namespace Clarity\Kernel;
 
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
-use Clarity\Services\Service\ServiceContainer;
+use Clarity\Services\Container;
 
 /**
  * A class trait of @see (Clarity\Kernel\Kernel).
@@ -25,7 +25,7 @@ trait KernelTrait
      *
      * @return \Clarity\Kernel\Kernel
      */
-    protected function loadFactory()
+    public function loadFactory()
     {
         $this->di = new FactoryDefault;
 
@@ -37,7 +37,7 @@ trait KernelTrait
      *
      * @return void
      */
-    protected function loadConfig()
+    public function loadConfig()
     {
         # let's create an empty config with just an empty
         # array, this is just for us to prepare the config
@@ -72,6 +72,8 @@ trait KernelTrait
         # config files as one in the our DI 'config'
         config($base_config_files);
         config($env_config_files);
+
+        return $this;
     }
 
     /**
@@ -79,9 +81,11 @@ trait KernelTrait
      *
      * @return void
      */
-    protected function loadTimeZone()
+    public function loadTimeZone()
     {
         date_default_timezone_set(config()->app->timezone);
+
+        return $this;
     }
 
     /**
@@ -91,20 +95,26 @@ trait KernelTrait
      *                               run() function
      * @return void
      */
-    protected function loadServices($after_module = false)
+    public function loadServices($after_module = false, $services = [])
     {
         # load all the service providers, providing our
         # native phalcon classes
-        $container = new ServiceContainer;
+        $container = new Container;
 
-        foreach (config()->app->services as $provider) {
-            $instance = new $provider;
+        if (empty($services)) {
+            $services = config()->app->services;
+        }
 
-            if ($instance->getAfterModule() == $after_module) {
+        foreach ($services as $service) {
+            $instance = new $service;
+
+            if ($instance->getAfterModule() === $after_module) {
                 $container->addServiceProvider($instance);
             }
         }
 
         $container->boot();
+
+        return $this;
     }
 }

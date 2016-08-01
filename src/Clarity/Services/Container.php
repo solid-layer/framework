@@ -9,11 +9,11 @@
 
 /**
  */
-namespace Clarity\Services\Service;
+namespace Clarity\Services;
 
 use Clarity\Providers\ServiceProvider;
 
-class ServiceContainer
+class Container
 {
     private $providers;
 

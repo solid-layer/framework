@@ -53,13 +53,11 @@ class Kernel
      */
     public function initialize()
     {
-        $this->loadFactory();
-
-        $this->loadConfig();
-
-        $this->loadTimeZone();
-
-        $this->loadServices();
+        $this
+            ->loadFactory()
+            ->loadConfig()
+            ->loadTimeZone()
+            ->loadServices();
     }
 
     /**
