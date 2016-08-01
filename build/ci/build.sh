@@ -14,6 +14,7 @@ composer update
 
 # require framework based on version
 composer require phalconslayer/framework:${FRAMEWORK_VERSION}
+composer require techpivot/phalcon-ci-installer:~1.0
 
 
 # execute phalcon ci installer
