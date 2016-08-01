@@ -10,20 +10,22 @@ matrix:
 
     # PHP5.6
     - php: 5.6
-      env: SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon3_0_x"  PHALCON_VERSION="3.0.x"
+      env: FRAMEWORK_VERSION="1.4-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.0.x"
     - php: 5.6
-      env: SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_1_x"  PHALCON_VERSION="2.1.x"
+      env: FRAMEWORK_VERSION="1.4-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="2.1.x"
     - php: 5.6
-      env: SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_0_x"  PHALCON_VERSION="2.0.x"
+      env: FRAMEWORK_VERSION="1.4-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="2.0.x"
 
     # PHP7.0
     - php: 7.0
-      env: SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon3_0_x"  PHALCON_VERSION="3.0.x"
+      env: FRAMEWORK_VERSION="1.4-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.0.x"
     - php: 7.0
-      env: SLAYER_FOLDER="slayer-dev" SLAYER_VERSION="dev-dev" PHALCON_FOLDER="phalcon2_1_x"  PHALCON_VERSION="2.1.x"
+      env: FRAMEWORK_VERSION="1.4-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="2.1.x"
 
 env:
   global:
+    - SLAYER_FOLDER=slayer-dist
+
     # built-in web
     - SERVE_HOST="0.0.0.0"
     - SERVE_PORT="8080"
@@ -38,41 +40,19 @@ env:
     - secure: "JaqOj6ozbf1xU/I9ZYvljAmL2ttgC7DKShC7lPwrIe7IZnntYX3t5vpzhEhU4Ymt6uB4E/YYfwr15Yn/yl4hJUj6hzrjQsH8O7AmJv3aCFzIb+WpbWkJ7XdBQzaVXg7mbJpsL/TBZy4/hqYOw0DR542xGcAo5Z84wEZ/W9sei/pvIwTg+rIqA3XPh9vgvUi36xV6/O3n5FBZcK+3U8hwVFqUU8Say99kZOYwc934hhyoA9K4Px8MG7XeC8zl/B3pDHBDyvQ2eU0dUrb2zMx2LhByRGQ4tcERLJslShscb0a/32I3Jk/aesgArt2d0ZaEmanixsfm9lswOgoO/YZkci0n5Lto3/w6PJsko+3jJ7P1ND9BrK+lY5BKRC0Qkt3U8EsrSpjgobGzdXztZo+ZXWD7s2RClQKLI7jjMqW4k/1sO5rQ/50jzEtLoX5jZs5r6OrR6BEN0J4tI7b74sVeqYIoSzuX6eJGCbT7dcRIdNcz1jrvhcmbZ9YLxpHOp8PE2uKISJrUtuioOIjv6j6bRxy1gOcglZlRhv5N/xikCQmmgLgrMvwkaaLSjo5oe81ETX+/VIH/6cMI+qIvKtmOewLes6FszbCKQs/jyWPLQZjAlf9ZJmCspwWvNbIwSBpzRCW95VAhfHhgQZ6tPNCl3LqIDBHVGD4TpLlIg+wKYEU="
 
 cache:
-  apt: true
   directories:
-    - $HOME/.composer/cache
+    - ~/.composer/cache
+    - ~/cphalcon
 
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install php5-dev -y
-
-  - export PATH=$PATH:~/bin;
-
-  # clone cphalcon
-  - git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b ${PHALCON_VERSION} ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}
-  - (cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER};travis_retry composer --prefer-source install)
-
   # beanstald installation
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/beanstalkd.sh | bash
 
-  # run zephir installation
-  - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/zephir.sh | bash
-
-  # zephir load determining php version
-  - cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}
-
-  - if [[ "$TRAVIS_PHP_VERSION" != "7.0" && "$PHALCON_VERSION" != "2.0.x" ]]; then ( zephir fullclean && zephir generate ); fi;
-
-  - if [[ "$TRAVIS_PHP_VERSION" == "7.0" && "$PHALCON_VERSION" != "2.0.x" ]]; then ( zephir fullclean && zephir generate --backend=ZendEngine3 ); fi;
-
 before_script:
-  - (cd ${TRAVIS_BUILD_DIR}/${PHALCON_FOLDER}/ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize && ./configure --enable-phalcon && make -j4 && make install && echo "extension=phalcon.so" > phalcon.ini && phpenv config-add phalcon.ini)
-  - ulimit -c unlimited || true
-  - php -r 'echo \Phalcon\Version::get()."\n";'
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/build.sh | bash
 
 script:
-  - cd ${TRAVIS_BUILD_DIR}/${SLAYER_FOLDER}
+  - cd ~/${SLAYER_FOLDER}
 
   # call queue:worker
   - php brood queue:worker > queue-worker.log 2>&1 &
