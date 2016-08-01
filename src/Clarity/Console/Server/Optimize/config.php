@@ -32,7 +32,7 @@ return [
     # phalcon slayer
     $base.'/vendor/phalconslayer/framework/src/Clarity/Kernel/KernelTrait.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Kernel/Kernel.php',
-    $base.'/vendor/phalconslayer/framework/src/Clarity/Services/Service/ServiceContainer.php',
+    $base.'/vendor/phalconslayer/framework/src/Clarity/Services/Container.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Services/ServiceMagicMethods.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Providers/ServiceProvider.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Providers/Log.php',
