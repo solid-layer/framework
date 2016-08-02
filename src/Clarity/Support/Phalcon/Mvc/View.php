@@ -148,9 +148,13 @@ class View extends BaseView
         $view = $this->changeDotToSlash($path);
 
         ob_start();
+
         $this->partial($view, $records);
 
-        return ob_get_contents();
-        // return $this->getRender(null, $view, $records);
+        $content = ob_get_contents();
+
+        ob_end_clean();
+
+        return $content;
     }
 }
