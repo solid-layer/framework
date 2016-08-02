@@ -54,7 +54,7 @@ class RouteCommand extends SlayerCommand
      */
     public function slash()
     {
-        $app_path = str_replace(BASE_PATH, '', config()->path->app);
+        $app_path = str_replace(config('path.root'), '', config()->path->app);
         $arg_name = studly_case(str_slug($this->input->getArgument('name'), '_'));
 
         $stub = file_get_contents(__DIR__.'/stubs/makeRoute.stub');

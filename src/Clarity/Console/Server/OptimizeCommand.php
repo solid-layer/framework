@@ -139,7 +139,7 @@ class OptimizeCommand extends SlayerCommand
             'composer dumpautoload --optimize',
         ]);
 
-        $compiled_file = BASE_PATH.'/storage/slayer/compiled.php';
+        $compiled_file = config('path.root').'/storage/slayer/compiled.php';
 
         if (file_exists($compiled_file)) {
             $this->info('Removing previous compiled file...');
