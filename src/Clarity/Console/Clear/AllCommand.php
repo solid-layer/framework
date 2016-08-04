@@ -12,12 +12,12 @@
 namespace Clarity\Console\Clear;
 
 use Clarity\Console\CLI;
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
 /**
  * A console command that calls all the clear commands.
  */
-class AllCommand extends SlayerCommand
+class AllCommand extends Brood
 {
     use ClearTrait;
 

@@ -41,7 +41,8 @@
         "symfony/process": "^2.7",
         "symfony/var-dumper": "^2.7",
         "tijsverkoyen/css-to-inline-styles": "^1.5",
-        "vlucas/phpdotenv": "^2.0"
+        "vlucas/phpdotenv": "^2.0",
+        "chrisboulton/php-resque": "^1.2"
     },
     "replace": {
         "clarity/console": "self.version",

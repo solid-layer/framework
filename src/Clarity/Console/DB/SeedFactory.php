@@ -12,12 +12,12 @@
 namespace Clarity\Console\DB;
 
 use Clarity\Support\DB\Factory;
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
 /**
  * A console command that fills/seeds the database.
  */
-class SeedFactory extends SlayerCommand
+class SeedFactory extends Brood
 {
     /**
      * {@inheritdoc}

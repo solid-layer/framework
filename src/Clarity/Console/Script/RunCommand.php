@@ -12,13 +12,13 @@
 namespace Clarity\Console\Script;
 
 use Clarity\Console\CLI;
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * A console command that executes a script.
  */
-class RunCommand extends SlayerCommand
+class RunCommand extends Brood
 {
     /**
      * {@inheritdoc}

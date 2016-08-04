@@ -11,13 +11,13 @@
  */
 namespace Clarity\Console\Server;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
  * A console command that serves a module.
  */
-class ServeCommand extends SlayerCommand
+class ServeCommand extends Brood
 {
     /**
      * {@inheritdoc}

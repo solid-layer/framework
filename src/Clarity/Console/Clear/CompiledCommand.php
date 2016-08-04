@@ -11,12 +11,12 @@
  */
 namespace Clarity\Console\Clear;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
 /**
  * A console command that clears compiled.php file.
  */
-class CompiledCommand extends SlayerCommand
+class CompiledCommand extends Brood
 {
     use ClearTrait;
 

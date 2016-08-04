@@ -12,14 +12,14 @@
 namespace Clarity\Console\App;
 
 use League\Flysystem\Filesystem;
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputArgument;
 use League\Flysystem\Adapter\Local as LeagueFlysystemAdapterLocal;
 
 /**
  * A console command that generates a route template.
  */
-class RouteCommand extends SlayerCommand
+class RouteCommand extends Brood
 {
     /**
      * {@inheritdoc}

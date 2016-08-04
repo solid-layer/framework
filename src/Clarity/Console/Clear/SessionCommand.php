@@ -11,12 +11,12 @@
  */
 namespace Clarity\Console\Clear;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
 /**
  * A console command that clears the session storage.
  */
-class SessionCommand extends SlayerCommand
+class SessionCommand extends Brood
 {
     use ClearTrait;
 

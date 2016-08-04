@@ -11,13 +11,13 @@
  */
 namespace Clarity\Console\App;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * A console command that generate a set of module.
  */
-class ModuleCommand extends SlayerCommand
+class ModuleCommand extends Brood
 {
     /**
      * {@inheritdoc}

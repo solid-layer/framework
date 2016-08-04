@@ -9,9 +9,9 @@ Let's create a simple console
 ```php
 <?php
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
-class SampleConsole extends SlayerCommand
+class SampleConsole extends Brood
 {
     protected $alias = 'sample';
     protected $description = 'Just a sample class to test console';

@@ -11,12 +11,12 @@
  */
 namespace Clarity\Console\Server;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
 /**
  * A console command that determines the current environment.
  */
-class EnvCommand extends SlayerCommand
+class EnvCommand extends Brood
 {
     /**
      * {@inheritdoc}

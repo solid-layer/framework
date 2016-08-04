@@ -279,9 +279,18 @@ if (! function_exists('queue')) {
      *
      * @return mixed
      */
-    function queue()
+    function queue($class = null, $data = [])
     {
-        return di()->get('queue');
+        $queue = di()->get('queue');
+
+        if (empty($class)) {
+            return $queue;
+        }
+
+        return $queue->put([
+            'class' => $class,
+            'data'  => $data,
+        ]);
     }
 }
 

@@ -11,14 +11,14 @@
  */
 namespace Clarity\Console\Mail;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputOption;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 /**
  * A console command that converts templates into inlined.
  */
-class InlinerCommand extends SlayerCommand
+class InlinerCommand extends Brood
 {
     /**
      * {@inheritdoc}

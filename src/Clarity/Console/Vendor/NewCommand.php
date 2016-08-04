@@ -11,13 +11,13 @@
  */
 namespace Clarity\Console\Vendor;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Clarity\Util\Composer\Builder as Composer;
 
 /**
  * A console command that creates a new package.
  */
-class NewCommand extends SlayerCommand
+class NewCommand extends Brood
 {
     /**
      * {@inheritdoc}

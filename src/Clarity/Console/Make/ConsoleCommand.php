@@ -11,13 +11,13 @@
  */
 namespace Clarity\Console\Make;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * A console command that generates a brood console template.
  */
-class ConsoleCommand extends SlayerCommand
+class ConsoleCommand extends Brood
 {
     /**
      * {@inheritdoc}

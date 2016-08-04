@@ -22,7 +22,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * An abstract class that handles all slayer console.
  */
-abstract class SlayerCommand extends Command
+abstract class Brood extends Command
 {
     use ServiceMagicMethods;
 
@@ -91,7 +91,7 @@ abstract class SlayerCommand extends Command
     /**
      * This loads the environment.
      *
-     * @return \Clarity\Console\SlayerCommand
+     * @return \Clarity\Console\Brood
      */
     protected function loadEnv()
     {
@@ -126,7 +126,7 @@ abstract class SlayerCommand extends Command
     /**
      * This loads the timeout.
      *
-     * @return \Clarity\Console\SlayerCommand
+     * @return \Clarity\Console\Brood
      */
     protected function loadTimeout()
     {

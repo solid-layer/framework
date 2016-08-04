@@ -13,14 +13,14 @@ namespace Clarity\Console\Server;
 
 use Clarity\Console\CLI;
 use ClassPreloader\Factory;
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputOption;
 use ClassPreloader\Exceptions\VisitorExceptionInterface;
 
 /**
  * A console command that optimized the whole system.
  */
-class OptimizeCommand extends SlayerCommand
+class OptimizeCommand extends Brood
 {
     /**
      * {@inheritdoc}

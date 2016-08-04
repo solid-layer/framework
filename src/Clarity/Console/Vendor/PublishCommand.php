@@ -12,14 +12,14 @@
 namespace Clarity\Console\Vendor;
 
 use Exception;
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * A console command that publishes a vendor's contents/files/configurations.
  */
-class PublishCommand extends SlayerCommand
+class PublishCommand extends Brood
 {
     /**
      * {@inheritdoc}

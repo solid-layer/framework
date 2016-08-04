@@ -88,7 +88,7 @@ return [
     $base.'/vendor/phalconslayer/framework/src/Clarity/Facades/URL.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Facades/View.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Support/Auth/Auth.php',
-    $base.'/vendor/phalconslayer/framework/src/Clarity/Console/SlayerCommand.php',
+    $base.'/vendor/phalconslayer/framework/src/Clarity/Console/Brood.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Console/App/ControllerCommand.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Console/App/ModuleCommand.php',
     $base.'/vendor/phalconslayer/framework/src/Clarity/Console/App/RouteCommand.php',

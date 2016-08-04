@@ -11,12 +11,12 @@
  */
 namespace Clarity\Console\Clear;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
 /**
  * A console command that clears the cache'd views.
  */
-class ViewsCommand extends SlayerCommand
+class ViewsCommand extends Brood
 {
     use ClearTrait;
 

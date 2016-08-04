@@ -11,12 +11,12 @@
  */
 namespace Clarity\Console\Clear;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 
 /**
  * A console command that clears the storage logs.
  */
-class LogsCommand extends SlayerCommand
+class LogsCommand extends Brood
 {
     use ClearTrait;
 

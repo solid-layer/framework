@@ -11,14 +11,14 @@
  */
 namespace Clarity\Console\Make;
 
-use Clarity\Console\SlayerCommand;
+use Clarity\Console\Brood;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * A console command that generates a model template.
  */
-class ModelCommand extends SlayerCommand
+class ModelCommand extends Brood
 {
     /**
      * {@inheritdoc}
