@@ -54,8 +54,8 @@ before_script:
 script:
   - cd ~/${SLAYER_FOLDER}
 
-  # call queue:worker
-  - php brood queue:worker > queue-worker.log 2>&1 &
+  # call queue:listen
+  - php brood queue:listen > queue-worker.log 2>&1 &
 
   # phpunit
   - chmod a+x ./vendor/bin/phpunit
