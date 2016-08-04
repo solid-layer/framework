@@ -279,7 +279,7 @@ if (! function_exists('queue')) {
      *
      * @return mixed
      */
-    function queue($class = null, $data = [])
+    function queue($class = null, $data = [], $options = [])
     {
         $queue = di()->get('queue');
 
@@ -290,7 +290,7 @@ if (! function_exists('queue')) {
         return $queue->put([
             'class' => $class,
             'data'  => $data,
-        ]);
+        ], $options);
     }
 }
 
