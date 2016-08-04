@@ -11,6 +11,8 @@
  */
 namespace Clarity\Providers;
 
+use Clarity\Support\Queue\Queue as BaseQueue;
+
 /**
  * This provider manages the available queue adapters and creates/instantiate in it.
  *
@@ -40,7 +42,7 @@ class Queue extends ServiceProvider
         $class = $adapter['class'];
         $config = $adapter['config'];
 
-        return new $class($config);
+        return new BaseQueue(new $class($config));
     }
 
     /**

@@ -19,13 +19,13 @@ class Listen extends Brood
 
     protected function processJob($job)
     {
-        $data = $job->getBody();
+        $body = $job->getBody();
 
-        if (! isset($data['class'])) {
+        if (! isset($body['class'])) {
             return false;
         }
 
-        $exclass = explode('@', $data['class']);
+        $exclass = explode('@', $body['class']);
 
         $method = 'listener';
 
