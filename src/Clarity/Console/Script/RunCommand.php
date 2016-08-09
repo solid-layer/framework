@@ -45,9 +45,19 @@ class RunCommand extends Brood
             return;
         }
 
-        $lines = $lists[$script];
+        foreach ($lists[$script] as $selected) {
 
-        CLI::bash($lines);
+            if (!is_array($selected)) {
+                CLI::process($selected);
+                continue;
+            }
+
+            CLI::process(
+                isset($selected['script']) ? $selected['script'] : null,
+                isset($selected['prefix']) ? $selected['prefix'] : null,
+                isset($selected['suffix']) ? $selected['suffix'] : null
+            );
+        }
     }
 
     /**
