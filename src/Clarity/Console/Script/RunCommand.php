@@ -46,8 +46,7 @@ class RunCommand extends Brood
         }
 
         foreach ($lists[$script] as $selected) {
-
-            if (!is_array($selected)) {
+            if (! is_array($selected)) {
                 CLI::process($selected);
                 continue;
             }

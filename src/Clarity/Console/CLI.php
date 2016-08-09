@@ -39,7 +39,6 @@ class CLI
         $proc->run(function ($type, $buffer) use ($line, $prefix, $suffix) {
 
             foreach (explode("\n", $buffer) as $buffer) {
-
                 $buffer = $prefix.$buffer.$suffix;
 
                 if (Process::ERR === $type) {
@@ -76,10 +75,9 @@ class CLI
         $build = "ssh $server 'bash -se' << \\$delimiter".PHP_EOL
             .'set -e'.PHP_EOL
             .$scripts.PHP_EOL
-            .$delimiter
-        ;
+            .$delimiter;
 
-        static::logMessage('Connecting to '.$server. ' through ssh ...');
+        static::logMessage('Connecting to '.$server.' through ssh ...');
         static::logMessage($scripts);
         static::process($build, '['.$server.']: ');
     }
