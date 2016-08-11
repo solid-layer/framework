@@ -77,8 +77,10 @@ class CLI
             .$scripts.PHP_EOL
             .$delimiter;
 
-        static::logMessage('Connecting to '.$server.' through ssh ...');
-        static::logMessage($scripts);
-        static::process($build, '['.$server.']: ');
+        return function () use ($server, $scripts, $build) {
+            static::logMessage('Connecting to '.$server.' through ssh ...');
+            static::logMessage($scripts);
+            static::process($build, '['.$server.']: ');
+        };
     }
 }
