@@ -58,6 +58,16 @@ class Dispatcher extends ServiceProvider
     }
 
     /**
+     * Provide the action suffix to be used.
+     *
+     * @return string
+     */
+    protected function getActionSuffix()
+    {
+        return '';
+    }
+
+    /**
      * {@inheridoc}.
      */
     public function register()
@@ -66,7 +76,7 @@ class Dispatcher extends ServiceProvider
 
         $dispatcher->setDefaultNamespace('App\Controllers');
 
-        $dispatcher->setActionSuffix('');
+        $dispatcher->setActionSuffix($this->getActionSuffix());
 
         return $dispatcher;
     }
