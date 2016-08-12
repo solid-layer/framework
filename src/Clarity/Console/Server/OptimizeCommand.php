@@ -12,8 +12,8 @@
 namespace Clarity\Console\Server;
 
 use Clarity\Console\CLI;
-use ClassPreloader\Factory;
 use Clarity\Console\Brood;
+use ClassPreloader\Factory;
 use Symfony\Component\Console\Input\InputOption;
 use ClassPreloader\Exceptions\VisitorExceptionInterface;
 
@@ -135,9 +135,7 @@ class OptimizeCommand extends Brood
      */
     protected function callComposerOptimizer()
     {
-        CLI::bash([
-            'composer dumpautoload --optimize',
-        ]);
+        CLI::process('composer dumpautoload --optimize');
 
         $compiled_file = config('path.root').'/storage/slayer/compiled.php';
 
