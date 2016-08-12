@@ -56,8 +56,10 @@ class URL extends BaseURL
             return $_SERVER['HTTP_HOST'];
         }
 
+        $module = di()->get('application')->getDefaultModule();
+
         if ($module === null) {
-            $module = di()->get('application')->getDefaultModule();
+            return 'localhost';
         }
 
         # get all url's
