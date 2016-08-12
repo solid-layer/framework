@@ -11,6 +11,7 @@
  */
 namespace Clarity\Console;
 
+use Symfony\Component\Console\Helper;
 use Clarity\Services\ServiceMagicMethods;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -345,6 +346,28 @@ abstract class Brood extends Command
         $question = new ConfirmationQuestion($message, false);
 
         return $helper->ask($this->input, $this->output, $question);
+    }
+
+    /**
+     * This will create a table in the console.
+     *
+     * @return Helper\Table
+     */
+    public function table($headers = [], $rows = [])
+    {
+        $table = new Helper\Table($this->output);
+
+        foreach ($rows as $idx => $row) {
+            if (in_array($row, ['', null, '---']) === true) {
+                $rows[$idx] = new Helper\TableSeparator();
+            }
+        }
+
+        $table
+            ->setHeaders($headers)
+            ->setRows($rows);
+
+        return $table;
     }
 
     /**
