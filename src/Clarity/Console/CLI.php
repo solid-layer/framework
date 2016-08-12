@@ -52,7 +52,7 @@ class CLI
 
     public static function errorMessage($buffer)
     {
-        echo "\e[31m{$buffer}\e[37m\n";
+        echo "\e[34m{$buffer}\e[37m\n";
     }
 
     public static function infoMessage($buffer)
