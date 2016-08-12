@@ -72,7 +72,7 @@ class ClutchCommand extends Brood
     }
 
     /**
-     * Get all casters
+     * Get all casters.
      *
      * @return array
      */
