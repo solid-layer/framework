@@ -259,14 +259,14 @@ if (! function_exists('lang')) {
     }
 }
 
-if (! function_exists('log')) {
+if (! function_exists('logger')) {
 
     /**
      * This returns the service provider 'log'.
      *
      * @return mixed
      */
-    function log()
+    function logger()
     {
         return di()->get('log');
     }

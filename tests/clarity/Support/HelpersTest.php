@@ -24,7 +24,7 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(\Phalcon\Mvc\View::class, view());
 
         # getting an error, will check later on
-        // $this->assertInstanceOf(Logger::class, log());
+        $this->assertInstanceOf(\Monolog\Logger::class, logger());
 
         # adapter base functions
 
