@@ -65,9 +65,12 @@ class CLI
         echo "\e[37m{$buffer}\e[37m\n";
     }
 
-    public static function ssh($server, Closure $callback)
+    public static function ssh($server, $scripts = [])
     {
-        $scripts = call_user_func($callback);
+        if ($scripts instanceof Closure) {
+            $scripts = call_user_func($scripts);
+        }
+
         $scripts = implode("\n", $scripts);
 
         $delimiter = 'EOF-SLAYER-SCRIPT';
