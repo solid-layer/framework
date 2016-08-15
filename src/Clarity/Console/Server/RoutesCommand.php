@@ -40,7 +40,7 @@ class RoutesCommand extends Brood
         $paths = $route->getPaths();
 
         return [
-            'verb' => $route->getHttpMethods(),
+            'verb' => $route->getHttpMethods() ?: '*any*',
             'pattern' => $route->getPattern(),
             'controller' => $paths['controller'].':'.$paths['action'],
             'name' => $route->getName(),
