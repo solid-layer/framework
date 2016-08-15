@@ -31,7 +31,7 @@ class RoutesCommand extends Brood
     protected $description = 'Get registered routes';
 
     /**
-     * Format the route
+     * Format the route.
      *
      * @return array
      */
@@ -40,15 +40,16 @@ class RoutesCommand extends Brood
         $paths = $route->getPaths();
 
         return [
-            'verb' => $route->getHttpMethods() ?: '*any*',
-            'pattern' => $route->getPattern(),
-            'controller' => $paths['controller'].':'.$paths['action'],
-            'name' => $route->getName(),
+            'method'        => $route->getHttpMethods() ?: '*any*',
+            'path'          => $route->getPattern(),
+            'controller'    => $paths['controller'],
+            'action'        => $paths['action'],
+            'assigned_name' => $route->getName(),
         ];
     }
 
     /**
-     * Dig in the routes provided in the modules
+     * Dig in the routes provided in the modules.
      *
      * @return array
      */
@@ -73,6 +74,7 @@ class RoutesCommand extends Brood
      */
     public function slash()
     {
+        # load non-loaded routes based for each module
         foreach (di('module')->all() as $module_name => $module) {
             $path = Kernel::buildRoute($module_name);
 
@@ -82,7 +84,7 @@ class RoutesCommand extends Brood
         }
 
         $table = $this->table(
-            ['Verb', 'Pattern', 'Path', 'Name'],
+            ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
             $this->extractRoutes(Route::getRoutes())
         );
 
