@@ -23,6 +23,7 @@ vendor/bin/install-phalcon.sh ${PHALCON_VERSION}
 
 # copy .env.travis as .env file
 cp vendor/phalconslayer/framework/tests/.env.travis .env
+mkdir config/travis
 cat .env
 
 
