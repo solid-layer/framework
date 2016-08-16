@@ -96,6 +96,36 @@ class Files extends Adapter implements AdapterInterface
         return true;
     }
 
+    public function remove($text)
+    {
+        if (! file_exists($this->getPath(session_id()))) {
+            return false;
+        }
+
+        $session = $this->loadStorage($this->getPath(session_id()));
+
+        unset($session[$text]);
+
+        file_put_contents($this->getPath(session_id()), json_encode($session));
+
+        return true;
+    }
+
+    public function destroy($remove_file = true)
+    {
+        if ($remove_file) {
+            if (! file_exists($this->getPath(session_id()))) {
+                return false;
+            }
+
+            unlink($this->getPath(session_id()));
+        }
+
+        session_destroy();
+
+        return true;
+    }
+
     public function setName($name = null)
     {
         session_name($name);
