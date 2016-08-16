@@ -36,7 +36,7 @@ php brood db:migrate
 
 
 # built-in web
-php -S ${SERVE_HOST}:${SERVE_PORT} -t public/ > built-in.log 2>&1 &
+php -S ${SERVE_HOST}:${SERVE_PORT} -t public/ > internal-server.log 2>&1 &
 sleep 5
 
 
