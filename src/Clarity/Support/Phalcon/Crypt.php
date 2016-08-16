@@ -74,7 +74,7 @@ class Crypt extends BaseCrypt
 
         $padded = $text;
 
-        if ($padding_type != 0 && ($mode == '-cbc' || $mode == '-ecb')) {
+        if ($padding_type != 0 && ($mode == 'cbc' || $mode == 'ecb')) {
             $padded = $this->_cryptPadText($text, $mode, $block_size, $padding_type);
         }
 

@@ -58,16 +58,21 @@ class Files extends Adapter implements AdapterInterface
 
         $session = $this->loadStorage($this->getPath(session_id()));
 
-        $val = $session[$text];
+        $val = isset($session[$text]) ? $session[$text] : null;
 
         if (
             isset($this->options['encrypted']) &&
             $this->options['encrypted'] === true
         ) {
-            $val = Crypt::decrypt($session[$text]);
+            $val = Crypt::decrypt($val);
+
+            json_decode($val);
+            if (json_last_error() === 0) {
+                $val = json_decode($val, true);
+            }
         }
 
-        if (empty($val) || ! strlen($val)) {
+        if (empty($val) || (! is_array($val) && ! strlen($val))) {
             return $default_value;
         }
 
@@ -76,6 +81,7 @@ class Files extends Adapter implements AdapterInterface
 
     public function set($text, $data)
     {
+        $data = is_array($data) ? json_encode($data) : $data;
         $session = [];
 
         if (file_exists($this->getPath(session_id()))) {
@@ -111,7 +117,7 @@ class Files extends Adapter implements AdapterInterface
         return true;
     }
 
-    public function destroy($remove_file = true)
+    public function destroy($remove_file = false)
     {
         if ($remove_file) {
             if (! file_exists($this->getPath(session_id()))) {
