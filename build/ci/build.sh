@@ -12,6 +12,12 @@ composer self-update
 composer update
 
 
+# copy .env.travis as .env file
+cp vendor/phalconslayer/framework/tests/.env.travis .env
+mkdir config/travis
+cat .env
+
+
 # require framework based on version
 composer require phalconslayer/framework:${FRAMEWORK_VERSION}
 composer require techpivot/phalcon-ci-installer:~1.0
@@ -19,12 +25,6 @@ composer require techpivot/phalcon-ci-installer:~1.0
 
 # execute phalcon ci installer
 vendor/bin/install-phalcon.sh ${PHALCON_VERSION}
-
-
-# copy .env.travis as .env file
-cp vendor/phalconslayer/framework/tests/.env.travis .env
-mkdir config/travis
-cat .env
 
 
 # create 'slayer' database
