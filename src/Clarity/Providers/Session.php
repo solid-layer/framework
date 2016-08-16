@@ -44,16 +44,14 @@ class Session extends ServiceProvider
     {
         $adapter = config()->session->{$this->getSelectedAdapter()}->toArray();
 
-        $config = [];
+        $options = [];
         $class = $adapter['class'];
 
-        if (isset($adapter['config'])) {
-            $config = $adapter['config'];
+        if (isset($adapter['options'])) {
+            $options = $adapter['options'];
         }
 
-        $session = new $class($config);
-
-        session_name(config()->app->session);
+        $session = new $class($options);
 
         $session->start();
 

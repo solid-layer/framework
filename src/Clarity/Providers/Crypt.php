@@ -13,7 +13,7 @@ namespace Clarity\Providers;
 
 use Phalcon\Version;
 use Illuminate\Support\Str;
-use Phalcon\Crypt as BaseCrypt;
+use Clarity\Support\Phalcon\Crypt as BaseCrypt;
 
 /**
  * This provides encryption facilities to phalcon applications.
