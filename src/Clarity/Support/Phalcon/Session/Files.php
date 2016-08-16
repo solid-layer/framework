@@ -6,7 +6,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://docs.phalconslayer.com
  */
-
 namespace Clarity\Support\Phalcon\Session;
 
 use Clarity\Facades\Crypt;
@@ -97,8 +96,8 @@ class Files extends Adapter implements AdapterInterface
         return true;
     }
 
-    public function getName()
+    public function setName($name = null)
     {
-        return config()->app->session;
+        session_name($name);
     }
 }

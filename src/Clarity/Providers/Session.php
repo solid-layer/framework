@@ -52,7 +52,7 @@ class Session extends ServiceProvider
         }
 
         $session = new $class($options);
-
+        $session->setName(config()->app->session);
         $session->start();
 
         return $session;

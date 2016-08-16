@@ -6,18 +6,17 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://docs.phalconslayer.com
  */
-
 namespace Clarity\Support\Phalcon;
 
 use Phalcon\Crypt as BaseCrypt;
 
 /**
- * Overriding the existing Phalcon\Crypt
+ * Overriding the existing Phalcon\Crypt.
  */
 class Crypt extends BaseCrypt
 {
     /**
-     * Get the openssl options
+     * Get the openssl options.
      *
      * @return string
      */
@@ -28,7 +27,7 @@ class Crypt extends BaseCrypt
     }
 
     /**
-     * Get the initialization vector size
+     * Get the initialization vector size.
      *
      * @return string
      */
