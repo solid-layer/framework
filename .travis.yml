@@ -62,6 +62,7 @@ script:
   - chmod a+x ./vendor/phalconslayer/framework/phpunit.xml
   - ./vendor/bin/phpunit -c ./vendor/phalconslayer/framework/phpunit.xml
   - cat queue-worker.log
+  - cat internal-server.log
 
   # call brood console commands
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/script.sh | bash

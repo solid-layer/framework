@@ -8,6 +8,7 @@
  */
 namespace Clarity\Support\Phalcon;
 
+use Exception;
 use Phalcon\Crypt as BaseCrypt;
 
 /**
@@ -90,14 +91,12 @@ class Crypt extends BaseCrypt
             throw new Exception('openssl extension is required');
         }
 
-        $decryptKey = $key;
-
-        if ($key === null) {
-            $decryptKey = $this->_key;
+        if ($decrypt_key = $key === null) {
+            $decrypt_key = $this->_key;
         }
 
-        if (empty($decryptKey)) {
-            throw new Exception('Decryption key cannot be empty');
+        if (empty($decrypt_key)) {
+            throw new Exception('Decryption key cannot be empty.');
         }
 
         $cipher = $this->_cipher;
@@ -109,18 +108,18 @@ class Crypt extends BaseCrypt
 
         $ivSize = openssl_cipher_iv_length($cipher);
 
-        $blockSize = openssl_cipher_iv_length(str_ireplace('-'.$mode, '', $cipher));
+        $block_size = openssl_cipher_iv_length(str_ireplace('-'.$mode, '', $cipher));
 
         if ($ivSize > 0) {
-            $blockSize = $ivSize;
+            $block_size = $ivSize;
         }
 
-        $decrypted = openssl_decrypt(substr($text, $ivSize), $cipher, $decryptKey, $this->_getOptions(), substr($text, 0, $ivSize));
+        $decrypted = openssl_decrypt(substr($text, $ivSize), $cipher, $decrypt_key, $this->_getOptions(), substr($text, 0, $ivSize));
 
-        $paddingType = $this->_padding;
+        $padding_type = $this->_padding;
 
         if ($mode == '-cbc' || $mode == '-ecb') {
-            return $this->_cryptUnpadText($decrypted, $mode, $blockSize, $paddingType);
+            return $this->_cryptUnpadText($decrypted, $mode, $block_size, $padding_type);
         }
 
         return $decrypted;
