@@ -28,6 +28,27 @@ abstract class Brood extends Command
     use ServiceMagicMethods;
 
     /**
+     * The command call name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * The command description.
+     *
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * The command help.
+     *
+     * @var string
+     */
+    protected $help;
+
+    /**
      * The input interface instance.
      *
      * @var mixed
@@ -168,6 +189,10 @@ abstract class Brood extends Command
         $this
             ->setName($this->name)
             ->setDescription($this->description);
+
+        if ($this->help) {
+            $this->setHelp($this->help);
+        }
 
         if (! empty($this->arguments())) {
             foreach ($this->arguments() as $arg) {
