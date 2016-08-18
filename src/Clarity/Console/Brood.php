@@ -324,7 +324,7 @@ abstract class Brood extends Command
      * @param  bool|string|int]mixed $default The default value
      * @return mixed
      */
-    public function ask($message, $default)
+    public function ask($message, $default = null)
     {
         $helper = $this->getHelper('question');
 
@@ -337,13 +337,14 @@ abstract class Brood extends Command
      * To confirm that only works with [y/n].
      *
      * @param  string $message The message to be printed
+     * @param  string $default The default value
      * @return mixed
      */
-    public function confirm($message)
+    public function confirm($message, $default = false)
     {
         $helper = $this->getHelper('question');
 
-        $question = new ConfirmationQuestion($message, false);
+        $question = new ConfirmationQuestion($message, $default);
 
         return $helper->ask($this->input, $this->output, $question);
     }
