@@ -11,7 +11,6 @@
  */
 namespace Clarity\Console\DB;
 
-use Phinx\Util\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -32,7 +31,8 @@ The <info>migrate</info> command runs all available migrations, optionally up to
 
 <info>php brood db:migrate </info>
 <info>php brood db:migrate --target-version="20110103081132"</info>
-<info>php brood db:migrate -date="20110103"</info>
+<info>php brood db:migrate --date="20110103"</info>
+<info>php brood db:migrate --env="staging"</info>
 <info>php brood db:migrate -v</info>
 EOT;
 
@@ -81,13 +81,11 @@ EOT;
         $this->loadManager();
 
         $start = microtime(true);
-
         if (null !== $date) {
             $this->getManager()->migrateToDateTime($environment, new \DateTime($date));
         } else {
             $this->getManager()->migrate($environment, $version);
         }
-
         $end = microtime(true);
 
         $this->getOutput()->writeln('');

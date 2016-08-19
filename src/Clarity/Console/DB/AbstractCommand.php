@@ -349,7 +349,7 @@ abstract class AbstractCommand extends Brood
 
     protected function getMigrationPath()
     {
-        return config()->path->migrations;
+        return config('path.migrations');
     }
 
     /**
