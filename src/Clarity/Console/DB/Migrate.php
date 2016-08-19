@@ -31,7 +31,7 @@ class Migrate extends AbstractCommand
 The <info>migrate</info> command runs all available migrations, optionally up to a specific version
 
 <info>php brood db:migrate </info>
-<info>php brood db:migrate --target="20110103081132"</info>
+<info>php brood db:migrate --target-version="20110103081132"</info>
 <info>php brood db:migrate -date="20110103"</info>
 <info>php brood db:migrate -v</info>
 EOT;
@@ -41,7 +41,7 @@ EOT;
      */
     public function slash()
     {
-        $version     = $this->getInput()->getOption('target');
+        $version     = $this->getInput()->getOption('target-version');
         $environment = $this->getInput()->getOption('env');
         $date        = $this->getInput()->getOption('date');
 
@@ -110,8 +110,8 @@ EOT;
     public function options()
     {
         return [
-            ['--target', null, InputOption::VALUE_REQUIRED, 'The version number to migrate to'],
-            ['--date', null, InputOption::VALUE_REQUIRED, 'The date to migrate to'],
+            ['--target-version', '-tv', InputOption::VALUE_REQUIRED, 'The version number to migrate to'],
+            ['--date', '-d', InputOption::VALUE_REQUIRED, 'The date to migrate to'],
         ];
     }
 }

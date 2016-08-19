@@ -52,8 +52,8 @@ abstract class AbstractCommand extends Brood
      * @param OutputInterface $output
      * @return void
      */
-    public function bootstrap(InputInterface $input, OutputInterface $output)
-    {
+    // public function bootstrap(InputInterface $input, OutputInterface $output)
+    // {
         // if (!$this->getConfig()) {
         //     $this->loadConfig($input, $output);
         // }
@@ -66,7 +66,7 @@ abstract class AbstractCommand extends Brood
         // } catch (\UnexpectedValueException $e) {
         //     // do nothing as seeds are optional
         // }
-    }
+    // }
 
     /**
      * Sets the config.
@@ -74,21 +74,21 @@ abstract class AbstractCommand extends Brood
      * @param  ConfigInterface $config
      * @return AbstractCommand
      */
-    public function setConfig(ConfigInterface $config)
-    {
-        $this->config = $config;
-        return $this;
-    }
+    // public function setConfig(ConfigInterface $config)
+    // {
+    //     $this->config = $config;
+    //     return $this;
+    // }
 
     /**
      * Gets the config.
      *
      * @return Config
      */
-    public function getConfig()
-    {
-        return $this->config;
-    }
+    // public function getConfig()
+    // {
+    //     return $this->config;
+    // }
 
     /**
      * Sets the database adapter.
@@ -96,21 +96,21 @@ abstract class AbstractCommand extends Brood
      * @param AdapterInterface $adapter
      * @return AbstractCommand
      */
-    public function setAdapter(AdapterInterface $adapter)
-    {
-        $this->adapter = $adapter;
-        return $this;
-    }
+    // public function setAdapter(AdapterInterface $adapter)
+    // {
+    //     $this->adapter = $adapter;
+    //     return $this;
+    // }
 
     /**
      * Gets the database adapter.
      *
      * @return AdapterInterface
      */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
+    // public function getAdapter()
+    // {
+    //     return $this->adapter;
+    // }
 
     /**
      * Returns config file path
@@ -158,42 +158,42 @@ abstract class AbstractCommand extends Brood
      * @throws InvalidArgumentException
      * @return void
      */
-    protected function verifySeedDirectory($path)
-    {
-        if (!is_dir($path)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Seed directory "%s" does not exist',
-                $path
-            ));
-        }
+    // protected function verifySeedDirectory($path)
+    // {
+    //     if (!is_dir($path)) {
+    //         throw new \InvalidArgumentException(sprintf(
+    //             'Seed directory "%s" does not exist',
+    //             $path
+    //         ));
+    //     }
 
-        if (!is_writable($path)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Seed directory "%s" is not writable',
-                $path
-            ));
-        }
-    }
+    //     if (!is_writable($path)) {
+    //         throw new \InvalidArgumentException(sprintf(
+    //             'Seed directory "%s" is not writable',
+    //             $path
+    //         ));
+    //     }
+    // }
 
-    /**
-     * Returns the migration template filename.
-     *
-     * @return string
-     */
-    protected function getMigrationTemplateFilename()
-    {
-        return __DIR__ . self::DEFAULT_MIGRATION_TEMPLATE;
-    }
+    // /**
+    //  * Returns the migration template filename.
+    //  *
+    //  * @return string
+    //  */
+    // protected function getMigrationTemplateFilename()
+    // {
+    //     return __DIR__ . self::DEFAULT_MIGRATION_TEMPLATE;
+    // }
 
-    /**
-     * Returns the seed template filename.
-     *
-     * @return string
-     */
-    protected function getSeedTemplateFilename()
-    {
-        return __DIR__ . self::DEFAULT_SEED_TEMPLATE;
-    }
+    // /**
+    //  * Returns the seed template filename.
+    //  *
+    //  * @return string
+    //  */
+    // protected function getSeedTemplateFilename()
+    // {
+    //     return __DIR__ . self::DEFAULT_SEED_TEMPLATE;
+    // }
 
 
 
@@ -246,14 +246,30 @@ abstract class AbstractCommand extends Brood
     */
     protected function getDefaultConfig()
     {
-        $env = $this->getInput()->getOption('env') ?: config()->environment;
+        $env = $this->getInput()->getOption('env');
 
-        $selected_adapter = config()->app->db_adapter;
+        $database_config = url_trimmer(
+            realpath(config('path.config')).'/'.$env.'/database.php'
+        );
 
-        $adapters = config()->database->adapters->toArray();
+        if ($env === config('old_environment')) {
+            $database_config = url_trimmer(
+                realpath(config('path.config')).'/database.php'
+            );
+        }
+
+        if (! file_exists($database_config)) {
+            throw new \RunTimeException("Database config [$database_config] not found.");
+        }
+
+        $selected_adapter = config('app.db_adapter');
+
+        # to safely migrate a database, just get the specific database config
+        $database = new \Phalcon\Config(require $database_config);
+        $adapters = $database->adapters->toArray();
 
         if (! isset($adapters[$selected_adapter])) {
-            throw new Exception(
+            throw new \RunTimeException(
                 "Adapter [$selected_adapter] not found ".
                 'on config/database.adapters'
             );
@@ -261,15 +277,18 @@ abstract class AbstractCommand extends Brood
 
         $adapter = $adapters[$selected_adapter];
 
+        # get the latest injected environment
+        $env = config('environment');
+
         return new Config([
-            'paths'        => [
-                'migrations' => realpath(config()->path->migrations),
-                'seeds'      => realpath(config()->path->seeders),
+            'paths' => [
+                'migrations' => realpath(config('path.migrations')),
+                'seeds'      => realpath(config('path.seeders')),
             ],
             'environments' => [
                 'default_migration_table' => 'migrations',
-                'default_database' => $env,
-                $env => $this->getSettings($adapter),
+                'default_database'        => $env,
+                $env                      => $this->getSettings($adapter),
             ],
         ]);
     }
@@ -293,12 +312,21 @@ abstract class AbstractCommand extends Brood
 
             case 'pgsql':
                 $ret = [
-                    'adapter' => $alias,
+                    'adapter'  => $alias,
+                    'host'     => $adapter['host'],
+                    'name'     => $adapter['dbname'],
+                    'user'     => $adapter['username'],
+                    'pass'     => $adapter['password'],
+                    'port'     => $adapter['port'],
+                    'charset'  => $adapter['charset'],
                 ];
             break;
 
             case 'sqlite':
-
+                $ret = [
+                    'adapter' => $alias,
+                    'name' => $adapter['dbname'],
+                ];
             break;
         }
 
