@@ -39,7 +39,7 @@ class Files extends Adapter implements AdapterInterface
         return json_decode($session, true) ?: [];
     }
 
-    public function has($text)
+    public function has($index)
     {
         if (! file_exists($this->getPath(session_id()))) {
             return false;
@@ -47,18 +47,22 @@ class Files extends Adapter implements AdapterInterface
 
         $session = $this->loadStorage($this->getPath(session_id()));
 
-        return isset($session[$text]) ? true : false;
+        return isset($session[$index]) ? true : false;
     }
 
-    public function get($text, $default_value = null)
+    public function get($index, $default_value = null, $remove = null)
     {
+        if ($unique_id = $this->_uniqueId) {
+            $index = $unique_id.'#'.$index;
+        }
+
         if (! file_exists($this->getPath(session_id()))) {
             return false;
         }
 
         $session = $this->loadStorage($this->getPath(session_id()));
 
-        $val = isset($session[$text]) ? $session[$text] : null;
+        $val = isset($session[$index]) ? $session[$index] : null;
 
         if (
             isset($this->options['encrypted']) &&
@@ -72,6 +76,10 @@ class Files extends Adapter implements AdapterInterface
             }
         }
 
+        if ($remove) {
+            unset($session[$index]);
+        }
+
         if (empty($val) || (! is_array($val) && ! strlen($val))) {
             return $default_value;
         }
@@ -79,7 +87,7 @@ class Files extends Adapter implements AdapterInterface
         return $val;
     }
 
-    public function set($text, $data)
+    public function set($index, $data)
     {
         $data = is_array($data) ? json_encode($data) : $data;
         $session = [];
@@ -88,13 +96,13 @@ class Files extends Adapter implements AdapterInterface
             $session = $this->loadStorage($this->getPath(session_id()));
         }
 
-        $session[$text] = $data;
+        $session[$index] = $data;
 
         if (
             isset($this->options['encrypted']) &&
             $this->options['encrypted'] === true
         ) {
-            $session[$text] = Crypt::encrypt($data);
+            $session[$index] = Crypt::encrypt($data);
         }
 
         file_put_contents($this->getPath(session_id()), json_encode($session));
@@ -102,15 +110,19 @@ class Files extends Adapter implements AdapterInterface
         return true;
     }
 
-    public function remove($text)
+    public function remove($index)
     {
+        if ($unique_id = $this->_uniqueId) {
+            $index = $unique_id.'#'.$index;
+        }
+
         if (! file_exists($this->getPath(session_id()))) {
             return false;
         }
 
         $session = $this->loadStorage($this->getPath(session_id()));
 
-        unset($session[$text]);
+        unset($session[$index]);
 
         file_put_contents($this->getPath(session_id()), json_encode($session));
 

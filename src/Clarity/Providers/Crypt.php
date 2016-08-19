@@ -44,7 +44,7 @@ class Crypt extends ServiceProvider
         $crypt->setKey($key);
         $crypt->setCipher(config('app.encryption.cipher'));
 
-        if (Version::get() <= '2.0.10') {
+        if ((int) Version::getId() <= 2001341) {
             $crypt->setMode(config('app.encryption.mode'));
         }
 
