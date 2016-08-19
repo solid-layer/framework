@@ -127,6 +127,7 @@ abstract class Brood extends Command
         }
 
         if ($env !== null) {
+            config(['old_environment' => config('environment')]);
             config(['environment' => $env]);
             $folder = $used_env = $env;
         }
