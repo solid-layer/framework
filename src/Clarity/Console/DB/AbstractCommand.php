@@ -113,28 +113,6 @@ abstract class AbstractCommand extends Brood
     }
 
     /**
-     * Sets the migration manager.
-     *
-     * @param Manager $manager
-     * @return AbstractCommand
-     */
-    public function setManager(Manager $manager)
-    {
-        $this->manager = $manager;
-        return $this;
-    }
-
-    /**
-     * Gets the migration manager.
-     *
-     * @return Manager
-     */
-    public function getManager()
-    {
-        return $this->manager;
-    }
-
-    /**
      * Returns config file path
      *
      * @param InputInterface $input
@@ -173,76 +151,6 @@ abstract class AbstractCommand extends Brood
     //     }
     //     throw $lastException;
     // }
-
-    /**
-     * Parse the config file and load it into the config object
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @throws \InvalidArgumentException
-     * @return void
-     */
-
-    protected function loadConfig(InputInterface $input, OutputInterface $output)
-    {
-        $env = config()->environment;
-        $selected_adapter = config()->app->db_adapter;
-        $adapters = config()->database->adapters->toArray();
-
-        if (! isset($adapters[$selected_adapter])) {
-            throw new Exception(
-                "Adapter [$selected_adapter] not found ".
-                'on config/database.adapters'
-            );
-        }
-
-        $adapter = $adapters[$selected_adapter];
-
-        $settings = $this->getSettings($adapter);
-
-        $config = new Config(
-            [
-                'paths'        => [
-                    'migrations' => config()->path->migrations,
-                    'seeds'      => config()->path->seeders,
-                ],
-                'environments' => [
-                    'default_migration_table' => 'migrations',
-                    'default_database'        => $env,
-                    $env                      => $settings,
-                ],
-            ]
-        );
-
-        $this->setConfig($config);
-    }
-
-    private function getSettings($adapter)
-    {
-        return [
-            'adapter'  => $this->adapters[$adapter['class']],
-            'host'     => null,
-            'name'     => null,
-            'user'     => null,
-            'pass'     => null,
-            'port'     => null,
-            'charset'  => null,
-        ];
-    }
-
-    /**
-     * Load the migrations manager and inject the config
-     *
-     * @param OutputInterface $output
-     * @return void
-     */
-    protected function loadManager(OutputInterface $output)
-    {
-        if (null === $this->getManager()) {
-            $manager = new Manager($this->getConfig(), $output);
-            $this->setManager($manager);
-        }
-    }
 
     /**
      * Verify that the seed directory exists and is writable.
@@ -304,6 +212,112 @@ abstract class AbstractCommand extends Brood
 
 
 
+
+
+    /**
+     * Sets the migration manager.
+     *
+     * @param Manager $manager
+     * @return AbstractCommand
+     */
+    public function setManager(Manager $manager)
+    {
+        $this->manager = $manager;
+        return $this;
+    }
+
+    /**
+     * Gets the migration manager.
+     *
+     * @return Manager
+     */
+    public function getManager()
+    {
+        return $this->manager;
+    }
+
+    /**
+     * Parse the config file and load it into the config object
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws \InvalidArgumentException
+     * @return void
+    */
+    protected function getDefaultConfig()
+    {
+        $env = $this->getInput()->getOption('env') ?: config()->environment;
+
+        $selected_adapter = config()->app->db_adapter;
+
+        $adapters = config()->database->adapters->toArray();
+
+        if (! isset($adapters[$selected_adapter])) {
+            throw new Exception(
+                "Adapter [$selected_adapter] not found ".
+                'on config/database.adapters'
+            );
+        }
+
+        $adapter = $adapters[$selected_adapter];
+
+        return new Config([
+            'paths'        => [
+                'migrations' => realpath(config()->path->migrations),
+                'seeds'      => realpath(config()->path->seeders),
+            ],
+            'environments' => [
+                'default_migration_table' => 'migrations',
+                'default_database' => $env,
+                $env => $this->getSettings($adapter),
+            ],
+        ]);
+    }
+
+    protected function getSettings($adapter)
+    {
+        $ret = [];
+
+        switch ($alias = $this->adapters[$adapter['class']]) {
+            case 'mysql':
+                $ret = [
+                    'adapter'  => $alias,
+                    'host'     => $adapter['host'],
+                    'name'     => $adapter['dbname'],
+                    'user'     => $adapter['username'],
+                    'pass'     => $adapter['password'],
+                    'port'     => $adapter['port'],
+                    'charset'  => $adapter['charset'],
+                ];
+            break;
+
+            case 'pgsql':
+                $ret = [
+                    'adapter' => $alias,
+                ];
+            break;
+
+            case 'sqlite':
+
+            break;
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Load the migrations manager and inject the config
+     *
+     * @param OutputInterface $output
+     * @return void
+     */
+    protected function loadManager()
+    {
+        if (null === $this->getManager()) {
+            $manager = new Manager($this->getDefaultConfig(), $this->getOutput());
+            $this->setManager($manager);
+        }
+    }
 
     protected function getMigrationPath()
     {

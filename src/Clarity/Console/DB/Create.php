@@ -13,15 +13,9 @@ namespace Clarity\Console\DB;
 
 use Phinx\Util\Util;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-// use Phinx\Console\Command\Create as BaseCreate;
-// use Clarity\Support\Phinx\Console\Command\Traits\MigrationTrait;
-// use Clarity\Support\Phinx\Console\Command\Traits\ConfigurationTrait;
 
 class Create extends AbstractCommand
 {
-    const CREATION_INTERFACE = 'Phinx\Migration\CreationInterface';
-
     /**
      * {@inheritdoc}
      */
@@ -58,16 +52,21 @@ class Create extends AbstractCommand
 
         $contents = file_get_contents($this->getMigrationTemplateFilename());
 
-        $dump_config = new \Phinx\Config\Config([]);
-
         $contents = strtr($contents, [
-            '$useClassName'  => $dump_config->getMigrationBaseClassName(false),
+            '$useClassName'  => $this->getMigrationBaseClassName(false),
             '$className'     => $class_name,
             '$version'       => Util::getVersionFromFileName($file_name),
-            '$baseClassName' => $dump_config->getMigrationBaseClassName(true),
+            '$baseClassName' => $this->getMigrationBaseClassName(true),
         ]);
 
-        dd($contents);
+        if (false === file_put_contents($file_path, $contents)) {
+            throw new \RuntimeException(sprintf(
+                'File "%s" could not be written',
+                $file_path
+            ));
+        }
+
+        $this->getOutput()->writeln('<info>created</info> '.str_replace(getcwd(), '', $file_path));
     }
 
     /**
@@ -85,10 +84,7 @@ class Create extends AbstractCommand
      */
     public function options()
     {
-        return [
-            // ['template', null, InputOption::VALUE_REQUIRED, 'Use an alternative template'],
-            // ['class', null, InputOption::VALUE_REQUIRED, 'Use a class implementing "' . self::CREATION_INTERFACE . '" to generate the template'],
-        ];
+        return [];
     }
 
     protected function getMigrationTemplateFilename()
@@ -127,4 +123,10 @@ class Create extends AbstractCommand
         return Util::mapClassNameToFileName($class_name);
     }
 
+    protected function getMigrationBaseClassName($drop_namespace = fakse)
+    {
+        $class_name = \Phinx\Migration\AbstractMigration::class;
+
+        return $drop_namespace ? substr(strrchr($class_name, '\\'), 1) : $class_name;
+    }
 }
