@@ -28,6 +28,27 @@ abstract class Brood extends Command
     use ServiceMagicMethods;
 
     /**
+     * The command call name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * The command description.
+     *
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * The command help.
+     *
+     * @var string
+     */
+    protected $help;
+
+    /**
      * The input interface instance.
      *
      * @var mixed
@@ -106,6 +127,7 @@ abstract class Brood extends Command
         }
 
         if ($env !== null) {
+            config(['old_environment' => config('environment')]);
             config(['environment' => $env]);
             $folder = $used_env = $env;
         }
@@ -168,6 +190,10 @@ abstract class Brood extends Command
         $this
             ->setName($this->name)
             ->setDescription($this->description);
+
+        if ($this->help) {
+            $this->setHelp($this->help);
+        }
 
         if (! empty($this->arguments())) {
             foreach ($this->arguments() as $arg) {
@@ -324,7 +350,7 @@ abstract class Brood extends Command
      * @param  bool|string|int]mixed $default The default value
      * @return mixed
      */
-    public function ask($message, $default)
+    public function ask($message, $default = null)
     {
         $helper = $this->getHelper('question');
 
@@ -337,13 +363,14 @@ abstract class Brood extends Command
      * To confirm that only works with [y/n].
      *
      * @param  string $message The message to be printed
+     * @param  string $default The default value
      * @return mixed
      */
-    public function confirm($message)
+    public function confirm($message, $default = false)
     {
         $helper = $this->getHelper('question');
 
-        $question = new ConfirmationQuestion($message, false);
+        $question = new ConfirmationQuestion($message, $default);
 
         return $helper->ask($this->input, $this->output, $question);
     }
