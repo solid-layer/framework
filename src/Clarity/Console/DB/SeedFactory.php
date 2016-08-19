@@ -22,7 +22,7 @@ class SeedFactory extends Brood
     /**
      * {@inheritdoc}
      */
-    protected $name = 'db:seed:factory';
+    protected $name = 'seed:factory';
 
     /**
      * {@inheritdoc}

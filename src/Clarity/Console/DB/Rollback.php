@@ -11,8 +11,6 @@
  */
 namespace Clarity\Console\DB;
 
-use Phinx\Util\Util;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class Rollback extends AbstractCommand
@@ -28,6 +26,9 @@ class Rollback extends AbstractCommand
      */
     protected $description = 'Rollback the last or to a specific migration';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $help = <<<EOT
 The <info>rollback</info> command reverts the last migration, or optionally up to a specific version
 
@@ -85,16 +86,6 @@ EOT;
 
         $this->getOutput()->writeln('');
         $this->getOutput()->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
-
-        return 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function arguments()
-    {
-        return [];
     }
 
     /**

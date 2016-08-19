@@ -31,7 +31,7 @@ class Create extends AbstractCommand
      */
     public function slash()
     {
-        $path = realpath($this->getMigrationPath());
+        $path = realpath($this->getDefaultConfig()->getMigrationPath());
 
         if (! file_exists($path)) {
             if ($this->confirm('Create migrations directory? [y]/n ', true)) {
@@ -79,43 +79,15 @@ class Create extends AbstractCommand
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function options()
-    {
-        return [];
-    }
-
     protected function getMigrationTemplateFilename()
     {
         $file = url_trimmer(config()->path->storage.'/stubs/db/MigrationCreate.stub');
 
-        if (file_exists($file)) {
-            return $file;
+        if (! file_exists($file)) {
+            throw new \RuntimeException("Migration Template [$file] not found.");
         }
 
-        return parent::getMigrationTemplateFilename();
-    }
-
-    protected function checkValidPhinxClassName($class_name)
-    {
-        if (!Util::isValidPhinxClassName($class_name)) {
-            throw new \InvalidArgumentException(sprintf(
-                'The migration class name "%s" is invalid. Please use CamelCase format.',
-                $class_name
-            ));
-        }
-    }
-
-    protected function checkUniqueMigrationClassName($class_name, $path)
-    {
-        if (!Util::isUniqueMigrationClassName($class_name, $path)) {
-            throw new \InvalidArgumentException(sprintf(
-                'The migration class name "%s" already exists',
-                $class_name
-            ));
-        }
+        return $file;
     }
 
     protected function mapClassNameToFileName($class_name)
@@ -125,7 +97,7 @@ class Create extends AbstractCommand
 
     protected function getMigrationBaseClassName($drop_namespace = fakse)
     {
-        $class_name = \Phinx\Migration\AbstractMigration::class;
+        $class_name = \Clarity\Support\Phinx\Migration\AbstractMigration::class;
 
         return $drop_namespace ? substr(strrchr($class_name, '\\'), 1) : $class_name;
     }

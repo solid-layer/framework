@@ -11,7 +11,6 @@
  */
 namespace Clarity\Console\DB;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class Migrate extends AbstractCommand
@@ -26,6 +25,9 @@ class Migrate extends AbstractCommand
      */
     protected $description = 'Migrate the database';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $help = <<<EOT
 The <info>migrate</info> command runs all available migrations, optionally up to a specific version
 
@@ -90,16 +92,6 @@ EOT;
 
         $this->getOutput()->writeln('');
         $this->getOutput()->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
-
-        return 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function arguments()
-    {
-        return [];
     }
 
     /**
