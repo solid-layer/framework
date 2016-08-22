@@ -45,7 +45,7 @@ trait KernelTrait
             return new Config([]);
         }, true);
 
-        # get the paths and merge the array values to the
+        # get the path and merge the array values to the
         # empty config as we instantiated above
         config(['path' => $this->path]);
 

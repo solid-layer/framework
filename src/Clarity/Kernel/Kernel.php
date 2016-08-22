@@ -33,18 +33,11 @@ class Kernel
     private $env;
 
     /**
-     * The path/paths provided.
+     * The path provided.
      *
      * @var mixed
      */
     private $path;
-
-    /**
-     * The modules pre-inserted.
-     *
-     * @var mixed
-     */
-    private $modules;
 
     /**
      * Set the path.
@@ -54,18 +47,6 @@ class Kernel
     public function setPath($path)
     {
         $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Set the modules.
-     *
-     * @param mixed $modules
-     */
-    public function setModules($modules)
-    {
-        $this->modules = $modules;
 
         return $this;
     }
@@ -99,7 +80,7 @@ class Kernel
      */
     public function modules()
     {
-        config(['modules' => $this->modules]);
+        config(['modules' => di('module')->all()]);
 
         di('application')->registerModules(config()->modules->toArray());
 
@@ -115,16 +96,6 @@ class Kernel
     }
 
     /**
-     * This provides the routes.php file.
-     *
-     * Over-ride this function if you want to change the path.
-     */
-    public static function buildRoute($module_name)
-    {
-        return url_trimmer(config()->path->app.'/'.$module_name.'/routes.php');
-    }
-
-    /**
      * Here, you will be loading the system by defining the module.
      *
      * @param  string $module_name The module name
@@ -133,12 +104,6 @@ class Kernel
     public function run($module_name)
     {
         di('application')->setDefaultModule($module_name);
-
-        $path = static::buildRoute($module_name);
-
-        if (file_exists($path)) {
-            require $path;
-        }
 
         $this->loadServices($after_module = true);
 

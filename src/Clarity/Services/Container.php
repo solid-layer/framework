@@ -33,6 +33,16 @@ class Container
     {
         $providers_loaded = array_map(function ($provider) {
 
+            # check if module function exists exists
+            if (method_exists($provider, 'module')) {
+                di('module')->setModule(
+                    $provider->getAlias(),
+                    function ($di) use ($provider) {
+                        call_user_func_array([$provider, 'module'], [$di]);
+                    }
+                );
+            }
+
             if (is_object($register = $provider->callRegister())) {
                 di()->set(
                     $provider->getAlias(),

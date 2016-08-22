@@ -74,15 +74,6 @@ class RoutesCommand extends Brood
      */
     public function slash()
     {
-        # load non-loaded routes based for each module
-        foreach (di('module')->all() as $module_name => $module) {
-            $path = Kernel::buildRoute($module_name);
-
-            if (file_exists($path)) {
-                require_once $path;
-            }
-        }
-
         $table = $this->table(
             ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
             $this->extractRoutes(Route::getRoutes())

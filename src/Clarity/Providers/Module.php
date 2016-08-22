@@ -75,6 +75,10 @@ class Module extends ServiceProvider
      */
     public function all()
     {
+        if (!isset(config()->modules)) {
+            return [];
+        }
+
         return config()->modules->toArray();
     }
 }
