@@ -57,7 +57,7 @@ class ControllerCommand extends Brood
      */
     protected function getBasePath()
     {
-        return realpath('');
+        return getcwd();
     }
 
     /**
@@ -68,7 +68,7 @@ class ControllerCommand extends Brood
     protected function getNamespace()
     {
         return url_trimmer(
-            $this->getAppPath().'/'.$this->getModuleName().'\\Controllers'
+            realpath($this->getAppPath()).'/'.$this->getModuleName().'/Controllers'
         );
     }
 
@@ -99,9 +99,15 @@ class ControllerCommand extends Brood
      *
      * @return string
      */
-    protected function getModuleName()
+    protected function getModuleName($namespace = true)
     {
-        return $this->input->getArgument('module');
+        $name = $this->input->getArgument('name');
+
+        if (! $namespace) {
+            return $name;
+        }
+
+        return studly_case(str_slug($name, '_'));
     }
 
     /**
@@ -111,7 +117,7 @@ class ControllerCommand extends Brood
      */
     protected function getControllerStub()
     {
-        return file_get_contents(__DIR__.'/stubs/makeController.stub');
+        return file_get_contents(__DIR__.'/stubs/controller/controller.stub');
     }
 
     /**
@@ -121,7 +127,7 @@ class ControllerCommand extends Brood
      */
     protected function getFunctionsStub()
     {
-        return file_get_contents(__DIR__.'/stubs/_controllerFunctions.stub');
+        return file_get_contents(__DIR__.'/stubs/controller/functions.stub');
     }
 
     /**

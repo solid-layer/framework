@@ -57,7 +57,7 @@ class RouteCommand extends Brood
         $app_path = str_replace(config('path.root'), '', config()->path->app);
         $arg_name = studly_case(str_slug($this->input->getArgument('name'), '_'));
 
-        $stub = file_get_contents(__DIR__.'/stubs/makeRoute.stub');
+        $stub = file_get_contents(__DIR__.'/stubs/route/route.stub');
         $stub = stubify($stub, [
             'routeName' => $arg_name,
             'prefixRouteName' => strtolower($arg_name),
