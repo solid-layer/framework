@@ -23,14 +23,14 @@ class AppTest extends \PHPUnit_Framework_TestCase
             'php brood app:module test_module',
         ]);
 
-        $has_file = file_exists(config()->path->app.'TestModule/Routes.php');
-        $this->assertTrue($has_file, 'check if module "test_module" were generated');
+        $has_file = file_exists($path = config()->path->app.'TestModule/Routes.php');
+        $this->assertTrue($has_file, 'check if ['.$path.'] were generated');
 
-        $has_file = file_exists(config()->path->app.'TestModule/Routes/RouteGroup.php');
-        $this->assertTrue($has_file, 'check if module "test_module" were generated');
+        $has_file = file_exists($path = config()->path->app.'TestModule/Routes/RouteGroup.php');
+        $this->assertTrue($has_file, 'check if ['.$path.'] were generated');
 
-        $has_file = file_exists(config()->path->app.'TestModule/Providers/RouteServiceProvider.php');
-        $this->assertTrue($has_file, 'check if module "test_module" were generated');
+        $has_file = file_exists($path = config()->path->app.'TestModule/Providers/RouteServiceProvider.php');
+        $this->assertTrue($has_file, 'check if ['.$path.'] were generated');
 
         CLI::bash([
             'php brood app:route test test_module',
