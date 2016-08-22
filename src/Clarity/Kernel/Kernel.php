@@ -37,16 +37,16 @@ class Kernel
      *
      * @var mixed
      */
-    private $path;
+    private $paths;
 
     /**
-     * Set the path.
+     * Set the paths.
      *
-     * @param mixed $path
+     * @param mixed $paths
      */
-    public function setPath($path)
+    public function setPaths($paths)
     {
-        $this->path = $path;
+        $this->paths = $paths;
 
         return $this;
     }

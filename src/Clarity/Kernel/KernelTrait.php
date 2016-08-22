@@ -45,9 +45,9 @@ trait KernelTrait
             return new Config([]);
         }, true);
 
-        # get the path and merge the array values to the
+        # get the paths and merge the array values to the
         # empty config as we instantiated above
-        config(['path' => $this->path]);
+        config(['path' => $this->paths]);
 
         # now merge the assigned environment
         config(['environment' => $this->getEnvironment()]);
@@ -55,7 +55,7 @@ trait KernelTrait
         # iterate all the base config files and require
         # the files to return an array values
         $base_config_files = iterate_require(
-            folder_files($this->path['config'])
+            folder_files($this->paths['config'])
         );
 
         # iterate all the environment config files and
@@ -63,7 +63,7 @@ trait KernelTrait
         $env_config_files = iterate_require(
             folder_files(
                 url_trimmer(
-                    $this->path['config'].'/'.$this->getEnvironment()
+                    $this->paths['config'].'/'.$this->getEnvironment()
                 )
             )
         );
