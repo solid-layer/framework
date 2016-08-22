@@ -62,6 +62,11 @@ class OptimizeCommand extends Brood
         $handle = $preloader->prepareOutput($compile_path);
 
         foreach ($this->getClassFiles() as $file) {
+
+            if (! file_exists($file)) {
+                continue;
+            }
+
             try {
                 fwrite(
                     $handle,
