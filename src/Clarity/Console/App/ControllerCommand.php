@@ -83,7 +83,7 @@ class ControllerCommand extends Brood
         $ret = '%s';
 
         if ($is_path) {
-            $ret = 'controllers/%sController.php';
+            $ret = 'Controllers/%sController.php';
         }
 
         return sprintf(
@@ -101,13 +101,13 @@ class ControllerCommand extends Brood
      */
     protected function getModuleName($namespace = true)
     {
-        $name = $this->input->getArgument('name');
+        $module = $this->input->getArgument('module');
 
         if (! $namespace) {
-            return $name;
+            return $module;
         }
 
-        return studly_case(str_slug($name, '_'));
+        return studly_case(str_slug($module, '_'));
     }
 
     /**
@@ -154,6 +154,7 @@ class ControllerCommand extends Brood
     {
         $app_filesystem = flysystem_manager($this->getAppPath());
 
+        $raw_module = $this->getModuleName(false);
         $module = $this->getModuleName();
 
         # check if module exists, throw error if it doesn't exists
@@ -197,8 +198,6 @@ class ControllerCommand extends Brood
         $module_filesystem->put($controller, $buff);
 
         $this->info('     '.$controller.' created!');
-
-        $this->callDumpAutoload();
     }
 
     /**
