@@ -170,7 +170,7 @@ class ModuleCommand extends Brood
         $base_routes = "$module/Routes/RouteGroup.php";
         $routes_file = "$module/Routes.php";
         $public_file = $raw_module.'.php';
-        $base_route_provider = "$module/Providers/RouteServiceProvider.php";
+        $base_route_provider = "$module/Providers/RouterServiceProvider.php";
 
         # now save the stubbed content into the their path
         if ($app_filesystem->has($base_controller) === false) {
