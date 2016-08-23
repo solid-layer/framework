@@ -154,7 +154,7 @@ class ModuleCommand extends Brood
         $controller_buff = $this->getContentByStub($this->getBaseControllerStub(), 'Controller');
         $routes_group_buff = $this->getContentByStub($this->getBaseRouteStub(), 'Routes');
         $routes_buff = $this->getContentByStub($this->getRoutesStub());
-        $public_buff = stubify($this->getPublicStub(), ['module' => '\''.$module.'\'']);
+        $public_buff = stubify($this->getPublicStub(), ['module' => '\''.$raw_module.'\'']);
 
         $base_route_provider_buff = $this->getContentByStub(
             $this->getBaseRouteProviderStub(),
