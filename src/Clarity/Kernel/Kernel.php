@@ -105,6 +105,8 @@ class Kernel
     {
         di('application')->setDefaultModule($module_name);
 
+        di($module_name)->afterModuleRun();
+
         $this->loadServices($after_module = true);
 
         return $this;
