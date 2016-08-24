@@ -29,7 +29,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $has_file = file_exists($path = config()->path->app.'TestModule/Routes/RouteGroup.php');
         $this->assertTrue($has_file, 'check if ['.$path.'] were generated');
 
-        $has_file = file_exists($path = config()->path->app.'TestModule/Providers/RouteServiceProvider.php');
+        $has_file = file_exists($path = config()->path->app.'TestModule/Providers/RouterServiceProvider.php');
         $this->assertTrue($has_file, 'check if ['.$path.'] were generated');
 
         CLI::bash([
