@@ -211,7 +211,7 @@ class ModuleCommand extends Brood
         $this->getOutput()->writeln(
             "\n".'   <comment>Append route service inside [config/app.php]: </comment>'.
             path_to_namespace(
-                str_replace($this->getBasePath(), '', $this->getNamespace()).'/Providers/RouteServiceProvider'
+                str_replace($this->getBasePath(), '', $this->getNamespace()).'/Providers/RouterServiceProvider'
             ).'::class'
         );
     }
