@@ -28,7 +28,7 @@ class SeedCreate extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected $help = PHP_EOL.'Creates a new database seeder'.PHP_EOL;
+    protected $help = "\nCreates a new database seeder\n";
 
     /**
      * {@inheritdoc}
