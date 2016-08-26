@@ -163,7 +163,12 @@ class NewCommand extends Brood
             $package => '*',
         ]);
 
-        $repo = str_replace(realpath('').'/', '', $this->getSandboxPath()).$package;
+        $repo = str_replace(
+            realpath('').'/',
+            '',
+            realpath($this->getSandboxPath().'/'.$package)
+        );
+
         $composer->merge('repositories', [
             $repo => [
                 'type' => 'path',
