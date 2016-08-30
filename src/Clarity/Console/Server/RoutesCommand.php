@@ -74,6 +74,15 @@ class RoutesCommand extends Brood
      */
     public function slash()
     {
+        foreach (di()->getServices() as $service) {
+
+            if (! method_exists($def = $service->getDefinition(), 'afterModuleRun')) {
+                continue;
+            }
+
+            $def->afterModuleRun();
+        }
+
         $table = $this->table(
             ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
             $this->extractRoutes(Route::getRoutes())
