@@ -22,4 +22,37 @@ class PhalconTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $request->getStatusCode());
     }
+
+    public function testMvcUrl()
+    {
+        $this->assertEquals('localhost', url()->getHost());
+        $this->assertEquals('http://', url()->getScheme());
+        $this->assertEquals('http://localhost', url()->getFullUrl());
+
+        $module = 'main';
+
+        # https check
+        config([
+            'app' => [
+                'ssl' => [
+                    'main' => true,
+                ],
+            ]
+        ]);
+        $this->assertEquals('https://', url()->getScheme($module));
+        $this->assertEquals('slayer.app', url()->getHost($module));
+        $this->assertEquals('https://slayer.app', url()->getFullUrl($module));
+
+        # http check
+        config([
+            'app' => [
+                'ssl' => [
+                    'main' => false,
+                ],
+            ]
+        ]);
+        $this->assertEquals('http://', url()->getScheme($module));
+        $this->assertEquals('slayer.app', url()->getHost($module));
+        $this->assertEquals('http://slayer.app', url()->getFullUrl($module));
+    }
 }
