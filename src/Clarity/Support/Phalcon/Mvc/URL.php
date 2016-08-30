@@ -50,12 +50,15 @@ class URL extends BaseURL
 
     public function getScheme($module = null)
     {
-        if ($module === null && $this->hasHttps()) {
-            return 'https://';
+        if ($module === null) {
+            $module = di()->get('application')->getDefaultModule();
+
+            if ($this->hasHttps()) {
+                return 'https://';
+            }
         }
 
-        $module = di()->get('application')->getDefaultModule();
-
+        # if still null, return http://
         if ($module === null) {
             return 'http://';
         }
@@ -71,17 +74,15 @@ class URL extends BaseURL
 
     public function getHost($module = null)
     {
-        # only successful if we're not passing any parameter
-        # and the server found an index 'HTTP_HOST'
-        if (
-            isset($_SERVER['HTTP_HOST']) &&
-            $module === null
-        ) {
-            return $_SERVER['HTTP_HOST'];
+        if ($module === null) {
+            $module = di()->get('application')->getDefaultModule();
+
+            if (isset($_SERVER['HTTP_HOST'])) {
+                return $_SERVER['HTTP_HOST'];
+            }
         }
 
-        $module = di()->get('application')->getDefaultModule();
-
+        # if still null, return localhost
         if ($module === null) {
             return 'localhost';
         }
