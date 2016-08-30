@@ -29,33 +29,33 @@ class PhalconTest extends \PHPUnit_Framework_TestCase
     {
         $old = config()->toArray();
 
-        # check when using non module, since this will be executed
-        # under cli, it should return 'localhost' for host and
-        # http:// for the scheme
-        $this->assertEquals('localhost', url()->getHost());
+        # since we're loading the default 'main' module
+        # located at root/autoload.php
         $this->assertEquals('http://', url()->getScheme());
-        $this->assertEquals('http://localhost', url()->getFullUrl());
-
-        $module = 'main';
+        $this->assertEquals('slayer.app', url()->getHost());
+        $this->assertEquals('http://slayer.app', url()->getFullUrl());
 
         # https check
         config([
             'app' => [
                 'ssl' => [
-                    'main' => true,
+                    'acme' => true,
+                ],
+                'base_uri' => [
+                    'acme' => 'acme.app',
                 ],
             ]
         ]);
-        $this->assertEquals('https://', url()->getScheme($module));
-        $this->assertEquals('slayer.app', url()->getHost($module));
-        $this->assertEquals('https://slayer.app', url()->getFullUrl($module));
+        $this->assertEquals('https://', url()->getScheme('acme'));
+        $this->assertEquals('acme.app', url()->getHost('acme'));
+        $this->assertEquals('https://acme.app', url()->getFullUrl('acme'));
 
         # revert config
         config($old);
 
         # http check
-        $this->assertEquals('http://', url()->getScheme($module));
-        $this->assertEquals('slayer.app', url()->getHost($module));
-        $this->assertEquals('http://slayer.app', url()->getFullUrl($module));
+        $this->assertEquals('http://', url()->getScheme('main'));
+        $this->assertEquals('slayer.app', url()->getHost('main'));
+        $this->assertEquals('http://slayer.app', url()->getFullUrl('main'));
     }
 }
