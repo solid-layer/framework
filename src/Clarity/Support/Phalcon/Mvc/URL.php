@@ -25,20 +25,44 @@ class URL extends BaseURL
         return $instance;
     }
 
-    public function getScheme($module = null)
+    protected function hasHttps()
     {
-        if ($module === null) {
-            $module = di()->get('application')->getDefaultModule();
+        if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'https') {
+            return true;
         }
 
-        $https = false;
-
-        $ssl_modules = config()->app->ssl->toArray();
+        if (
+            isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+            $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
+        ) {
+            return true;
+        }
 
         if (
-            isset($ssl_modules[$module]) &&
-            $ssl_modules[$module] === true
+            isset($_SERVER['REQUEST_SCHEME']) &&
+            $_SERVER['REQUEST_SCHEME'] === 'https'
         ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getScheme($module = null)
+    {
+        if ($module === null && $this->hasHttps()) {
+            return 'https://';
+        }
+
+        $module = di()->get('application')->getDefaultModule();
+
+        if ($module === null) {
+            return 'http://';
+        }
+
+        $ssl_modules = config('app.ssl')->toArray();
+
+        if (isset($ssl_modules[$module]) && $ssl_modules[$module] === true) {
             return 'https://';
         }
 
