@@ -11,7 +11,6 @@
  */
 namespace Clarity\Support\Phalcon\Mvc;
 
-use InvalidArgumentException;
 use Phalcon\Mvc\Url as BaseURL;
 
 class URL extends BaseURL
@@ -90,11 +89,11 @@ class URL extends BaseURL
         # get all url's
         $uri_modules = config()->app->base_uri->toArray();
 
-        if (! isset($uri_modules[$module])) {
-            throw new InvalidArgumentException("Module [$module] not found.");
+        if (isset($uri_modules[$module])) {
+            return $uri_modules[$module];
         }
 
-        return config()->app->base_uri->{$module};
+        return 'localhost';
     }
 
     public function getFullUrl($module = null)
