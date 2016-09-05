@@ -155,9 +155,7 @@ abstract class Brood extends Command
     {
         $timeout = $this->getInput()->getOption('timeout');
 
-        if ($timeout !== static::TIMEOUT) {
-            set_time_limit($timeout);
-        }
+        set_time_limit($timeout);
 
         return $this;
     }

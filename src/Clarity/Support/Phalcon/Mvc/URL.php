@@ -11,7 +11,6 @@
  */
 namespace Clarity\Support\Phalcon\Mvc;
 
-use InvalidArgumentException;
 use Phalcon\Mvc\Url as BaseURL;
 
 class URL extends BaseURL
@@ -25,20 +24,47 @@ class URL extends BaseURL
         return $instance;
     }
 
+    protected function hasHttps()
+    {
+        if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'https') {
+            return true;
+        }
+
+        if (
+            isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+            $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
+        ) {
+            return true;
+        }
+
+        if (
+            isset($_SERVER['REQUEST_SCHEME']) &&
+            $_SERVER['REQUEST_SCHEME'] === 'https'
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getScheme($module = null)
     {
         if ($module === null) {
             $module = di()->get('application')->getDefaultModule();
+
+            if ($this->hasHttps()) {
+                return 'https://';
+            }
         }
 
-        $https = false;
+        # if still null, return http://
+        if ($module === null) {
+            return 'http://';
+        }
 
-        $ssl_modules = config()->app->ssl->toArray();
+        $ssl_modules = config('app.ssl')->toArray();
 
-        if (
-            isset($ssl_modules[$module]) &&
-            $ssl_modules[$module] === true
-        ) {
+        if (isset($ssl_modules[$module]) && $ssl_modules[$module] === true) {
             return 'https://';
         }
 
@@ -47,17 +73,15 @@ class URL extends BaseURL
 
     public function getHost($module = null)
     {
-        # only successful if we're not passing any parameter
-        # and the server found an index 'HTTP_HOST'
-        if (
-            isset($_SERVER['HTTP_HOST']) &&
-            $module === null
-        ) {
-            return $_SERVER['HTTP_HOST'];
+        if ($module === null) {
+            $module = di()->get('application')->getDefaultModule();
+
+            if (isset($_SERVER['HTTP_HOST'])) {
+                return $_SERVER['HTTP_HOST'];
+            }
         }
 
-        $module = di()->get('application')->getDefaultModule();
-
+        # if still null, return localhost
         if ($module === null) {
             return 'localhost';
         }
@@ -65,11 +89,11 @@ class URL extends BaseURL
         # get all url's
         $uri_modules = config()->app->base_uri->toArray();
 
-        if (! isset($uri_modules[$module])) {
-            throw new InvalidArgumentException("Module [$module] not found.");
+        if (isset($uri_modules[$module])) {
+            return $uri_modules[$module];
         }
 
-        return config()->app->base_uri->{$module};
+        return 'localhost';
     }
 
     public function getFullUrl($module = null)
