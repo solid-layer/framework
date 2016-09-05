@@ -13,6 +13,8 @@ namespace Clarity\Console;
 
 use Closure;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * A cli class that mock the same cli commands.
@@ -25,46 +27,50 @@ class CLI
      * @param mixed $lines An array lists of all bash commands
      * @return string The output
      */
-    public static function bash(array $lines, $prefix = null, $suffix = null)
+    public static function bash(array $lines)
     {
         foreach ($lines as $line) {
-            static::process($line, $prefix, $suffix);
+            static::process($line);
         }
     }
 
-    public static function process($line, $prefix = null, $suffix = null)
+    /**
+     * Single execution command.
+     *
+     * @param string $line The command to be executed
+     * @return void
+     */
+    public static function process($line, $timeout = 60)
     {
+        $input = new ArgvInput;
+        $output = new ConsoleOutput;
+
+        if ($input->hasParameterOption(['--timeout'])) {
+            $timeout = (int) $input->getParameterOption('--timeout');
+        }
+
+        $output->writeln("<comment>".$line."</comment>");
+
         $proc = new Process($line);
-        $proc->setTimeout(3600);
-        $proc->run(function ($type, $buffer) use ($line, $prefix, $suffix) {
-
+        $proc->setTimeout($timeout);
+        $proc->run(function ($type, $buffer) use ($output) {
             foreach (explode("\n", $buffer) as $buffer) {
-                $buffer = $prefix.$buffer.$suffix;
-
-                if (Process::ERR === $type) {
-                    static::errorMessage($buffer);
+                if (Process::OUT === $type) {
+                    $output->writeln("<info>".$buffer."</info>");
                 } else {
-                    static::infoMessage($buffer);
+                    $output->writeln($buffer);
                 }
             }
         });
     }
 
-    public static function errorMessage($buffer)
-    {
-        echo "\e[34m{$buffer}\e[37m\n";
-    }
-
-    public static function infoMessage($buffer)
-    {
-        echo "\e[32m{$buffer}\e[37m\n";
-    }
-
-    public static function logMessage($buffer)
-    {
-        echo "\e[37m{$buffer}\e[37m\n";
-    }
-
+    /**
+     * An ssh command builder.
+     *
+     * @param $server The server IP and Port
+     * @param $scripts The array of scripts to be used
+     * @return string
+     */
     public static function ssh($server, $scripts = [])
     {
         if ($scripts instanceof Closure) {
@@ -80,10 +86,6 @@ class CLI
             .$scripts.PHP_EOL
             .$delimiter;
 
-        return function () use ($server, $scripts, $build) {
-            static::logMessage('Connecting to '.$server.' through ssh ...');
-            static::logMessage($scripts);
-            static::process($build, '['.$server.']: ');
-        };
+        return $build;
     }
 }

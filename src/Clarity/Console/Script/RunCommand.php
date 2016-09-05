@@ -51,16 +51,12 @@ class RunCommand extends Brood
                 continue;
             }
 
-            if (! is_array($selected)) {
-                CLI::process($selected);
+            if (is_array($selected)) {
+                CLI::bush($selected);
                 continue;
             }
 
-            CLI::process(
-                isset($selected['script']) ? $selected['script'] : null,
-                isset($selected['prefix']) ? $selected['prefix'] : null,
-                isset($selected['suffix']) ? $selected['suffix'] : null
-            );
+            CLI::process($selected);
         }
     }
 
