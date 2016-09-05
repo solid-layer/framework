@@ -35,7 +35,7 @@ class CLI
     public static function process($line, $prefix = null, $suffix = null)
     {
         $proc = new Process($line);
-
+        $proc->setTimeout(3600);
         $proc->run(function ($type, $buffer) use ($line, $prefix, $suffix) {
 
             foreach (explode("\n", $buffer) as $buffer) {
