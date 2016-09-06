@@ -161,6 +161,38 @@ abstract class Brood extends Command
     }
 
     /**
+     * Get the timeout option
+     *
+     * @return array
+     */
+    public static function timeoutOption()
+    {
+        return [
+            'timeout',
+            't',
+            InputOption::VALUE_OPTIONAL,
+            'Set timeout to bypass default execution time',
+            static::TIMEOUT
+        ];
+    }
+
+    /**
+     * Get the environment option
+     *
+     * @return array
+     */
+    public static function environmentOption()
+    {
+        return [
+            'env',
+            'e',
+            InputOption::VALUE_OPTIONAL,
+            'The environment to be used',
+            null
+        ];
+    }
+
+    /**
      * Returns the input interface instance.
      *
      * @return mixed
@@ -178,28 +210,6 @@ abstract class Brood extends Command
     protected function getOutput()
     {
         return $this->output;
-    }
-
-    public static function timeoutOption()
-    {
-        return [
-            'timeout',
-            't',
-            InputOption::VALUE_OPTIONAL,
-            'Set timeout to bypass default execution time',
-            static::TIMEOUT
-        ];
-    }
-
-    public static function environmentOption()
-    {
-        return [
-            'env',
-            'e',
-            InputOption::VALUE_OPTIONAL,
-            'The environment to be used',
-            null
-        ];
     }
 
     /**

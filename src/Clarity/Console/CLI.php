@@ -25,6 +25,9 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  */
 class CLI
 {
+    /**
+     * Handles the brood default options/arguments.
+     */
     public final static function ArgvInput()
     {
         # get the raw commands
@@ -110,13 +113,19 @@ class CLI
     /**
      * Handles callback request, to have an input and output capability.
      *
-
+     * @param $callback \Closure
+     * @return void
      */
     public static function handleCallback(Closure $callback)
     {
-        return static::process(
-            call_user_func($callback, [static::ArgvInput(), new ConsoleOutput])
+        $response = call_user_func(
+            $callback,
+            [static::ArgvInput(), new ConsoleOutput]
         );
+
+        if ($response) {
+            static::process($response);
+        }
     }
 
     /**
