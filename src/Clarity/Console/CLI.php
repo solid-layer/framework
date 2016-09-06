@@ -15,7 +15,6 @@ use Closure;
 use ReflectionClass;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -88,6 +87,10 @@ class CLI
      */
     public static function process($line, $timeout = 60)
     {
+        if (is_array($line)) {
+            return static::bash($line);
+        }
+
         $input = static::ArgvInput();
         $output = new ConsoleOutput;
 
@@ -118,9 +121,11 @@ class CLI
      */
     public static function handleCallback(Closure $callback)
     {
-        $response = call_user_func(
+        $output = new ConsoleOutput;
+
+        $response = call_user_func_array(
             $callback,
-            [static::ArgvInput(), new ConsoleOutput]
+            [static::ArgvInput(), $output]
         );
 
         if ($response) {
