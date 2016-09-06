@@ -180,6 +180,28 @@ abstract class Brood extends Command
         return $this->output;
     }
 
+    public static function timeoutOption()
+    {
+        return [
+            'timeout',
+            't',
+            InputOption::VALUE_OPTIONAL,
+            'Set timeout to bypass default execution time',
+            static::TIMEOUT
+        ];
+    }
+
+    public static function environmentOption()
+    {
+        return [
+            'env',
+            'e',
+            InputOption::VALUE_OPTIONAL,
+            'The environment to be used',
+            null
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -204,28 +226,20 @@ abstract class Brood extends Command
             }
         }
 
+        $options = [];
+
         if ($this->environment_option) {
-            $this->addOption(
-                'env',
-                'e',
-                InputOption::VALUE_OPTIONAL,
-                'The environment to be used',
-                null
-            );
+            $options[] = static::environmentOption();
         }
 
         if ($this->timeout_option) {
-            $this->addOption(
-                'timeout',
-                't',
-                InputOption::VALUE_OPTIONAL,
-                'Set timeout to bypass default execution time',
-                static::TIMEOUT
-            );
+            $options[] = static::timeoutOption();
         }
 
-        if (! empty($this->options())) {
-            foreach ($this->options() as $opt) {
+        $options = array_merge($this->options(), $options);
+
+        if (! empty($options)) {
+            foreach ($options as $opt) {
                 $this->addOption(
                     isset($opt[0]) ? $opt[0] : null,
                     isset($opt[1]) ? $opt[1] : null,

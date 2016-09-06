@@ -47,12 +47,12 @@ class RunCommand extends Brood
 
         foreach ($lists[$script] as $selected) {
             if (is_callable($selected)) {
-                call_user_func($selected);
+                CLI::handleCallback($selected);
                 continue;
             }
 
             if (is_array($selected)) {
-                CLI::bush($selected);
+                CLI::bash($selected);
                 continue;
             }
 

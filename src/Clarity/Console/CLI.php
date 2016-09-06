@@ -12,8 +12,12 @@
 namespace Clarity\Console;
 
 use Closure;
+use ReflectionClass;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
@@ -21,6 +25,45 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  */
 class CLI
 {
+    public final static function ArgvInput()
+    {
+        # get the raw commands
+        $raws = ['--env', '--timeout'];
+
+        # get the options from Brood
+        $options = [
+            Brood::environmentOption(),
+            Brood::timeoutOption(),
+        ];
+
+        $instances = [];
+        $reflect = new ReflectionClass(InputOption::class);
+
+        foreach ($options as $opt) {
+            $instances[] = $reflect->newInstanceArgs($opt);
+        }
+
+        # still, listen to the php $_SERVER['argv']
+        $cmd_input = new ArgvInput;
+
+        # get the default brood options
+        $brood_input = new ArgvInput(
+            $raws,
+            new InputDefinition($instances)
+        );
+
+        foreach ($raws as $raw) {
+            if ($cmd_input->hasParameterOption([$raw])) {
+                $val = $cmd_input->getParameterOption($raw);
+                $val = is_numeric($val) ? (int) $val : $val;
+
+                $brood_input->setOption(str_replace('-', '', $raw), $val);
+            }
+        }
+
+        return $brood_input;
+    }
+
     /**
      * It executes all the requested commands.
      *
@@ -42,11 +85,11 @@ class CLI
      */
     public static function process($line, $timeout = 60)
     {
-        $input = new ArgvInput;
+        $input = static::ArgvInput();
         $output = new ConsoleOutput;
 
-        if ($input->hasParameterOption(['--timeout'])) {
-            $timeout = (int) $input->getParameterOption('--timeout');
+        if ($input->hasOption('timeout')) {
+            $timeout = $input->getOption('timeout');
         }
 
         $output->writeln("<comment>".$line."</comment>");
@@ -65,13 +108,28 @@ class CLI
     }
 
     /**
+     * Handles callback request, to have an input and output capability.
+     *
+
+     */
+    public static function handleCallback(Closure $callback)
+    {
+        return static::process(
+            call_user_func($callback, [static::ArgvInput(), new ConsoleOutput])
+        );
+    }
+
+    /**
      * An ssh command builder.
      *
      * @param $server The server IP and Port
      * @param $scripts The array of scripts to be used
+     * @param $execute Default to true if you want to automatically
+     *                 run the script, if false, it will return as
+     *                 an array
      * @return string
      */
-    public static function ssh($server, $scripts = [])
+    public static function ssh($server, $scripts = [], $execute = true)
     {
         if ($scripts instanceof Closure) {
             $scripts = call_user_func($scripts);
@@ -85,6 +143,10 @@ class CLI
             .'set -e'.PHP_EOL
             .$scripts.PHP_EOL
             .$delimiter;
+
+        if ($execute === true) {
+            return static::process($build);
+        }
 
         return $build;
     }
