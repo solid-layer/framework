@@ -113,11 +113,16 @@ class URL extends BaseURL
         return url_trimmer($_SERVER['HTTP_REFERER']);
     }
 
-    public function route($for, $params = [], $pres = [])
+    public function route($for, $params = [], $raw = [], $local = null)
     {
+        # inject the $for inside params
         $params['for'] = $for;
 
-        return $this->get($params, $pres);
+        # build the pretty uri's
+        $generated = $this->get($params);
+
+        # then get the $raw too
+        return $this->get($generated, $raw, $local);
     }
 
     public function current()

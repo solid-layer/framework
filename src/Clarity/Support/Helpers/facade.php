@@ -349,13 +349,13 @@ if (! function_exists('route')) {
      * @param mixed $params The parameters of your route
      * @return mixed
      */
-    function route($name = null, $params = [])
+    function route($name = null, $params = [], $raw = [], $local = null)
     {
         if ($name === null) {
             return di()->get('router');
         }
 
-        return url()->route($name, $params);
+        return url()->route($name, $params, $raw, $local);
     }
 }
 
