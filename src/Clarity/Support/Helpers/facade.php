@@ -343,19 +343,20 @@ if (! function_exists('route')) {
 
     /**
      * This returns the service provider 'route', if you passed a value on first argument
-     * it will call the url() helper instead and will call ->route($name, $params).
+     * it will call the url() helper instead and will call ->route($name, $params, $raw).
      *
      * @param string $name The route name
-     * @param mixed $params The parameters of your route
-     * @return mixed
+     * @param mixed $params A uri parameters for this route
+     * @param mixed $raw A raw parameters for your route
+     * @return string
      */
-    function route($name = null, $params = [], $raw = [], $local = null)
+    function route($name = null, $params = [], $raw = [])
     {
         if ($name === null) {
             return di()->get('router');
         }
 
-        return url()->route($name, $params, $raw, $local);
+        return url()->route($name, $params, $raw);
     }
 }
 
