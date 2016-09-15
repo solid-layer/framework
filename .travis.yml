@@ -32,7 +32,7 @@ env:
 
     # mail settings
     - MAIL_ADAPTER="mailgun"
-    - MAILER_MAIL_FROM="postmaster@sandboxa6c86c16840d4756826185daa128e64d.mailgun.org"
+    - MAILER_MAIL_FROM="Solid Layer - TravisCI <postmaster@sandboxa6c86c16840d4756826185daa128e64d.mailgun.org>"
 
     # mailgun settings
     - MAILER_MAILGUN_DOMAIN="sandboxa6c86c16840d4756826185daa128e64d.mailgun.org"
