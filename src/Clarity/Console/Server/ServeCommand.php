@@ -39,11 +39,11 @@ class ServeCommand extends Brood
 
         $host = $this->input->getOption('host');
         $port = $this->input->getOption('port');
-        $file = $this->input->getOption('file');
+        $file = $current_dir.'/'.$this->input->getOption('file');
 
         $this->info("Phalcon Slayer development server started on http://{$host}:{$port}/");
 
-        passthru(PHP_BINARY." -S {$host}:{$port} -t {$current_dir} -F {$file}");
+        passthru(PHP_BINARY." -S {$host}:{$port} -t {$current_dir} {$file}");
     }
 
     /**
