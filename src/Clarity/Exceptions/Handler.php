@@ -13,6 +13,7 @@ namespace Clarity\Exceptions;
 
 use Exception;
 use ErrorException;
+use ReflectionProperty;
 use Symfony\Component\Debug\ExceptionHandler;
 use Monolog\ErrorHandler as MonologErrorHandler;
 use Symfony\Component\Debug\Exception\FlattenException;
@@ -74,9 +75,31 @@ class Handler extends Exception
      * @param $e
      * @return void
      */
-    public function handleExceptionError($e)
+    public function handleExceptionError($throwable)
     {
-        $this->render($e);
+        if ($throwable instanceof Exception) {
+            $exception = $throwable;
+        } elseif (PHP_VERSION_ID >= 70000) {
+            static $refl = null;
+
+            if (null === $refl) {
+                $refl = [];
+
+                foreach (['file', 'line', 'trace'] as $prop) {
+                    $prop = new ReflectionProperty('Exception', $prop);
+                    $prop->setAccessible(true);
+                    $refl[] = $prop;
+                }
+            }
+
+            $exception = new Exception($throwable->getMessage(), $throwable->getCode());
+
+            foreach ($refl as $prop) {
+                $prop->setValue($exception, $throwable->{'get'.$prop->name}());
+            }
+        }
+
+        $this->render($exception);
     }
 
     /**
