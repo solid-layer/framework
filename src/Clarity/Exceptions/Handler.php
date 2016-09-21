@@ -77,9 +77,9 @@ class Handler extends Exception
      */
     public function handleExceptionError($throwable)
     {
-        if ($throwable instanceof Exception) {
-            $exception = $throwable;
-        } elseif (PHP_VERSION_ID >= 70000) {
+        $exception = $throwable;
+
+        if (! $throwable instanceof Exception && PHP_VERSION_ID >= 70000) {
             static $refl = null;
 
             if (null === $refl) {
