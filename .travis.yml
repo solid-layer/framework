@@ -77,5 +77,3 @@ notifications:
 branches:
   only:
     - master
-    - 1.4
-    - 1.3
