@@ -41,6 +41,24 @@ class DB extends ServiceProvider
     protected $shared = true;
 
     /**
+     * Magic method call.
+     *
+     * Since we're passing the class itself as dependency, when calling
+     * a model, the connection is empty. In that moment, we could rely
+     * by getting the default connection and do the request method.
+     *
+     * @param  string $method
+     * @param  array $args
+     * @return void
+     */
+    public function __call($method, $args)
+    {
+        if (method_exists($default = $this->getDefaultConnection(), $method)) {
+            return call_user_func_array([$default, $method], $args);
+        }
+    }
+
+    /**
      * Get the database adapters.
      *
      * @return mixed
@@ -58,7 +76,7 @@ class DB extends ServiceProvider
      *
      * @return mixed
      */
-    private function getDB()
+    private function getDefaultConnection()
     {
         # get the selected adapter to be our basis
         $selected_adapter = config()->app->db_adapter;
@@ -69,9 +87,7 @@ class DB extends ServiceProvider
             return $this;
         }
 
-        $db = static::connection($selected_adapter);
-
-        $db->setEventsManager($this->getEventLogger());
+        $db = $this->connection($selected_adapter);
 
         return $db;
     }
@@ -82,7 +98,7 @@ class DB extends ServiceProvider
     public function boot()
     {
         if (! di()->has($this->alias)) {
-            $db = $this->getDB();
+            $db = $this->getDefaultConnection();
 
             di()->set($this->alias, function () use ($db) {
                 return $db;
@@ -95,7 +111,10 @@ class DB extends ServiceProvider
      */
     public function register()
     {
-        return $this->getDB();
+        # call default connection
+        $this->getDefaultConnection();
+
+        return $this;
     }
 
     /**
@@ -104,7 +123,7 @@ class DB extends ServiceProvider
      * @param  string $selected_adapter The adapter name
      * @return mixed An adapter to use you
      */
-    public static function connection($selected_adapter)
+    public function connection($selected_adapter)
     {
         $adapters = static::adapters();
 
@@ -123,7 +142,11 @@ class DB extends ServiceProvider
         $class = $options['class'];
         unset($options['class']);
 
-        return new $class($options);
+        $instance = new $class($options);
+
+        $instance->setEventsManager($this->getEventLogger());
+
+        return $instance;
     }
 
     /**
