@@ -21,6 +21,18 @@ use Phalcon\Flash\Session as PhalconFlashSession;
 class FlashBag extends ServiceProvider
 {
     /**
+     * The elements.
+     *
+     * @var array
+     */
+    protected $elements = [
+        // 'error'   => 'alert alert-danger',
+        // 'success' => 'alert alert-success',
+        // 'notice'  => 'alert alert-info',
+        // 'warning' => 'alert alert-warning',
+    ];
+
+    /**
      * {@inheridoc}.
      */
     protected $alias = 'flash_bag';
@@ -35,12 +47,7 @@ class FlashBag extends ServiceProvider
      */
     public function register()
     {
-        $flash = new PhalconFlashSession([
-            'error'   => 'alert alert-danger',
-            'success' => 'alert alert-success',
-            'notice'  => 'alert alert-info',
-            'warning' => 'alert alert-warning',
-        ]);
+        $flash = new PhalconFlashSession($this->elements);
 
         if (method_exists($flash, 'setAutoescape')) {
             $flash->setAutoescape(false);
