@@ -34,11 +34,17 @@ class Flash extends ServiceProvider
      */
     public function register()
     {
-        return new PhalconFlashDirect([
+        $flash = new PhalconFlashDirect([
             'error'   => 'alert alert-danger',
             'success' => 'alert alert-success',
             'notice'  => 'alert alert-info',
             'warning' => 'alert alert-warning',
         ]);
+
+        if (method_exists($flash, 'setAutoescape')) {
+            $flash->setAutoescape(false);
+        }
+
+        return $flash;
     }
 }
