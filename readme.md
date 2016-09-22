@@ -10,11 +10,11 @@ You can post issues here, submit a pull request, discuss things you can imagine!
 #####Code Standard
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5d5e8a5c-62e6-43cf-9d36-39f62cefdcd2/big.png)](https://insight.sensiolabs.com/projects/5d5e8a5c-62e6-43cf-9d36-39f62cefdcd2)
 
-#####Master Status:
+##### master (alias v1.5) Status:
 [![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=master)](https://travis-ci.org/phalconslayer/framework)
 
-#####1.3 Status:
-[![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=1.3)](https://travis-ci.org/phalconslayer/framework)
+##### v1.4 Status:
+[![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=1.4)](https://travis-ci.org/phalconslayer/framework)
 
 ---
 
