@@ -20,6 +20,18 @@ use Phalcon\Flash\Direct as PhalconFlashDirect;
 class Flash extends ServiceProvider
 {
     /**
+     * The elements.
+     *
+     * @var array
+     */
+    protected $elements = [
+        // 'error'   => 'alert alert-danger',
+        // 'success' => 'alert alert-success',
+        // 'notice'  => 'alert alert-info',
+        // 'warning' => 'alert alert-warning',
+    ];
+
+    /**
      * {@inheridoc}.
      */
     protected $alias = 'flash';
@@ -34,12 +46,7 @@ class Flash extends ServiceProvider
      */
     public function register()
     {
-        $flash = new PhalconFlashDirect([
-            'error'   => 'alert alert-danger',
-            'success' => 'alert alert-success',
-            'notice'  => 'alert alert-info',
-            'warning' => 'alert alert-warning',
-        ]);
+        $flash = new PhalconFlashDirect($this->elements);
 
         if (method_exists($flash, 'setAutoescape')) {
             $flash->setAutoescape(false);
