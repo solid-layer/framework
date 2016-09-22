@@ -11,7 +11,7 @@
  */
 namespace Clarity\Providers;
 
-use Phalcon\Session\Bag as PhalconSessionBag;
+use Phalcon\Flash\Direct as PhalconFlashDirect;
 
 /**
  * This component helps to separate session data into “namespaces”.
@@ -34,6 +34,11 @@ class Flash extends ServiceProvider
      */
     public function register()
     {
-        return new PhalconSessionBag('flash');
+        return new PhalconFlashDirect([
+            'error'   => 'alert alert-danger',
+            'success' => 'alert alert-success',
+            'notice'  => 'alert alert-info',
+            'warning' => 'alert alert-warning',
+        ]);
     }
 }
