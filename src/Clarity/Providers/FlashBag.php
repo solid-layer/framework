@@ -42,7 +42,9 @@ class FlashBag extends ServiceProvider
             'warning' => 'alert alert-warning',
         ]);
 
-        $flash->setAutoescape(false);
+        if (method_exists($flash, 'setAutoescape')) {
+            $flash->setAutoescape(false);
+        }
 
         return $flash;
     }
