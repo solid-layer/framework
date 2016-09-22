@@ -26,7 +26,7 @@ class Redirect
 
     public function with($key, $value)
     {
-        di()->get('flash')->set($key, $value);
+        di()->get('flash_bag')->message($key, $value);
 
         return $this;
     }

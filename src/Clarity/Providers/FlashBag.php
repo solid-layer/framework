@@ -35,11 +35,15 @@ class FlashBag extends ServiceProvider
      */
     public function register()
     {
-        return new PhalconFlashSession([
+        $flash = new PhalconFlashSession([
             'error'   => 'alert alert-danger',
             'success' => 'alert alert-success',
             'notice'  => 'alert alert-info',
             'warning' => 'alert alert-warning',
         ]);
+
+        $flash->setAutoescape(false);
+
+        return $flash;
     }
 }
