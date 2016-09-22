@@ -12,6 +12,7 @@
 namespace Clarity\Providers;
 
 use Phalcon\Flash\Direct as PhalconFlashDirect;
+use Phalcon\Flash\Session as PhalconFlashSession;
 
 /**
  * This component helps to separate session data into “namespaces”.
@@ -46,8 +47,36 @@ class Flash extends ServiceProvider
      */
     public function register()
     {
+        return $this;
+    }
+
+    /**
+     * Get direct based flash.
+     *
+     * @return mixed \Phalcon\Flash\Direct
+     */
+    public function direct()
+    {
         $flash = new PhalconFlashDirect($this->elements);
 
+        # setAutoescape is only available for >= 2.1.x Phalcon Version
+        if (method_exists($flash, 'setAutoescape')) {
+            $flash->setAutoescape(false);
+        }
+
+        return $flash;
+    }
+
+    /**
+     * Get session based flash.
+     *
+     * @return mixed \Phalcon\Flash\Session
+     */
+    public function session()
+    {
+        $flash = new PhalconFlashSession($this->elements);
+
+        # setAutoescape is only available for >= 2.1.x Phalcon Version
         if (method_exists($flash, 'setAutoescape')) {
             $flash->setAutoescape(false);
         }
