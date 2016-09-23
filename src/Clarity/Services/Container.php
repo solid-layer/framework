@@ -33,7 +33,7 @@ class Container
     {
         $providers_loaded = array_map(function ($provider) {
 
-            # check if module function exists exists
+            # check if module function exists
             if (method_exists($provider, 'module')) {
                 di('module')->setModule(
                     $provider->getAlias(),
@@ -56,6 +56,8 @@ class Container
             return $provider;
         }, $this->providers);
 
+        # this happens when some application services relies on other service,
+        # iterate the loaded providers and call the boot() function
         foreach ($providers_loaded as $provider) {
             $boot = $provider->boot();
 
