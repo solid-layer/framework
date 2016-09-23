@@ -123,8 +123,12 @@ class DB extends ServiceProvider
      * @param  string $selected_adapter The adapter name
      * @return mixed An adapter to use you
      */
-    public function connection($selected_adapter)
+    public function connection($selected_adapter = null)
     {
+        if ($selected_adapter === null) {
+            return $this->getDefaultConnection();
+        }
+
         $adapters = static::adapters();
 
         $has_adapter = isset($adapters[$selected_adapter]);

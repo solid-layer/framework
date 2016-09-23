@@ -25,7 +25,7 @@ class VoltAdapter extends Volt
         # facades
         'auth',      'cache',     'config',
         'db',        'filter',    'flash',
-        'flash_bag', 'flysystem', 'flysystem_manager',
+        'flysystem', 'flysystem_manager',
         'lang',      'log',       'queue',
         'redirect',  'request',   'response',
         'route',     'security',  'session',

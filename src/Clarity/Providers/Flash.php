@@ -12,6 +12,7 @@
 namespace Clarity\Providers;
 
 use Phalcon\Flash\Direct as PhalconFlashDirect;
+use Phalcon\Flash\Session as PhalconFlashSession;
 
 /**
  * This component helps to separate session data into “namespaces”.
@@ -44,14 +45,63 @@ class Flash extends ServiceProvider
     /**
      * {@inheridoc}.
      */
+    public function boot()
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheridoc}.
+     */
     public function register()
     {
-        $flash = new PhalconFlashDirect($this->elements);
+        $elements = $this->elements;
 
-        if (method_exists($flash, 'setAutoescape')) {
-            $flash->setAutoescape(false);
-        }
+        # this will be as di()->get('flash.direct');
+        $this->subRegister('direct', function () use ($elements) {
+            $flash = new PhalconFlashDirect($elements);
 
-        return $flash;
+            # setAutoescape is only available for >= 2.1.x Phalcon Version
+            if (method_exists($flash, 'setAutoescape')) {
+                $flash->setAutoescape(false);
+            }
+
+            return $flash;
+        }, true);
+
+        # this will be as di()->get('flash.session');
+        $this->subRegister('session', function () use ($elements) {
+            $flash = new PhalconFlashSession($elements);
+
+            # setAutoescape is only available for >= 2.1.x Phalcon Version
+            if (method_exists($flash, 'setAutoescape')) {
+                $flash->setAutoescape(false);
+            }
+
+            return $flash;
+        }, true);
+
+        # this will be as di()->get('flash');
+        return $this;
+    }
+
+    /**
+     * Get direct based flash.
+     *
+     * @return mixed \Phalcon\Flash\Direct
+     */
+    public function direct()
+    {
+        return di()->get('flash.direct');
+    }
+
+    /**
+     * Get session based flash.
+     *
+     * @return mixed \Phalcon\Flash\Session
+     */
+    public function session()
+    {
+        return di()->get('flash.session');
     }
 }

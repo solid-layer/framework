@@ -10,8 +10,8 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(\Phalcon\Config::class, config());
         $this->assertInstanceOf(\Phalcon\Mvc\Dispatcher::class, dispatcher());
         $this->assertInstanceOf(\Phalcon\Filter::class, filter());
-        $this->assertInstanceOf(\Phalcon\Flash\Direct::class, flash());
-        $this->assertInstanceOf(\Phalcon\Flash\Session::class, flash_bag());
+        $this->assertInstanceOf(\Phalcon\Flash\Direct::class, flash()->direct());
+        $this->assertInstanceOf(\Phalcon\Flash\Session::class, flash()->session());
         $this->assertInstanceOf(\League\Flysystem\Filesystem::class, flysystem());
         $this->assertInstanceOf(\League\Flysystem\MountManager::class, flysystem_manager());
         $this->assertInstanceOf(\Clarity\Support\Redirect\Redirect::class, redirect());

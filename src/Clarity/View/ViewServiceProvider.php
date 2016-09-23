@@ -34,8 +34,7 @@ class ViewServiceProvider extends ServiceProvider
                 View $dispatcher,
                 $exception
             ) {
-                $flash_bag = $dispatcher->getDI()->get('flash_bag');
-                $flash_bag->clear();
+                $dispatcher->getDI()->get('flash')->session()->clear();
             }
         );
 

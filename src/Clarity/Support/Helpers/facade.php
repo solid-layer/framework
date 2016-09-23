@@ -184,19 +184,6 @@ if (! function_exists('flash')) {
     }
 }
 
-if (! function_exists('flash_bag')) {
-
-    /**
-     * This returns the service provider 'flash_bag'.
-     *
-     * @return mixed
-     */
-    function flash_bag()
-    {
-        return di()->get('flash_bag');
-    }
-}
-
 if (! function_exists('flysystem')) {
 
     /**

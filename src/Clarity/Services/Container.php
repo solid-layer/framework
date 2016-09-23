@@ -33,7 +33,7 @@ class Container
     {
         $providers_loaded = array_map(function ($provider) {
 
-            # check if module function exists exists
+            # check if module function exists
             if (method_exists($provider, 'module')) {
                 di('module')->setModule(
                     $provider->getAlias(),
@@ -43,7 +43,9 @@ class Container
                 );
             }
 
-            if (is_object($register = $provider->callRegister())) {
+            # callRegister should return an empty or an object or array
+            # then we could manually update the register
+            if ($register = $provider->callRegister()) {
                 di()->set(
                     $provider->getAlias(),
                     $register,
@@ -54,8 +56,18 @@ class Container
             return $provider;
         }, $this->providers);
 
+        # this happens when some application services relies on other service,
+        # iterate the loaded providers and call the boot() function
         foreach ($providers_loaded as $provider) {
-            $provider->boot();
+            $boot = $provider->boot();
+
+            if ($boot && ! di()->has($provider->getAlias())) {
+                di()->set(
+                    $provider->getAlias(),
+                    $boot,
+                    $provider->getShared()
+                );
+            }
         }
     }
 }
