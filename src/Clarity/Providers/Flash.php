@@ -45,8 +45,41 @@ class Flash extends ServiceProvider
     /**
      * {@inheridoc}.
      */
+    public function boot()
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheridoc}.
+     */
     public function register()
     {
+        # this will be as di()->get('flash.direct');
+        $this->subRegister('direct', function () {
+            $flash = new PhalconFlashDirect($this->elements);
+
+            # setAutoescape is only available for >= 2.1.x Phalcon Version
+            if (method_exists($flash, 'setAutoescape')) {
+                $flash->setAutoescape(false);
+            }
+
+            return $flash;
+        }, true);
+
+        # this will be as di()->get('flash.session');
+        $this->subRegister('session', function () {
+            $flash = new PhalconFlashSession($this->elements);
+
+            # setAutoescape is only available for >= 2.1.x Phalcon Version
+            if (method_exists($flash, 'setAutoescape')) {
+                $flash->setAutoescape(false);
+            }
+
+            return $flash;
+        }, true);
+
+        # this will be as di()->get('flash');
         return $this;
     }
 
@@ -57,14 +90,7 @@ class Flash extends ServiceProvider
      */
     public function direct()
     {
-        $flash = new PhalconFlashDirect($this->elements);
-
-        # setAutoescape is only available for >= 2.1.x Phalcon Version
-        if (method_exists($flash, 'setAutoescape')) {
-            $flash->setAutoescape(false);
-        }
-
-        return $flash;
+        return di()->get('flash.direct');
     }
 
     /**
@@ -74,13 +100,6 @@ class Flash extends ServiceProvider
      */
     public function session()
     {
-        $flash = new PhalconFlashSession($this->elements);
-
-        # setAutoescape is only available for >= 2.1.x Phalcon Version
-        if (method_exists($flash, 'setAutoescape')) {
-            $flash->setAutoescape(false);
-        }
-
-        return $flash;
+        return di()->get('flash.session');
     }
 }

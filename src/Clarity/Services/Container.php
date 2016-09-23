@@ -43,7 +43,9 @@ class Container
                 );
             }
 
-            if (is_object($register = $provider->callRegister())) {
+            # callRegister should return an empty or an object or array
+            # then we could manually update the register
+            if ($register = $provider->callRegister()) {
                 di()->set(
                     $provider->getAlias(),
                     $register,
@@ -55,7 +57,15 @@ class Container
         }, $this->providers);
 
         foreach ($providers_loaded as $provider) {
-            $provider->boot();
+            $boot = $provider->boot();
+
+            if ($boot && ! di()->has($provider->getAlias())) {
+                di()->set(
+                    $provider->getAlias(),
+                    $boot,
+                    $provider->getShared()
+                );
+            }
         }
     }
 }

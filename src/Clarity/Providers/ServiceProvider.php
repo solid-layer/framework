@@ -119,6 +119,18 @@ abstract class ServiceProvider
     abstract public function register();
 
     /**
+     * Register sub.
+     *
+     * @return
+     */
+    protected function subRegister($sub_name, $callback, $shared = false)
+    {
+        $name = $this->getAlias().'.'.$sub_name;
+
+        di()->set($name, $callback, $shared);
+    }
+
+    /**
      * Folders or Files to be copied from going to application path.
      *
      * @param  mixed  $paths The array paths to be copied from and to
