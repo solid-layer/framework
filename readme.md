@@ -24,7 +24,7 @@ Slayer is made to support dependencies while still reaching the speed of Phalcon
 
 ## Contributing
 
-Please read the [CONTRIBUTING.md](https://github.com/phalconslayer/framework/blob/master/CONTRIBUTING.md)
+Please read the [CONTRIBUTING.md](https://github.com/phalconslayer/framework/blob/master/contributing.md)
 
 You can pull the most updated branch ``master``, create a pull request of your forked branch updates, issues should be reported using GitHub's Issues and all security concerns should be emailed to ``daison12006013@gmail.com`` promptly.
 
