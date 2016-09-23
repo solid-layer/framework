@@ -55,9 +55,11 @@ class Flash extends ServiceProvider
      */
     public function register()
     {
+        $elements = $this->elements;
+
         # this will be as di()->get('flash.direct');
-        $this->subRegister('direct', function () {
-            $flash = new PhalconFlashDirect($this->elements);
+        $this->subRegister('direct', function () use ($elements) {
+            $flash = new PhalconFlashDirect($elements);
 
             # setAutoescape is only available for >= 2.1.x Phalcon Version
             if (method_exists($flash, 'setAutoescape')) {
@@ -68,8 +70,8 @@ class Flash extends ServiceProvider
         }, true);
 
         # this will be as di()->get('flash.session');
-        $this->subRegister('session', function () {
-            $flash = new PhalconFlashSession($this->elements);
+        $this->subRegister('session', function () use ($elements) {
+            $flash = new PhalconFlashSession($elements);
 
             # setAutoescape is only available for >= 2.1.x Phalcon Version
             if (method_exists($flash, 'setAutoescape')) {
