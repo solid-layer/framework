@@ -9,7 +9,7 @@
 
 /**
  */
-namespace Clarity\Console\Server;
+namespace Clarity\Console\Lists;
 
 use Clarity\Console\Brood;
 use Clarity\Kernel\Kernel;
@@ -23,7 +23,7 @@ class RoutesCommand extends Brood
     /**
      * {@inheritdoc}
      */
-    protected $name = 'routes';
+    protected $name = 'list:routes';
 
     /**
      * {@inheritdoc}

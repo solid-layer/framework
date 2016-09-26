@@ -9,7 +9,7 @@
 
 /**
  */
-namespace Clarity\Console\Server;
+namespace Clarity\Console\Lists;
 
 use Clarity\Console\Brood;
 
@@ -21,12 +21,12 @@ class ServicesCommand extends Brood
     /**
      * {@inheritdoc}
      */
-    protected $name = 'services';
+    protected $name = 'list:services';
 
     /**
      * {@inheritdoc}
      */
-    protected $description = 'Get services lists';
+    protected $description = 'Get registered services';
 
     /**
      * Format the service.
