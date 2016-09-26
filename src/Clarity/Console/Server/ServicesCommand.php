@@ -56,6 +56,7 @@ class ServicesCommand extends Brood
         foreach (di()->getServices() as $idx => $service) {
             $services[$idx]['name'] = $service->getName();
             $services[$idx]['shared'] = $service->isShared() ? 'Yes' : 'No';
+            $services[$idx]['class'] = null;
 
             if ($service->isResolved()) {
                 $services[$idx]['class'] = get_class($service->getDefinition());
