@@ -102,7 +102,7 @@ class DB extends ServiceProvider
 
             $this->subRegister($adapter, function () use ($db) {
                 return $db;
-            });
+            }, $this->shared);
         }
 
         return $this;

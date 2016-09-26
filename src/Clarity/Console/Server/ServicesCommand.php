@@ -54,13 +54,14 @@ class ServicesCommand extends Brood
         $services = [];
 
         foreach (di()->getServices() as $idx => $service) {
-
-            // dd(get_class($service->resolve()));
-            // dd(get_class_methods($service));
-
             $services[$idx]['name'] = $service->getName();
             $services[$idx]['shared'] = $service->isShared() ? 'Yes' : 'No';
-            $services[$idx]['class'] = get_class($service->resolve());
+
+            if ($service->isResolved()) {
+                $services[$idx]['class'] = get_class($service->getDefinition());
+            } elseif ($service->resolve()) {
+                $services[$idx]['class'] = get_class($service->resolve());
+            }
         }
 
         sort($services);
