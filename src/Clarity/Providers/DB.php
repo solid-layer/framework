@@ -13,8 +13,8 @@ namespace Clarity\Providers;
 
 use Exception;
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 use Phalcon\Events\Manager as EventsManager;
+use Monolog\Handler\StreamHandler;
 
 /**
  * This provider handles the relational database adapters, that lives inside the
@@ -40,7 +40,7 @@ class DB extends ServiceProvider
      */
     protected $shared = true;
 
-    /**
+     /**
      * Magic method call.
      *
      * Since we're passing the class itself as dependency, when calling
@@ -59,19 +59,6 @@ class DB extends ServiceProvider
     }
 
     /**
-     * Get the database adapters.
-     *
-     * @return mixed
-     */
-    public static function adapters()
-    {
-        return config()
-            ->database
-            ->adapters
-            ->toArray();
-    }
-
-    /**
      * Pull all configurations and return the database connection.
      *
      * @return mixed
@@ -87,9 +74,7 @@ class DB extends ServiceProvider
             return $this;
         }
 
-        $db = $this->connection($selected_adapter);
-
-        return $db;
+        return $this->connection($selected_adapter);
     }
 
     /**
@@ -111,8 +96,14 @@ class DB extends ServiceProvider
      */
     public function register()
     {
-        # call default connection
-        $this->getDefaultConnection();
+        foreach ($this->connections() as $adapter => $options) {
+
+            $db = $this->connection($adapter);
+
+            $this->subRegister($adapter, function () use ($db) {
+                return $db;
+            });
+        }
 
         return $this;
     }
@@ -129,7 +120,7 @@ class DB extends ServiceProvider
             return $this->getDefaultConnection();
         }
 
-        $adapters = static::adapters();
+        $adapters = $this->connections();
 
         $has_adapter = isset($adapters[$selected_adapter]);
 
@@ -142,15 +133,32 @@ class DB extends ServiceProvider
             );
         }
 
-        $options = $adapters[$selected_adapter];
-        $class = $options['class'];
-        unset($options['class']);
+        $adapter = $adapters[$selected_adapter];
 
-        $instance = new $class($options);
+        if (isset($adapter['active']) && $adapter['active'] === false) {
+            return false;
+        }
+
+        $class = $adapter['class'];
+
+        $instance = new $class($adapter['options']);
 
         $instance->setEventsManager($this->getEventLogger());
 
         return $instance;
+    }
+
+    /**
+     * Get the database adapters/connections.
+     *
+     * @return array
+     */
+    public function connections()
+    {
+        return config()
+            ->database
+            ->adapters
+            ->toArray();
     }
 
     /**

@@ -39,8 +39,8 @@ class Log extends ServiceProvider
 
         $logger_name = 'slayer';
 
-        if (logging_extension()) {
-            $logger_name = 'slayer-'.logging_extension();
+        if ($ext = logging_extension()) {
+            $logger_name .= '-'.$ext;
         }
 
         $logger->pushHandler(

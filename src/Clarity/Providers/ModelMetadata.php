@@ -11,17 +11,21 @@
  */
 namespace Clarity\Providers;
 
+use Phalcon\Mvc\Model\Metadata\Memory;
+
 /**
- * This provider catches and reports all the exceptions/fatal/syntax error
- * which also provides an elegant User Interface in which you could easily
- * track the bug history.
+ * This provider is required when querying fields using Phalcon Models.
+ *
+ * To speed up development Phalcon\Mvc\Model helps you to query fields and
+ * constraints from tables related to models. To achieve this,
+ * Phalcon\Mvc\Model\MetaData is available to manage and cache table meta-data.
  */
-class ErrorHandler extends ServiceProvider
+class ModelMetadata extends ServiceProvider
 {
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'error_handler';
+    protected $alias = 'modelsMetadata';
 
     /**
      * {@inheridoc}.
@@ -33,11 +37,6 @@ class ErrorHandler extends ServiceProvider
      */
     public function register()
     {
-        # handle errors and exceptions
-        $handler = config()->app->error_handler;
-
-        (new $handler)->report();
-
-        return $this;
+        return new Memory;
     }
 }

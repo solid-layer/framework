@@ -27,7 +27,7 @@ class Router extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $shared = true;
+    protected $shared = false;
 
     /**
      * {@inheridoc}.

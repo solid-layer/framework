@@ -24,7 +24,7 @@ class Cache extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $shared = false;
+    protected $shared = true;
 
     /**
      * Get the selected cache adapter.

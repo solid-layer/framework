@@ -11,8 +11,8 @@
  */
 namespace Clarity\Kernel;
 
+use Phalcon\Di;
 use Phalcon\Config;
-use Phalcon\Di\FactoryDefault;
 use Clarity\Services\Container;
 
 /**
@@ -27,7 +27,7 @@ trait KernelTrait
      */
     public function loadFactory()
     {
-        $this->di = new FactoryDefault;
+        $this->di = new Di;
 
         return $this;
     }

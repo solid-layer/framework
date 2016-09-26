@@ -24,7 +24,7 @@ class Aliaser extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $shared = false;
+    protected $shared = true;
 
     /**
      * {@inheridoc}.

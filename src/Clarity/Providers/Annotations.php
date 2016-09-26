@@ -11,26 +11,22 @@
  */
 namespace Clarity\Providers;
 
-use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Annotations\Adapter\Memory;
 
 /**
- * This provider is required when querying fields using Phalcon Models.
  *
- * To speed up development Phalcon\Mvc\Model helps you to query fields and
- * constraints from tables related to models. To achieve this,
- * Phalcon\Mvc\Model\MetaData is available to manage and cache table meta-data.
  */
-class MetadataAdapter extends ServiceProvider
+class Annotations extends ServiceProvider
 {
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'modelsMetadata';
+    protected $alias = 'annotations';
 
     /**
      * {@inheridoc}.
      */
-    protected $shared = false;
+    protected $shared = true;
 
     /**
      * {@inheridoc}.

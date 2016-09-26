@@ -11,7 +11,7 @@
  */
 namespace Clarity\Contracts\Providers;
 
-use Phalcon\Di\FactoryDefault;
+use Phalcon\Di;
 
 /**
  * A provider interface, dedicated for module insertion
@@ -21,10 +21,10 @@ interface ModuleInterface
     /**
      * Closure passed under the application module
      *
-     * @param  FactoryDefault $di
+     * @param  Di $di
      * @return void
      */
-    public function module(FactoryDefault $di);
+    public function module(Di $di);
 
     /**
      * Execute scripts after module run

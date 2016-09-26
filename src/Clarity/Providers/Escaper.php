@@ -11,18 +11,17 @@
  */
 namespace Clarity\Providers;
 
-use Clarity\TestSuite\Behat\Mink\Mink;
+use Phalcon\Escaper as BaseEscaper;
 
 /**
- * This provider instantiates the testing tool behat/mink, that by
- * default having the adapters to parse html requests.
+ *
  */
-class BehatMink extends ServiceProvider
+class Escaper extends ServiceProvider
 {
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'behat_mink';
+    protected $alias = 'escaper';
 
     /**
      * {@inheridoc}.
@@ -34,8 +33,6 @@ class BehatMink extends ServiceProvider
      */
     public function register()
     {
-        $adapters = config()->test_suite->behat->adapters->toArray();
-
-        return new Mink($adapters);
+        return new BaseEscaper;
     }
 }

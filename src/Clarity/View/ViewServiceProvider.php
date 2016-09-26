@@ -12,7 +12,6 @@
 namespace Clarity\View;
 
 use Phalcon\Events\Event;
-use Phalcon\Events\Manager;
 use Phalcon\Mvc\View\Engine\Php;
 use Clarity\View\Volt\VoltAdapter;
 use Clarity\View\Blade\BladeAdapter;
@@ -26,7 +25,7 @@ class ViewServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $event_manager = new Manager;
+        $event_manager = di()->get('eventsManager');
 
         $event_manager->attach('view:afterRender',
             function (
