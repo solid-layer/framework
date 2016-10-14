@@ -21,7 +21,7 @@ class Kernel
     /**
      * The dependency injection.
      *
-     * @var mixed
+     * @var \Phalcon\DiInterface
      */
     private $di;
 
@@ -43,6 +43,7 @@ class Kernel
      * Set the paths.
      *
      * @param mixed $paths
+     * @return $this
      */
     public function setPaths($paths)
     {
@@ -55,6 +56,7 @@ class Kernel
      * Set the environment.
      *
      * @param string $env
+     * @return $this
      */
     public function setEnvironment($env)
     {

@@ -7,8 +7,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Kernel;
 
 use Phalcon\Di;
@@ -16,14 +14,17 @@ use Phalcon\Config;
 use Clarity\Services\Container;
 
 /**
- * A class trait of @see (Clarity\Kernel\Kernel).
+ * The Kernel Trait.
+ *
+ * @see \Clarity\Kernel\Kernel
+ * @property \Phalcon\DiInterface $di
  */
 trait KernelTrait
 {
     /**
      * Instantiate a factory dependency injection.
      *
-     * @return \Clarity\Kernel\Kernel
+     * @return $this
      */
     public function loadFactory()
     {
@@ -35,15 +36,15 @@ trait KernelTrait
     /**
      * Load the configurations.
      *
-     * @return void
+     * @return $this
      */
     public function loadConfig()
     {
         # let's create an empty config with just an empty
         # array, this is just for us to prepare the config
-        $this->di->set('config', function () {
+        $this->di->setShared('config', function () {
             return new Config([]);
-        }, true);
+        });
 
         # get the paths and merge the array values to the
         # empty config as we instantiated above
@@ -79,7 +80,7 @@ trait KernelTrait
     /**
      * Load the project timezone.
      *
-     * @return void
+     * @return $this
      */
     public function loadTimeZone()
     {
@@ -93,7 +94,7 @@ trait KernelTrait
      *
      * @param  bool $after_module If you want to load services after calling
      *                               run() function
-     * @return void
+     * @return $this
      */
     public function loadServices($after_module = false, $services = [])
     {
