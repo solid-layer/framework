@@ -378,7 +378,7 @@ if (! function_exists('tag')) {
     /**
      * This returns the service provider 'tag'.
      *
-     * @return mixed
+     * @return Phalcon\Tag
      */
     function tag()
     {
