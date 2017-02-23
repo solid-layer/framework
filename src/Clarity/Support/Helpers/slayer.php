@@ -12,7 +12,7 @@ if (! function_exists('di')) {
      * This calls our default dependency injection.
      *
      * @param string|mixed $alias The service provider alias
-     * @return mixed
+     * @return Phalcon\Di
      */
     function di($alias = null)
     {
