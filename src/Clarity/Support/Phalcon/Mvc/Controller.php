@@ -15,7 +15,7 @@ use Clarity\Support\Phalcon\Http\Middleware;
 use Phalcon\Mvc\Controller as BaseController;
 
 /**
- * @method void initMiddleware() initialize middlewares in top-level controller
+ * @method initMiddleware() initialize middlewares in top-level controller
  */
 class Controller extends BaseController
 {
