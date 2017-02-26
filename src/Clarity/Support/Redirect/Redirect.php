@@ -13,6 +13,13 @@ namespace Clarity\Support\Redirect;
 
 use Clarity\Support\WithMagicMethodTrait;
 
+/***
+ * Class Redirect
+ * @package Clarity\Support\Redirect
+ *
+ * @method withError(string $message) write error flash message
+ * @method withSuccess(string $message) write success flash message
+ */
 class Redirect
 {
     use WithMagicMethodTrait;

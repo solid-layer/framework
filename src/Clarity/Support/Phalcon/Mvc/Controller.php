@@ -7,8 +7,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Mvc;
 
 use Phalcon\Config;
@@ -16,9 +14,22 @@ use League\Tactician\CommandBus;
 use Clarity\Support\Phalcon\Http\Middleware;
 use Phalcon\Mvc\Controller as BaseController;
 
+/**
+ * @method initMiddleware() initialize middlewares in top-level controller
+ */
 class Controller extends BaseController
 {
-    public function middleware($alias, $options = [])
+    public function beforeExecuteRoute()
+    {
+        # call the initialize to work with the middleware()
+        if (method_exists($this, 'initMiddleware')) {
+            $this->initMiddleware();
+        }
+
+        $this->middlewareHandler();
+    }
+
+    protected function middleware($alias, $options = [])
     {
         $middlewares = [];
 
@@ -49,16 +60,6 @@ class Controller extends BaseController
         di()->set('middleware_aliases', function () use ($middlewares) {
             return new Config($middlewares);
         });
-    }
-
-    public function beforeExecuteRoute()
-    {
-        # call the initialize to work with the middleware()
-        if (method_exists($this, 'initialize')) {
-            $this->initialize();
-        }
-
-        $this->middlewareHandler();
     }
 
     private function middlewareHandler()
