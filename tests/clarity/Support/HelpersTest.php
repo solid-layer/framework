@@ -69,7 +69,7 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
     {
         # we are exactly getting the default
         $this->assertInstanceOf(
-            \Phalcon\Di\FactoryDefault::class,
+            \Phalcon\Di::class,
             di()
         );
 
