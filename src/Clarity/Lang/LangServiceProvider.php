@@ -34,7 +34,7 @@ class LangServiceProvider extends ServiceProvider
     {
         $language = config()->app->lang;
 
-        $translation = new Lang($dir);
+        $translation = new Lang();
         $translation
             ->setLanguage($language)
             ->setLangDir(config()->path->lang);
