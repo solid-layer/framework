@@ -16,6 +16,9 @@ class SampleConsole extends Brood
     protected $alias = 'sample';
     protected $description = 'Just a sample class to test console';
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         $this->comment('triggered!');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,13 +8,13 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\DB;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Run a database seeder.
+ */
 class SeedRun extends AbstractCommand
 {
     /**
@@ -26,6 +27,9 @@ class SeedRun extends AbstractCommand
      */
     protected $description = 'Run database seeders';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $help = <<<EOT
 The <info>seed:run</info> command runs all available or individual seeders
 
@@ -43,14 +47,14 @@ EOT;
      */
     public function slash()
     {
-        $seed_set    = $this->getInput()->getOption('seed');
+        $seed_set = $this->getInput()->getOption('seed');
         $environment = $this->getInput()->getOption('env');
 
         if (null === $environment) {
             $environment = config()->environment;
-            $this->getOutput()->writeln('<comment>warning</comment> no environment specified, defaulting to: ' . $environment);
+            $this->getOutput()->writeln('<comment>warning</comment> no environment specified, defaulting to: '.$environment);
         } else {
-            $this->getOutput()->writeln('<info>using environment</info> ' . $environment);
+            $this->getOutput()->writeln('<info>using environment</info> '.$environment);
         }
 
         $config = $this->getDefaultConfig();
@@ -58,25 +62,26 @@ EOT;
         $env_options = $config->getEnvironment($environment);
 
         if (isset($env_options['adapter'])) {
-            $this->getOutput()->writeln('<info>using adapter</info> ' . $env_options['adapter']);
+            $this->getOutput()->writeln('<info>using adapter</info> '.$env_options['adapter']);
         }
 
         if (isset($env_options['wrapper'])) {
-            $this->getOutput()->writeln('<info>using wrapper</info> ' . $env_options['wrapper']);
+            $this->getOutput()->writeln('<info>using wrapper</info> '.$env_options['wrapper']);
         }
 
         if (isset($env_options['name'])) {
-            $this->getOutput()->writeln('<info>using database</info> ' . $env_options['name']);
+            $this->getOutput()->writeln('<info>using database</info> '.$env_options['name']);
         } else {
             $this->getOutput()->writeln('<error>Could not determine database name! Please specify a database name in your config file.</error>');
+
             return 1;
         }
 
         if (isset($env_options['table_prefix'])) {
-            $this->getOutput()->writeln('<info>using table prefix</info> ' . $env_options['table_prefix']);
+            $this->getOutput()->writeln('<info>using table prefix</info> '.$env_options['table_prefix']);
         }
         if (isset($env_options['table_suffix'])) {
-            $this->getOutput()->writeln('<info>using table suffix</info> ' . $env_options['table_suffix']);
+            $this->getOutput()->writeln('<info>using table suffix</info> '.$env_options['table_suffix']);
         }
 
         $this->loadManager();
@@ -94,7 +99,7 @@ EOT;
         $end = microtime(true);
 
         $this->getOutput()->writeln('');
-        $this->getOutput()->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
+        $this->getOutput()->writeln('<comment>All Done. Took '.sprintf('%.4fs', $end - $start).'</comment>');
     }
 
     /**

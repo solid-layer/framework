@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,17 +8,28 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Lang;
 
 use Clarity\Providers\ServiceProvider;
 
+/**
+ * The 'lang' service provider.
+ */
 class LangServiceProvider extends ServiceProvider
 {
+    /**
+     * @var string
+     */
     protected $alias = 'lang';
+
+    /**
+     * @var bool
+     */
     protected $shared = false;
 
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
         $language = config()->app->lang;

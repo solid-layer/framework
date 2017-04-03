@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,12 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Annotations\Adapter\Memory;
 
 /**
- *
+ * Get the 'annotations' service provider.
  */
 class Annotations extends ServiceProvider
 {

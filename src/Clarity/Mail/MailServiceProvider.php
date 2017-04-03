@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,18 +8,29 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Mail;
 
 use Exception;
 use Clarity\Providers\ServiceProvider;
 
+/**
+ * The 'mail' service provider.
+ */
 class MailServiceProvider extends ServiceProvider
 {
+    /**
+     * @var string
+     */
     protected $alias = 'mail';
+
+    /**
+     * @var bool
+     */
     protected $shared = false;
 
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
         $adapter = config()->app->mail_adapter;

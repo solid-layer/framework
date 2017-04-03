@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,12 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\Lists;
 
 use Clarity\Console\Brood;
 
 /**
- *
+ * Get lists of registered services.
  */
 class ServicesCommand extends Brood
 {

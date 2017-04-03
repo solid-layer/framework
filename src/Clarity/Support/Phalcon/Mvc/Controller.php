@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -19,6 +20,9 @@ use Phalcon\Mvc\Controller as BaseController;
  */
 class Controller extends BaseController
 {
+    /**
+     * {@inheritdoc}
+     */
     public function beforeExecuteRoute()
     {
         # call the initialize to work with the middleware()
@@ -29,6 +33,9 @@ class Controller extends BaseController
         $this->middlewareHandler();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function middleware($alias, $options = [])
     {
         $middlewares = [];
@@ -62,6 +69,11 @@ class Controller extends BaseController
         });
     }
 
+    /**
+     * Handle the registered middlewares in the controller.
+     *
+     * @return void
+     */
     private function middlewareHandler()
     {
         if (di()->has('middleware_aliases') === false) {

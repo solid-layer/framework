@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -6,17 +7,34 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://docs.phalconslayer.com
  */
+
 namespace Clarity\Console\Queue;
 
 use Exception;
 use Clarity\Facades\Queue;
 use Clarity\Console\Brood;
 
+/**
+ * Listen to a queue.
+ */
 class Listen extends Brood
 {
+    /**
+     * @var string
+     */
     protected $name = 'queue:listen';
+
+    /**
+     * @var string
+     */
     protected $description = 'Listen to pushed queues';
 
+    /**
+     * Process a certain job.
+     *
+     * @param $job \Phalcon\Queue\Beanstalk\Job
+     * @return bool
+     */
     protected function processJob($job)
     {
         $body = $job->getBody();
@@ -38,6 +56,9 @@ class Listen extends Brood
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function slash()
     {
         while (true) {

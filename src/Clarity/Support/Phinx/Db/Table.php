@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,18 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phinx\Db;
 
 use Phinx\Db\Table as PhinxTable;
 
+/**
+ * {@inheritdoc}
+ */
 class Table extends PhinxTable
 {
+    /**
+     * {@inheritdoc}
+     */
     public function addSoftDeletes()
     {
         $this

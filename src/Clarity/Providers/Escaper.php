@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,12 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Escaper as BaseEscaper;
 
 /**
- *
+ * Get the 'escaper' service provider.
  */
 class Escaper extends ServiceProvider
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,12 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Tag as BaseTag;
 
 /**
- *
+ * Get the 'tag' service provider.
  */
 class Tag extends ServiceProvider
 {

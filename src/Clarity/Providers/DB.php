@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Exception;
@@ -40,7 +39,7 @@ class DB extends ServiceProvider
      */
     protected $shared = true;
 
-     /**
+    /**
      * Magic method call.
      *
      * Since we're passing the class itself as dependency, when calling
@@ -97,7 +96,6 @@ class DB extends ServiceProvider
     public function register()
     {
         foreach ($this->connections() as $adapter => $options) {
-
             $db = $this->connection($adapter);
 
             $this->subRegister($adapter, function () use ($db) {
@@ -171,7 +169,6 @@ class DB extends ServiceProvider
         $event_manager = new EventsManager;
 
         $event_manager->attach($this->alias, function ($event, $conn) {
-
             if ($event->getType() == 'beforeQuery') {
                 $logging_name = 'db';
 

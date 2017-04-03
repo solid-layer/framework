@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,18 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Lang;
 
 use Clarity\Facades\Facade;
 
+/**
+ * The 'lang' Facade.
+ */
 class LangFacade extends Facade
 {
+    /**
+     * {@inheritdoc}
+     */
     protected static function getFacadeAccessor()
     {
         return 'lang';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Events\Manager as EventsManager;
@@ -45,7 +44,6 @@ class Dispatcher extends ServiceProvider
 
         $event_manager->attach('dispatch:beforeException',
             function ($event, $dispatcher, $exception) {
-
                 if ($exception instanceof DispatchException) {
                     throw new ControllerNotFoundException(
                         $exception->getMessage()

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Exceptions;
 
 use Exception;
@@ -24,7 +23,11 @@ use Symfony\Component\Debug\Exception\FlattenException;
 class Handler extends Exception
 {
     /**
-     * {@inheritdoc}
+     * Contructor.
+     *
+     * @param string $message
+     * @param int $code
+     * @param mixed|\Throwable $previous
      */
     public function __construct($message = null, $code = null, $previous = null)
     {

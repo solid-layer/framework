@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,12 +8,9 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\Lists;
 
 use Clarity\Console\Brood;
-use Clarity\Kernel\Kernel;
 use Clarity\Facades\Route;
 
 /**
@@ -75,7 +73,6 @@ class RoutesCommand extends Brood
     public function slash()
     {
         foreach (di()->getServices() as $service) {
-
             if (! method_exists($def = $service->getDefinition(), 'afterModuleRun')) {
                 continue;
             }

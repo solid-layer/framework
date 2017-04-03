@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,19 +8,38 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Auth;
 
 use InvalidArgumentException;
 
+/**
+ * Authentication handler.
+ */
 class Auth
 {
+    /**
+     * @var mixed
+     */
     private $request;
+
+    /**
+     * @var mixed
+     */
     private $session;
+
+    /**
+     * @var mixed
+     */
     private $response;
+
+    /**
+     * @var mixed
+     */
     private $security;
 
+    /**
+     * Contructor.
+     */
     public function __construct()
     {
         $this->request = di()->get('request');

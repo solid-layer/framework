@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,16 +8,26 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Services;
 
 use Clarity\Providers\ServiceProvider;
 
+/**
+ * The service container.
+ */
 class Container
 {
+    /**
+     * @var array
+     */
     private $providers;
 
+    /**
+     * Add a service provider.
+     *
+     * @param mixed|\Clarity\Providers\ServiceProvider $provider
+     * @return mixed|\Clarity\Services
+     */
     public function addServiceProvider(ServiceProvider $provider)
     {
         $this->providers[] = $provider;
@@ -27,7 +38,7 @@ class Container
     /**
      * Loads all services.
      *
-     * return void
+     * @return void
      */
     public function boot()
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,21 +8,36 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Http;
 
 use InvalidArgumentException;
 
+/**
+ * {@inheritdoc}
+ */
 class Middleware
 {
+    /**
+     * @var array
+     */
     protected $middlewares = [];
 
+    /**
+     * Contructor.
+     *
+     * @param array $middlewares
+     */
     public function __construct($middlewares = [])
     {
         $this->middlewares = $middlewares;
     }
 
+    /**
+     * Get a middleware.
+     *
+     * @param string $alias
+     * @return string
+     */
     public function get($alias)
     {
         if (! isset($this->middlewares[$alias])) {
@@ -33,6 +49,12 @@ class Middleware
         return $this->middlewares[$alias];
     }
 
+    /**
+     * Set a middleware.
+     *
+     * @param array $middlewares
+     * @return mixed|\Clarity\Support\Phalcon\Http\Middleware
+     */
     public function set($middlewares)
     {
         $this->middlewares = $middlewares;

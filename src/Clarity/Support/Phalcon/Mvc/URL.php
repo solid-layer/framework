@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,12 +8,13 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Mvc;
 
 use Phalcon\Mvc\Url as BaseURL;
 
+/**
+ * {@inheritdoc}
+ */
 class URL extends BaseURL
 {
     /**
@@ -32,7 +34,7 @@ class URL extends BaseURL
     /**
      * Check if it request is an https.
      *
-     * @return boolean
+     * @return bool
      */
     protected function hasHttps()
     {

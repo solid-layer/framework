@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,24 +8,44 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Mail;
 
 use Clarity\Contracts\Mail\MailInterface;
 
+/**
+ * The mail handler for all available adapters.
+ */
 class Mail
 {
+    /**
+     * @var mixed|\Clarity\Conctracts\Mail\MailInterface
+     */
     private $adapter;
 
+    /**
+     * @var array
+     */
     private $config;
 
+    /**
+     * Contructor.
+     *
+     * @param mixed|\Clarity\Contracts\Mail\MailInterface $adapter
+     * @param $config
+     */
     public function __construct(MailInterface $adapter, $config)
     {
         $this->adapter = $adapter;
         $this->config = $config;
     }
 
+    /**
+     * Intialize the mailer.
+     *
+     * @param string $view
+     * @param array $records
+     * @return mixed|\Clarity\Conctracts\Mail\MailInterface
+     */
     public function initialize($view, $records)
     {
         # we require our mail to auto-set the configurations

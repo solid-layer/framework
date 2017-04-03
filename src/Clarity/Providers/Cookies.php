@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,12 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Http\Response\Cookies as BaseCookies;
 
 /**
- *
+ * Get the 'cookies' service provider.
  */
 class Cookies extends ServiceProvider
 {

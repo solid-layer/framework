@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,16 +8,14 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Events\Manager;
 
 /**
- *
+ * Get the 'eventsManager' service provider.
  */
-class EventsManagerx extends ServiceProvider
+class EventsManager extends ServiceProvider
 {
     /**
      * {@inheridoc}.

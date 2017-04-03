@@ -29,7 +29,7 @@ class MvcTest extends \PHPUnit_Framework_TestCase
                 'base_uri' => [
                     'acme' => 'acme.app',
                 ],
-            ]
+            ],
         ]);
         $this->assertEquals('https://', $url->getScheme('acme'));
         $this->assertEquals('acme.app', $url->getHost('acme'));
@@ -42,7 +42,6 @@ class MvcTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://', $url->getScheme('main'));
         $this->assertEquals('slayer.app', $url->getHost('main'));
         $this->assertEquals('http://slayer.app', $url->getFullUrl('main'));
-
 
         # let's call the di 'route' to register these routes
         route()->add('/test', [

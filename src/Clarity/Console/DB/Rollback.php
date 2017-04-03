@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,15 +8,15 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\DB;
 
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Rollback a migrated tables.
+ */
 class Rollback extends AbstractCommand
 {
-
     /**
      * {@inheritdoc}
      */
@@ -44,15 +45,15 @@ EOT;
      */
     public function slash()
     {
-        $version     = $this->getInput()->getOption('target-version');
+        $version = $this->getInput()->getOption('target-version');
         $environment = $this->getInput()->getOption('env');
-        $date        = $this->getInput()->getOption('date');
+        $date = $this->getInput()->getOption('date');
 
         if (null === $environment) {
             $environment = config()->environment;
-            $this->getOutput()->writeln('<comment>warning</comment> no environment specified, defaulting to: ' . $environment);
+            $this->getOutput()->writeln('<comment>warning</comment> no environment specified, defaulting to: '.$environment);
         } else {
-            $this->getOutput()->writeln('<info>using environment</info> ' . $environment);
+            $this->getOutput()->writeln('<info>using environment</info> '.$environment);
         }
 
         $config = $this->getDefaultConfig();
@@ -60,17 +61,18 @@ EOT;
         $env_options = $config->getEnvironment($environment);
 
         if (isset($env_options['adapter'])) {
-            $this->getOutput()->writeln('<info>using adapter</info> ' . $env_options['adapter']);
+            $this->getOutput()->writeln('<info>using adapter</info> '.$env_options['adapter']);
         }
 
         if (isset($env_options['wrapper'])) {
-            $this->getOutput()->writeln('<info>using wrapper</info> ' . $env_options['wrapper']);
+            $this->getOutput()->writeln('<info>using wrapper</info> '.$env_options['wrapper']);
         }
 
         if (isset($env_options['name'])) {
-            $this->getOutput()->writeln('<info>using database</info> ' . $env_options['name']);
+            $this->getOutput()->writeln('<info>using database</info> '.$env_options['name']);
         } else {
             $this->getOutput()->writeln('<error>Could not determine database name! Please specify a database name in your config file.</error>');
+
             return 1;
         }
 
@@ -85,7 +87,7 @@ EOT;
         $end = microtime(true);
 
         $this->getOutput()->writeln('');
-        $this->getOutput()->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
+        $this->getOutput()->writeln('<comment>All Done. Took '.sprintf('%.4fs', $end - $start).'</comment>');
     }
 
     /**

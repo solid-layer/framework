@@ -1,22 +1,46 @@
 <?php
 
+/**
+ * PhalconSlayer\Framework.
+ *
+ * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://docs.phalconslayer.com
+ */
+
 namespace Clarity\Providers;
 
 use Mockery as m;
 use Clarity\Services\Container;
 
+/**
+ * The 'providers' test case.
+ */
 class ProvidersTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * {@inheritdoc}
+     */
     public function tearDown()
     {
         m::close();
     }
 
+    /**
+     * A sample dependency response.
+     *
+     * @return array
+     */
     public function sampleDiContent()
     {
         return [true, false, 123, '123ast'];
     }
 
+    /**
+     * Test for service providers.
+     *
+     * @return void
+     */
     public function testService()
     {
         $provider = m::mock('Clarity\Providers\Aliaser');

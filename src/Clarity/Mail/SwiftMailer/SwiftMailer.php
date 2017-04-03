@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Mail\SwiftMailer;
 
 use Swift_Mailer;
@@ -17,17 +16,33 @@ use Swift_Attachment;
 use Swift_SmtpTransport;
 use Clarity\Contracts\Mail\MailInterface;
 
+/**
+ * A swift mailer adapter.
+ */
 class SwiftMailer implements MailInterface
 {
+    /**
+     * @var mixed|\Swift_Message
+     */
     private $message;
+
+    /**
+     * @var mixed|\Swift_SmtpTransport
+     */
     private $transport;
 
+    /**
+     * Contructor.
+     */
     public function __construct()
     {
         $this->message = Swift_Message::newInstance();
         $this->transport = Swift_SmtpTransport::newInstance();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attach($file)
     {
         $this->message->attach(
@@ -37,6 +52,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function encryption($encryption)
     {
         $this->transport->setEncryption($encryption);
@@ -44,6 +62,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function host($host)
     {
         $this->transport->setHost($host);
@@ -51,6 +72,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function port($port)
     {
         $this->transport->setPort($port);
@@ -58,6 +82,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function username($username)
     {
         $this->transport->setUsername($username);
@@ -65,6 +92,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function password($password)
     {
         $this->transport->setPassword($password);
@@ -72,6 +102,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function from($email)
     {
         $this->message->setFrom($email);
@@ -79,6 +112,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function to(array $emails)
     {
         $this->message->setTo($emails);
@@ -86,6 +122,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function bcc(array $emails)
     {
         $this->message->setBcc($emails);
@@ -93,6 +132,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function cc(array $emails)
     {
         $this->message->setBcc($emails);
@@ -100,6 +142,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function subject($subject)
     {
         $this->message->setSubject($subject);
@@ -107,6 +152,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function body($body)
     {
         $this->message->addPart($body, 'text/html');
@@ -114,6 +162,9 @@ class SwiftMailer implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function send()
     {
         $mailer = Swift_Mailer::newInstance($this->transport);
