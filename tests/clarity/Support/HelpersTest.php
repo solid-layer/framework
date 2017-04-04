@@ -51,7 +51,7 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains(
             url()->getBaseUri().'auth/login',
-            route('showLoginForm')
+            route('show-login-form')
         );
 
         $this->assertInstanceOf(
