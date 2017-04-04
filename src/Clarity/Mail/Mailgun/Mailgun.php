@@ -262,7 +262,7 @@ class Mailgun implements MailInterface
     }
 
     /**
-     * Get the domain from config
+     * Get the domain from config.
      *
      * @return string
      */

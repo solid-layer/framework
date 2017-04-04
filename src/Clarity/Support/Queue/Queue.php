@@ -8,7 +8,7 @@ namespace Clarity\Support\Queue;
 class Queue
 {
     /**
-     * @var mixed|\Clarity\Support\Queue\DriverInterface $adapter
+     * @var mixed|\Clarity\Support\Queue\DriverInterface
      */
     private $adapter;
 

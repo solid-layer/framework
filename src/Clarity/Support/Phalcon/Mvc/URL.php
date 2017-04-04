@@ -17,7 +17,7 @@ use Phalcon\Di\InjectionAwareInterface;
 /**
  * {@inheritdoc}
  */
-class URL extends BaseURL
+class URL extends BaseURL implements InjectionAwareInterface
 {
     /**
      * @var \Phalcon\DiInterface
