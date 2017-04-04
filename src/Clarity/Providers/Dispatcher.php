@@ -10,8 +10,8 @@
 
 namespace Clarity\Providers;
 
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Mvc\Dispatcher as MvcDispatcher;
+use Phalcon\Events\Manager as PhalconEventsManager;
+use Phalcon\Mvc\Dispatcher as PhalconMvcDispatcher;
 use Clarity\Exceptions\ControllerNotFoundException;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
@@ -40,7 +40,7 @@ class Dispatcher extends ServiceProvider
     {
         $dispatcher = $this->getDI()->get('dispatcher');
 
-        $event_manager = new EventsManager;
+        $event_manager = new PhalconEventsManager;
 
         $event_manager->attach('dispatch:beforeException',
             function ($event, $dispatcher, $exception) {
@@ -70,7 +70,7 @@ class Dispatcher extends ServiceProvider
      */
     public function register()
     {
-        $dispatcher = new MvcDispatcher();
+        $dispatcher = new PhalconMvcDispatcher();
 
         $dispatcher->setDefaultNamespace('App\Controllers');
 
