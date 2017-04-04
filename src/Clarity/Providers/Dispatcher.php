@@ -74,6 +74,8 @@ class Dispatcher extends ServiceProvider
 
         $dispatcher->setDefaultNamespace('App\Controllers');
 
+        $dispatcher->setControllerSuffix($this->getControllerSuffix());
+
         $dispatcher->setActionSuffix($this->getActionSuffix());
 
         return $dispatcher;
