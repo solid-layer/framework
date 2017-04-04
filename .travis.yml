@@ -25,12 +25,12 @@ matrix:
       env: FRAMEWORK_VERSION="1.5.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.0.x"
 
     # PHP7.1
-    - php: 7.1
-      env: FRAMEWORK_VERSION="1.5.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.2.x"
-    - php: 7.1
-      env: FRAMEWORK_VERSION="1.5.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.1.x"
-    - php: 7.1
-      env: FRAMEWORK_VERSION="1.5.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.0.x"
+    # - php: 7.1
+    #   env: FRAMEWORK_VERSION="1.5.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.2.x"
+    # - php: 7.1
+    #   env: FRAMEWORK_VERSION="1.5.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.1.x"
+    # - php: 7.1
+    #   env: FRAMEWORK_VERSION="1.5.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.0.x"
 
 env:
   global:
