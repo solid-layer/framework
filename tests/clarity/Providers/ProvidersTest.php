@@ -44,10 +44,9 @@ class ProvidersTest extends \PHPUnit_Framework_TestCase
     public function testService()
     {
         $provider = m::mock('Clarity\Providers\Aliaser');
+
         $provider
-            ->shouldReceive(
-                'register'
-            )
+            ->shouldReceive('register')
             ->once()
             ->andReturn($this);
 
@@ -71,19 +70,20 @@ class ProvidersTest extends \PHPUnit_Framework_TestCase
             ->once();
 
         $container = new Container;
+        $container->setDI(di());
         $container->addServiceProvider($provider);
         $container->boot();
 
-        # assert should be instance of ServiceProvider::class
 
+        # assert should be instance of ServiceProvider::class
         $this->assertInstanceOf(ServiceProvider::class, $provider);
+
 
         # assert via array subset, in the first place, the di()
         # should already injected the 'servicetest' and it should
         # be pullable
-
         $this->assertArraySubset(
-            di()->get('servicetest')->sampleDiContent(),
+            $container->getDI()->get('servicetest')->sampleDiContent(),
             $this->sampleDiContent()
         );
     }

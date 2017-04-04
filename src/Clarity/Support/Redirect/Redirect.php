@@ -11,6 +11,8 @@
 namespace Clarity\Support\Redirect;
 
 use Clarity\Support\WithMagicMethodTrait;
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /***
  * Class Redirect
@@ -19,9 +21,30 @@ use Clarity\Support\WithMagicMethodTrait;
  * @method withError(string $message) write error flash message
  * @method withSuccess(string $message) write success flash message
  */
-class Redirect
+class Redirect implements InjectionAwareInterface
 {
     use WithMagicMethodTrait;
+
+    /**
+     * @var \Phalcon\DiInterface
+     */
+    protected $_di;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDi(DiInterface $di)
+    {
+        $this->_di = $di;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDi()
+    {
+        return $this->_di;
+    }
 
     /**
      * Redirect based on the provided url.
@@ -31,7 +54,7 @@ class Redirect
      */
     public function to($url)
     {
-        di()->get('response')->redirect($url);
+        $this->_di->get('response')->redirect($url);
 
         return $this;
     }
@@ -45,7 +68,7 @@ class Redirect
      */
     public function with($key, $value)
     {
-        di()->get('flash')->session()->message($key, $value);
+        $this->_di->get('flash')->session()->message($key, $value);
 
         return $this;
     }

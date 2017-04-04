@@ -34,7 +34,7 @@ class Application extends ServiceProvider
      */
     public function register()
     {
-        $instance = new BaseApplication(di());
+        $instance = new BaseApplication($this->getDI());
 
         Facade::setFacadeApplication($instance);
 

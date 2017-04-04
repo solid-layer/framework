@@ -41,8 +41,8 @@ class Controller extends BaseController
         $middlewares = [];
 
         # get previously assigned aliases
-        if (di()->has('middleware_aliases')) {
-            $middlewares = di()->get('middleware_aliases')->toArray();
+        if ($this->getDI()->has('middleware_aliases')) {
+            $middlewares = $this->getDI()->get('middleware_aliases')->toArray();
         }
 
         $append_alias = true;
@@ -64,7 +64,7 @@ class Controller extends BaseController
             $middlewares[] = $alias;
         }
 
-        di()->set('middleware_aliases', function () use ($middlewares) {
+        $this->getDI()->set('middleware_aliases', function () use ($middlewares) {
             return new Config($middlewares);
         });
     }
@@ -76,7 +76,7 @@ class Controller extends BaseController
      */
     private function middlewareHandler()
     {
-        if (di()->has('middleware_aliases') === false) {
+        if ($this->getDI()->has('middleware_aliases') === false) {
             return;
         }
 
@@ -84,7 +84,7 @@ class Controller extends BaseController
         $middleware = new Middleware(config()->app->middlewares);
 
         $instances = [];
-        $aliases = di()->get('middleware_aliases')->toArray();
+        $aliases = $this->getDI()->get('middleware_aliases')->toArray();
 
         foreach ($aliases as $alias) {
             $class = $middleware->get($alias);

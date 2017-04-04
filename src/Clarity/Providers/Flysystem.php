@@ -36,7 +36,7 @@ class Flysystem extends ServiceProvider
     {
         $manager = $this->manager();
 
-        di()->set('flysystem_manager', function () use ($manager) {
+        $this->getDI()->set('flysystem_manager', function () use ($manager) {
             return $manager;
         }, true);
 

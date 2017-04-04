@@ -102,6 +102,7 @@ trait KernelTrait
         # load all the service providers, providing our
         # native phalcon classes
         $container = new Container;
+        $container->setDI($this->di);
 
         if (empty($services)) {
             $services = config()->app->services;
@@ -109,6 +110,7 @@ trait KernelTrait
 
         foreach ($services as $service) {
             $instance = new $service;
+            $instance->setDI($this->di);
 
             if ($instance->getAfterModule() === $after_module) {
                 $container->addServiceProvider($instance);

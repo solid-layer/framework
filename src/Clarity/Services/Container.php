@@ -11,16 +11,39 @@
 namespace Clarity\Services;
 
 use Clarity\Providers\ServiceProvider;
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * The service container.
  */
-class Container
+class Container implements InjectionAwareInterface
 {
+    /**
+     * @var \Phalcon\DiInterface
+     */
+    protected $_di;
+
     /**
      * @var array
      */
     private $providers;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDI(DiInterface $di)
+    {
+        $this->_di = $di;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDI()
+    {
+        return $this->_di;
+    }
 
     /**
      * Add a service provider.
@@ -46,7 +69,7 @@ class Container
 
             # check if module function exists
             if (method_exists($provider, 'module')) {
-                di('module')->setModule(
+                $this->getDI()->get('module')->setModule(
                     $provider->getAlias(),
                     function ($di) use ($provider) {
                         call_user_func_array([$provider, 'module'], [$di]);
@@ -57,7 +80,7 @@ class Container
             # callRegister should return an empty or an object or array
             # then we could manually update the register
             if ($register = $provider->callRegister()) {
-                di()->set(
+                $this->getDI()->set(
                     $provider->getAlias(),
                     $register,
                     $provider->getShared()
@@ -72,8 +95,8 @@ class Container
         foreach ($providers_loaded as $provider) {
             $boot = $provider->boot();
 
-            if ($boot && ! di()->has($provider->getAlias())) {
-                di()->set(
+            if ($boot && ! $this->getDI()->has($provider->getAlias())) {
+                $this->getDI()->set(
                     $provider->getAlias(),
                     $boot,
                     $provider->getShared()

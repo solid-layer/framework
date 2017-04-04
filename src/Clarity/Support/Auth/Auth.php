@@ -11,41 +11,33 @@
 namespace Clarity\Support\Auth;
 
 use InvalidArgumentException;
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Authentication handler.
  */
-class Auth
+class Auth implements InjectionAwareInterface
 {
     /**
-     * @var mixed
+     * @var \Phalcon\DiInterface
      */
-    private $request;
+    protected $_di;
 
     /**
-     * @var mixed
+     * {@inheritdoc}
      */
-    private $session;
-
-    /**
-     * @var mixed
-     */
-    private $response;
-
-    /**
-     * @var mixed
-     */
-    private $security;
-
-    /**
-     * Contructor.
-     */
-    public function __construct()
+    public function setDI(DiInterface $di)
     {
-        $this->request = di()->get('request');
-        $this->session = di()->get('session');
-        $this->response = di()->get('response');
-        $this->security = di()->get('security');
+        $this->_di = $di;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDI()
+    {
+        return $this->_di;
     }
 
     /**
@@ -100,9 +92,9 @@ class Auth
         # now check if the password given is matched with the
         # existing password recorded.
 
-        if ($this->security->checkHash($password, $records->{$password_field})) {
-            $this->session->set('isAuthenticated', true);
-            $this->session->set('user', $records);
+        if ($this->getDI()->get('security')->checkHash($password, $records->{$password_field})) {
+            $this->getDI()->get('session')->set('isAuthenticated', true);
+            $this->getDI()->get('session')->set('user', $records);
 
             return true;
         }
@@ -119,10 +111,10 @@ class Auth
     {
         $redirect_key = config()->app->auth->redirect_key;
 
-        $redirect_to = $this->request->get($redirect_key);
+        $redirect_to = $this->getDI()->get('request')->get($redirect_key);
 
         if ($redirect_to) {
-            return $this->response->redirect($redirect_to);
+            return $this->getDI()->get('response')->redirect($redirect_to);
         }
 
         return false;
@@ -135,7 +127,7 @@ class Auth
      */
     public function check()
     {
-        if ($this->session->has('isAuthenticated')) {
+        if ($this->getDI()->get('session')->has('isAuthenticated')) {
             return true;
         }
 
@@ -149,7 +141,7 @@ class Auth
      */
     public function user()
     {
-        return $this->session->get('user');
+        return $this->getDI()->get('session')->get('user');
     }
 
     /**
@@ -159,8 +151,8 @@ class Auth
      */
     public function destroy()
     {
-        $this->session->remove('isAuthenticated');
-        $this->session->remove('user');
+        $this->getDI()->get('session')->remove('isAuthenticated');
+        $this->getDI()->get('session')->remove('user');
 
         return true;
     }

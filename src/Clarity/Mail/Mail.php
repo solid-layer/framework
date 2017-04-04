@@ -11,11 +11,13 @@
 namespace Clarity\Mail;
 
 use Clarity\Contracts\Mail\MailInterface;
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * The mail handler for all available adapters.
  */
-class Mail
+class Mail implements InjectionAwareInterface
 {
     /**
      * @var mixed|\Clarity\Conctracts\Mail\MailInterface
@@ -28,6 +30,11 @@ class Mail
     private $config;
 
     /**
+     * @var \Phalcon\DiInterface
+     */
+    protected $_di;
+
+    /**
      * Contructor.
      *
      * @param mixed|\Clarity\Contracts\Mail\MailInterface $adapter
@@ -37,6 +44,22 @@ class Mail
     {
         $this->adapter = $adapter;
         $this->config = $config;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDI(DiInterface $di)
+    {
+        $this->_di = $di;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDI()
+    {
+        return $this->_di;
     }
 
     /**

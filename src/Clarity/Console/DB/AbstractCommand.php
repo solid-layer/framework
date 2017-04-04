@@ -154,31 +154,43 @@ abstract class AbstractCommand extends Brood
             case 'mysql':
                 $ret = [
                     'adapter'  => $alias,
-                    'host'     => $adapter['host'],
-                    'name'     => $adapter['dbname'],
-                    'user'     => $adapter['username'],
-                    'pass'     => $adapter['password'],
-                    'port'     => $adapter['port'],
-                    'charset'  => $adapter['charset'],
+                    'host'     => $adapter['options']['host'],
+                    'name'     => $adapter['options']['dbname'],
+                    'user'     => $adapter['options']['username'],
+                    'pass'     => $adapter['options']['password'],
                 ];
+
+                if (isset($adapter['options']['port'])) {
+                    $ret['port'] = $adapter['options']['port'];
+                }
+
+                if (isset($adapter['options']['charset'])) {
+                    $ret['charset'] = $adapter['options']['charset'];
+                }
             break;
 
             case 'pgsql':
                 $ret = [
                     'adapter'  => $alias,
-                    'host'     => $adapter['host'],
-                    'name'     => $adapter['dbname'],
-                    'user'     => $adapter['username'],
-                    'pass'     => $adapter['password'],
-                    'port'     => $adapter['port'],
-                    'charset'  => $adapter['charset'],
+                    'host'     => $adapter['options']['host'],
+                    'name'     => $adapter['options']['dbname'],
+                    'user'     => $adapter['options']['username'],
+                    'pass'     => $adapter['options']['password'],
                 ];
+
+                if (isset($adapter['options']['port'])) {
+                    $ret['port'] = $adapter['options']['port'];
+                }
+
+                if (isset($adapter['options']['charset'])) {
+                    $ret['charset'] = $adapter['options']['charset'];
+                }
             break;
 
             case 'sqlite':
                 $ret = [
                     'adapter' => $alias,
-                    'name' => $adapter['dbname'],
+                    'name' => $adapter['options']['dbname'],
                 ];
             break;
         }

@@ -56,7 +56,7 @@ class Flash extends ServiceProvider
     {
         $elements = $this->elements;
 
-        # this will be as di()->get('flash.direct');
+        # this will be as $this->getDI()->get('flash.direct');
         $this->subRegister('direct', function () use ($elements) {
             $flash = new PhalconFlashDirect($elements);
 
@@ -68,7 +68,7 @@ class Flash extends ServiceProvider
             return $flash;
         }, true);
 
-        # this will be as di()->get('flash.session');
+        # this will be as $this->getDI()->get('flash.session');
         $this->subRegister('session', function () use ($elements) {
             $flash = new PhalconFlashSession($elements);
 
@@ -80,7 +80,7 @@ class Flash extends ServiceProvider
             return $flash;
         }, true);
 
-        # this will be as di()->get('flash');
+        # this will be as $this->getDI()->get('flash');
         return $this;
     }
 
@@ -91,7 +91,7 @@ class Flash extends ServiceProvider
      */
     public function direct()
     {
-        return di()->get('flash.direct');
+        return $this->getDI()->get('flash.direct');
     }
 
     /**
@@ -101,6 +101,6 @@ class Flash extends ServiceProvider
      */
     public function session()
     {
-        return di()->get('flash.session');
+        return $this->getDI()->get('flash.session');
     }
 }

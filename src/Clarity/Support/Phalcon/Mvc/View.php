@@ -53,7 +53,7 @@ class View extends BaseView
      */
     protected function checkViewPath($path)
     {
-        $full_path = di()->get('view')->getViewsDir().$path;
+        $full_path = $this->getDI()->get('view')->getViewsDir().$path;
 
         $result = glob($full_path.'.*');
 

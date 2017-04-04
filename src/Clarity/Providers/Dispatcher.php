@@ -38,7 +38,7 @@ class Dispatcher extends ServiceProvider
      */
     public function boot()
     {
-        $dispatcher = di()->get('dispatcher');
+        $dispatcher = $this->getDI()->get('dispatcher');
 
         $event_manager = new EventsManager;
 

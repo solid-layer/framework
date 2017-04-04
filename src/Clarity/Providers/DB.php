@@ -81,10 +81,10 @@ class DB extends ServiceProvider
      */
     public function boot()
     {
-        if (! di()->has($this->alias)) {
+        if (! $this->getDI()->has($this->alias)) {
             $db = $this->getDefaultConnection();
 
-            di()->set($this->alias, function () use ($db) {
+            $this->getDI()->set($this->alias, function () use ($db) {
                 return $db;
             }, $this->shared);
         }
