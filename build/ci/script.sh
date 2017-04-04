@@ -3,7 +3,7 @@
 # +--------------------------+
 # | Run other brood commands |
 # +--------------------------+
-php brood routes
+php brood list:routes
 
 # db
 php brood seed:factory
