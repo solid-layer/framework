@@ -42,7 +42,7 @@ class Kernel
      * Set the paths.
      *
      * @param mixed $paths
-     * @return $this
+     * @return \Clarity\Kernel\Kernel
      */
     public function setPaths($paths)
     {
@@ -55,7 +55,7 @@ class Kernel
      * Set the environment.
      *
      * @param string $env
-     * @return $this
+     * @return \Clarity\Kernel\Kernel
      */
     public function setEnvironment($env)
     {

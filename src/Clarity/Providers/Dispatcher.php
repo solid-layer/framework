@@ -56,13 +56,23 @@ class Dispatcher extends ServiceProvider
     }
 
     /**
-     * Provide the action suffix to be used.
+     * Override the default controller suffix.
      *
      * @return string
      */
-    protected function getActionSuffix()
+    public function getControllerSuffix()
     {
-        return '';
+        return 'Controller';
+    }
+
+    /**
+     * Override the default action suffix.
+     *
+     * @return string
+     */
+    public function getActionSuffix()
+    {
+        return 'Action';
     }
 
     /**
