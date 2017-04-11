@@ -25,7 +25,7 @@ trait KernelTrait
     /**
      * Instantiate a factory dependency injection.
      *
-     * @return $this
+     * @return \Clarity\Kernel\Kernel
      */
     public function loadFactory()
     {
@@ -37,7 +37,7 @@ trait KernelTrait
     /**
      * Load the configurations.
      *
-     * @return $this
+     * @return \Clarity\Kernel\Kernel
      */
     public function loadConfig()
     {
@@ -81,7 +81,7 @@ trait KernelTrait
     /**
      * Load the project timezone.
      *
-     * @return $this
+     * @return \Clarity\Kernel\Kernel
      */
     public function loadTimeZone()
     {
@@ -95,7 +95,7 @@ trait KernelTrait
      *
      * @param  bool $after_module If you want to load services after calling
      *                               run() function
-     * @return $this
+     * @return \Clarity\Kernel\Kernel
      */
     public function loadServices($after_module = false, $services = [])
     {
