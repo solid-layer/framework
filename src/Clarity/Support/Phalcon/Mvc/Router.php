@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,20 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Mvc;
 
 use Phalcon\Mvc\Router as BaseRouter;
 
+/**
+ * {@inheritdoc}
+ */
 class Router extends BaseRouter
 {
+    /**
+     * Contructor.
+     *
+     * @param bool $bool
+     */
     public function __construct($bool)
     {
         parent::__construct($bool);

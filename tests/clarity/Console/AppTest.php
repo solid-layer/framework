@@ -1,9 +1,23 @@
 <?php
 
+/**
+ * PhalconSlayer\Framework.
+ *
+ * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://docs.phalconslayer.com
+ */
+
 namespace Clarity\Console;
 
+/**
+ * The 'app' test case.
+ */
 class AppTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * {@inheritdoc}
+     */
     public function tearDown()
     {
         $test_module_index = 'public/test_module.php';
@@ -17,6 +31,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Test the application route.
+     *
+     * @return void
+     */
     public function testAppRoute()
     {
         CLI::bash([

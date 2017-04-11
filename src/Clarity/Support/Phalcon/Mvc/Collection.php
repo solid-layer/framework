@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,12 +8,13 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Mvc;
 
 use Phalcon\Mvc\Collection as BaseCollection;
 
+/**
+ * {@inheritdoc}
+ */
 class Collection extends BaseCollection
 {
     /**

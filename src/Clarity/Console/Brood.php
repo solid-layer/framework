@@ -7,8 +7,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console;
 
 use Symfony\Component\Console\Helper;
@@ -161,7 +159,7 @@ abstract class Brood extends Command
     }
 
     /**
-     * Get the timeout option
+     * Get the timeout option.
      *
      * @return array
      */
@@ -172,12 +170,12 @@ abstract class Brood extends Command
             't',
             InputOption::VALUE_OPTIONAL,
             'Set timeout to bypass default execution time',
-            static::TIMEOUT
+            static::TIMEOUT,
         ];
     }
 
     /**
-     * Get the environment option
+     * Get the environment option.
      *
      * @return array
      */
@@ -188,7 +186,7 @@ abstract class Brood extends Command
             'e',
             InputOption::VALUE_OPTIONAL,
             'The environment to be used',
-            null
+            null,
         ];
     }
 

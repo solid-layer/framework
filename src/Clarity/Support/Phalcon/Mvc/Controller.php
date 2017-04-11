@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Mvc;
 
 use Phalcon\Config;
@@ -16,15 +15,34 @@ use League\Tactician\CommandBus;
 use Clarity\Support\Phalcon\Http\Middleware;
 use Phalcon\Mvc\Controller as BaseController;
 
+/**
+ * @method initMiddleware() initialize middlewares in top-level controller
+ */
 class Controller extends BaseController
 {
-    public function middleware($alias, $options = [])
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeExecuteRoute()
+    {
+        # call the initialize to work with the middleware()
+        if (method_exists($this, 'initMiddleware')) {
+            $this->initMiddleware();
+        }
+
+        $this->middlewareHandler();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function middleware($alias, $options = [])
     {
         $middlewares = [];
 
         # get previously assigned aliases
-        if (di()->has('middleware_aliases')) {
-            $middlewares = di()->get('middleware_aliases')->toArray();
+        if ($this->getDI()->has('middleware_aliases')) {
+            $middlewares = $this->getDI()->get('middleware_aliases')->toArray();
         }
 
         $append_alias = true;
@@ -46,24 +64,19 @@ class Controller extends BaseController
             $middlewares[] = $alias;
         }
 
-        di()->set('middleware_aliases', function () use ($middlewares) {
+        $this->getDI()->set('middleware_aliases', function () use ($middlewares) {
             return new Config($middlewares);
         });
     }
 
-    public function beforeExecuteRoute()
-    {
-        # call the initialize to work with the middleware()
-        if (method_exists($this, 'initialize')) {
-            $this->initialize();
-        }
-
-        $this->middlewareHandler();
-    }
-
+    /**
+     * Handle the registered middlewares in the controller.
+     *
+     * @return void
+     */
     private function middlewareHandler()
     {
-        if (di()->has('middleware_aliases') === false) {
+        if ($this->getDI()->has('middleware_aliases') === false) {
             return;
         }
 
@@ -71,7 +84,7 @@ class Controller extends BaseController
         $middleware = new Middleware(config()->app->middlewares);
 
         $instances = [];
-        $aliases = di()->get('middleware_aliases')->toArray();
+        $aliases = $this->getDI()->get('middleware_aliases')->toArray();
 
         foreach ($aliases as $alias) {
             $class = $middleware->get($alias);

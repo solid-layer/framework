@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,12 +8,13 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\DB;
 
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Check the database status.
+ */
 class Status extends AbstractCommand
 {
     /**
@@ -46,13 +48,13 @@ EOT;
 
         if (null === $environment) {
             $environment = config()->environment;
-            $this->getOutput()->writeln('<comment>warning</comment> no environment specified, defaulting to: ' . $environment);
+            $this->getOutput()->writeln('<comment>warning</comment> no environment specified, defaulting to: '.$environment);
         } else {
-            $this->getOutput()->writeln('<info>using environment</info> ' . $environment);
+            $this->getOutput()->writeln('<info>using environment</info> '.$environment);
         }
 
         if (null !== $format) {
-            $this->getOutput()->writeln('<info>using format</info> ' . $format);
+            $this->getOutput()->writeln('<info>using format</info> '.$format);
         }
 
         $this->loadManager();

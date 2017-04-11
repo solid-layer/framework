@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use League\Flysystem\Filesystem;
@@ -37,7 +36,7 @@ class Flysystem extends ServiceProvider
     {
         $manager = $this->manager();
 
-        di()->set('flysystem_manager', function () use ($manager) {
+        $this->getDI()->set('flysystem_manager', function () use ($manager) {
             return $manager;
         }, true);
 

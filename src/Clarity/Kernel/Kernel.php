@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Kernel;
 
 /**
@@ -21,7 +20,7 @@ class Kernel
     /**
      * The dependency injection.
      *
-     * @var mixed
+     * @var \Phalcon\DiInterface
      */
     private $di;
 
@@ -43,6 +42,7 @@ class Kernel
      * Set the paths.
      *
      * @param mixed $paths
+     * @return \Clarity\Kernel\Kernel
      */
     public function setPaths($paths)
     {
@@ -55,6 +55,7 @@ class Kernel
      * Set the environment.
      *
      * @param string $env
+     * @return \Clarity\Kernel\Kernel
      */
     public function setEnvironment($env)
     {
@@ -76,7 +77,7 @@ class Kernel
     /**
      * Register modules.
      *
-     * @return mixed
+     * @return \Clarity\Kernel\Kernel
      */
     public function modules()
     {
@@ -98,8 +99,8 @@ class Kernel
     /**
      * Here, you will be loading the system by defining the module.
      *
-     * @param  string $module_name The module name
-     * @return mixed
+     * @param string $module_name The module name
+     * @return \Clarity\Kernel\Kernel
      */
     public function run($module_name)
     {

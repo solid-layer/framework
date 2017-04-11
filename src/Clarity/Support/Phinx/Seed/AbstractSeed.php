@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,12 +8,13 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phinx\Seed;
 
 use Phinx\Seed\AbstractSeed as BaseAbstractSeed;
 
+/**
+ * {@inheritdoc}
+ */
 class AbstractSeed extends BaseAbstractSeed
 {
 }

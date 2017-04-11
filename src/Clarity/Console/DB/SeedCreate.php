@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,12 +8,13 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\DB;
 
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Create a database seeder.
+ */
 class SeedCreate extends AbstractCommand
 {
     /**
@@ -78,8 +80,8 @@ class SeedCreate extends AbstractCommand
             ));
         }
 
-        $this->getOutput()->writeln('<info>using seed base class</info> ' . $classes['$useClassName']);
-        $this->getOutput()->writeln('<info>created</info> .' . str_replace(getcwd(), '', $file_path));
+        $this->getOutput()->writeln('<info>using seed base class</info> '.$classes['$useClassName']);
+        $this->getOutput()->writeln('<info>created</info> .'.str_replace(getcwd(), '', $file_path));
     }
 
     /**
@@ -92,6 +94,9 @@ class SeedCreate extends AbstractCommand
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSeedTemplateFilename()
     {
         $file = url_trimmer(config()->path->storage.'/stubs/db/SeedCreate.stub');

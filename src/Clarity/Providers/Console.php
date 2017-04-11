@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -22,7 +21,7 @@ class Console extends ServiceProvider
     /**
      * The current system version.
      */
-    const VERSION = 'v1.4.7';
+    const VERSION = 'v1.4.8';
 
     /**
      * The console description which holds the copywright.

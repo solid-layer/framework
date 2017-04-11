@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,24 +8,47 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\TestSuite\Behat\Mink;
 
 use Behat\Mink\Session;
 use InvalidArgumentException;
 
+/**
+ * The Behat Mink Handler.
+ */
 class Mink
 {
+    /**
+     * @var mixed
+     */
     private $driver;
+
+    /**
+     * @var mixed
+     */
     private $session;
+
+    /**
+     * @var array
+     */
     private $adapters;
 
+    /**
+     * Constructor.
+     *
+     * @param array $adapters
+     */
     public function __construct($adapters = [])
     {
         $this->setAdapters($adapters);
     }
 
+    /**
+     * Set the adapters.
+     *
+     * @param array $adapters
+     * @return mixed|\Clarity\TestSuite\Behat\Mink\Mink
+     */
     public function setAdapters(array $adapters)
     {
         if (empty($adapters)) {
@@ -36,6 +60,12 @@ class Mink
         return $this;
     }
 
+    /**
+     * Get an adapter.
+     *
+     * @param string $name
+     * @return mixed|\Behat\Mink\Session
+     */
     public function get($name)
     {
         if (! isset($this->adapters[$name])) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Clarity\Facades\Facade;
@@ -35,7 +34,7 @@ class Application extends ServiceProvider
      */
     public function register()
     {
-        $instance = new BaseApplication(di());
+        $instance = new BaseApplication($this->getDI());
 
         Facade::setFacadeApplication($instance);
 

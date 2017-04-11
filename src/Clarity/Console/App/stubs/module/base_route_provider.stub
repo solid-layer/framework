@@ -8,7 +8,14 @@ use Clarity\Contracts\Providers\ModuleInterface;
 
 class RouterServiceProvider extends ServiceProvider implements ModuleInterface
 {
+    /**
+     * @var string
+     */
     protected $alias = '{raw_module}';
+
+    /**
+     * @var bool
+     */
     protected $shared = false;
 
     /**

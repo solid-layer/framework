@@ -12,13 +12,11 @@ class MvcTest extends \PHPUnit_Framework_TestCase
     {
         $old = config()->toArray();
 
-        $url = new URL;
-
         # since we're loading the default 'main' module
         # located at root/autoload.php
-        $this->assertEquals('http://', $url->getScheme());
-        $this->assertEquals('slayer.app', $url->getHost());
-        $this->assertEquals('http://slayer.app', $url->getFullUrl());
+        $this->assertEquals('http://', di()->get('url')->getScheme());
+        $this->assertEquals('slayer.app', di()->get('url')->getHost());
+        $this->assertEquals('http://slayer.app', di()->get('url')->getFullUrl());
 
         # https check
         config([
@@ -29,20 +27,19 @@ class MvcTest extends \PHPUnit_Framework_TestCase
                 'base_uri' => [
                     'acme' => 'acme.app',
                 ],
-            ]
+            ],
         ]);
-        $this->assertEquals('https://', $url->getScheme('acme'));
-        $this->assertEquals('acme.app', $url->getHost('acme'));
-        $this->assertEquals('https://acme.app', $url->getFullUrl('acme'));
+        $this->assertEquals('https://', di()->get('url')->getScheme('acme'));
+        $this->assertEquals('acme.app', di()->get('url')->getHost('acme'));
+        $this->assertEquals('https://acme.app', di()->get('url')->getFullUrl('acme'));
 
         # revert config
-        config($old);
+        config($old, false);
 
         # http check
-        $this->assertEquals('http://', $url->getScheme('main'));
-        $this->assertEquals('slayer.app', $url->getHost('main'));
-        $this->assertEquals('http://slayer.app', $url->getFullUrl('main'));
-
+        $this->assertEquals('http://', di()->get('url')->getScheme('main'));
+        $this->assertEquals('slayer.app', di()->get('url')->getHost('main'));
+        $this->assertEquals('http://slayer.app', di()->get('url')->getFullUrl('main'));
 
         # let's call the di 'route' to register these routes
         route()->add('/test', [

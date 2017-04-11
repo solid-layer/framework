@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Mvc\Router as BaseRouter;
@@ -27,7 +26,7 @@ class Router extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $shared = true;
+    protected $shared = false;
 
     /**
      * {@inheridoc}.

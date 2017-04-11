@@ -7,8 +7,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console;
 
 use Closure;
@@ -27,7 +25,7 @@ class CLI
     /**
      * Handles the brood default options/arguments.
      */
-    public final static function ArgvInput()
+    final public static function ArgvInput()
     {
         # get the raw commands
         $raws = ['--env', '--timeout'];
@@ -98,14 +96,14 @@ class CLI
             $timeout = $input->getOption('timeout');
         }
 
-        $output->writeln("<comment>".$line."</comment>");
+        $output->writeln('<comment>'.$line.'</comment>');
 
         $proc = new Process($line);
         $proc->setTimeout($timeout);
         $proc->run(function ($type, $buffer) use ($output) {
             foreach (explode("\n", $buffer) as $buffer) {
                 if (Process::OUT === $type) {
-                    $output->writeln("<info>".$buffer."</info>");
+                    $output->writeln('<info>'.$buffer.'</info>');
                 } else {
                     $output->writeln($buffer);
                 }

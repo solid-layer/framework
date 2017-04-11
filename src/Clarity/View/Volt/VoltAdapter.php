@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,16 +8,20 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\View\Volt;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\ViewBaseInterface;
 
+/**
+ * The 'volt' adapter for View Teamplate/Engine.
+ */
 class VoltAdapter extends Volt
 {
+    /**
+     * @var array
+     */
     private $functions = [
         # misc
         'di', 'env',    'csrf_field',
@@ -38,10 +43,14 @@ class VoltAdapter extends Volt
         'strtotime',
     ];
 
-    public function __construct(
-        ViewBaseInterface $view,
-        DiInterface $di = null
-    ) {
+    /**
+     * Constructor.
+     *
+     * @param mixed|\Phalcon\Mvc\ViewBaseInterface $view
+     * @param mixed|\Phalcon\DiInterface $di
+     */
+    public function __construct(ViewBaseInterface $view, DiInterface $di = null)
+    {
         parent::__construct($view, $di);
 
         $debug = false;

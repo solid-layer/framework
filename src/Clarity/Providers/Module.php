@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 /**
@@ -75,7 +74,7 @@ class Module extends ServiceProvider
      */
     public function all()
     {
-        if (!isset(config()->modules)) {
+        if (! isset(config()->modules)) {
             return [];
         }
 

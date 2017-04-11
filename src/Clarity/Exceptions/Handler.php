@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Exceptions;
 
 use Exception;
@@ -24,7 +23,11 @@ use Symfony\Component\Debug\Exception\FlattenException;
 class Handler extends Exception
 {
     /**
-     * {@inheritdoc}
+     * Contructor.
+     *
+     * @param string $message
+     * @param int $code
+     * @param mixed|\Throwable $previous
      */
     public function __construct($message = null, $code = null, $previous = null)
     {
@@ -124,7 +127,11 @@ class Handler extends Exception
 
         $content = (new ExceptionHandler(config()->app->debug))->getHtml($e);
 
-        $response = di()->get('response');
+        if (di()->has('response')) {
+            $response = di()->get('response');
+        } else {
+            $response = new \Phalcon\Http\Response;
+        }
 
         if (method_exists($e, 'getStatusCode')) {
             $response->setStatusCode($e->getStatusCode());
@@ -149,16 +156,16 @@ class Handler extends Exception
      */
     protected function report()
     {
+        # register all the the loggers we have
+        register_shutdown_function([$this, 'handleFatalError']);
+        set_error_handler([$this, 'handleError']);
+        set_exception_handler([$this, 'handleExceptionError']);
+
         # let monolog handle the logging in the errors,
         # unless you want it to, you can refer to method
         # handleExceptionError()
         if (di()->has('log')) {
             MonologErrorHandler::register(di()->get('log'));
         }
-
-        # register all the the loggers we have
-        register_shutdown_function([$this, 'handleFatalError']);
-        set_error_handler([$this, 'handleError']);
-        set_exception_handler([$this, 'handleExceptionError']);
     }
 }

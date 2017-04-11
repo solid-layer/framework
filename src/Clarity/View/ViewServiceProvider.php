@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\View;
 
 use Phalcon\Events\Event;
@@ -19,11 +18,24 @@ use Clarity\View\Blade\BladeAdapter;
 use Clarity\Support\Phalcon\Mvc\View;
 use Clarity\Providers\ServiceProvider;
 
+/**
+ * The 'view' service provider.
+ */
 class ViewServiceProvider extends ServiceProvider
 {
+    /**
+     * @var string
+     */
     protected $alias = 'view';
+
+    /**
+     * @var bool
+     */
     protected $shared = true;
 
+    /**
+     * {@inheritdoc}
+     */
     public function boot()
     {
         $event_manager = new Manager;
@@ -43,6 +55,9 @@ class ViewServiceProvider extends ServiceProvider
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
         $view = new View;

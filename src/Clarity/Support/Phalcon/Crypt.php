@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -6,6 +7,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://docs.phalconslayer.com
  */
+
 namespace Clarity\Support\Phalcon;
 
 use Exception;

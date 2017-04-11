@@ -1,19 +1,30 @@
 <?php
+
+/**
+ * PhalconSlayer\Framework.
+ *
+ * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://docs.phalconslayer.com
+ */
+
 namespace Clarity\Console\DB;
 
 use Clarity\Console\Brood;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Phinx\Config\Config;
-use Phinx\Config\ConfigInterface;
-use Phinx\Db\Adapter\AdapterInterface;
 use Phinx\Migration\Manager;
 use Phinx\Util\Util;
 
+/**
+ * Base code for the console command migration.
+ */
 abstract class AbstractCommand extends Brood
 {
+    /**
+     * @var array
+     */
     private $adapters = [
         \Phalcon\Db\Adapter\Pdo\Mysql::class      => 'mysql',
         \Phalcon\Db\Adapter\Pdo\Postgresql::class => 'pgsql',
@@ -34,14 +45,14 @@ abstract class AbstractCommand extends Brood
      */
     protected function verifySeedDirectory($path)
     {
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             throw new \InvalidArgumentException(sprintf(
                 'Seed directory "%s" does not exist',
                 $path
             ));
         }
 
-        if (!is_writable($path)) {
+        if (! is_writable($path)) {
             throw new \InvalidArgumentException(sprintf(
                 'Seed directory "%s" is not writable',
                 $path
@@ -58,6 +69,7 @@ abstract class AbstractCommand extends Brood
     public function setManager(Manager $manager)
     {
         $this->manager = $manager;
+
         return $this;
     }
 
@@ -72,13 +84,13 @@ abstract class AbstractCommand extends Brood
     }
 
     /**
-     * Parse the config file and load it into the config object
+     * Parse the config file and load it into the config object.
      *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @throws \InvalidArgumentException
      * @return void
-    */
+     */
     protected function getDefaultConfig()
     {
         $env = $this->getInput()->getOption('env');
@@ -128,6 +140,12 @@ abstract class AbstractCommand extends Brood
         ]);
     }
 
+    /**
+     * Get the settings of an adapter.
+     *
+     * @param string $adapter
+     * @return array
+     */
     protected function getSettings($adapter)
     {
         $ret = [];
@@ -169,7 +187,7 @@ abstract class AbstractCommand extends Brood
     }
 
     /**
-     * Load the migrations manager and inject the config
+     * Load the migrations manager and inject the config.
      *
      * @param OutputInterface $output
      * @return void
@@ -182,6 +200,11 @@ abstract class AbstractCommand extends Brood
         }
     }
 
+    /**
+     * Get the migration path.
+     *
+     * @return string
+     */
     protected function getMigrationPath()
     {
         return config('path.migrations');
@@ -195,14 +218,14 @@ abstract class AbstractCommand extends Brood
      */
     protected function verifyMigrationDirectory($path)
     {
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             throw new \InvalidArgumentException(sprintf(
                 'Migration directory "%s" does not exist',
                 $path
             ));
         }
 
-        if (!is_writable($path)) {
+        if (! is_writable($path)) {
             throw new \InvalidArgumentException(sprintf(
                 'Migration directory "%s" is not writable',
                 $path
@@ -210,9 +233,12 @@ abstract class AbstractCommand extends Brood
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function checkValidPhinxClassName($class_name)
     {
-        if (!Util::isValidPhinxClassName($class_name)) {
+        if (! Util::isValidPhinxClassName($class_name)) {
             throw new \InvalidArgumentException(sprintf(
                 'The migration class name "%s" is invalid. Please use CamelCase format.',
                 $class_name
@@ -220,9 +246,12 @@ abstract class AbstractCommand extends Brood
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function checkUniqueMigrationClassName($class_name, $path)
     {
-        if (!Util::isUniqueMigrationClassName($class_name, $path)) {
+        if (! Util::isUniqueMigrationClassName($class_name, $path)) {
             throw new \InvalidArgumentException(sprintf(
                 'The migration class name "%s" already exists',
                 $class_name

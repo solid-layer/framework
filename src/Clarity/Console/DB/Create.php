@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,13 +8,14 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\DB;
 
 use Phinx\Util\Util;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Create a db migration.
+ */
 class Create extends AbstractCommand
 {
     /**
@@ -75,10 +77,13 @@ class Create extends AbstractCommand
     public function arguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'What is the name of the migration?']
+            ['name', InputArgument::REQUIRED, 'What is the name of the migration?'],
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getMigrationTemplateFilename()
     {
         $file = url_trimmer(config()->path->storage.'/stubs/db/MigrationCreate.stub');
@@ -90,11 +95,17 @@ class Create extends AbstractCommand
         return $file;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function mapClassNameToFileName($class_name)
     {
         return Util::mapClassNameToFileName($class_name);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getMigrationBaseClassName($drop_namespace = fakse)
     {
         $class_name = \Clarity\Support\Phinx\Migration\AbstractMigration::class;

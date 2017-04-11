@@ -22,6 +22,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $request->getStatusCode());
 
         # reset
-        config($old);
+        config($old, false);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,27 +8,25 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Contracts\Providers;
 
 use Phalcon\Di\FactoryDefault;
 
 /**
- * A provider interface, dedicated for module insertion
+ * A provider interface, dedicated for module insertion.
  */
 interface ModuleInterface
 {
     /**
-     * Closure passed under the application module
+     * Closure passed under the application module.
      *
-     * @param  FactoryDefault $di
+     * @param  Di $di
      * @return void
      */
     public function module(FactoryDefault $di);
 
     /**
-     * Execute scripts after module run
+     * Execute scripts after module run.
      *
      * @return void
      */

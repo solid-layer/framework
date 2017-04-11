@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,20 +8,25 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Exception;
 use Clarity\Services\ServiceMagicMethods;
 use Clarity\Exceptions\ServiceAliasNotFoundException;
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * This is the abstract provider that could manage class extenders.
  */
-abstract class ServiceProvider
+abstract class ServiceProvider implements InjectionAwareInterface
 {
     use ServiceMagicMethods;
+
+    /**
+     * @var \Phalcon\DiInterface
+     */
+    protected $_di;
 
     /**
      * The provider's alias.
@@ -47,6 +53,22 @@ abstract class ServiceProvider
     protected $after_module = false;
 
     /**
+     * {@inheritdoc}
+     */
+    public function setDI(DiInterface $di)
+    {
+        $this->_di = $di;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDI()
+    {
+        return $this->_di;
+    }
+
+    /**
      * Get the provider if it is a shared or not.
      *
      * @return bool
@@ -57,7 +79,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * Get the service alias when accessing to di()->get(<alias>).
+     * Get the service alias when accessing to $this->getDI()->get(<alias>).
      *
      * @return string
      */
@@ -119,7 +141,7 @@ abstract class ServiceProvider
     abstract public function register();
 
     /**
-     * Register sub.
+     * Register a sub provider.
      *
      * @return
      */
@@ -127,7 +149,7 @@ abstract class ServiceProvider
     {
         $name = $this->getAlias().'.'.$sub_name;
 
-        di()->set($name, $callback, $shared);
+        $this->getDI()->set($name, $callback, $shared);
     }
 
     /**

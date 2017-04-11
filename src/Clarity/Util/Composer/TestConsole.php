@@ -2,14 +2,23 @@
 
 namespace Clarity\Util\Composer;
 
+/**
+ * {@inheritdoc}
+ */
 class TestConsole extends Console
 {
+    /**
+     * @var string
+     */
     protected $name = 'composer:test';
 
+    /**
+     * @var string
+     */
     protected $description = 'Testing';
 
     /**
-     * Add your code below.
+     * {@inheritdoc}
      */
     public function slash()
     {

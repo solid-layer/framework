@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Mvc\URL as BaseURL;
@@ -38,6 +37,10 @@ class URL extends ServiceProvider
      */
     public function register()
     {
-        return BaseURL::getInstance();
+        $instance = new BaseURL();
+        $instance->setDI($this->getDI());
+        $instance->setBaseUri($instance->getFullUrl().'/');
+
+        return $instance;
     }
 }

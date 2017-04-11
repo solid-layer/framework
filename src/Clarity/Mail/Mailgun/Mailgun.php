@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,27 +8,74 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Mail\Mailgun;
 
 use Mailgun\Mailgun as BaseMailgun;
 use Clarity\Contracts\Mail\MailInterface;
 
+/**
+ * Mailgun Adapter.
+ */
 class Mailgun implements MailInterface
 {
+    /**
+     * @var array
+     */
     private $files;
+
+    /**
+     * @var string
+     */
     private $encryption;
+
+    /**
+     * @var string
+     */
     private $host;
+
+    /**
+     * @var string
+     */
     private $username;
+
+    /**
+     * @var string
+     */
     private $password;
+
+    /**
+     * @var string
+     */
     private $from;
+
+    /**
+     * @var string
+     */
     private $to;
+
+    /**
+     * @var array|string
+     */
     private $bcc;
+
+    /**
+     * @var array|string
+     */
     private $cc;
+
+    /**
+     * @var string
+     */
     private $subject;
+
+    /**
+     * @var string
+     */
     private $html;
 
+    /**
+     * {@inheritdoc}
+     */
     public function attach($file)
     {
         $this->files[] = $file;
@@ -35,6 +83,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function encryption($encryption)
     {
         $this->encryption = $encryption;
@@ -42,6 +93,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function host($host)
     {
         $this->host = $host;
@@ -49,6 +103,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function port($port)
     {
         $this->port = $port;
@@ -56,6 +113,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function username($username)
     {
         $this->username = $username;
@@ -63,6 +123,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function password($password)
     {
         $this->password = $password;
@@ -70,6 +133,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function from($email)
     {
         $this->from = $email;
@@ -77,6 +143,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function to(array $emails)
     {
         $this->to = implode(', ', $emails);
@@ -84,6 +153,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function bcc(array $emails)
     {
         $this->bcc = $emails;
@@ -91,6 +163,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function cc(array $emails)
     {
         $this->cc = $emails;
@@ -98,6 +173,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function subject($subject)
     {
         $this->subject = $subject;
@@ -105,6 +183,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function body($body)
     {
         $this->html = $body;
@@ -112,6 +193,9 @@ class Mailgun implements MailInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function send()
     {
         $mailgun = new BaseMailgun($this->getSecretKey());
@@ -121,6 +205,11 @@ class Mailgun implements MailInterface
         );
     }
 
+    /**
+     * Get the data.
+     *
+     * @return array
+     */
     private function getData()
     {
         $ret = [
@@ -144,6 +233,11 @@ class Mailgun implements MailInterface
         return $ret;
     }
 
+    /**
+     * Get files.
+     *
+     * @return array
+     */
     private function getFiles()
     {
         $ret = [];
@@ -157,11 +251,21 @@ class Mailgun implements MailInterface
         return $ret;
     }
 
+    /**
+     * Get the secret-key from config.
+     *
+     * @return string
+     */
     private function getSecretKey()
     {
         return config()->services->mailgun->secret;
     }
 
+    /**
+     * Get the domain from config.
+     *
+     * @return string
+     */
     private function getDomain()
     {
         return config()->services->mailgun->domain;

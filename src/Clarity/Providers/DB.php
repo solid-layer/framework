@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,12 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Exception;
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 use Phalcon\Events\Manager as EventsManager;
+use Monolog\Handler\StreamHandler;
 
 /**
  * This provider handles the relational database adapters, that lives inside the
@@ -59,19 +58,6 @@ class DB extends ServiceProvider
     }
 
     /**
-     * Get the database adapters.
-     *
-     * @return mixed
-     */
-    public static function adapters()
-    {
-        return config()
-            ->database
-            ->adapters
-            ->toArray();
-    }
-
-    /**
      * Pull all configurations and return the database connection.
      *
      * @return mixed
@@ -87,9 +73,7 @@ class DB extends ServiceProvider
             return $this;
         }
 
-        $db = $this->connection($selected_adapter);
-
-        return $db;
+        return $this->connection($selected_adapter);
     }
 
     /**
@@ -97,10 +81,10 @@ class DB extends ServiceProvider
      */
     public function boot()
     {
-        if (! di()->has($this->alias)) {
+        if (! $this->getDI()->has($this->alias)) {
             $db = $this->getDefaultConnection();
 
-            di()->set($this->alias, function () use ($db) {
+            $this->getDI()->set($this->alias, function () use ($db) {
                 return $db;
             }, $this->shared);
         }
@@ -111,8 +95,24 @@ class DB extends ServiceProvider
      */
     public function register()
     {
-        # call default connection
-        $this->getDefaultConnection();
+        $adapters = $this->connections();
+
+        $activate_all = config('database.rdbms_activate_all', false);
+
+        if ($activate_all === false) {
+            $adapters = [];
+
+            $adapter = config()->app->db_adapter;
+            $adapters[$adapter] = $this->connection($adapter);
+        }
+
+        foreach ($adapters as $adapter => $options) {
+            $db = $this->connection($adapter);
+
+            $this->subRegister($adapter, function () use ($db) {
+                return $db;
+            }, $this->shared);
+        }
 
         return $this;
     }
@@ -129,7 +129,7 @@ class DB extends ServiceProvider
             return $this->getDefaultConnection();
         }
 
-        $adapters = static::adapters();
+        $adapters = $this->connections();
 
         $has_adapter = isset($adapters[$selected_adapter]);
 
@@ -137,20 +137,38 @@ class DB extends ServiceProvider
         # exists, we should throw an exception error
         if (! $has_adapter) {
             throw new Exception(
-                'Database adapter '.$selected_adapter.
-                ' not found'
+                'Database adapter '.$selected_adapter.' not found'
             );
         }
 
-        $options = $adapters[$selected_adapter];
-        $class = $options['class'];
-        unset($options['class']);
+        $adapter = $adapters[$selected_adapter];
 
-        $instance = new $class($options);
+        if (isset($adapter['active']) && $adapter['active'] === false) {
+            return false;
+        }
+
+        $class = $adapter['class'];
+
+        unset($adapter['class']);
+
+        $instance = new $class($adapter);
 
         $instance->setEventsManager($this->getEventLogger());
 
         return $instance;
+    }
+
+    /**
+     * Get the database adapters/connections.
+     *
+     * @return array
+     */
+    public function connections()
+    {
+        return config()
+            ->database
+            ->adapters
+            ->toArray();
     }
 
     /**
@@ -163,7 +181,6 @@ class DB extends ServiceProvider
         $event_manager = new EventsManager;
 
         $event_manager->attach($this->alias, function ($event, $conn) {
-
             if ($event->getType() == 'beforeQuery') {
                 $logging_name = 'db';
 
