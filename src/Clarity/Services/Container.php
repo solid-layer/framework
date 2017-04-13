@@ -27,7 +27,7 @@ class Container implements InjectionAwareInterface
     /**
      * @var array
      */
-    private $providers;
+    private $providers = [];
 
     /**
      * {@inheritdoc}
