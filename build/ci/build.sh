@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # clone slayer
-composer create-project phalconslayer/slayer:${SLAYER_VERSION} ~/${SLAYER_FOLDER}
+composer create-project phalconslayer/slayer:dev-${TRAVIS_BRANCH} ~/${SLAYER_FOLDER}
 
 cd ~/${SLAYER_FOLDER}
 
@@ -19,7 +19,7 @@ cat .env
 
 
 # require framework based on version
-composer require phalconslayer/framework:${FRAMEWORK_VERSION}
+# composer require phalconslayer/framework:${FRAMEWORK_VERSION}
 composer require techpivot/phalcon-ci-installer:~1.0
 
 
