@@ -81,9 +81,9 @@ class Kernel
      */
     public function modules()
     {
-        config(['modules' => di('module')->all()]);
+        config(['modules' => $this->di->get('module')->all()]);
 
-        di('application')->registerModules(config()->modules->toArray());
+        $this->di->get('application')->registerModules(config()->modules->toArray());
 
         return $this;
     }
@@ -93,7 +93,7 @@ class Kernel
      */
     public function render()
     {
-        echo di('application')->handle()->getContent();
+        echo $this->di->get('application')->handle()->getContent();
     }
 
     /**
@@ -104,9 +104,9 @@ class Kernel
      */
     public function run($module_name)
     {
-        di('application')->setDefaultModule($module_name);
+        $this->di->get('application')->setDefaultModule($module_name);
 
-        di($module_name)->afterModuleRun();
+        $this->di->get($module_name)->afterModuleRun();
 
         $this->loadServices($after_module = true);
 
