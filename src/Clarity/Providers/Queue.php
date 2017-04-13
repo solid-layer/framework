@@ -29,7 +29,7 @@ class Queue extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $shared = false;
+    protected $shared = true;
 
     /**
      * {@inheritdoc}

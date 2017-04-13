@@ -25,7 +25,7 @@ class Mongo extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $shared = false;
+    protected $shared = true;
 
     /**
      * {@inheridoc}.

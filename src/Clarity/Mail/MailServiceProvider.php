@@ -33,20 +33,22 @@ class MailServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $adapter = config()->app->mail_adapter;
+        $selected_adapter = config()->app->mail_adapter;
 
-        $settings = config()->mail->{$adapter};
+        $adapter = config()->mail->{$selected_adapter};
 
-        if (! $settings) {
+        if (! $adapter) {
             throw new Exception('Adapter not found.');
         }
 
-        $settings = $settings->toArray();
+        if (! $adapter['active']) {
+            return $this;
+        }
 
-        $class = $settings['class'];
+        $adapter = $adapter->toArray();
 
-        unset($settings['class']);
+        $class = $adapter['class'];
 
-        return new Mail(new $class, $settings);
+        return new Mail(new $class, $adapter['options']);
     }
 }
