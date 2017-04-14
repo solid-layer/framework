@@ -2,7 +2,7 @@
 
 namespace {namespace};
 
-class {controllerName}Controller extends Controller
+class {controllerName} extends Controller
 {
 {controllerFunctions}
 }
