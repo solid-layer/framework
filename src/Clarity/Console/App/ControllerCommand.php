@@ -87,10 +87,10 @@ class ControllerCommand extends Brood
 
         return sprintf(
             $ret,
-            di()->get('dispatcher')->getControllerSuffix(),
             studly_case(
                 str_slug($this->input->getArgument('name'), '_')
-            )
+            ),
+            di()->get('dispatcher')->getControllerSuffix()
         );
     }
 

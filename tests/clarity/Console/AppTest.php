@@ -82,11 +82,13 @@ class AppTest extends \PHPUnit_Framework_TestCase
             'php brood app:controller test test_module',
         ]);
 
-        $has_file = file_exists($file = config()->path->app.'TestModule/Controllers/TestController.php');
+        $controller_name = 'Test'.di()->get('dispatcher')->getControllerSuffix();
+
+        $has_file = file_exists($file = config()->path->app.'TestModule/Controllers/'.$controller_name.'.php');
         $this->assertTrue($has_file, 'check if ['.$file.'] were generated');
 
         $file_contents = file_get_contents($file);
         $this->assertContains('namespace App\\TestModule\\Controllers;', $file_contents);
-        $this->assertContains('class TestController extends Controller', $file_contents);
+        $this->assertContains('class '.$controller_name.' extends Controller', $file_contents);
     }
 }
