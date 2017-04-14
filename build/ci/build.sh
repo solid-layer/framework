@@ -19,7 +19,7 @@ cat .env
 
 
 # require framework based on version
-composer require phalconslayer/framework:${FRAMEWORK_VERSION}
+composer require phalconslayer/framework:dev-${TRAVIS_BRANCH}
 composer require techpivot/phalcon-ci-installer:~1.0
 
 
