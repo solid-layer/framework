@@ -27,7 +27,7 @@
         "composer/composer": "^1.0",
         "fzaninotto/faker": "~1.4",
         "guzzlehttp/guzzle": "6.1.*",
-        "illuminate/support": "^5.5",
+        "illuminate/support": "5.4.*",
         "jenssegers/blade": "^1.0",
         "paragonie/random_compat": "1.1.*",
         "league/flysystem": "^1.0",
