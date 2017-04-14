@@ -79,14 +79,15 @@ class ControllerCommand extends Brood
      */
     protected function getControllerName($is_path = true)
     {
-        $ret = '%s';
+        $ret = '%s%s';
 
         if ($is_path) {
-            $ret = 'Controllers/%sController.php';
+            $ret = 'Controllers/%s%s.php';
         }
 
         return sprintf(
             $ret,
+            di()->get('dispatcher')->getControllerSuffix(),
             studly_case(
                 str_slug($this->input->getArgument('name'), '_')
             )
@@ -166,6 +167,7 @@ class ControllerCommand extends Brood
         $this->info('Crafting Controller...');
 
         $controller = $this->getControllerName();
+
         # check controller file if exists, throw error if exists
         if ($app_filesystem->has($module.'/'.$controller)) {
             $this->error(
