@@ -125,15 +125,17 @@ class Lang
     {
         $attribute = $this->getAttribute($path);
 
-        if (! $this->hasFile($attribute[ 'file' ])) {
+        $file = $attribute['file'];
+
+        if (! $this->hasFile($file)) {
             throw new FileNotFoundException("File {$file} not found!");
         }
 
         # get all the arrays with messages
-        $templates = $this->getDottedFile($attribute[ 'file' ]);
+        $templates = $this->getDottedFile($file);
 
         # get the file name
-        $file_name = $attribute[ 'exploded' ][ 0 ];
+        $file_name = $attribute['exploded'][0];
 
         # get the recursive search of key
         $recursive = substr($path, strlen($file_name) + 1);
@@ -144,6 +146,7 @@ class Lang
         if (count($params)) {
             foreach ($params as $key => $val) {
                 $content = str_replace('{'.$key.'}', $val, $content);
+                $content = str_replace(':'.$key, $val, $content);
             }
         }
 
