@@ -43,7 +43,8 @@
         "tijsverkoyen/css-to-inline-styles": "^1.5",
         "vlucas/phpdotenv": "^2.0",
         "psy/psysh": "0.7.*",
-        "php-http/guzzle6-adapter": "1.1.*"
+        "php-http/guzzle6-adapter": "1.1.*",
+        "respect/validation": "^1.1"
     },
     "replace": {
         "clarity/console": "self.version",
