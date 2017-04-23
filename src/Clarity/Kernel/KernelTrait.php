@@ -112,7 +112,7 @@ trait KernelTrait
             $instance = new $service;
             $instance->setDI($this->di);
 
-            if ($instance->getAfterModule() === $after_module) {
+            if ($instance->isAfterModule() === $after_module) {
                 $container->addServiceProvider($instance);
             }
         }
