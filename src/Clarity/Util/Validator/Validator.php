@@ -105,7 +105,13 @@ class Validator
      */
     protected function messages()
     {
-        return [];
+        $messages = [];
+
+        foreach ($this->records as $field => $val) {
+            $messages[$field] = null;
+        }
+
+        return array_merge(array_merge($messages, $this->messages));
     }
 
     /**
@@ -121,13 +127,8 @@ class Validator
         try {
             $this->validator->assert($this->records);
         } catch (NestedValidationException $e) {
-            $messages = [];
 
-            foreach ($this->records as $field => $val) {
-                $messages[$field] = null;
-            }
-
-            $errors = $e->findMessages(array_merge($messages, $this->messages()));
+            $errors = $e->findMessages($this->messages());
 
             foreach ($errors as $field => $msg) {
                 if ($msg !== '') {
