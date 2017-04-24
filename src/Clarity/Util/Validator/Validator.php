@@ -139,4 +139,16 @@ class Validator
 
         return $ret;
     }
+
+    /**
+     * Call static.
+     *
+     * @param string $method
+     * @param array $args
+     * @return mixed
+     */
+    public static function __callStatic($method, $args)
+    {
+        return ResVal\Validator::__callStatic($method, $args);
+    }
 }
