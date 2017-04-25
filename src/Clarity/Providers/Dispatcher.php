@@ -10,9 +10,9 @@
 
 namespace Clarity\Providers;
 
-use Phalcon\Events\Manager as PhalconEventsManager;
-use Phalcon\Mvc\Dispatcher as PhalconMvcDispatcher;
 use Clarity\Exceptions\ControllerNotFoundException;
+use Clarity\Support\Phalcon\Events\Manager as PhalconEventsManager;
+use Clarity\Support\Phalcon\Mvc\Dispatcher as PhalconMvcDispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
 /**
