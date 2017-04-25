@@ -21,7 +21,7 @@ class Console extends ServiceProvider
     /**
      * The current system version.
      */
-    const VERSION = 'v1.4.8';
+    const VERSION = 'v1.4.x';
 
     /**
      * The console description which holds the copywright.
