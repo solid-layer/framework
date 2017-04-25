@@ -13,13 +13,12 @@ namespace Clarity\Mail\SwiftMailer;
 use Swift_Mailer;
 use Swift_Message;
 use Swift_Attachment;
-use Swift_SmtpTransport;
 use Clarity\Contracts\Mail\MailInterface;
 
 /**
  * A swift mailer adapter.
  */
-class SwiftMailer implements MailInterface
+abstract class Swift implements MailInterface
 {
     /**
      * @var mixed|\Swift_Message
@@ -27,7 +26,7 @@ class SwiftMailer implements MailInterface
     private $message;
 
     /**
-     * @var mixed|\Swift_SmtpTransport
+     * @var \Swift_Transport
      */
     private $transport;
 
@@ -37,8 +36,15 @@ class SwiftMailer implements MailInterface
     public function __construct()
     {
         $this->message = Swift_Message::newInstance();
-        $this->transport = Swift_SmtpTransport::newInstance();
+        $this->transport = $this->getTransport();
     }
+
+    /**
+     * The transport to use.
+     *
+     * @return \Swift_Transport
+     */
+    abstract protected function getTransport();
 
     /**
      * {@inheritdoc}

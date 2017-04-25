@@ -10,6 +10,7 @@
 
 namespace Clarity\Mail\Mailgun;
 
+use BadMethodCallException;
 use Mailgun\Mailgun as BaseMailgun;
 use Clarity\Contracts\Mail\MailInterface;
 
@@ -256,9 +257,13 @@ class Mailgun implements MailInterface
      *
      * @return string
      */
-    private function getSecretKey()
+    protected function getSecretKey()
     {
-        return config()->services->mailgun->secret;
+        if (function_exists('config')) {
+            return config('services.mailgun.secret');
+        }
+
+        throw new BadMethodCallException('Helper [config] not found, override getSecretKey() inside Mailgun.');
     }
 
     /**
@@ -266,8 +271,12 @@ class Mailgun implements MailInterface
      *
      * @return string
      */
-    private function getDomain()
+    protected function getDomain()
     {
-        return config()->services->mailgun->domain;
+        if (function_exists('config')) {
+            return config('services.mailgun.domain');
+        }
+
+        throw new BadMethodCallException('Helper [config] not found, override getDomain() inside Mailgun.');
     }
 }

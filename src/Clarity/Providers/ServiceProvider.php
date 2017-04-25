@@ -99,7 +99,7 @@ abstract class ServiceProvider implements InjectionAwareInterface
      *
      * @return bool
      */
-    public function getAfterModule()
+    public function isAfterModule()
     {
         return $this->after_module;
     }
