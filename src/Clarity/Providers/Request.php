@@ -20,18 +20,8 @@ class Request extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'request';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseRequest;
+        $this->app->instance('request', new BaseRequest, $singleton = true);
     }
 }

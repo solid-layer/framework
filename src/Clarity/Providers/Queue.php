@@ -22,35 +22,23 @@ use Clarity\Support\Queue\Queue as BaseQueue;
 class Queue extends ServiceProvider
 {
     /**
-     * {@inheridoc}.
-     */
-    protected $alias = 'queue';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
      * {@inheritdoc}
      */
     public function register()
     {
-        $adapter = config()->queue->{$this->getSelectedAdapter()}->toArray();
+        $this->app->singleton('queue.selected_adapter', function () {
+            $selected_adapter = config()->app->queue_adapter;
 
-        $class = $adapter['class'];
-        $config = $adapter['config'];
+            return config()->queue->{$selected_adapter};
+        });
 
-        return new BaseQueue(new $class($config));
-    }
+        $this->app->singleton('queue', function ($app) {
+            $adapter = $app->make('queue.selected_adapter');
 
-    /**
-     * Get the selected queuing adapter.
-     *
-     * @return string
-     */
-    protected function getSelectedAdapter()
-    {
-        return config()->app->queue_adapter;
+            $class = $adapter->class;
+            $config = $adapter->config->toArray();
+
+            return new BaseQueue(new $class($config));
+        });
     }
 }

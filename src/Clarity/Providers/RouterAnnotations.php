@@ -21,21 +21,8 @@ class RouterAnnotations extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'router_annotations';
-
-    /**
-     * {@inheridoc}.
-     */
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseRouter;
+        $this->app->instance('router_annotations', new BaseRouter, $singleton = true);
     }
 }

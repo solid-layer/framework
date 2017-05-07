@@ -22,42 +22,23 @@ class Flysystem extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'flysystem';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $manager = $this->manager();
+        $this->app->singleton('flysystem_manager', function () {
+            $flies = [];
 
-        $this->getDI()->set('flysystem_manager', function () use ($manager) {
-            return $manager;
-        }, true);
+            foreach (config('flysystem') as $prefix => $fly) {
+                $instance = new $fly['class']($fly['config']->toArray());
 
-        return $manager->getFilesystem(config()->app->flysystem);
-    }
+                $flies[$prefix] = new Filesystem($instance->getAdapter());
+            }
 
-    /**
-     * This manages all the available file system adapters.
-     *
-     * @return \League\Flysystem\MountManager
-     */
-    protected function manager()
-    {
-        $flies = [];
+            return new MountManager($flies);
+        });
 
-        foreach (config()->flysystem as $prefix => $fly) {
-            $instance = new $fly['class']($fly['config']->toArray());
-
-            $flies[$prefix] = new Filesystem($instance->getAdapter());
-        }
-
-        return new MountManager($flies);
+        $this->app->singleton('flysystem', function ($app) {
+            return $app->make('flysystem_manager')
+                ->getFilesystem(config('app.flysystem'));
+        });
     }
 }

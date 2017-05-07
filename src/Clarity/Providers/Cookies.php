@@ -20,18 +20,8 @@ class Cookies extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'cookies';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseCookies;
+        $this->app->instance('cookies', new BaseCookies, $singleton = true);
     }
 }

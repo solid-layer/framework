@@ -21,20 +21,12 @@ class BehatMink extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'behat_mink';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $adapters = config()->test_suite->behat->adapters->toArray();
+        $this->app->singleton('behat_mink', function () {
+            $adapters = config()->test_suite->behat->adapters->toArray();
 
-        return new Mink($adapters);
+            return new Mink($adapters);
+        });
     }
 }

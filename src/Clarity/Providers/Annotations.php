@@ -20,18 +20,8 @@ class Annotations extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'annotations';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new Memory;
+        $this->app->instance('annotations', new Memory, $singleton = true);
     }
 }

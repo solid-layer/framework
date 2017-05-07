@@ -20,18 +20,8 @@ class TransactionManager extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'transactionManager';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new Manager;
+        $this->app->instance('transactionManager', new Manager, $singleton = true);
     }
 }

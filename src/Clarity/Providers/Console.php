@@ -31,21 +31,18 @@ class Console extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'console';
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $app = new ConsoleApplication(self::DESCRIPTION, self::VERSION);
+        $this->app->bind('console', function () {
+            $app = new ConsoleApplication(static::DESCRIPTION, static::VERSION);
 
-        if (is_cli()) {
-            foreach (config()->consoles as $console) {
-                $app->add(new $console);
+            if (is_cli()) {
+                foreach (config()->consoles as $console) {
+                    $app->add(new $console);
+                }
             }
-        }
 
-        return $app;
+            return $app;
+        });
     }
 }

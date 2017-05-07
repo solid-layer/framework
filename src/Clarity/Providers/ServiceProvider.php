@@ -24,6 +24,11 @@ abstract class ServiceProvider implements InjectionAwareInterface
     use ServiceMagicMethods;
 
     /**
+     * @var \Clarity\Services\Mapper
+     */
+    protected $app;
+
+    /**
      * @var \Phalcon\DiInterface
      */
     protected $_di;
@@ -57,6 +62,9 @@ abstract class ServiceProvider implements InjectionAwareInterface
      */
     public function setDI(DiInterface $di)
     {
+        $this->app = new \Clarity\Services\Mapper;
+        $this->app->setDI($di);
+
         $this->_di = $di;
     }
 

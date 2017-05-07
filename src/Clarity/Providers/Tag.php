@@ -20,18 +20,8 @@ class Tag extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'tag';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseTag;
+        $this->app->instance('tag', new BaseTag, $singleton = true);
     }
 }

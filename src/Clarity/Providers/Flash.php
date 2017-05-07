@@ -34,31 +34,11 @@ class Flash extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'flash';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
-    public function boot()
-    {
-        return $this;
-    }
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $elements = $this->elements;
-
         # this will be as $this->getDI()->get('flash.direct');
-        $this->subRegister('direct', function () use ($elements) {
-            $flash = new PhalconFlashDirect($elements);
+        $this->app->singleton('flash.direct', function () {
+            $flash = new PhalconFlashDirect($this->elements);
 
             # setAutoescape is only available for >= 2.1.x Phalcon Version
             if (method_exists($flash, 'setAutoescape')) {
@@ -66,11 +46,11 @@ class Flash extends ServiceProvider
             }
 
             return $flash;
-        }, true);
+        });
 
         # this will be as $this->getDI()->get('flash.session');
-        $this->subRegister('session', function () use ($elements) {
-            $flash = new PhalconFlashSession($elements);
+        $this->app->singleton('flash.session', function () {
+            $flash = new PhalconFlashSession($this->elements);
 
             # setAutoescape is only available for >= 2.1.x Phalcon Version
             if (method_exists($flash, 'setAutoescape')) {
@@ -78,10 +58,9 @@ class Flash extends ServiceProvider
             }
 
             return $flash;
-        }, true);
+        });
 
-        # this will be as $this->getDI()->get('flash');
-        return $this;
+        $this->app->instance('flash', $this, $singleton = true);
     }
 
     /**
@@ -91,7 +70,7 @@ class Flash extends ServiceProvider
      */
     public function direct()
     {
-        return $this->getDI()->get('flash.direct');
+        return $this->app->make('flash.direct');
     }
 
     /**
@@ -101,6 +80,6 @@ class Flash extends ServiceProvider
      */
     public function session()
     {
-        return $this->getDI()->get('flash.session');
+        return $this->app->make('flash.session');
     }
 }

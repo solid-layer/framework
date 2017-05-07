@@ -21,25 +21,17 @@ class Router extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'router';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $router = new BaseRouter(false);
+        $this->app->singleton('router', function () {
+            $router = new BaseRouter(false);
 
-        $router->removeExtraSlashes(true);
+            $router->removeExtraSlashes(true);
 
-        // $router->setUriSource(BaseRouter::URI_SOURCE_GET_URL); // default
-        $router->setUriSource(BaseRouter::URI_SOURCE_SERVER_REQUEST_URI);
+            // $router->setUriSource(BaseRouter::URI_SOURCE_GET_URL); // default
+            $router->setUriSource(BaseRouter::URI_SOURCE_SERVER_REQUEST_URI);
 
-        return $router;
+            return $router;
+        });
     }
 }

@@ -18,19 +18,9 @@ class Module extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'module';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return $this;
+        $this->app->instance('module', $this, $singleton = true);
     }
 
     /**

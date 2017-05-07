@@ -20,16 +20,6 @@ class URL extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'url';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     protected $after_module = true;
 
     /**
@@ -37,10 +27,12 @@ class URL extends ServiceProvider
      */
     public function register()
     {
-        $instance = new BaseURL();
-        $instance->setDI($this->getDI());
-        $instance->setBaseUri($instance->getFullUrl().'/');
+        $this->app->singleton('url', function () {
+            $instance = new BaseURL();
+            $instance->setDI($this->getDI());
+            $instance->setBaseUri($instance->getFullUrl().'/');
 
-        return $instance;
+            return $instance;
+        });
     }
 }

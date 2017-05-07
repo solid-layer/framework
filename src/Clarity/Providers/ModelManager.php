@@ -20,18 +20,8 @@ class ModelManager extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'modelsManager';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new Manager;
+        $this->app->instance('modelsManager', new Manager, $singleton = true);
     }
 }

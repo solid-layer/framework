@@ -21,18 +21,12 @@ class CollectionManager extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'collectionManager';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseCollectionManager;
+        $this->app->instance(
+            'collectionManager',
+            new BaseCollectionManager,
+            $singleton = true
+        );
     }
 }
