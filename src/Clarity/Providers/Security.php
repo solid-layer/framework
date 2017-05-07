@@ -20,18 +20,8 @@ class Security extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'security';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseSecurity;
+        $this->app->instance('security', new BaseSecurity, $singleton = true);
     }
 }

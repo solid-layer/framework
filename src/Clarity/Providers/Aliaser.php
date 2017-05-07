@@ -18,38 +18,14 @@ class Aliaser extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'aliaser';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        foreach (config()->app->aliases as $alias => $class) {
-            if (! class_exists($alias)) {
-                $this->append($alias, $class);
+        $this->app->singleton('aliaser', function () {
+            foreach (config('app.aliases') as $alias => $class) {
+                if (! class_exists($alias)) {
+                    class_alias($class, $alias);
+                }
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Attach the alias and the full class.
-     *
-     * @param  string $alias
-     * @param  string $class
-     * @return mixed
-     */
-    public function append($alias, $class)
-    {
-        class_alias($class, $alias);
-
-        return $this;
+        });
     }
 }

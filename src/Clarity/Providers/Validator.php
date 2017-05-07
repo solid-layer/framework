@@ -20,18 +20,8 @@ class Validator extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'validator';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new Util\Validator\Validator;
+        $this->app->instance('validator', new Util\Validator\Validator, $singleton = true);
     }
 }

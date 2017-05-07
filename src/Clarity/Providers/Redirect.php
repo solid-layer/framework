@@ -20,18 +20,8 @@ class Redirect extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'redirect';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseRedirect;
+        $this->app->instance('redirect', new BaseRedirect, $singleton = true);
     }
 }

@@ -24,18 +24,8 @@ class ModelMetadata extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'modelsMetadata';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new Memory;
+        $this->app->instance('modelsMetadata', new Memory, $singleton = true);
     }
 }

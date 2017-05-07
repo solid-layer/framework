@@ -34,19 +34,21 @@ class Crypt extends ServiceProvider
      */
     public function register()
     {
-        $crypt = new BaseCrypt();
+        $this->app->singleton('crypt', function () {
+            $crypt = new BaseCrypt();
 
-        if (Str::startsWith($key = config('app.encryption.key'), 'base64:')) {
-            $key = base64_decode(substr($key, 7));
-        }
+            if (Str::startsWith($key = config('app.encryption.key'), 'base64:')) {
+                $key = base64_decode(substr($key, 7));
+            }
 
-        $crypt->setKey($key);
-        $crypt->setCipher(config('app.encryption.cipher'));
+            $crypt->setKey($key);
+            $crypt->setCipher(config('app.encryption.cipher'));
 
-        if ((int) Version::getId() <= 2001341) {
-            $crypt->setMode(config('app.encryption.mode'));
-        }
+            if ((int) Version::getId() <= 2001341) {
+                $crypt->setMode(config('app.encryption.mode'));
+            }
 
-        return $crypt;
+            return $crypt;
+        });
     }
 }

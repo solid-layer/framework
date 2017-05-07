@@ -22,33 +22,25 @@ class Log extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'log';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $logger = new Logger('slayer');
+        $this->app->singleton('log', function () {
+            $logger = new Logger('slayer');
 
-        $logger_name = 'slayer';
+            $logger_name = 'slayer';
 
-        if ($ext = logging_extension()) {
-            $logger_name .= '-'.$ext;
-        }
+            if ($ext = logging_extension()) {
+                $logger_name .= '-'.$ext;
+            }
 
-        $logger->pushHandler(
-            new StreamHandler(
-                storage_path('logs').'/'.$logger_name.'.log',
-                Logger::DEBUG
-            )
-        );
+            $logger->pushHandler(
+                new StreamHandler(
+                    storage_path('logs').'/'.$logger_name.'.log',
+                    Logger::DEBUG
+                )
+            );
 
-        return $logger;
+            return $logger;
+        });
     }
 }

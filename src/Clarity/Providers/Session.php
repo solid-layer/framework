@@ -19,41 +19,29 @@ class Session extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'session';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * Get the selected session adapter.
-     *
-     * @return string
-     */
-    protected function getSelectedAdapter()
-    {
-        return config()->app->session_adapter;
-    }
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $adapter = config()->session->{$this->getSelectedAdapter()}->toArray();
+        $this->app->singleton('session.selected_adapter', function () {
+            $selected_adapter = config()->app->session_adapter;
 
-        $options = [];
-        $class = $adapter['class'];
+            return config()->session->{$selected_adapter};
+        });
 
-        if (isset($adapter['options'])) {
-            $options = $adapter['options'];
-        }
+        $this->app->singleton('session', function ($app) {
+            $adapter = $app->make('session.selected_adapter')->toArray();
 
-        $session = new $class($options);
-        $session->setName(config()->app->session);
-        $session->start();
+            $options = [];
+            $class = $adapter['class'];
 
-        return $session;
+            if (isset($adapter['options'])) {
+                $options = $adapter['options'];
+            }
+
+            $session = new $class($options);
+            $session->setName(config()->app->session);
+            $session->start();
+
+            return $session;
+        });
     }
 }

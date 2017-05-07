@@ -22,22 +22,14 @@ class Application extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'application';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $instance = new BaseApplication($this->getDI());
+        $this->app->singleton('application', function () {
+            $instance = new BaseApplication($this->getDI());
 
-        Facade::setFacadeApplication($instance);
+            Facade::setFacadeApplication($instance);
 
-        return $instance;
+            return $instance;
+        });
     }
 }

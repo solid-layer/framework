@@ -20,18 +20,8 @@ class Auth extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'auth';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseAuth;
+        $this->app->instance('auth', new BaseAuth, $singleton = true);
     }
 }
