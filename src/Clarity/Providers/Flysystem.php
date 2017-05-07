@@ -37,7 +37,7 @@ class Flysystem extends ServiceProvider
         });
 
         $this->app->singleton('flysystem', function ($app) {
-            $app->make('flysystem_manager')
+            return $app->make('flysystem_manager')
                 ->getFilesystem(config('app.flysystem'));
         });
     }
