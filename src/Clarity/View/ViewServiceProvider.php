@@ -23,35 +23,25 @@ use Clarity\Providers\ServiceProvider;
 class ViewServiceProvider extends ServiceProvider
 {
     /**
-     * @var string
-     */
-    protected $alias = 'view';
-
-    /**
-     * @var bool
-     */
-    protected $shared = true;
-
-    /**
      * {@inheritdoc}
      */
     public function boot()
     {
-        $event_manager = di()->get('eventsManager');
+        $this->app->singleton('view.event_manager', function ($app) {
+            $event_manager = $app->make('eventsManager');
 
-        $event_manager->attach('view:afterRender',
-            function (
-                Event $event,
-                View $dispatcher,
-                $exception
-            ) {
-                $dispatcher->getDI()->get('flash')->session()->clear();
-            }
-        );
+            $event_manager->attach('view:afterRender',
+                function (
+                    Event $event,
+                    View $dispatcher,
+                    $exception
+                ) {
+                    $dispatcher->getDI()->get('flash')->session()->clear();
+                }
+            );
 
-        di()->get('view')->setEventsManager($event_manager);
-
-        return $this;
+            $app->make('view')->setEventsManager($event_manager);
+        });
     }
 
     /**
@@ -59,16 +49,18 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $view = new View;
+        $this->app->singleton('view', function () {
+            $view = new View;
 
-        $view->setViewsDir(config()->path->views);
+            $view->setViewsDir(config()->path->views);
 
-        $view->registerEngines([
-            '.phtml'     => Php::class,
-            '.volt'      => VoltAdapter::class,
-            '.blade.php' => BladeAdapter::class,
-        ]);
+            $view->registerEngines([
+                '.phtml'     => Php::class,
+                '.volt'      => VoltAdapter::class,
+                '.blade.php' => BladeAdapter::class,
+            ]);
 
-        return $view;
+            return $view;
+        });
     }
 }

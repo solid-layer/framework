@@ -19,36 +19,30 @@ use Clarity\Providers\ServiceProvider;
 class MailServiceProvider extends ServiceProvider
 {
     /**
-     * @var string
-     */
-    protected $alias = 'mail';
-
-    /**
-     * @var bool
-     */
-    protected $shared = false;
-
-    /**
      * {@inheritdoc}
      */
     public function register()
     {
-        $selected_adapter = config()->app->mail_adapter;
+        $this->app->singleton('mail.selected_adapter', function () {
+            $selected_adapter = config()->app->mail_adapter;
 
-        $adapter = config()->mail->{$selected_adapter};
+            return config()->mail->{$selected_adapter};
+        });
 
-        if (! $adapter) {
-            throw new Exception('Adapter not found.');
-        }
+        $this->app->singleton('mail', function ($app) {
+            $adapter = $app->make('mail.selected_adapter')->toArray();
 
-        if (! $adapter['active']) {
-            return $this;
-        }
+            if (! $adapter) {
+                throw new Exception('Adapter not found.');
+            }
 
-        $adapter = $adapter->toArray();
+            if (! $adapter['active']) {
+                return $this;
+            }
 
-        $class = $adapter['class'];
+            $class = $adapter['class'];
 
-        return new Mail(new $class, $adapter['options']);
+            return new Mail(new $class, $adapter['options']);
+        });
     }
 }
