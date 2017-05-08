@@ -21,7 +21,7 @@ use Clarity\Support\Queue\Queue as BaseQueue;
  */
 class Queue extends ServiceProvider
 {
-    protected $deffer = true;
+    protected $defer = true;
 
     public function provides()
     {

@@ -19,7 +19,7 @@ use Monolog\Handler\StreamHandler;
  */
 class Log extends ServiceProvider
 {
-    protected $deffer = true;
+    protected $defer = true;
 
     public function provides()
     {

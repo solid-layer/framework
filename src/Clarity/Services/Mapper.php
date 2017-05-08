@@ -24,7 +24,7 @@ trait Mapper
     /**
      * @var array
      */
-    private $deffered = [];
+    private $deferred = [];
 
     /**
      * Get all bindings.
@@ -37,13 +37,13 @@ trait Mapper
     }
 
     /**
-     * Get all deffered bindings.
+     * Get all deferred bindings.
      * 
      * @return array
      */
-    public function getDefferedBindings()
+    public function getDeferredBindings()
     {
-        return $this->deffered;
+        return $this->deferred;
     }
 
     /**
@@ -53,8 +53,8 @@ trait Mapper
      */
     protected function getBindingPropertyToUse()
     {
-        if ($this->isDeffered()) {
-            return 'deffered';
+        if ($this->isDeferred()) {
+            return 'deferred';
         }
 
         return 'bindings';
@@ -134,12 +134,12 @@ trait Mapper
      */
     public static function resolveBinding($di, $alias)
     {
-        if (! $di->has('deffered.providers')) {
-            throw new RuntimeException('Service [deffered.providers] not found.');
+        if (! $di->has('deferred.providers')) {
+            throw new RuntimeException('Service [deferred.providers] not found.');
         }
 
-        # get all deffered providers
-        $providers = $di->get('deffered.providers');
+        # get all deferred providers
+        $providers = $di->get('deferred.providers');
 
         # get the first alias that provides
         # so we could pre-load other keys

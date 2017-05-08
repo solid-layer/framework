@@ -21,7 +21,7 @@ class MailServiceProvider extends ServiceProvider
     /**
      * @var bool
      */
-    protected $deffer = true;
+    protected $defer = true;
 
     /**
      * {@inheritdoc}

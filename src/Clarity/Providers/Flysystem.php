@@ -19,7 +19,7 @@ use League\Flysystem\MountManager;
  */
 class Flysystem extends ServiceProvider
 {
-    protected $deffer = true;
+    protected $defer = true;
 
     public function provides()
     {

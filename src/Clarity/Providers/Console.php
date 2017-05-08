@@ -18,7 +18,7 @@ use Symfony\Component\Console\Application as ConsoleApplication;
  */
 class Console extends ServiceProvider
 {
-    protected $deffer = false;
+    protected $defer = false;
 
     /**
      * The current system version.

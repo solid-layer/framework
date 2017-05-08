@@ -88,22 +88,22 @@ class Container implements InjectionAwareInterface
     }
 
     /**
-     * Register deffered bindings.
+     * Register deferred bindings.
      * 
      * @param  array $bindings
      * @return void
      */
-    public function registerDefferedBindings($bindings = [])
+    public function registerDeferredBindings($bindings = [])
     {
         $providers = [];
 
-        if ($this->_di->has('deffered.providers')) {
-            $providers = $this->_di->get('deffered.providers');
+        if ($this->_di->has('deferred.providers')) {
+            $providers = $this->_di->get('deferred.providers');
         }
 
         $providers = array_merge($providers, $bindings);
 
-        $this->_di->set('deffered.providers', function () use ($providers) {
+        $this->_di->set('deferred.providers', function () use ($providers) {
             return $providers;
         }, $singleton = true);
     }
@@ -140,10 +140,10 @@ class Container implements InjectionAwareInterface
                 $provider->getNormalBindings()
             );
 
-            # register deffered bindings
-            if ($provider->isDeffered()) {
-                $this->registerDefferedBindings(
-                    $provider->getDefferedBindings()
+            # register deferred bindings
+            if ($provider->isDeferred()) {
+                $this->registerDeferredBindings(
+                    $provider->getDeferredBindings()
                 );
             }
         }

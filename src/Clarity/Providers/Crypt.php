@@ -19,7 +19,7 @@ use Clarity\Support\Phalcon\Crypt as BaseCrypt;
  */
 class Crypt extends ServiceProvider
 {
-    protected $deffer = true;
+    protected $defer = true;
 
     public function provides()
     {

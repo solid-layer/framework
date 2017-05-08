@@ -17,7 +17,7 @@ use Phalcon\Http\Response\Cookies as BaseCookies;
  */
 class Cookies extends ServiceProvider
 {
-    protected $deffer = true;
+    protected $defer = true;
 
     public function provides()
     {

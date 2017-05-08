@@ -17,7 +17,7 @@ use Clarity\Util;
  */
 class Validator extends ServiceProvider
 {
-    protected $deffer = true;
+    protected $defer = true;
 
     public function provides()
     {

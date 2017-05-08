@@ -15,7 +15,7 @@ namespace Clarity\Providers;
  */
 class Cache extends ServiceProvider
 {
-    protected $deffer = true;
+    protected $defer = true;
 
     /**
      * Get the selected cache adapter.

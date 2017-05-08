@@ -46,3 +46,23 @@ if (! function_exists('di')) {
         return $default;
     }
 }
+
+if (! function_exists('resolve')) {
+
+    /**
+     * Resolve a service provider.
+     *
+     * @param  string $alias
+     * @return [type]
+     */
+    function resolve($alias = null)
+    {
+        if (di()->has($alias)) {
+            return di()->get($alias);
+        }
+
+        \Clarity\Providers\ServiceProvider::resolveBinding(di(), $alias);
+
+        return di()->get($alias);
+    }
+}

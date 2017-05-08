@@ -27,7 +27,7 @@ abstract class ServiceProvider implements InjectionAwareInterface
     /**
      * @var bool
      */
-    protected $deffer = false;
+    protected $defer = false;
 
     /**
      * @var \Clarity\Services\Mapper
@@ -81,13 +81,13 @@ abstract class ServiceProvider implements InjectionAwareInterface
     }
 
     /**
-     * Check if service provider is deffered.
+     * Check if service provider is deferred.
      *
      * @return bool
      */
-    public function isDeffered()
+    public function isDeferred()
     {
-        return $this->deffer;
+        return $this->defer;
     }
 
     /**
