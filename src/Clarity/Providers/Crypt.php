@@ -19,15 +19,12 @@ use Clarity\Support\Phalcon\Crypt as BaseCrypt;
  */
 class Crypt extends ServiceProvider
 {
-    /**
-     * {@inheridoc}.
-     */
-    protected $alias = 'crypt';
+    protected $deffer = true;
 
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
+    public function provides()
+    {
+        return ['crypt'];
+    }
 
     /**
      * {@inheridoc}.

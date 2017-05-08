@@ -21,6 +21,13 @@ use Clarity\Support\Queue\Queue as BaseQueue;
  */
 class Queue extends ServiceProvider
 {
+    protected $deffer = true;
+
+    public function provides()
+    {
+        return ['queue.selected_adapter', 'queue'];
+    }
+
     /**
      * {@inheritdoc}
      */

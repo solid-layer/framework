@@ -19,6 +19,11 @@ use Clarity\Providers\ServiceProvider;
 class MailServiceProvider extends ServiceProvider
 {
     /**
+     * @var bool
+     */
+    protected $deffer = true;
+
+    /**
      * {@inheritdoc}
      */
     public function register()
@@ -44,5 +49,15 @@ class MailServiceProvider extends ServiceProvider
 
             return new Mail(new $class, $adapter['options']);
         });
+    }
+
+    /**
+     * Get all this service provider provides.
+     * 
+     * @return array
+     */
+    public function provides()
+    {
+        return ['mail.selected_adapter', 'mail'];
     }
 }

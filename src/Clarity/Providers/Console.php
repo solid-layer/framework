@@ -18,6 +18,8 @@ use Symfony\Component\Console\Application as ConsoleApplication;
  */
 class Console extends ServiceProvider
 {
+    protected $deffer = true;
+
     /**
      * The current system version.
      */
@@ -44,5 +46,10 @@ class Console extends ServiceProvider
 
             return $app;
         });
+    }
+
+    public function provides()
+    {
+        return ['console'];
     }
 }

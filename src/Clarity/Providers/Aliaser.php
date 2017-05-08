@@ -23,7 +23,7 @@ class Aliaser extends ServiceProvider
         $this->app->singleton('aliaser', function () {
             foreach (config('app.aliases') as $alias => $class) {
                 if (! class_exists($alias)) {
-                    class_alias($class, $alias);
+                    \Clarity\Providers\ServiceProvider::classAlias($class, $alias);
                 }
             }
         });

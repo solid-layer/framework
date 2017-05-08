@@ -17,11 +17,18 @@ use Clarity\Support\Auth\Auth as BaseAuth;
  */
 class Auth extends ServiceProvider
 {
+	protected $deffer = true;
+
     /**
      * {@inheridoc}.
      */
     public function register()
     {
         $this->app->instance('auth', new BaseAuth, $singleton = true);
+    }
+
+    public function provides()
+    {
+    	return ['auth'];
     }
 }

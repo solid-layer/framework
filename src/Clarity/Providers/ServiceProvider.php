@@ -21,7 +21,13 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 abstract class ServiceProvider implements InjectionAwareInterface
 {
+    use \Clarity\Services\Mapper;
     use ServiceMagicMethods;
+
+    /**
+     * @var bool
+     */
+    protected $deffer = false;
 
     /**
      * @var \Clarity\Services\Mapper
@@ -62,9 +68,7 @@ abstract class ServiceProvider implements InjectionAwareInterface
      */
     public function setDI(DiInterface $di)
     {
-        $this->app = new \Clarity\Services\Mapper;
-        $this->app->setDI($di);
-
+        $this->app = $this;
         $this->_di = $di;
     }
 
@@ -74,6 +78,16 @@ abstract class ServiceProvider implements InjectionAwareInterface
     public function getDI()
     {
         return $this->_di;
+    }
+
+    /**
+     * Check if service provider is deffered.
+     *
+     * @return bool
+     */
+    public function isDeffered()
+    {
+        return $this->deffer;
     }
 
     /**

@@ -59,14 +59,63 @@ class Container implements InjectionAwareInterface
     }
 
     /**
+     * Register a binding in static way.
+     * 
+     * @param  [type]
+     * @param  [type]
+     * @return [type]
+     */
+    public static function registerBinding($di, $alias, $binding)
+    {
+        $di->set(
+            $alias, 
+            call_user_func_array($binding['callback'], [$binding['instance']]), 
+            $binding['singleton']
+        );
+    }
+
+    /**
+     * Register normal bindings.
+     * 
+     * @param  array $bindings
+     * @return void
+     */
+    public function registerNormalBindings($bindings = [])
+    {
+        foreach ($bindings as $alias => $binding) {
+            static::registerBinding($this->_di, $alias, $binding);
+        }
+    }
+
+    /**
+     * Register deffered bindings.
+     * 
+     * @param  array $bindings
+     * @return void
+     */
+    public function registerDefferedBindings($bindings = [])
+    {
+        $providers = [];
+
+        if ($this->_di->has('deffered.providers')) {
+            $providers = $this->_di->get('deffered.providers');
+        }
+
+        $providers = array_merge($providers, $bindings);
+
+        $this->_di->set('deffered.providers', function () use ($providers) {
+            return $providers;
+        }, $singleton = true);
+    }
+
+    /**
      * Loads all services.
      *
      * @return void
      */
     public function boot()
     {
-        $providers_loaded = array_map(function ($provider) {
-
+        foreach ($this->providers as $provider) {
             # check if module function exists
             if (method_exists($provider, 'module')) {
                 $this->getDI()->get('module')->setModule(
@@ -77,26 +126,35 @@ class Container implements InjectionAwareInterface
                 );
             }
 
-            # callRegister should return an empty or an object or array
-            # then we could manually update the register
+            # call the register function to load everything
             if ($register = $provider->callRegister()) {
-                $this->getDI()->set(
+                $this->_di->set(
                     $provider->getAlias(),
                     $register,
                     $provider->getShared()
                 );
             }
 
-            return $provider;
-        }, $this->providers);
+            # register normal bindings
+            $this->registerNormalBindings(
+                $provider->getNormalBindings()
+            );
+
+            # register deffered bindings
+            if ($provider->isDeffered()) {
+                $this->registerDefferedBindings(
+                    $provider->getDefferedBindings()
+                );
+            }
+        }
 
         # this happens when some application services relies on other service,
         # iterate the loaded providers and call the boot() function
-        foreach ($providers_loaded as $provider) {
+        foreach ($this->providers as $provider) {
             $boot = $provider->boot();
 
-            if ($boot && ! $this->getDI()->has($provider->getAlias())) {
-                $this->getDI()->set(
+            if ($boot && ! $this->_di->has($provider->getAlias())) {
+                $this->_di->set(
                     $provider->getAlias(),
                     $boot,
                     $provider->getShared()

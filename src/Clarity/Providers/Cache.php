@@ -15,6 +15,8 @@ namespace Clarity\Providers;
  */
 class Cache extends ServiceProvider
 {
+    protected $deffer = true;
+
     /**
      * Get the selected cache adapter.
      *
@@ -42,5 +44,10 @@ class Cache extends ServiceProvider
 
             return new $backend($front_cache, $adapter->options->toArray());
         });
+    }
+
+    public function provides()
+    {
+        return ['cache'];
     }
 }

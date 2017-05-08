@@ -17,6 +17,13 @@ use Clarity\Util;
  */
 class Validator extends ServiceProvider
 {
+    protected $deffer = true;
+
+    public function provides()
+    {
+        return ['validator'];
+    }
+
     /**
      * {@inheridoc}.
      */

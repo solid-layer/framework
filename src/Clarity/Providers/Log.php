@@ -19,6 +19,13 @@ use Monolog\Handler\StreamHandler;
  */
 class Log extends ServiceProvider
 {
+    protected $deffer = true;
+
+    public function provides()
+    {
+        return ['log'];
+    }
+
     /**
      * {@inheridoc}.
      */

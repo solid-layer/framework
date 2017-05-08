@@ -17,6 +17,13 @@ use Phalcon\Http\Response\Cookies as BaseCookies;
  */
 class Cookies extends ServiceProvider
 {
+    protected $deffer = true;
+
+    public function provides()
+    {
+        return ['cookies'];
+    }
+
     /**
      * {@inheridoc}.
      */

@@ -20,18 +20,8 @@ class Escaper extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'escaper';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseEscaper;
+        $this->app->instance('escaper', new BaseEscaper, $singleton = true);
     }
 }

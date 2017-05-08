@@ -10,30 +10,54 @@
 
 namespace Clarity\Services;
 
+use RuntimeException;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
-class Mapper implements InjectionAwareInterface
+trait Mapper
 {
     /**
-     * @var \Phalcon\DiInterface
+     * @var array
      */
-    protected $_di;
+    private $bindings = [];
 
     /**
-     * {@inheritdoc}
+     * @var array
      */
-    public function setDI(DiInterface $di)
+    private $deffered = [];
+
+    /**
+     * Get all bindings.
+     * 
+     * @return array
+     */
+    public function getNormalBindings()
     {
-        $this->_di = $di;
+        return $this->bindings;
     }
 
     /**
-     * {@inheritdoc}
+     * Get all deffered bindings.
+     * 
+     * @return array
      */
-    public function getDI()
+    public function getDefferedBindings()
     {
-        return $this->_di;
+        return $this->deffered;
+    }
+
+    /**
+     * Get the binding property to use.
+     * 
+     * @return string
+     */
+    protected function getBindingPropertyToUse()
+    {
+        if ($this->isDeffered()) {
+            return 'deffered';
+        }
+
+        return 'bindings';
     }
 
     /**
@@ -45,11 +69,11 @@ class Mapper implements InjectionAwareInterface
      */
     public function bind($alias, $provider)
     {
-        $this->_di->set(
-            $alias,
-            call_user_func($provider, $this),
-            $shared = false
-        );
+        $this->{$this->getBindingPropertyToUse()}[$alias] = [
+            'callback' => $provider,
+            'instance' => $this,
+            'singleton' => false,
+        ];
     }
 
     /**
@@ -61,11 +85,11 @@ class Mapper implements InjectionAwareInterface
      */
     public function singleton($alias, $callback)
     {
-        $this->_di->set(
-            $alias,
-            call_user_func($callback, $this),
-            $shared = true
-        );
+        $this->{$this->getBindingPropertyToUse()}[$alias] = [
+            'callback' => $callback,
+            'instance' => $this,
+            'singleton' => true,
+        ];
     }
 
     /**
@@ -78,13 +102,13 @@ class Mapper implements InjectionAwareInterface
      */
     public function instance($alias, $instance, $singleton = false)
     {
-        $this->_di->set(
-            $alias,
-            function () use ($instance) {
+        $this->{$this->getBindingPropertyToUse()}[$alias] = [
+            'callback' => function () use ($instance) {
                 return $instance;
             },
-            $singleton = false
-        );
+            'instance' => $this,
+            'singleton' => $singleton,
+        ];
     }
 
     /**
@@ -95,6 +119,79 @@ class Mapper implements InjectionAwareInterface
      */
     public function make($alias)
     {
+        if (! $this->_di->has($alias)) {
+            static::resolveBinding($this->_di, $alias);
+        }
+
         return $this->_di->get($alias);
+    }
+
+    /**
+     * Resolve a provider in static way.
+     *
+     * @param string $alias
+     * @return mixed
+     */
+    public static function resolveBinding($di, $alias)
+    {
+        if (! $di->has('deffered.providers')) {
+            throw new RuntimeException('Service [deffered.providers] not found.');
+        }
+
+        # get all deffered providers
+        $providers = $di->get('deffered.providers');
+
+        # get the first alias that provides
+        # so we could pre-load other keys
+        if (! isset($providers[$alias]['instance'])) {
+            throw new RuntimeException('Method [provides] not found on provider ['.$alias.']');
+        }
+
+        $aliases_to_load = ($providers[$alias]['instance'])->provides();
+
+        foreach ($aliases_to_load as $alias) {
+            $binding = $providers[$alias];
+
+            \Clarity\Services\Container::registerBinding(
+                $di,
+                $alias,
+                $binding
+            );
+        }
+    }
+
+    /**
+     * Resolve a provider.
+     *
+     * @param string $alias
+     * @return mixed
+     */
+    public function resolve($alias)
+    {
+        return static::resolveBinding($this->_di, $alias);
+    }
+
+    /**
+     * Apply an alias in static way
+     *
+     * @param string $class
+     * @param string $alias
+     * @return void
+     */
+    public static function classAlias($class, $alias)
+    {
+        class_alias($class, $alias);
+    }
+
+    /**
+     * Apply an alias.
+     *
+     * @param string $class
+     * @param string $alias
+     * @return void
+     */
+    public function alias($class, $alias)
+    {
+        static::classAlias($class, $alias);
     }
 }
