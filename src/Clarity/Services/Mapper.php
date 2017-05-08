@@ -147,7 +147,9 @@ trait Mapper
             throw new RuntimeException('Method [provides] not found on provider ['.$alias.']');
         }
 
-        $aliases_to_load = ($providers[$alias]['instance'])->provides();
+        $instance = $providers[$alias]['instance'];
+
+        $aliases_to_load = $instance->provides();
 
         foreach ($aliases_to_load as $alias) {
             $binding = $providers[$alias];

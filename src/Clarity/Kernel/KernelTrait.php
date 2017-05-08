@@ -10,8 +10,8 @@
 
 namespace Clarity\Kernel;
 
-use Phalcon\Di;
 use Phalcon\Config;
+use Clarity\Support\Phalcon\Di;
 use Clarity\Services\Container;
 
 /**

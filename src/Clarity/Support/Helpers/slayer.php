@@ -17,7 +17,7 @@ if (! function_exists('di')) {
      */
     function di($alias = null)
     {
-        $default = Phalcon\DI::getDefault();
+        $default = Clarity\Support\Phalcon\Di::getDefault();
 
         if (is_string($alias)) {
             return $default->get($alias);
