@@ -60,7 +60,7 @@ class Container implements InjectionAwareInterface
 
     /**
      * Register a binding in static way.
-     * 
+     *
      * @param  [type]
      * @param  [type]
      * @return [type]
@@ -68,15 +68,15 @@ class Container implements InjectionAwareInterface
     public static function registerBinding($di, $alias, $binding)
     {
         $di->set(
-            $alias, 
-            call_user_func_array($binding['callback'], [$binding['instance']]), 
+            $alias,
+            call_user_func_array($binding['callback'], [$binding['instance']]),
             $binding['singleton']
         );
     }
 
     /**
      * Register normal bindings.
-     * 
+     *
      * @param  array $bindings
      * @return void
      */
@@ -89,7 +89,7 @@ class Container implements InjectionAwareInterface
 
     /**
      * Register deferred bindings.
-     * 
+     *
      * @param  array $bindings
      * @return void
      */

@@ -17,7 +17,7 @@ use Clarity\Support\Auth\Auth as BaseAuth;
  */
 class Auth extends ServiceProvider
 {
-	protected $defer = true;
+    protected $defer = true;
 
     /**
      * {@inheridoc}.
@@ -29,6 +29,6 @@ class Auth extends ServiceProvider
 
     public function provides()
     {
-    	return ['auth'];
+        return ['auth'];
     }
 }

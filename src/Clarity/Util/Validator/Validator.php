@@ -127,7 +127,6 @@ class Validator
         try {
             $this->validator->assert($this->records);
         } catch (NestedValidationException $e) {
-
             $errors = $e->findMessages($this->messages());
 
             foreach ($errors as $field => $msg) {

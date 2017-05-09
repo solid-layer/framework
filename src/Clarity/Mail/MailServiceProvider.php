@@ -53,7 +53,7 @@ class MailServiceProvider extends ServiceProvider
 
     /**
      * Get all this service provider provides.
-     * 
+     *
      * @return array
      */
     public function provides()

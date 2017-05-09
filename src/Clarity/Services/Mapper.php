@@ -28,7 +28,7 @@ trait Mapper
 
     /**
      * Get all bindings.
-     * 
+     *
      * @return array
      */
     public function getNormalBindings()
@@ -38,7 +38,7 @@ trait Mapper
 
     /**
      * Get all deferred bindings.
-     * 
+     *
      * @return array
      */
     public function getDeferredBindings()
@@ -48,7 +48,7 @@ trait Mapper
 
     /**
      * Get the binding property to use.
-     * 
+     *
      * @return string
      */
     protected function getBindingPropertyToUse()
