@@ -19,13 +19,6 @@ use Phalcon\Flash\Session as PhalconFlashSession;
  */
 class Flash extends ServiceProvider
 {
-    // protected $defer = true;
-
-    // public function provides()
-    // {
-    //     return ['flash.direct', 'flash.session', 'flash'];
-    // }
-
     /**
      * The elements.
      *

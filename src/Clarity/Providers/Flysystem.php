@@ -19,13 +19,6 @@ use League\Flysystem\MountManager;
  */
 class Flysystem extends ServiceProvider
 {
-    protected $defer = true;
-
-    public function provides()
-    {
-        return ['flysystem_manager', 'flysystem'];
-    }
-
     /**
      * {@inheridoc}.
      */

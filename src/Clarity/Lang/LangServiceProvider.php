@@ -18,6 +18,11 @@ use Clarity\Providers\ServiceProvider;
 class LangServiceProvider extends ServiceProvider
 {
     /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
      * {@inheritdoc}
      */
     public function register()
@@ -32,5 +37,15 @@ class LangServiceProvider extends ServiceProvider
 
             return $translation;
         });
+    }
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['lang'];
     }
 }
