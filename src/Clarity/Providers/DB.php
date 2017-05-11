@@ -35,11 +35,6 @@ class DB extends ServiceProvider
     protected $alias = 'db';
 
     /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
      * Magic method call.
      *
      * Since we're passing the class itself as dependency, when calling
@@ -54,6 +49,22 @@ class DB extends ServiceProvider
     {
         if (method_exists($default = $this->getDefaultConnection(), $method)) {
             return call_user_func_array([$default, $method], $args);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register()
+    {
+        $this->app->singleton($this->alias, function () {
+            return $this;
+        });
+
+        foreach ($this->connections() as $adapter => $options) {
+            $this->app->singleton($this->alias.'.'.$adapter, function () use ($adapter) {
+                return $this->connection($adapter);
+            });
         }
     }
 
@@ -74,36 +85,6 @@ class DB extends ServiceProvider
         }
 
         return $this->connection($selected_adapter);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot()
-    {
-        if (! $this->getDI()->has($this->alias)) {
-            $db = $this->getDefaultConnection();
-
-            $this->getDI()->set($this->alias, function () use ($db) {
-                return $db;
-            }, $this->shared);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function register()
-    {
-        foreach ($this->connections() as $adapter => $options) {
-            $db = $this->connection($adapter);
-
-            $this->subRegister($adapter, function () use ($db) {
-                return $db;
-            }, $this->shared);
-        }
-
-        return $this;
     }
 
     /**

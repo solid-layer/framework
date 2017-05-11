@@ -10,6 +10,9 @@
 
 namespace Clarity\Facades;
 
+/**
+ * This helps to make/resolve classes.
+ */
 abstract class Facade
 {
     /**
@@ -60,12 +63,11 @@ abstract class Facade
             return $name;
         }
 
-        return static::$resolvedInstance[$name] = resolve($name);
-        // if (isset(static::$resolvedInstance[$name])) {
-        //     return static::$resolvedInstance[$name];
-        // }
+        if (isset(static::$resolvedInstance[$name])) {
+            return static::$resolvedInstance[$name];
+        }
 
-        // return static::$resolvedInstance[$name] = static::$app->$name;
+        return static::$resolvedInstance[$name] = resolve($name);
     }
 
     /**

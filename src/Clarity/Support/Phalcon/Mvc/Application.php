@@ -8,13 +8,13 @@
  * @link      http://docs.phalconslayer.com
  */
 
-namespace Clarity\Support\Phalcon\Events;
+namespace Clarity\Support\Phalcon\Mvc;
 
-use Phalcon\Events\Manager as BaseManager;
+use Phalcon\Mvc\Application as BaseApplication;
 
 /**
  * {@inheritdoc}
  */
-class Manager extends BaseManager
+class Application extends BaseApplication
 {
 }

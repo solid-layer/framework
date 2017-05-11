@@ -18,21 +18,37 @@ use Clarity\Support\Phalcon\Mvc\URL as BaseURL;
 class URL extends ServiceProvider
 {
     /**
-     * {@inheridoc}.
+     * @var bool
      */
-    protected $after_module = true;
+    protected $defer = true;
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['url'];
+    }
 
     /**
      * {@inheridoc}.
      */
+    public function boot()
+    {
+        $url = resolve('url');
+        $url->setDI($this->getDI());
+        $url->setBaseUri($url->getFullUrl().'/');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
         $this->app->singleton('url', function () {
-            $instance = new BaseURL();
-            $instance->setDI($this->getDI());
-            $instance->setBaseUri($instance->getFullUrl().'/');
-
-            return $instance;
+            return new BaseURL();
         });
     }
 }

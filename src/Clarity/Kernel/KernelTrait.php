@@ -117,7 +117,7 @@ trait KernelTrait
             }
         }
 
-        $container->boot();
+        $container->handle();
 
         return $this;
     }

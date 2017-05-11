@@ -20,6 +20,11 @@ use League\Flysystem\MountManager;
 class Flysystem extends ServiceProvider
 {
     /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
      * {@inheridoc}.
      */
     public function register()
@@ -40,5 +45,15 @@ class Flysystem extends ServiceProvider
             return $app->make('flysystem_manager')
                 ->getFilesystem(config('app.flysystem'));
         });
+    }
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['flysystem_manager', 'flysystem'];
     }
 }

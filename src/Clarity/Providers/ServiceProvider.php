@@ -21,7 +21,6 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 abstract class ServiceProvider implements InjectionAwareInterface
 {
-    use \Clarity\Services\Mapper;
     use ServiceMagicMethods;
 
     /**
@@ -30,9 +29,9 @@ abstract class ServiceProvider implements InjectionAwareInterface
     protected $defer = false;
 
     /**
-     * @var \Clarity\Services\Mapper
+     * @var \Phalcon\DiInterface
      */
-    protected $app;
+    public $app;
 
     /**
      * @var \Phalcon\DiInterface
@@ -64,12 +63,30 @@ abstract class ServiceProvider implements InjectionAwareInterface
     protected $after_module = false;
 
     /**
+     * Get deferred value.
+     *
+     * @return bool
+     */
+    public function getDeferred()
+    {
+        return $this->defer;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setDI(DiInterface $di)
     {
-        $this->app = $this;
         $this->_di = $di;
+
+        $this->app = new \Clarity\Services\Mapper;
+
+        # if the child class defer is true, mark the mapper as true as well
+        # inject the provides function as well.
+        if ($this->getDeferred()) {
+            $this->app->setDeferred(true);
+            $this->app->setInstance($this);
+        }
     }
 
     /**
@@ -78,16 +95,6 @@ abstract class ServiceProvider implements InjectionAwareInterface
     public function getDI()
     {
         return $this->_di;
-    }
-
-    /**
-     * Check if service provider is deferred.
-     *
-     * @return bool
-     */
-    public function isDeferred()
-    {
-        return $this->defer;
     }
 
     /**

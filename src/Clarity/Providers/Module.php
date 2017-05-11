@@ -20,7 +20,9 @@ class Module extends ServiceProvider
      */
     public function register()
     {
-        $this->app->instance('module', $this, $singleton = true);
+        $this->app->singleton('module', function () {
+            return $this;
+        });
     }
 
     /**
@@ -48,6 +50,7 @@ class Module extends ServiceProvider
     public function setModule($name, $closure)
     {
         $modules = [];
+
         $modules[$name] = $closure;
 
         config(['modules' => $modules]);

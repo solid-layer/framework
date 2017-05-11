@@ -10,18 +10,22 @@
 
 namespace Clarity\Providers;
 
-use Phalcon\Events\Manager;
-
 /**
- * Get the 'eventsManager' service provider.
+ * Test the resolver.
  */
-class EventsManager extends ServiceProvider
+class ResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * {@inheridoc}.
+     * Test for service providers.
+     *
+     * @return void
      */
-    public function register()
+    public function testService()
     {
-        $this->app->instance('eventsManager', new Manager, $singleton = true);
+        $this->assertFalse(di()->has('mail'));
+
+        resolve('mail');
+
+        $this->assertTrue(di()->has('mail'));
     }
 }

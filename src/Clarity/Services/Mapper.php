@@ -14,7 +14,7 @@ use RuntimeException;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
-trait Mapper
+class Mapper
 {
     /**
      * @var array
@@ -25,6 +25,50 @@ trait Mapper
      * @var array
      */
     private $deferred = [];
+
+    /**
+     * @var bool
+     */
+    private $defer = false;
+
+    /**
+     * @var mixed
+     */
+    private $instance;
+
+    /**
+     * Set if the provider is deferred or not.
+     *
+     * @return \Clarity\Services\Mapper
+     */
+    public function setDeferred($defer)
+    {
+        $this->defer = $defer;
+
+        return $this;
+    }
+
+    /**
+     * Set provider's instance.
+     *
+     * @return \Clarity\Services\Mapper
+     */
+    public function setInstance($instance)
+    {
+        $this->instance = $instance;
+
+        return $this;
+    }
+
+    /**
+     * Check if service provider is deferred.
+     *
+     * @return bool
+     */
+    public function isDeferred()
+    {
+        return $this->defer;
+    }
 
     /**
      * Get all bindings.
@@ -53,7 +97,7 @@ trait Mapper
      */
     protected function getBindingPropertyToUse()
     {
-        if ($this->isDeferred()) {
+        if ($this->defer) {
             return 'deferred';
         }
 
@@ -71,7 +115,7 @@ trait Mapper
     {
         $this->{$this->getBindingPropertyToUse()}[$alias] = [
             'callback' => $provider,
-            'instance' => $this,
+            'instance' => $this->instance,
             'singleton' => false,
         ];
     }
@@ -87,7 +131,7 @@ trait Mapper
     {
         $this->{$this->getBindingPropertyToUse()}[$alias] = [
             'callback' => $callback,
-            'instance' => $this,
+            'instance' => $this->instance,
             'singleton' => true,
         ];
     }
@@ -106,7 +150,7 @@ trait Mapper
             'callback' => function () use ($instance) {
                 return $instance;
             },
-            'instance' => $this,
+            'instance' => $this->instance,
             'singleton' => $singleton,
         ];
     }
@@ -119,11 +163,11 @@ trait Mapper
      */
     public function make($alias)
     {
-        if (! $this->_di->has($alias)) {
-            static::resolveBinding($this->_di, $alias);
+        if (! di()->has($alias)) {
+            static::resolveBinding(di(), $alias);
         }
 
-        return $this->_di->get($alias);
+        return di()->get($alias);
     }
 
     /**
@@ -140,12 +184,6 @@ trait Mapper
 
         # get all deferred providers
         $providers = $di->get('deferred.providers');
-
-        # get the first alias that provides
-        # so we could pre-load other keys
-        if (! isset($providers[$alias]['instance'])) {
-            throw new RuntimeException('Method [provides] not found on provider ['.$alias.']');
-        }
 
         $instance = $providers[$alias]['instance'];
 
@@ -170,7 +208,7 @@ trait Mapper
      */
     public function resolve($alias)
     {
-        return static::resolveBinding($this->_di, $alias);
+        return static::resolveBinding(di(), $alias);
     }
 
     /**

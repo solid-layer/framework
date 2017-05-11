@@ -24,18 +24,8 @@ class Filter extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'filter';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseFilter;
+        $this->app->instance('filter', new BaseFilter, $singleton = true);
     }
 }

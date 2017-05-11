@@ -113,19 +113,9 @@ class Container implements InjectionAwareInterface
      *
      * @return void
      */
-    public function boot()
+    public function handle()
     {
         foreach ($this->providers as $provider) {
-            # check if module function exists
-            if (method_exists($provider, 'module')) {
-                $this->getDI()->get('module')->setModule(
-                    $provider->getAlias(),
-                    function ($di) use ($provider) {
-                        call_user_func_array([$provider, 'module'], [$di]);
-                    }
-                );
-            }
-
             # call the register function to load everything
             if ($register = $provider->callRegister()) {
                 $this->_di->set(
@@ -137,13 +127,13 @@ class Container implements InjectionAwareInterface
 
             # register normal bindings
             $this->registerNormalBindings(
-                $provider->getNormalBindings()
+                $provider->app->getNormalBindings()
             );
 
             # register deferred bindings
-            if ($provider->isDeferred()) {
+            if ($provider->app->isDeferred()) {
                 $this->registerDeferredBindings(
-                    $provider->getDeferredBindings()
+                    $provider->app->getDeferredBindings()
                 );
             }
         }

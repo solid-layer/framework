@@ -24,6 +24,16 @@ class MailServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['mail.selected_adapter', 'mail'];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function register()
@@ -49,15 +59,5 @@ class MailServiceProvider extends ServiceProvider
 
             return new Mail(new $class, $adapter['options']);
         });
-    }
-
-    /**
-     * Get all this service provider provides.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['mail.selected_adapter', 'mail'];
     }
 }

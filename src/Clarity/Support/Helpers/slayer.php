@@ -61,7 +61,7 @@ if (! function_exists('resolve')) {
             return di()->get($alias);
         }
 
-        \Clarity\Providers\ServiceProvider::resolveBinding(di(), $alias);
+        \Clarity\Services\Mapper::resolveBinding(di(), $alias);
 
         return di()->get($alias);
     }

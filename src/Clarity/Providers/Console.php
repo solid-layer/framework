@@ -18,8 +18,6 @@ use Symfony\Component\Console\Application as ConsoleApplication;
  */
 class Console extends ServiceProvider
 {
-    protected $defer = false;
-
     /**
      * The current system version.
      */
@@ -29,6 +27,21 @@ class Console extends ServiceProvider
      * The console description which holds the copywright.
      */
     const DESCRIPTION = 'Brood (c) Daison Cariño';
+
+    /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['console'];
+    }
 
     /**
      * {@inheridoc}.
@@ -46,10 +59,5 @@ class Console extends ServiceProvider
 
             return $app;
         });
-    }
-
-    public function provides()
-    {
-        return ['console'];
     }
 }

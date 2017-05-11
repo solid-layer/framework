@@ -11,35 +11,12 @@
 namespace Clarity\Support\Phalcon\Mvc;
 
 use Phalcon\Mvc\Url as BaseURL;
-use Phalcon\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * {@inheritdoc}
  */
-class URL extends BaseURL implements InjectionAwareInterface
+class URL extends BaseURL
 {
-    /**
-     * @var \Phalcon\DiInterface
-     */
-    protected $_dependencyInjector;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDI(DiInterface $di)
-    {
-        $this->_dependencyInjector = $di;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDI()
-    {
-        return $this->_dependencyInjector;
-    }
-
     /**
      * Create an instance of this class via static call.
      *
@@ -91,7 +68,7 @@ class URL extends BaseURL implements InjectionAwareInterface
     public function getScheme($module = null)
     {
         if ($module === null) {
-            $module = $this->getDI()->get('application')->getDefaultModule();
+            $module = resolve('application')->getDefaultModule();
 
             if ($this->hasHttps()) {
                 return 'https://';
@@ -121,7 +98,7 @@ class URL extends BaseURL implements InjectionAwareInterface
     public function getHost($module = null)
     {
         if ($module === null) {
-            $module = $this->getDI()->get('application')->getDefaultModule();
+            $module = resolve('application')->getDefaultModule();
 
             if (isset($_SERVER['HTTP_HOST'])) {
                 return $_SERVER['HTTP_HOST'];
