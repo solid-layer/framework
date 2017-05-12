@@ -136,6 +136,10 @@ class Container implements InjectionAwareInterface
                     $provider->app->getDeferredBindings()
                 );
             }
+
+            if (is_cli()) {
+                resolve('benchmark')->here(get_class($provider));
+            }
         }
 
         # this happens when some application services relies on other service,

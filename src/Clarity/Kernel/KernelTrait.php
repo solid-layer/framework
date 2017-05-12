@@ -91,6 +91,19 @@ trait KernelTrait
     }
 
     /**
+     * Provide the most prioritized service providers to be loaded internally, before
+     * user's manual providers.
+     *
+     * @return array
+     */
+    protected function prioritizedProviders()
+    {
+        return [
+            \Clarity\Util\Benchmark\BenchmarkServiceProvider::class,
+        ];
+    }
+
+    /**
      * Load the providers.
      *
      * @param  bool $after_module If you want to load services after calling
@@ -105,8 +118,10 @@ trait KernelTrait
         $container->setDI($this->di);
 
         if (empty($services)) {
-            $services = config()->app->services;
+            $services = config('app.services');
         }
+
+        $services = array_merge($this->prioritizedProviders(), $services);
 
         foreach ($services as $service) {
             $instance = new $service;
