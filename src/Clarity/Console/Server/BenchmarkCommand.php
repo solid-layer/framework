@@ -43,29 +43,35 @@ class BenchmarkCommand extends Brood
 
     public function getBenchmarks()
     {
-        $markings = resolve('benchmark')->get();
-
-        $ret = [];
+        $records = [];
 
         $total_sec = 0;
 
-        foreach ($markings as $name => $sec) {
+        # iterate the markings
+        foreach (resolve('benchmark')->get() as $name => $sec) {
             $total_sec += $sec;
 
-            $ret[] = [
+            $records[] = [
                 $name,
                 $sec,
                 0,
             ];
         }
 
-        $ret[] = [
+        # update percentage
+        foreach ($records as $idx => $record) {
+            $record[2] = number_format(($record[1] / $total_sec) * 100, 2);
+            $records[$idx] = $record;
+        }
+
+        # add the total in the last record
+        $records[] = [
             'TOTAL',
             $total_sec,
             null
         ];
 
-        return $ret;
+        return $records;
     }
 
     /**
