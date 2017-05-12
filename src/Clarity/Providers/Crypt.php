@@ -22,16 +22,6 @@ class Crypt extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'crypt';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
         $this->app->singleton('crypt', function () {

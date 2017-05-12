@@ -29,6 +29,21 @@ class Console extends ServiceProvider
     const DESCRIPTION = 'Brood (c) Daison Cariño';
 
     /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['console'];
+    }
+
+    /**
      * {@inheridoc}.
      */
     public function register()

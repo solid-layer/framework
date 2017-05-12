@@ -108,8 +108,6 @@ class Kernel
 
         $this->di->get($module_name)->afterModuleRun();
 
-        $this->loadServices($after_module = true);
-
         return $this;
     }
 }

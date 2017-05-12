@@ -10,30 +10,98 @@
 
 namespace Clarity\Services;
 
+use RuntimeException;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
-class Mapper implements InjectionAwareInterface
+class Mapper
 {
     /**
-     * @var \Phalcon\DiInterface
+     * @var array
      */
-    protected $_di;
+    private $bindings = [];
 
     /**
-     * {@inheritdoc}
+     * @var array
      */
-    public function setDI(DiInterface $di)
+    private $deferred = [];
+
+    /**
+     * @var bool
+     */
+    private $defer = false;
+
+    /**
+     * @var mixed
+     */
+    private $instance;
+
+    /**
+     * Set if the provider is deferred or not.
+     *
+     * @return \Clarity\Services\Mapper
+     */
+    public function setDeferred($defer)
     {
-        $this->_di = $di;
+        $this->defer = $defer;
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * Set provider's instance.
+     *
+     * @return \Clarity\Services\Mapper
      */
-    public function getDI()
+    public function setInstance($instance)
     {
-        return $this->_di;
+        $this->instance = $instance;
+
+        return $this;
+    }
+
+    /**
+     * Check if service provider is deferred.
+     *
+     * @return bool
+     */
+    public function isDeferred()
+    {
+        return $this->defer;
+    }
+
+    /**
+     * Get all bindings.
+     *
+     * @return array
+     */
+    public function getNormalBindings()
+    {
+        return $this->bindings;
+    }
+
+    /**
+     * Get all deferred bindings.
+     *
+     * @return array
+     */
+    public function getDeferredBindings()
+    {
+        return $this->deferred;
+    }
+
+    /**
+     * Get the binding property to use.
+     *
+     * @return string
+     */
+    protected function getBindingPropertyToUse()
+    {
+        if ($this->defer) {
+            return 'deferred';
+        }
+
+        return 'bindings';
     }
 
     /**
@@ -45,11 +113,11 @@ class Mapper implements InjectionAwareInterface
      */
     public function bind($alias, $provider)
     {
-        $this->_di->set(
-            $alias,
-            call_user_func($provider, $this),
-            $shared = false
-        );
+        $this->{$this->getBindingPropertyToUse()}[$alias] = [
+            'callback' => $provider,
+            'instance' => $this->instance,
+            'singleton' => false,
+        ];
     }
 
     /**
@@ -61,11 +129,11 @@ class Mapper implements InjectionAwareInterface
      */
     public function singleton($alias, $callback)
     {
-        $this->_di->set(
-            $alias,
-            call_user_func($callback, $this),
-            $shared = true
-        );
+        $this->{$this->getBindingPropertyToUse()}[$alias] = [
+            'callback' => $callback,
+            'instance' => $this->instance,
+            'singleton' => true,
+        ];
     }
 
     /**
@@ -78,13 +146,13 @@ class Mapper implements InjectionAwareInterface
      */
     public function instance($alias, $instance, $singleton = false)
     {
-        $this->_di->set(
-            $alias,
-            function () use ($instance) {
+        $this->{$this->getBindingPropertyToUse()}[$alias] = [
+            'callback' => function () use ($instance) {
                 return $instance;
             },
-            $singleton = false
-        );
+            'instance' => $this->instance,
+            'singleton' => $singleton,
+        ];
     }
 
     /**
@@ -95,6 +163,75 @@ class Mapper implements InjectionAwareInterface
      */
     public function make($alias)
     {
-        return $this->_di->get($alias);
+        if (! di()->has($alias)) {
+            static::resolveBinding(di(), $alias);
+        }
+
+        return di()->get($alias);
+    }
+
+    /**
+     * Resolve a provider in static way.
+     *
+     * @param string $alias
+     * @return mixed
+     */
+    public static function resolveBinding($di, $alias)
+    {
+        if (! $di->has('deferred.providers')) {
+            throw new RuntimeException('Service [deferred.providers] not found.');
+        }
+
+        # get all deferred providers
+        $providers = $di->get('deferred.providers');
+
+        $instance = $providers[$alias]['instance'];
+
+        $aliases_to_load = $instance->provides();
+
+        foreach ($aliases_to_load as $alias) {
+            $binding = $providers[$alias];
+
+            \Clarity\Services\Container::registerBinding(
+                $di,
+                $alias,
+                $binding
+            );
+        }
+    }
+
+    /**
+     * Resolve a provider.
+     *
+     * @param string $alias
+     * @return mixed
+     */
+    public function resolve($alias)
+    {
+        return static::resolveBinding(di(), $alias);
+    }
+
+    /**
+     * Apply an alias in static way
+     *
+     * @param string $class
+     * @param string $alias
+     * @return void
+     */
+    public static function classAlias($class, $alias)
+    {
+        class_alias($class, $alias);
+    }
+
+    /**
+     * Apply an alias.
+     *
+     * @param string $class
+     * @param string $alias
+     * @return void
+     */
+    public function alias($class, $alias)
+    {
+        static::classAlias($class, $alias);
     }
 }

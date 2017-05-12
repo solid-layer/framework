@@ -28,7 +28,7 @@ class Session extends ServiceProvider
         });
 
         $this->app->singleton('session', function ($app) {
-            $adapter = $app->make('session.selected_adapter')->toArray();
+            $adapter = resolve('session.selected_adapter')->toArray();
 
             $options = [];
             $class = $adapter['class'];

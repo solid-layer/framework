@@ -11,35 +11,12 @@
 namespace Clarity\Support\Auth;
 
 use InvalidArgumentException;
-use Phalcon\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Authentication handler.
  */
-class Auth implements InjectionAwareInterface
+class Auth
 {
-    /**
-     * @var \Phalcon\DiInterface
-     */
-    protected $_di;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDI(DiInterface $di)
-    {
-        $this->_di = $di;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDI()
-    {
-        return $this->_di;
-    }
-
     /**
      * Attempt to login using the provided records and the password field.
      *
@@ -92,9 +69,9 @@ class Auth implements InjectionAwareInterface
         # now check if the password given is matched with the
         # existing password recorded.
 
-        if ($this->getDI()->get('security')->checkHash($password, $records->{$password_field})) {
-            $this->getDI()->get('session')->set('isAuthenticated', true);
-            $this->getDI()->get('session')->set('user', $records);
+        if (resolve('security')->checkHash($password, $records->{$password_field})) {
+            resolve('session')->set('isAuthenticated', true);
+            resolve('session')->set('user', $records);
 
             return true;
         }
@@ -111,10 +88,10 @@ class Auth implements InjectionAwareInterface
     {
         $redirect_key = config()->app->auth->redirect_key;
 
-        $redirect_to = $this->getDI()->get('request')->get($redirect_key);
+        $redirect_to = resolve('request')->get($redirect_key);
 
         if ($redirect_to) {
-            return $this->getDI()->get('response')->redirect($redirect_to);
+            return resolve('response')->redirect($redirect_to);
         }
 
         return false;
@@ -127,7 +104,7 @@ class Auth implements InjectionAwareInterface
      */
     public function check()
     {
-        if ($this->getDI()->get('session')->has('isAuthenticated')) {
+        if (resolve('session')->has('isAuthenticated')) {
             return true;
         }
 
@@ -141,7 +118,7 @@ class Auth implements InjectionAwareInterface
      */
     public function user()
     {
-        return $this->getDI()->get('session')->get('user');
+        return resolve('session')->get('user');
     }
 
     /**
@@ -151,8 +128,8 @@ class Auth implements InjectionAwareInterface
      */
     public function destroy()
     {
-        $this->getDI()->get('session')->remove('isAuthenticated');
-        $this->getDI()->get('session')->remove('user');
+        resolve('session')->remove('isAuthenticated');
+        resolve('session')->remove('user');
 
         return true;
     }

@@ -80,14 +80,14 @@ class Dispatcher extends ServiceProvider
      */
     public function register()
     {
-        $dispatcher = new PhalconMvcDispatcher();
+        $this->app->singleton('dispatcher', function () {
+            $dispatcher = new PhalconMvcDispatcher();
 
-        $dispatcher->setDefaultNamespace('App\Controllers');
+            $dispatcher->setDefaultNamespace('App\Controllers');
+            $dispatcher->setControllerSuffix($this->getControllerSuffix());
+            $dispatcher->setActionSuffix($this->getActionSuffix());
 
-        $dispatcher->setControllerSuffix($this->getControllerSuffix());
-
-        $dispatcher->setActionSuffix($this->getActionSuffix());
-
-        return $dispatcher;
+            return $dispatcher;
+        });
     }
 }

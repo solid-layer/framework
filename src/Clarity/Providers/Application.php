@@ -11,7 +11,7 @@
 namespace Clarity\Providers;
 
 use Clarity\Facades\Facade;
-use Phalcon\Mvc\Application as BaseApplication;
+use Clarity\Support\Phalcon\Mvc\Application as BaseApplication;
 
 /**
  * This provider handles the @see \Phalcon\Mvc\Application

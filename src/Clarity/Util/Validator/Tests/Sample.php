@@ -103,7 +103,8 @@ class Sample
             'bool_type_sample_1' => true,
             'bool_type_sample_2' => false,
 
-            'callable_type_sample_1' => function () {},
+            'callable_type_sample_1' => function () {
+            },
             'callable_type_sample_2' => 'trim',
             'callable_type_sample_3' => [new self, 'validationData'],
 

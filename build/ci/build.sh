@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # clone slayer
-git clone -b ${SLAYER_VERSION} --depth 1 https://github.com/phalconslayer/slayer.git ~/${SLAYER_FOLDER}
+git clone -b ${TRAVIS_BRANCH} --depth 1 https://github.com/phalconslayer/slayer.git ~/${SLAYER_FOLDER}
 
 cd ~/${SLAYER_FOLDER}
 

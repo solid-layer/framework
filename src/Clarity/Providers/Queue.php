@@ -33,7 +33,7 @@ class Queue extends ServiceProvider
         });
 
         $this->app->singleton('queue', function ($app) {
-            $adapter = $app->make('queue.selected_adapter');
+            $adapter = resolve('queue.selected_adapter');
 
             $class = $adapter->class;
             $config = $adapter->config->toArray();

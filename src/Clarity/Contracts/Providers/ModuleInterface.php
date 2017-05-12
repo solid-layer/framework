@@ -18,14 +18,6 @@ use Phalcon\Di;
 interface ModuleInterface
 {
     /**
-     * Closure passed under the application module.
-     *
-     * @param  Di $di
-     * @return void
-     */
-    public function module(Di $di);
-
-    /**
      * Execute scripts after module run.
      *
      * @return void

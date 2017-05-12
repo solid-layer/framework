@@ -11,14 +11,14 @@
 namespace Clarity\Facades;
 
 /**
- * @author Taylor Otwell
+ * This helps to make/resolve classes.
  */
 abstract class Facade
 {
     /**
      * The application instance being facaded.
      *
-     * @var \Illuminate\Foundation\Application
+     * @var \Phalcon\Mvc\Application
      */
     protected static $app;
 
@@ -27,7 +27,7 @@ abstract class Facade
      *
      * @var array
      */
-    protected static $resolvedInstance;
+    protected static $resolvedInstance = [];
 
     /**
      * Get the root object behind the facade.
@@ -63,11 +63,11 @@ abstract class Facade
             return $name;
         }
 
-        if (isset(static::$resolvedInstance[ $name ])) {
-            return static::$resolvedInstance[ $name ];
+        if (isset(static::$resolvedInstance[$name])) {
+            return static::$resolvedInstance[$name];
         }
 
-        return static::$resolvedInstance[ $name ] = static::$app->$name;
+        return static::$resolvedInstance[$name] = resolve($name);
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Facade
      */
     public static function clearResolvedInstance($name)
     {
-        unset(static::$resolvedInstance[ $name ]);
+        unset(static::$resolvedInstance[$name]);
     }
 
     /**
@@ -128,17 +128,21 @@ abstract class Facade
                 return $instance->$method();
 
             case 1:
-                return $instance->$method($args[ 0 ]);
+                return $instance->$method($args[0]);
 
             case 2:
-                return $instance->$method($args[ 0 ], $args[ 1 ]);
+                return $instance->$method($args[0], $args[1]);
 
             case 3:
-                return $instance->$method($args[ 0 ], $args[ 1 ], $args[ 2 ]);
+                return $instance->$method($args[0], $args[1], $args[2]);
 
             case 4:
-                return $instance->$method($args[ 0 ], $args[ 1 ], $args[ 2 ],
-                    $args[ 3 ]);
+                return $instance->$method(
+                    $args[0],
+                    $args[1],
+                    $args[2],
+                    $args[3]
+                );
 
             default:
                 return call_user_func_array([$instance, $method], $args);
