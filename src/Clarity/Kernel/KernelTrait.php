@@ -85,6 +85,10 @@ trait KernelTrait
         config($base_config_files);
         config($env_config_files);
 
+        if (is_cli()) {
+            resolve('benchmark')->here('Loading Configurations');
+        }
+
         return $this;
     }
 
@@ -97,6 +101,10 @@ trait KernelTrait
     {
         date_default_timezone_set(config()->app->timezone);
 
+        if (is_cli()) {
+            resolve('benchmark')->here('Setting Time Zone');
+        }
+
         return $this;
     }
 
@@ -108,9 +116,7 @@ trait KernelTrait
      */
     protected function prioritizedProviders()
     {
-        return [
-            \Clarity\Util\Benchmark\BenchmarkServiceProvider::class,
-        ];
+        return [];
     }
 
     /**
@@ -128,7 +134,7 @@ trait KernelTrait
         $container->setDI($this->di);
 
         if (empty($services)) {
-            $services = config('app.services');
+            $services = config('app.services')->toArray();
         }
 
         $services = array_merge($this->prioritizedProviders(), $services);
@@ -143,6 +149,10 @@ trait KernelTrait
         }
 
         $container->handle();
+
+        if (is_cli()) {
+            resolve('benchmark')->here('   Loaded All Service Providers');
+        }
 
         return $this;
     }

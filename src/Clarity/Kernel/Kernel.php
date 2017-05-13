@@ -48,6 +48,10 @@ class Kernel
     {
         $this->paths = $paths;
 
+        if (is_cli()) {
+            resolve('benchmark')->here('Setting Paths');
+        }
+
         return $this;
     }
 
@@ -60,6 +64,10 @@ class Kernel
     public function setEnvironment($env)
     {
         $this->env = $env;
+
+        if (is_cli()) {
+            resolve('benchmark')->here('Setting Environment');
+        }
 
         return $this;
     }
@@ -86,7 +94,7 @@ class Kernel
         $this->di->get('application')->registerModules(config()->modules->toArray());
 
         if (is_cli()) {
-            resolve('benchmark')->here('calling_modules');
+            resolve('benchmark')->here('Registering All Modules');
         }
 
         return $this;
@@ -98,10 +106,6 @@ class Kernel
     public function render()
     {
         echo $this->di->get('application')->handle()->getContent();
-
-        if (is_cli()) {
-            resolve('benchmark')->here('rendering');
-        }
     }
 
     /**
@@ -115,10 +119,6 @@ class Kernel
         $this->di->get('application')->setDefaultModule($module_name);
 
         $this->di->get($module_name)->afterModuleRun();
-
-        if (is_cli()) {
-            resolve('benchmark')->here('calling_default_module');
-        }
 
         return $this;
     }

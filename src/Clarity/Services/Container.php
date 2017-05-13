@@ -143,7 +143,7 @@ class Container implements InjectionAwareInterface
             }
 
             if (is_cli()) {
-                resolve('benchmark')->here(get_class($provider));
+                resolve('benchmark')->here('   - '.get_class($provider));
             }
         }
 
