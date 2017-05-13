@@ -10,7 +10,7 @@
 
 namespace Clarity\Mail;
 
-use Exception;
+use RuntimeException;
 use Clarity\Providers\ServiceProvider;
 
 /**
@@ -48,10 +48,10 @@ class MailServiceProvider extends ServiceProvider
             $adapter = $app->make('mail.selected_adapter')->toArray();
 
             if (! $adapter) {
-                throw new Exception('Adapter not found.');
+                throw new RuntimeException('Adapter not found.');
             }
 
-            if (! $adapter['active']) {
+            if (isset($adapter['active']) && ! $adapter['active']) {
                 return $this;
             }
 

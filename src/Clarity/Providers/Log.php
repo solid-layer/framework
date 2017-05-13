@@ -20,6 +20,21 @@ use Monolog\Handler\StreamHandler;
 class Log extends ServiceProvider
 {
     /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['log'];
+    }
+
+    /**
      * {@inheridoc}.
      */
     public function register()

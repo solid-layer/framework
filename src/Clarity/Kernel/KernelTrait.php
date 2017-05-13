@@ -31,6 +31,16 @@ trait KernelTrait
     {
         $this->di = new Di;
 
+        if (is_cli()) {
+            # pre-add the bench marking tool
+            $this->di->setShared('benchmark', function () {
+                return new \Clarity\Util\Benchmark\Benchmark(SLAYER_START);
+            });
+
+            resolve('benchmark')->reset();
+            resolve('benchmark')->here('Instantiating Phalcon Di');
+        }
+
         return $this;
     }
 

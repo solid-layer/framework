@@ -56,6 +56,32 @@ class Benchmark
     }
 
     /**
+     * Add an index which is null, that indicates labelling.
+     *
+     * @param string $name;
+     * @return \Clarity\Util\Benchmark\Benchmark
+     */
+    public function label($name)
+    {
+        $this->markings[$name] = null;
+
+        return $this;
+    }
+
+    /**
+     * Reset the start time.
+     *
+     * @param double $time;
+     * @return \Clarity\Util\Benchmark\Benchmark
+     */
+    public function reset($time = null)
+    {
+        $this->start_time = $time ?: microtime(true);
+
+        return $this;
+    }
+
+    /**
      * Format the value into numeric without having E-#.
      *
      * @param float $value

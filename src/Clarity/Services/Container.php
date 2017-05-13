@@ -115,6 +115,11 @@ class Container implements InjectionAwareInterface
      */
     public function handle()
     {
+        if (is_cli()) {
+            resolve('benchmark')->label('Loading Service Providers');
+            resolve('benchmark')->reset();
+        }
+
         foreach ($this->providers as $provider) {
             # call the register function to load everything
             if ($register = $provider->callRegister()) {

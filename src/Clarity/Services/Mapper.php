@@ -220,7 +220,13 @@ class Mapper
      */
     public static function classAlias($class, $alias)
     {
+        if (class_exists($alias)) {
+            return false;
+        }
+
         class_alias($class, $alias);
+
+        return true;
     }
 
     /**
@@ -232,6 +238,6 @@ class Mapper
      */
     public function alias($class, $alias)
     {
-        static::classAlias($class, $alias);
+        return static::classAlias($class, $alias);
     }
 }
