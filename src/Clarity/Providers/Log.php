@@ -31,7 +31,7 @@ class Log extends ServiceProvider
      */
     public function provides()
     {
-        return ['log'];
+        return ['logger'];
     }
 
     /**
@@ -39,7 +39,7 @@ class Log extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('log', function () {
+        $this->app->singleton('logger', function () {
             $logger = new Logger('slayer');
 
             $logger_name = 'slayer';

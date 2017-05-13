@@ -256,7 +256,7 @@ if (! function_exists('logger')) {
      */
     function logger()
     {
-        return di()->get('log');
+        return di()->get('logger');
     }
 }
 

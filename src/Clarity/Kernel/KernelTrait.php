@@ -150,6 +150,10 @@ trait KernelTrait
 
         $container->handle();
 
+        $this->di->set('container', function () use ($container) {
+            return $container;
+        }, $singleton = true);
+
         if (is_cli()) {
             resolve('benchmark')->here('   Loaded All Service Providers');
         }

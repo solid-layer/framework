@@ -189,13 +189,17 @@ class Mapper
 
         $aliases_to_load = $instance->provides();
 
+        # get the mapper
+        $mapper = $instance->app;
+
         foreach ($aliases_to_load as $alias) {
             $binding = $providers[$alias];
 
             \Clarity\Services\Container::registerBinding(
                 $di,
                 $alias,
-                $binding
+                $binding,
+                $mapper
             );
         }
     }
