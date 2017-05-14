@@ -57,7 +57,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->session = (new Mink)->get('goutte');
-        $this->url = 'http://'.env('SERVE_HOST').':'.env('SERVE_PORT');
+        // $this->url = 'http://'.env('SERVE_HOST').':'.env('SERVE_PORT');
+        $this->url = resolve('url')->getBaseUri();
         $this->email = 'daison12006013@gmail.com';
         $this->password = '123qwe';
     }
@@ -83,7 +84,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains('<span title="Solid">S</span>.<span title="Layer">layer</span>', $slayer_logo->getHtml()); // === "Slayer"
 
-        $try_sample_forms = $welcome_page->find('xpath', '//a[@href="'.$this->url.'/try-sample-forms"]');
+        $try_sample_forms = $welcome_page->find('xpath', '//a[@href="'.$this->url.'try-sample-forms"]');
         $try_sample_forms->click();
 
         sleep(5);
@@ -106,7 +107,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         # REGISTRATION
         $this->assertEquals('200', $this->session->getStatusCode()); // === 200
-        $this->assertContains($this->url.'/auth/register', $this->session->getCurrentUrl()); // === $this->url.'auth/register'
+        $this->assertContains($this->url.'auth/register', $this->session->getCurrentUrl()); // === $this->url.'auth/register'
 
         $register_page = $this->session->getPage();
 
@@ -131,7 +132,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
             ->execute()
             ->getFirst();
 
-        $this->session->visit($this->url.'/auth/activation/'.$user->token);
+        $this->session->visit($this->url.'auth/activation/'.$user->token);
     }
 
     /**
@@ -149,7 +150,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         # LOGIN
         $this->assertEquals('200', $this->session->getStatusCode()); // === 200
-        $this->assertContains($this->url.'/auth/login', $this->session->getCurrentUrl()); // === $this->url.'auth/register'
+        $this->assertContains($this->url.'auth/login', $this->session->getCurrentUrl()); // === $this->url.'auth/register'
 
         $login_page = $this->session->getPage();
 
@@ -165,6 +166,6 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         sleep(5);
 
-        $this->assertContains($this->url.'/newsfeed', $this->session->getCurrentUrl()); // === $this->url.'newsfeed'
+        $this->assertContains($this->url.'newsfeed', $this->session->getCurrentUrl()); // === $this->url.'newsfeed'
     }
 }
