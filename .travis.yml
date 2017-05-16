@@ -1,13 +1,26 @@
 language: php
 
-sudo: true
+dist: trusty
+sudo: required
 
 services:
+  - mongodb
+  - memcached
+  - redis-server
+  - postgresql
+  - beanstalkd
   - mysql
 
-matrix:
-  include:
+git:
+  depth: 1
 
+matrix:
+  fast_finish: true
+
+  allow_failures:
+    - php: nightly
+
+  include:
     # PHP5.6
     - php: 5.6
       env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev"
@@ -18,23 +31,32 @@ matrix:
 
     # PHP7.0
     - php: 7.0
-      env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev"
+      env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.0
-      env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev"
+      env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.0
-      env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev"
+      env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
 
     # PHP7.1
-    # - php: 7.1
-    #   env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev"
-    # - php: 7.1
-    #   env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev"
-    # - php: 7.1
-    #   env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev"
+    - php: 7.1
+      env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
+    - php: 7.1
+      env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
+    - php: 7.1
+      env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
+
+    # nightly
+    - php: nightly
+      env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
+    - php: nightly
+      env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
+    - php: nightly
+      env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
 
 env:
   global:
-    - SLAYER_FOLDER=slayer-dist
+    - TRAVIS_BUILD_DIR=~/cphalcon
+    - SLAYER_FOLDER=~/slayer-dist
 
     # built-in web
     - SERVE_HOST="0.0.0.0"
@@ -43,11 +65,13 @@ env:
     # mail settings
     - MAIL_ADAPTER="mailgun"
     - MAILER_MAIL_FROM="Solid Layer - TravisCI <postmaster@sandboxa6c86c16840d4756826185daa128e64d.mailgun.org>"
-
-    # mailgun settings
     - MAILER_MAILGUN_DOMAIN="sandboxa6c86c16840d4756826185daa128e64d.mailgun.org"
     # secret key
     - secure: "JaqOj6ozbf1xU/I9ZYvljAmL2ttgC7DKShC7lPwrIe7IZnntYX3t5vpzhEhU4Ymt6uB4E/YYfwr15Yn/yl4hJUj6hzrjQsH8O7AmJv3aCFzIb+WpbWkJ7XdBQzaVXg7mbJpsL/TBZy4/hqYOw0DR542xGcAo5Z84wEZ/W9sei/pvIwTg+rIqA3XPh9vgvUi36xV6/O3n5FBZcK+3U8hwVFqUU8Say99kZOYwc934hhyoA9K4Px8MG7XeC8zl/B3pDHBDyvQ2eU0dUrb2zMx2LhByRGQ4tcERLJslShscb0a/32I3Jk/aesgArt2d0ZaEmanixsfm9lswOgoO/YZkci0n5Lto3/w6PJsko+3jJ7P1ND9BrK+lY5BKRC0Qkt3U8EsrSpjgobGzdXztZo+ZXWD7s2RClQKLI7jjMqW4k/1sO5rQ/50jzEtLoX5jZs5r6OrR6BEN0J4tI7b74sVeqYIoSzuX6eJGCbT7dcRIdNcz1jrvhcmbZ9YLxpHOp8PE2uKISJrUtuioOIjv6j6bRxy1gOcglZlRhv5N/xikCQmmgLgrMvwkaaLSjo5oe81ETX+/VIH/6cMI+qIvKtmOewLes6FszbCKQs/jyWPLQZjAlf9ZJmCspwWvNbIwSBpzRCW95VAhfHhgQZ6tPNCl3LqIDBHVGD4TpLlIg+wKYEU="
+
+    - ZEND_DONT_UNLOAD_MODULES=1
+    - CC="ccache gcc"
+    - PATH="$PATH:~/bin"
 
 cache:
   directories:
@@ -55,27 +79,53 @@ cache:
     - ~/cphalcon
 
 before_install:
-  # beanstald installation
-  - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/beanstalkd.sh | bash
+  # Set Up the Phalcon, Clone it in the main repository.
+  - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
+  - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/phpize /usr/bin/
+  - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/php-config /usr/bin/
+  - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
+  - git clone -b master https://github.com/phalcon/cphalcon.git --depth=1 ${TRAVIS_BUILD_DIR}
+  - git clone -b ${SLAYER_VERSION} https://github.com/phalconslayer/slayer.git --depth=1 ${SLAYER_FOLDER}
+
+install:
+  # Build Phalcon First.
+  - (cd ${TRAVIS_BUILD_DIR} && composer install)
+  - (cd ${SLAYER_FOLDER} && composer require phalconslayer/framework:dev-${TRAVIS_BRANCH} && composer update)
+  - bash ${TRAVIS_BUILD_DIR}/tests/_ci/install_prereqs_$PHP_MAJOR.sh
+  - bash ${TRAVIS_BUILD_DIR}/tests/_ci/install_zephir_parser.sh
+  - bash ${TRAVIS_BUILD_DIR}/tests/_ci/install_zephir.sh
+  - (cd ${TRAVIS_BUILD_DIR}  && zephir fullclean && zephir generate $ZEND_BACKEND)
+  - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ${TRAVIS_BUILD_DIR}/ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
+  - (cd ${TRAVIS_BUILD_DIR}/ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; /usr/bin/phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
+  - phpenv config-add ${TRAVIS_BUILD_DIR}/tests/_ci/phalcon.ini
+  - phpenv config-add ${TRAVIS_BUILD_DIR}/tests/_ci/redis.ini
+  - php -m
+  - pecl list
+  - php --ri phalcon
 
 before_script:
-  - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/build.sh | bash
+  - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/setup_dbs.sh | bash
+  - ulimit -c unlimited -S || true
+  - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
+  - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
-  - cd ~/${SLAYER_FOLDER}
+  - cd ${SLAYER_FOLDER}
+  - cp vendor/phalconslayer/framework/tests/.env.travis .env
+  - php brood db:migrate
 
   # call queue:listen
   - php brood queue:listen > queue-worker.log 2>&1 &
 
   # phpunit
-  - chmod a+x ./vendor/bin/phpunit
-  - chmod a+x ./vendor/phalconslayer/framework/phpunit.xml
-  - ./vendor/bin/phpunit -c ./vendor/phalconslayer/framework/phpunit.xml
+  - chmod a+x ${SLAYER_FOLDER}/vendor/bin/phpunit
+  - chmod a+x ${SLAYER_FOLDER}/vendor/phalconslayer/framework/phpunit.xml
+  - ${SLAYER_FOLDER}/vendor/bin/phpunit -c ./vendor/phalconslayer/framework/phpunit.xml
   - cat queue-worker.log
   - cat internal-server.log
 
   # call brood console commands
-  - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/script.sh | bash
+  - bash ${SLAYER_FOLDER}/vendor/phalconslayer/framework/build/ci/script.sh
 
 notifications:
   email:
@@ -84,6 +134,12 @@ notifications:
   slack:
     secure: qfmGfO9sKIO+n1fd90qOH5rYq8TF66xNL8FNNvX6WaeQt1VQ00jcG/gU1mlkl3TFseY5yUvhrYsKwLlD4/CBTvG4tfR9mS3ei51P6flW+i618+hSrE5tP2IPRu9YLtccNrzFoGiLjRJvMhmxrE9FhamdH7Nxv9MDbizLpV6Wen11x2baQdVrJG7bpSApBP2q5Q13GahB+uMSBUPVE24yqJTkCsTuzLVDuZ5xbf13xBgfC+mxNPAj94Q0MQwBYI/NHukFl7Rx7169dUtugYsS5N2Bg4wbfuiCJdu3C6zr64jMCmow8xKtPFLaFbdv7Nfj5uOaJpv7InoOzVmbHOUjipweidjMgKayI2Hk9Kzjyzcn9IH7QVvmUfshqdLjZS4vdUvt7cUKGkh9m0rIhnDfDayAOf461Ntxixf5MQyFGFjddQgcCF5HqmyZmYmc5A1wzLMrdBFt6dh+SPaAH1gR+GUv5ZDbyyYNAPSWmlBMncUqFgbdIihWmu5HEQ6IwqfohM37WxlCXX5fQk04QHozVr3FJE7West7kf9FJ8UYAUPuLE4EPVaXk+DlcpwpjvcqQcEC+7JvEyjQ5dHxhJ1Dfl2N9/HJos52BdKStDwvVrFs6uBUzQdAvSdkGZpepevZr2eiKuYGWCOWMRNbHy70vsY+1NXQlUggz796ZIDOLlk=
 
-# branches:
-#   only:
-#     - master
+addons:
+  apt:
+    packages:
+      - gdb
+      - re2c
+      - beanstalkd
+      - mysql-server-5.6
+      - mysql-server-core-5.6
+      - mysql-client-5.6
