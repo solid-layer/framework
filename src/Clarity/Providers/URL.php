@@ -50,7 +50,7 @@ class URL extends ServiceProvider
             $this->getDI()->remove('url');
         }
 
-        $this->app->bind('url', function () {
+        $this->app->singleton('url', function () {
             return new BaseURL();
         });
     }

@@ -21,11 +21,13 @@ class AppTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $test_module_index = 'public/test_module.php';
+
         if (file_exists($test_module_index)) {
             di()->get('flysystem')->delete($test_module_index);
         }
 
         $test_module = 'app/TestModule';
+
         if (is_dir($test_module)) {
             di()->get('flysystem')->deleteDir($test_module);
         }
@@ -58,12 +60,9 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
         $file_contents = file_get_contents($file);
         $this->assertContains('namespace App\\TestModule\\Providers;', $file_contents);
-        $this->assertContains('use Phalcon\Di\FactoryDefault;', $file_contents);
         $this->assertContains('use Clarity\Providers\ServiceProvider;', $file_contents);
         $this->assertContains('use Clarity\Contracts\Providers\ModuleInterface;', $file_contents);
         $this->assertContains('class RouterServiceProvider extends ServiceProvider implements ModuleInterface', $file_contents);
-        $this->assertContains('public function module(FactoryDefault $di)', $file_contents);
-        $this->assertContains('->setDefaultNamespace(\'App\TestModule\Controllers\');', $file_contents);
         $this->assertContains('public function afterModuleRun()', $file_contents);
         $this->assertContains('require_once realpath(__DIR__.\'/../\').\'/Routes.php\';', $file_contents);
 

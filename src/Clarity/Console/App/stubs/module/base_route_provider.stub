@@ -2,35 +2,33 @@
 
 namespace {namespace};
 
-use Phalcon\Di\FactoryDefault;
 use Clarity\Providers\ServiceProvider;
 use Clarity\Contracts\Providers\ModuleInterface;
 
+/**
+ * A route service for '{raw_module}' module.
+ *
+ * To make this module work, register this inside [config/app.php], under 'services' key.
+ */
 class RouterServiceProvider extends ServiceProvider implements ModuleInterface
 {
     /**
-     * @var string
+     * {@inherit}
      */
-    protected $alias = '{raw_module}';
-
-    /**
-     * @var bool
-     */
-    protected $shared = false;
+    public function boot()
+    {
+        resolve('module')->setModule('{raw_module}', function () {
+            resolve('dispatcher')->setDefaultNamespace('App\{module}\Controllers');
+        });
+    }
 
     /**
      * {@inherit}
      */
     public function register()
     {
-        return $this;
-    }
+        $this->app->instance('{raw_module}', $this);
 
-    /**
-     * {@inherit}
-     */
-    public function module(FactoryDefault $di)
-    {
         $di
             ->get('dispatcher')
             ->setDefaultNamespace('App\{module}\Controllers');

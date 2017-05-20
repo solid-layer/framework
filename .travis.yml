@@ -15,13 +15,11 @@ git:
   depth: 1
 
 matrix:
-  fast_finish: true
-
   allow_failures:
     - php: nightly
 
   include:
-    # PHP5.6
+    # PHP 5.6
     - php: 5.6
       env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev"
     - php: 5.6
@@ -29,7 +27,7 @@ matrix:
     - php: 5.6
       env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev"
 
-    # PHP7.0
+    # PHP 7.0
     - php: 7.0
       env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.0
@@ -37,13 +35,11 @@ matrix:
     - php: 7.0
       env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
 
-    # PHP7.1
+    # PHP 7.1
     - php: 7.1
       env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.1
       env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
-    - php: 7.1
-      env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev" ZEND_BACKEND="--backend=ZendEngine3"
 
     # nightly
     - php: nightly
@@ -104,7 +100,9 @@ install:
   - php --ri phalcon
 
 before_script:
-  - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/setup_dbs.sh | bash
+  # - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/setup_dbs.sh | bash
+  - mysql -u root -e 'create database slayer charset=utf8mb4 collate=utf8mb4_unicode_ci;'
+  - psql -c 'create database slayer;' -U postgres
   - ulimit -c unlimited -S || true
   - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -113,6 +111,8 @@ script:
   - cd ${SLAYER_FOLDER}
   - cp vendor/phalconslayer/framework/tests/.env.travis .env
   - php brood db:migrate
+  - php -S ${SERVE_HOST}:${SERVE_PORT} -t public/ > internal-server.log 2>&1 &
+  - sleep 5
 
   # call queue:listen
   - php brood queue:listen > queue-worker.log 2>&1 &

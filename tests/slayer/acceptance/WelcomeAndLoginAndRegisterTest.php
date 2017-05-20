@@ -57,7 +57,6 @@ class AppTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->session = (new Mink)->get('goutte');
-        // $this->url = 'http://'.env('SERVE_HOST').':'.env('SERVE_PORT');
         $this->url = resolve('url')->getBaseUri();
         $this->email = 'daison12006013@gmail.com';
         $this->password = '123qwe';
