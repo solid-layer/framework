@@ -1,3 +1,6 @@
+    /**
+     * {@inheritdoc}
+     */
     public function initialize()
     {
         $this->setPaths([
@@ -7,27 +10,37 @@
 
         $this->setPrefix('/{prefixRouteName}');
 
-        # url as {prefixRouteName}/index
+        $this->resources();
+    }
+
+    /**
+     * A pre-added resource routes.
+     *
+     * @return void
+     */
+    public function resources()
+    {
+        # index
         $this->addGet('/index', [
             'action' => 'index'
         ]);
 
-        # url as {prefixRouteName}/store
+        # store
         $this->addPost('/store', [
             'action' => 'store'
         ]);
 
-        # url as {prefixRouteName}/1/show
+        # show
         $this->addGet('/{id}/show', [
             'action' => 'show'
         ]);
 
-        # url as {prefixRouteName}/1/update
+        # update
         $this->addPost('/{id}/update', [
             'action' => 'update'
         ]);
 
-        # url as {prefixRouteName}/1/delete
+        # delete
         $this->addPost('/{id}/delete', [
             'action' => 'delete'
         ]);

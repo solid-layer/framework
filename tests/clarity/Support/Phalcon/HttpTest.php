@@ -6,7 +6,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 {
     public function testRequest()
     {
-        $old = config()->toArray();
+        $main = config('app.base_uri.main');
 
         # let's change the server host and port
         config([
@@ -21,7 +21,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $request->getStatusCode());
 
-        # reset
-        config($old, false);
+        # roll back
+        config([
+            'app' => [
+                'base_uri' => [
+                    'main' => $main,
+                ],
+            ],
+        ]);
     }
 }

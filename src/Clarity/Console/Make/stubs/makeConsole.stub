@@ -5,28 +5,33 @@ namespace Components\Console;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * A '{consoleName}' console command.
+ *
+ * Register this class inside [config/consoles.php].
+ */
 class {consoleName} extends Console
 {
     /**
      * @var string
      */
-    protected $name = 'console:name';
+    protected $name = '{consoleName}';
 
     /**
      * @var string
      */
-    protected $description = 'console description';
+    protected $description = 'Your {consoleName} description.';
 
     /**
-     * Add your code below
+     * Add your code below.
      */
     public function slash()
     {
-        // your code here ...
+        # your code here ...
     }
 
     /**
-     * Arguments...
+     * Your Arguments.
      *
      * @return mixed
      */
@@ -38,7 +43,7 @@ class {consoleName} extends Console
     }
 
     /**
-     * Options...
+     * Your Options.
      *
      * @return mixed
      */

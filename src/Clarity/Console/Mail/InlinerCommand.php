@@ -85,7 +85,7 @@ class InlinerCommand extends Brood
             $this->combineCss($record['css'])
         );
 
-        #  get the dirname and file name
+        # get the dirname and file name
         $dirname = dirname($related_files[0]);
         $converted_name = basename($record->file).'-inlined.volt';
 

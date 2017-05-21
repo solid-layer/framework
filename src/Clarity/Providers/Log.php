@@ -20,11 +20,26 @@ use Monolog\Handler\StreamHandler;
 class Log extends ServiceProvider
 {
     /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['logger'];
+    }
+
+    /**
      * {@inheridoc}.
      */
     public function register()
     {
-        $this->app->singleton('log', function () {
+        $this->app->singleton('logger', function () {
             $logger = new Logger('slayer');
 
             $logger_name = 'slayer';

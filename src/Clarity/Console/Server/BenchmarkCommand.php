@@ -54,13 +54,17 @@ class BenchmarkCommand extends Brood
             $records[] = [
                 $name,
                 $sec,
-                0,
+                $sec ? 0 : null,
             ];
         }
 
         # update percentage
         foreach ($records as $idx => $record) {
-            $record[2] = number_format(($record[1] / $total_sec) * 100, 2);
+            if ($record[1] === null) {
+                continue;
+            }
+
+            $record[2] = number_format(($record[1] / $total_sec) * 100, 2).'%';
             $records[$idx] = $record;
         }
 

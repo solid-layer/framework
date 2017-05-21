@@ -39,7 +39,6 @@ class URL extends ServiceProvider
     {
         $url = resolve('url');
         $url->setDI($this->getDI());
-        $url->setBaseUri($url->getFullUrl().'/');
     }
 
     /**
@@ -47,6 +46,10 @@ class URL extends ServiceProvider
      */
     public function register()
     {
+        if ($this->getDI()->has('url')) {
+            $this->getDI()->remove('url');
+        }
+
         $this->app->singleton('url', function () {
             return new BaseURL();
         });

@@ -30,9 +30,33 @@ use Monolog\Handler\StreamHandler;
 class DB extends ServiceProvider
 {
     /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
      * {@inheridoc}.
      */
     protected $alias = 'db';
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        $provides = [];
+
+        foreach ($this->connections() as $adapter => $options) {
+            $provides[] = $this->alias.'.'.$adapter;
+        }
+
+        # make the last key 'db' last
+        $provides[] = $this->alias;
+
+        return $provides;
+    }
 
     /**
      * Magic method call.
@@ -114,7 +138,7 @@ class DB extends ServiceProvider
 
         $adapter = $adapters[$selected_adapter];
 
-        if (isset($adapter['active']) && $adapter['active'] === false) {
+        if (isset($adapter['active']) && ! $adapter['active']) {
             return false;
         }
 

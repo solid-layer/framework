@@ -24,7 +24,6 @@
      * To show an output based on the requested ID
      *
      * @param $id
-     *
      * @return mixed
      */
     public function show($id)
@@ -41,7 +40,6 @@
      * To update a record based on the requested ID
      *
      * @param $id
-     *
      * @return void
      */
     public function update($id)
@@ -56,7 +54,6 @@
      * To delete a record
      *
      * @param $id The id to be deleted
-     *
      * @return void
      */
     public function delete($id)

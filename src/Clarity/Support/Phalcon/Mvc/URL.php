@@ -67,23 +67,18 @@ class URL extends BaseURL
      */
     public function getScheme($module = null)
     {
-        if ($module === null) {
+        if (! $module) {
             $module = resolve('application')->getDefaultModule();
+        }
 
-            if ($this->hasHttps()) {
+        if ($module === null && $this->hasHttps()) {
+            return 'https://';
+        } else {
+            $ssl_modules = config('app.ssl')->toArray();
+
+            if (isset($ssl_modules[$module]) && $ssl_modules[$module] === true) {
                 return 'https://';
             }
-        }
-
-        # if still null, return http://
-        if ($module === null) {
-            return 'http://';
-        }
-
-        $ssl_modules = config('app.ssl')->toArray();
-
-        if (isset($ssl_modules[$module]) && $ssl_modules[$module] === true) {
-            return 'https://';
         }
 
         return 'http://';
@@ -97,24 +92,22 @@ class URL extends BaseURL
      */
     public function getHost($module = null)
     {
-        if ($module === null) {
+        if (! $module) {
+            # if $module = null
+            # then pull the application's default module
             $module = resolve('application')->getDefaultModule();
+        }
 
-            if (isset($_SERVER['HTTP_HOST'])) {
-                return $_SERVER['HTTP_HOST'];
+        # if still null check, check if HTTP_HOST exists
+        if ($module === null && isset($_SERVER['HTTP_HOST'])) {
+            return $_SERVER['HTTP_HOST'];
+        } else {
+            # get all url's
+            $uri_modules = config()->app->base_uri->toArray();
+
+            if (isset($uri_modules[$module])) {
+                return $uri_modules[$module];
             }
-        }
-
-        # if still null, return localhost
-        if ($module === null) {
-            return 'localhost';
-        }
-
-        # get all url's
-        $uri_modules = config()->app->base_uri->toArray();
-
-        if (isset($uri_modules[$module])) {
-            return $uri_modules[$module];
         }
 
         return 'localhost';
@@ -194,5 +187,15 @@ class URL extends BaseURL
     public function to($path)
     {
         return url_trimmer($this->getBaseUri().'/'.$path);
+    }
+
+    /**
+     * Override the current base uri.
+     *
+     * @return \Clarity\Support\Phalcon\Mvc\URL
+     */
+    public function getBaseUri()
+    {
+        return $this->getFullUrl().'/';
     }
 }

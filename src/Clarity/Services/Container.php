@@ -53,7 +53,24 @@ class Container implements InjectionAwareInterface
      */
     public function addServiceProvider(ServiceProvider $provider)
     {
-        $this->providers[] = $provider;
+        $this->providers[get_class($provider)] = $provider;
+
+        return $this;
+    }
+
+    /**
+     * Refresh a service provider.
+     *
+     * @param  array $classes
+     * @return mixed|\Clarity\Services
+     */
+    public function refreshServiceProvider($classes = [])
+    {
+        $providers = array_map(function ($class) {
+            return $this->providers[$class];
+        }, $classes);
+
+        $this->handle($providers);
 
         return $this;
     }
@@ -61,15 +78,17 @@ class Container implements InjectionAwareInterface
     /**
      * Register a binding in static way.
      *
-     * @param  [type]
-     * @param  [type]
-     * @return [type]
+     * @param  \Clarity\Support\Phalcon\Di $di
+     * @param  string $alias
+     * @param  array $binding
+     * @param  \Clarity\Services\Mapper $mapper
+     * @return void
      */
-    public static function registerBinding($di, $alias, $binding)
+    public static function registerBinding($di, $alias, $binding, $mapper)
     {
         $di->set(
             $alias,
-            call_user_func_array($binding['callback'], [$binding['instance']]),
+            call_user_func_array($binding['callback'], [$mapper]),
             $binding['singleton']
         );
     }
@@ -80,10 +99,10 @@ class Container implements InjectionAwareInterface
      * @param  array $bindings
      * @return void
      */
-    public function registerNormalBindings($bindings = [])
+    public function registerNormalBindings($app)
     {
-        foreach ($bindings as $alias => $binding) {
-            static::registerBinding($this->_di, $alias, $binding);
+        foreach ($app->getNormalBindings() as $alias => $binding) {
+            static::registerBinding($this->_di, $alias, $binding, $app);
         }
     }
 
@@ -93,7 +112,7 @@ class Container implements InjectionAwareInterface
      * @param  array $bindings
      * @return void
      */
-    public function registerDeferredBindings($bindings = [])
+    public function registerDeferredBindings($app)
     {
         $providers = [];
 
@@ -101,7 +120,7 @@ class Container implements InjectionAwareInterface
             $providers = $this->_di->get('deferred.providers');
         }
 
-        $providers = array_merge($providers, $bindings);
+        $providers = array_merge($providers, $app->getDeferredBindings());
 
         $this->_di->set('deferred.providers', function () use ($providers) {
             return $providers;
@@ -113,13 +132,18 @@ class Container implements InjectionAwareInterface
      *
      * @return void
      */
-    public function handle()
+    public function handle($providers = [])
     {
         if (is_cli()) {
-            resolve('benchmark')->here('Loading Service Providers');
+            resolve('benchmark')->label('Loading Service Providers');
+            resolve('benchmark')->reset();
         }
 
-        foreach ($this->providers as $provider) {
+        if (empty($providers)) {
+            $providers = $this->providers;
+        }
+
+        foreach ($providers as $provider) {
             # call the register function to load everything
             if ($register = $provider->callRegister()) {
                 $this->_di->set(
@@ -129,16 +153,12 @@ class Container implements InjectionAwareInterface
                 );
             }
 
-            # register normal bindings
-            $this->registerNormalBindings(
-                $provider->app->getNormalBindings()
-            );
-
             # register deferred bindings
             if ($provider->app->isDeferred()) {
-                $this->registerDeferredBindings(
-                    $provider->app->getDeferredBindings()
-                );
+                $this->registerDeferredBindings($provider->app);
+            } else {
+                # register normal bindings
+                $this->registerNormalBindings($provider->app);
             }
 
             if (is_cli()) {
@@ -148,7 +168,7 @@ class Container implements InjectionAwareInterface
 
         # this happens when some application services relies on other service,
         # iterate the loaded providers and call the boot() function
-        foreach ($this->providers as $provider) {
+        foreach ($providers as $provider) {
             $boot = $provider->boot();
 
             if ($boot && ! $this->_di->has($provider->getAlias())) {

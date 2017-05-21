@@ -4,6 +4,9 @@ namespace Components\Collection;
 
 class {collectionName} extends Collection
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getSource()
     {
         return '{sourceName}';

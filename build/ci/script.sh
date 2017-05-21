@@ -3,16 +3,6 @@
 # +--------------------------+
 # | Run other brood commands |
 # +--------------------------+
-php brood list:routes
-
-# db
-php brood seed:factory
-php brood db:status
-php brood db:rollback
-php brood db:create Test
-php brood seed:create Test
-php brood seed:run
-php brood db:rollback
 
 # app
 php brood app:controller Test main
@@ -27,6 +17,19 @@ php brood clear:session
 php brood clear:views
 php brood clear:all
 
+# db
+php brood seed:factory
+php brood db:status
+php brood db:rollback
+php brood db:create Test
+php brood seed:create Test
+php brood seed:run
+php brood db:rollback
+
+# list
+php brood list:routes
+php brood list:services
+
 # mail
 php brood mail:inliner
 
@@ -34,3 +37,6 @@ php brood mail:inliner
 php brood make:collection Test
 php brood make:console Test
 php brood make:model Test
+
+# others
+php brood benchmark

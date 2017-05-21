@@ -31,12 +31,13 @@ trait KernelTrait
     {
         $this->di = new Di;
 
-        # pre-add the bench marking tool
-        $this->di->setShared('benchmark', function () {
-            return new \Clarity\Util\Benchmark\Benchmark(SLAYER_START);
-        });
-
         if (is_cli()) {
+            # pre-add the bench marking tool
+            $this->di->setShared('benchmark', function () {
+                return new \Clarity\Util\Benchmark\Benchmark(SLAYER_START);
+            });
+
+            resolve('benchmark')->reset();
             resolve('benchmark')->here('Instantiating Phalcon Di');
         }
 
@@ -148,6 +149,10 @@ trait KernelTrait
         }
 
         $container->handle();
+
+        $this->di->set('container', function () use ($container) {
+            return $container;
+        }, $singleton = true);
 
         if (is_cli()) {
             resolve('benchmark')->here('   Loaded All Service Providers');

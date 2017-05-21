@@ -1,20 +1,20 @@
-# S.Layer's Kernel
+# Solid Layer's Kernel
 
 ---
 
 You can post issues here, submit a pull request, discuss things you can imagine!
 
 ##### Phalcon Rank
-[![Phalconist](https://phalconist.com/phalconslayer/slayer/default.svg)](https://phalconist.com/phalconslayer/slayer)
+[![Phalconist](https://phalconist.com/solid-layer/solid-layer/default.svg)](https://phalconist.com/solid-layer/solid-layer)
 
 ##### Code Standard
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5d5e8a5c-62e6-43cf-9d36-39f62cefdcd2/big.png)](https://insight.sensiolabs.com/projects/5d5e8a5c-62e6-43cf-9d36-39f62cefdcd2)
 
 ##### master (alias v1.5) Status:
-[![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=master)](https://travis-ci.org/phalconslayer/framework)
+[![Build Status](https://travis-ci.org/solid-layer/framework.svg?branch=master)](https://travis-ci.org/solid-layer/framework)
 
 ##### v1.4 Status:
-[![Build Status](https://travis-ci.org/phalconslayer/framework.svg?branch=1.4)](https://travis-ci.org/phalconslayer/framework)
+[![Build Status](https://travis-ci.org/solid-layer/framework.svg?branch=1.4)](https://travis-ci.org/solid-layer/framework)
 
 ---
 
