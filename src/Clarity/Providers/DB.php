@@ -40,7 +40,7 @@ class DB extends ServiceProvider
      */
     protected $shared = true;
     
-    protected $cachedConnections = null;
+    protected $cachedConnections = [];
 
     /**
      * Get the database adapters.
