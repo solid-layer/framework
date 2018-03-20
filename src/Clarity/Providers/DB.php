@@ -45,6 +45,11 @@ class DB extends ServiceProvider
      * @param  array $args
      * @return void
      */
+
+    protected $shared = true;
+    
+    protected $cachedConnections = [];
+
     public function __call($method, $args)
     {
         if (method_exists($default = $this->getDefaultConnection(), $method)) {
@@ -107,8 +112,7 @@ class DB extends ServiceProvider
         # exists, we should throw an exception error
         if (! $has_adapter) {
             throw new Exception(
-                'Database adapter '.$selected_adapter.
-                ' not found'
+                'Database adapter '.$selected_adapter.' not found'
             );
         }
 
@@ -118,11 +122,19 @@ class DB extends ServiceProvider
             return false;
         }
 
+        if (isset($this->cachedConnections[$selected_adapter])) {
+            return $this->cachedConnections[$selected_adapter];
+        }
+
         $class = $adapter['class'];
 
-        $instance = new $class($adapter['options']);
+        unset($adapter['class']);
+
+        $instance = new $class($adapter);
 
         $instance->setEventsManager($this->getEventLogger());
+
+        $this->cachedConnections[$selected_adapter] = $instance;
 
         return $instance;
     }
@@ -170,7 +182,7 @@ class DB extends ServiceProvider
                 if ($variables) {
                     $logger->info(
                         $conn->getSQLStatement().
-                        ' ['.implode(',', $variables).']'
+                        ' ['. json_encode($variables).']'
                     );
                 } else {
                     $logger->info($conn->getSQLStatement());
