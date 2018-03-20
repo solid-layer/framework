@@ -7,12 +7,15 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console;
 
 use Closure;
+use ReflectionClass;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * A cli class that mock the same cli commands.
@@ -20,54 +23,130 @@ use Symfony\Component\Process\Process;
 class CLI
 {
     /**
+     * Handles the brood default options/arguments.
+     */
+    final public static function ArgvInput()
+    {
+        # get the raw commands
+        $raws = ['--env', '--timeout'];
+
+        # get the options from Brood
+        $options = [
+            Brood::environmentOption(),
+            Brood::timeoutOption(),
+        ];
+
+        $instances = [];
+        $reflect = new ReflectionClass(InputOption::class);
+
+        foreach ($options as $opt) {
+            $instances[] = $reflect->newInstanceArgs($opt);
+        }
+
+        # still, listen to the php $_SERVER['argv']
+        $cmd_input = new ArgvInput;
+
+        # get the default brood options
+        $brood_input = new ArgvInput(
+            $raws,
+            new InputDefinition($instances)
+        );
+
+        foreach ($raws as $raw) {
+            if ($cmd_input->hasParameterOption([$raw])) {
+                $val = $cmd_input->getParameterOption($raw);
+                $val = is_numeric($val) ? (int) $val : $val;
+
+                $brood_input->setOption(str_replace('-', '', $raw), $val);
+            }
+        }
+
+        return $brood_input;
+    }
+
+    /**
      * It executes all the requested commands.
      *
      * @param mixed $lines An array lists of all bash commands
      * @return string The output
      */
-    public static function bash(array $lines, $prefix = null, $suffix = null)
+    public static function bash(array $lines)
     {
         foreach ($lines as $line) {
-            static::process($line, $prefix, $suffix);
+            static::process($line);
         }
     }
 
-    public static function process($line, $prefix = null, $suffix = null)
+    /**
+     * Single execution command.
+     *
+     * @param string $line The command to be executed
+     * @return void
+     */
+    public static function process($line, $timeout = 60)
     {
+        if (is_array($line)) {
+            return static::bash($line);
+        }
+
+        $input = static::ArgvInput();
+        $output = new ConsoleOutput;
+
+        if ($input->hasOption('timeout')) {
+            $timeout = $input->getOption('timeout');
+        }
+
+        $output->writeln('<comment>'.$line.'</comment>');
+
         $proc = new Process($line);
-
-        $proc->run(function ($type, $buffer) use ($line, $prefix, $suffix) {
-
+        $proc->setTimeout($timeout);
+        $proc->run(function ($type, $buffer) use ($output) {
             foreach (explode("\n", $buffer) as $buffer) {
-                $buffer = $prefix.$buffer.$suffix;
-
-                if (Process::ERR === $type) {
-                    static::errorMessage($buffer);
+                if (Process::OUT === $type) {
+                    $output->writeln('<info>'.$buffer.'</info>');
                 } else {
-                    static::infoMessage($buffer);
+                    $output->writeln($buffer);
                 }
             }
         });
     }
 
-    public static function errorMessage($buffer)
+    /**
+     * Handles callback request, to have an input and output capability.
+     *
+     * @param $callback \Closure
+     * @return void
+     */
+    public static function handleCallback(Closure $callback)
     {
-        echo "\e[34m{$buffer}\e[37m\n";
+        $output = new ConsoleOutput;
+
+        $response = call_user_func_array(
+            $callback,
+            [static::ArgvInput(), $output]
+        );
+
+        if ($response) {
+            static::process($response);
+        }
     }
 
-    public static function infoMessage($buffer)
+    /**
+     * An ssh command builder.
+     *
+     * @param $server The server IP and Port
+     * @param $scripts The array of scripts to be used
+     * @param $execute Default to true if you want to automatically
+     *                 run the script, if false, it will return as
+     *                 an array
+     * @return string
+     */
+    public static function ssh($server, $scripts = [], $execute = true)
     {
-        echo "\e[32m{$buffer}\e[37m\n";
-    }
+        if ($scripts instanceof Closure) {
+            $scripts = call_user_func($scripts);
+        }
 
-    public static function logMessage($buffer)
-    {
-        echo "\e[37m{$buffer}\e[37m\n";
-    }
-
-    public static function ssh($server, Closure $callback)
-    {
-        $scripts = call_user_func($callback);
         $scripts = implode("\n", $scripts);
 
         $delimiter = 'EOF-SLAYER-SCRIPT';
@@ -77,10 +156,10 @@ class CLI
             .$scripts.PHP_EOL
             .$delimiter;
 
-        return function () use ($server, $scripts, $build) {
-            static::logMessage('Connecting to '.$server.' through ssh ...');
-            static::logMessage($scripts);
-            static::process($build, '['.$server.']: ');
-        };
+        if ($execute === true) {
+            return static::process($build);
+        }
+
+        return $build;
     }
 }

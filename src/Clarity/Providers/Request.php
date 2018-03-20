@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Http\Request as BaseRequest;
@@ -21,18 +20,8 @@ class Request extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'request';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseRequest;
+        $this->app->instance('request', new BaseRequest, $singleton = true);
     }
 }

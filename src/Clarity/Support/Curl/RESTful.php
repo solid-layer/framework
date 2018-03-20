@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,16 +8,25 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Curl;
 
 use GuzzleHttp\Client;
 
+/**
+ * A basic restful request.
+ */
 class RESTful
 {
+    /**
+     * @var mixed|\GuzzleHttp\Client
+     */
     private $client;
 
+    /**
+     * Contructor.
+     *
+     * @param string $base_uri
+     */
     public function __construct($base_uri)
     {
         $this->client = new Client([
@@ -24,11 +34,22 @@ class RESTful
         ]);
     }
 
+    /**
+     * Get the client.
+     *
+     * @return mixed|\GuzzleHttp\Client
+     */
     public function getClient()
     {
         return $this->client;
     }
 
+    /**
+     * Callable.
+     *
+     * @param string $method
+     * @param array $params
+     */
     public function __call($method, $params)
     {
         return call_user_func_array([$this->client, $method], $params);

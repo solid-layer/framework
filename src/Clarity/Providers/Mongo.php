@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use MongoClient;
@@ -21,49 +20,49 @@ class Mongo extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'mongo';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        if (! class_exists(MongoClient::class)) {
-            return $this;
-        }
+        $this->app->singleton('mongo.selected_adapter', function () {
+            $adapters = config('database.nosql_adapters');
 
-        $adapters = config()->database->nosql_adapters;
+            $selected_adapter = config()->app->nosql_adapter;
 
-        $selected_adapter = config()->app->nosql_adapter;
+            if (empty($selected_adapter)) {
+                return false;
+            }
 
-        if (
-            empty($selected_adapter) ||
-            ! isset($adapters[$selected_adapter])
-        ) {
-            return $this;
-        }
+            if (! isset($adapters[$selected_adapter])) {
+                return false;
+            }
 
-        $adapter = $adapters[$selected_adapter];
+            return $adapters[$selected_adapter];
+        });
 
-        $host = $adapter->host;
-        $port = $adapter->port;
-        $username = $adapter->username;
-        $password = $adapter->password;
-        $dbname = $adapter->dbname;
+        $this->app->singleton('mongo', function ($app) {
+            if (! class_exists(MongoClient::class)) {
+                return $this;
+            }
 
-        $str = 'mongodb://'.$username.':'.$password.'@'.$host.':'.$port;
+            $adapter = $app->make('mongo.selected_adapter');
 
-        if (strlen($username) < 1 && strlen($password) < 1) {
-            $str = 'mongodb://'.$host.':'.$port;
-        }
+            if (! $adapter) {
+                return $this;
+            }
 
-        $mongo = new MongoClient($str);
+            $host = $adapter->host;
+            $port = $adapter->port;
+            $username = $adapter->username;
+            $password = $adapter->password;
 
-        return $mongo->selectDB($dbname);
+            $str = 'mongodb://'.$username.':'.$password.'@'.$host.':'.$port;
+
+            if (strlen($username) < 1 && strlen($password) < 1) {
+                $str = 'mongodb://'.$host.':'.$port;
+            }
+
+            $mongo = new MongoClient($str);
+
+            return $mongo->selectDB($adapter->dbname);
+        });
     }
 }

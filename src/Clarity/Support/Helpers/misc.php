@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -13,7 +14,7 @@ if (! function_exists('env')) {
      * that handles the .env file in the root folder of a project.
      *
      * @param string $const The constant variable
-     * @param string\bool|mixed $default The default value if it is empty
+     * @param string|bool|mixed $default The default value if it is empty
      * @return mixed The value based on requested variable
      */
     function env($const, $default = null)

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,15 +8,20 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Mvc;
 
-use InvalidArgumentException;
 use Phalcon\Mvc\Url as BaseURL;
 
+/**
+ * {@inheritdoc}
+ */
 class URL extends BaseURL
 {
+    /**
+     * Create an instance of this class via static call.
+     *
+     * @return mixed URL
+     */
     public static function getInstance()
     {
         $instance = new static;
@@ -25,39 +31,81 @@ class URL extends BaseURL
         return $instance;
     }
 
+    /**
+     * Check if it request is an https.
+     *
+     * @return bool
+     */
+    protected function hasHttps()
+    {
+        if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'https') {
+            return true;
+        }
+
+        if (
+            isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+            $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
+        ) {
+            return true;
+        }
+
+        if (
+            isset($_SERVER['REQUEST_SCHEME']) &&
+            $_SERVER['REQUEST_SCHEME'] === 'https'
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the scheme.
+     *
+     * @param  string $module
+     * @return string
+     */
     public function getScheme($module = null)
     {
         if ($module === null) {
-            $module = di()->get('application')->getDefaultModule();
+            $module = resolve('application')->getDefaultModule();
+
+            if ($this->hasHttps()) {
+                return 'https://';
+            }
         }
 
-        $https = false;
+        # if still null, return http://
+        if ($module === null) {
+            return 'http://';
+        }
 
-        $ssl_modules = config()->app->ssl->toArray();
+        $ssl_modules = config('app.ssl')->toArray();
 
-        if (
-            isset($ssl_modules[$module]) &&
-            $ssl_modules[$module] === true
-        ) {
+        if (isset($ssl_modules[$module]) && $ssl_modules[$module] === true) {
             return 'https://';
         }
 
         return 'http://';
     }
 
+    /**
+     * Get the host.
+     *
+     * @param  string $module
+     * @return string
+     */
     public function getHost($module = null)
     {
-        # only successful if we're not passing any parameter
-        # and the server found an index 'HTTP_HOST'
-        if (
-            isset($_SERVER['HTTP_HOST']) &&
-            $module === null
-        ) {
-            return $_SERVER['HTTP_HOST'];
+        if ($module === null) {
+            $module = resolve('application')->getDefaultModule();
+
+            if (isset($_SERVER['HTTP_HOST'])) {
+                return $_SERVER['HTTP_HOST'];
+            }
         }
 
-        $module = di()->get('application')->getDefaultModule();
-
+        # if still null, return localhost
         if ($module === null) {
             return 'localhost';
         }
@@ -65,13 +113,21 @@ class URL extends BaseURL
         # get all url's
         $uri_modules = config()->app->base_uri->toArray();
 
-        if (! isset($uri_modules[$module])) {
-            throw new InvalidArgumentException("Module [$module] not found.");
+        if (isset($uri_modules[$module])) {
+            return $uri_modules[$module];
         }
 
-        return config()->app->base_uri->{$module};
+        return 'localhost';
     }
 
+    /**
+     * Get the full url.
+     *
+     * Combining getScheme() and getHost()
+     *
+     * @param  string $module
+     * @return string
+     */
     public function getFullUrl($module = null)
     {
         return url_trimmer(
@@ -79,28 +135,62 @@ class URL extends BaseURL
         );
     }
 
+    /**
+     * Get the request uri.
+     *
+     * @return string
+     */
     public function getRequestUri()
     {
         return url_trimmer($_SERVER['REQUEST_URI']);
     }
 
+    /**
+     * Get the previous url.
+     *
+     * @return string
+     */
     public function previous()
     {
         return url_trimmer($_SERVER['HTTP_REFERER']);
     }
 
-    public function route($for, $params = [], $pres = [])
+    /**
+     * The url builder based on your route's name.
+     *
+     * @param string $name The route name
+     * @param mixed $params A uri parameters for this route
+     * @param mixed $raw A raw parameters for your route
+     * @return string
+     */
+    public function route($for, $params = [], $raw = [])
     {
+        # inject the $for inside params
         $params['for'] = $for;
 
-        return $this->get($params, $pres);
+        # build the pretty uri's
+        $generated = $this->get($params);
+
+        # then get the $raw too
+        return $this->get($generated, $raw);
     }
 
+    /**
+     * Get the current url.
+     *
+     * @return string
+     */
     public function current()
     {
         return url_trimmer($this->getBaseUri().'/'.$this->getRequestUri());
     }
 
+    /**
+     * Append a path to your base uri.
+     *
+     * @param  string $path
+     * @return string
+     */
     public function to($path)
     {
         return url_trimmer($this->getBaseUri().'/'.$path);

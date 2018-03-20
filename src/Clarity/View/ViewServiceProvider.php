@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,55 +8,59 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\View;
 
 use Phalcon\Events\Event;
-use Phalcon\Events\Manager;
 use Phalcon\Mvc\View\Engine\Php;
 use Clarity\View\Volt\VoltAdapter;
 use Clarity\View\Blade\BladeAdapter;
 use Clarity\Support\Phalcon\Mvc\View;
 use Clarity\Providers\ServiceProvider;
 
+/**
+ * The 'view' service provider.
+ */
 class ViewServiceProvider extends ServiceProvider
 {
-    protected $alias = 'view';
-    protected $shared = true;
-
+    /**
+     * {@inheritdoc}
+     */
     public function boot()
     {
-        $event_manager = new Manager;
+        $this->app->singleton('view.event_manager', function ($app) {
+            $event_manager = $app->make('eventsManager');
 
-        $event_manager->attach('view:afterRender',
-            function (
-                Event $event,
-                View $dispatcher,
-                $exception
-            ) {
-                $flash = $dispatcher->getDI()->get('flash');
-                $flash->destroy();
-            }
-        );
+            $event_manager->attach('view:afterRender',
+                function (
+                    Event $event,
+                    View $dispatcher,
+                    $exception
+                ) {
+                    $dispatcher->getDI()->get('flash')->session()->clear();
+                }
+            );
 
-        di()->get('view')->setEventsManager($event_manager);
-
-        return $this;
+            $app->make('view')->setEventsManager($event_manager);
+        });
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
-        $view = new View;
+        $this->app->singleton('view', function () {
+            $view = new View;
 
-        $view->setViewsDir(config()->path->views);
+            $view->setViewsDir(config()->path->views);
 
-        $view->registerEngines([
-            '.phtml'     => Php::class,
-            '.volt'      => VoltAdapter::class,
-            '.blade.php' => BladeAdapter::class,
-        ]);
+            $view->registerEngines([
+                '.phtml'     => Php::class,
+                '.volt'      => VoltAdapter::class,
+                '.blade.php' => BladeAdapter::class,
+            ]);
 
-        return $view;
+            return $view;
+        });
     }
 }

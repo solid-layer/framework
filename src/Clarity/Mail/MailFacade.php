@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,18 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Mail;
 
 use Clarity\Facades\Facade;
 
+/**
+ * The 'mail' Facade.
+ */
 class MailFacade extends Facade
 {
+    /**
+     * {@inheritdoc}
+     */
     protected static function getFacadeAccessor()
     {
         return 'mail';

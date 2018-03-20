@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,20 +8,35 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Exception;
 use Clarity\Services\ServiceMagicMethods;
 use Clarity\Exceptions\ServiceAliasNotFoundException;
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * This is the abstract provider that could manage class extenders.
  */
-abstract class ServiceProvider
+abstract class ServiceProvider implements InjectionAwareInterface
 {
     use ServiceMagicMethods;
+
+    /**
+     * @var bool
+     */
+    protected $defer = false;
+
+    /**
+     * @var \Phalcon\DiInterface
+     */
+    public $app;
+
+    /**
+     * @var \Phalcon\DiInterface
+     */
+    protected $_di;
 
     /**
      * The provider's alias.
@@ -47,6 +63,41 @@ abstract class ServiceProvider
     protected $after_module = false;
 
     /**
+     * Get deferred value.
+     *
+     * @return bool
+     */
+    public function getDeferred()
+    {
+        return $this->defer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDI(DiInterface $di)
+    {
+        $this->_di = $di;
+
+        $this->app = new \Clarity\Services\Mapper;
+
+        # if the child class defer is true, mark the mapper as true as well
+        # inject the provides function as well.
+        if ($this->getDeferred()) {
+            $this->app->setDeferred(true);
+            $this->app->setInstance($this);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDI()
+    {
+        return $this->_di;
+    }
+
+    /**
      * Get the provider if it is a shared or not.
      *
      * @return bool
@@ -57,7 +108,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * Get the service alias when accessing to di()->get(<alias>).
+     * Get the service alias when accessing to $this->getDI()->get(<alias>).
      *
      * @return string
      */
@@ -77,7 +128,7 @@ abstract class ServiceProvider
      *
      * @return bool
      */
-    public function getAfterModule()
+    public function isAfterModule()
     {
         return $this->after_module;
     }
@@ -117,6 +168,18 @@ abstract class ServiceProvider
      * @return mixed
      */
     abstract public function register();
+
+    /**
+     * Register a sub provider.
+     *
+     * @return
+     */
+    protected function subRegister($sub_name, $callback, $shared = false)
+    {
+        $name = $this->getAlias().'.'.$sub_name;
+
+        $this->getDI()->set($name, $callback, $shared);
+    }
 
     /**
      * Folders or Files to be copied from going to application path.

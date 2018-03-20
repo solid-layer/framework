@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,27 +8,15 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Auth;
 
 use InvalidArgumentException;
 
+/**
+ * Authentication handler.
+ */
 class Auth
 {
-    private $request;
-    private $session;
-    private $response;
-    private $security;
-
-    public function __construct()
-    {
-        $this->request = di()->get('request');
-        $this->session = di()->get('session');
-        $this->response = di()->get('response');
-        $this->security = di()->get('security');
-    }
-
     /**
      * Attempt to login using the provided records and the password field.
      *
@@ -80,9 +69,9 @@ class Auth
         # now check if the password given is matched with the
         # existing password recorded.
 
-        if ($this->security->checkHash($password, $records->{$password_field})) {
-            $this->session->set('isAuthenticated', true);
-            $this->session->set('user', $records);
+        if (resolve('security')->checkHash($password, $records->{$password_field})) {
+            resolve('session')->set('isAuthenticated', true);
+            resolve('session')->set('user', $records);
 
             return true;
         }
@@ -99,10 +88,10 @@ class Auth
     {
         $redirect_key = config()->app->auth->redirect_key;
 
-        $redirect_to = $this->request->get($redirect_key);
+        $redirect_to = resolve('request')->get($redirect_key);
 
         if ($redirect_to) {
-            return $this->response->redirect($redirect_to);
+            return resolve('response')->redirect($redirect_to);
         }
 
         return false;
@@ -115,7 +104,7 @@ class Auth
      */
     public function check()
     {
-        if ($this->session->has('isAuthenticated')) {
+        if (resolve('session')->has('isAuthenticated')) {
             return true;
         }
 
@@ -129,7 +118,7 @@ class Auth
      */
     public function user()
     {
-        return $this->session->get('user');
+        return resolve('session')->get('user');
     }
 
     /**
@@ -139,8 +128,8 @@ class Auth
      */
     public function destroy()
     {
-        $this->session->remove('isAuthenticated');
-        $this->session->remove('user');
+        resolve('session')->remove('isAuthenticated');
+        resolve('session')->remove('user');
 
         return true;
     }

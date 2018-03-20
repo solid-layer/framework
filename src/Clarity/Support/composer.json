@@ -14,13 +14,13 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.2.*",
+        "illuminate/support": "5.4.*",
         "fzaninotto/faker": "~1.4",
         "league/tactician": "^0.6",
-        "paragonie/random_compat": "1.1.*",
+        "paragonie/random_compat": "~1.4|~2.0",
         "clarity/contracts": "1.4.*",
         "clarity/exceptions": "1.4.*",
-        "robmorgan/phinx": "0.5.*"
+        "robmorgan/phinx": "0.6.*"
     },
     "autoload": {
         "psr-4": {

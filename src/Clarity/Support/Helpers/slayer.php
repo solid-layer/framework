@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -12,11 +13,11 @@ if (! function_exists('di')) {
      * This calls our default dependency injection.
      *
      * @param string|mixed $alias The service provider alias
-     * @return mixed
+     * @return Phalcon\Di|mixed
      */
     function di($alias = null)
     {
-        $default = Phalcon\DI::getDefault();
+        $default = Clarity\Support\Phalcon\Di::getDefault();
 
         if (is_string($alias)) {
             return $default->get($alias);
@@ -43,5 +44,25 @@ if (! function_exists('di')) {
 
         # or just return the default thing
         return $default;
+    }
+}
+
+if (! function_exists('resolve')) {
+
+    /**
+     * Resolve a service provider.
+     *
+     * @param  string $alias
+     * @return [type]
+     */
+    function resolve($alias = null)
+    {
+        if (di()->has($alias)) {
+            return di()->get($alias);
+        }
+
+        \Clarity\Services\Mapper::resolveBinding(di(), $alias);
+
+        return di()->get($alias);
     }
 }

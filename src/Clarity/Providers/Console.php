@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -22,7 +21,7 @@ class Console extends ServiceProvider
     /**
      * The current system version.
      */
-    const VERSION = 'v1.4.0';
+    const VERSION = 'v1.5.x-dev';
 
     /**
      * The console description which holds the copywright.
@@ -30,23 +29,35 @@ class Console extends ServiceProvider
     const DESCRIPTION = 'Brood (c) Daison Cariño';
 
     /**
-     * {@inheridoc}.
+     * @var bool
      */
-    protected $alias = 'console';
+    protected $defer = true;
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['console'];
+    }
 
     /**
      * {@inheridoc}.
      */
     public function register()
     {
-        $app = new ConsoleApplication(self::DESCRIPTION, self::VERSION);
+        $this->app->bind('console', function () {
+            $app = new ConsoleApplication(static::DESCRIPTION, static::VERSION);
 
-        if (is_cli()) {
-            foreach (config()->consoles as $console) {
-                $app->add(new $console);
+            if (is_cli()) {
+                foreach (config()->consoles as $console) {
+                    $app->add(new $console);
+                }
             }
-        }
 
-        return $app;
+            return $app;
+        });
     }
 }

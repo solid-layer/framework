@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 /**
@@ -19,19 +18,11 @@ class Module extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'module';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return $this;
+        $this->app->singleton('module', function () {
+            return $this;
+        });
     }
 
     /**
@@ -59,6 +50,7 @@ class Module extends ServiceProvider
     public function setModule($name, $closure)
     {
         $modules = [];
+
         $modules[$name] = $closure;
 
         config(['modules' => $modules]);
@@ -75,6 +67,10 @@ class Module extends ServiceProvider
      */
     public function all()
     {
+        if (! isset(config()->modules)) {
+            return [];
+        }
+
         return config()->modules->toArray();
     }
 }

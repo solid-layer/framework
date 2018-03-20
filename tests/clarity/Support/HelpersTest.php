@@ -1,17 +1,33 @@
 <?php
 
+/**
+ * PhalconSlayer\Framework.
+ *
+ * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://docs.phalconslayer.com
+ */
+
 namespace Clarity\Support;
 
+/**
+ * The 'helpers' test case.
+ */
 class HelpersTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test the facade helpers.
+     *
+     * @return void
+     */
     public function testHelpersFacade()
     {
         $this->assertInstanceOf(\Clarity\Support\Auth\Auth::class, auth());
         $this->assertInstanceOf(\Phalcon\Config::class, config());
         $this->assertInstanceOf(\Phalcon\Mvc\Dispatcher::class, dispatcher());
         $this->assertInstanceOf(\Phalcon\Filter::class, filter());
-        $this->assertInstanceOf(\Phalcon\Session\Bag::class, flash());
-        $this->assertInstanceOf(\Phalcon\Flash\Session::class, flash_bag());
+        $this->assertInstanceOf(\Phalcon\Flash\Direct::class, flash()->direct());
+        $this->assertInstanceOf(\Phalcon\Flash\Session::class, flash()->session());
         $this->assertInstanceOf(\League\Flysystem\Filesystem::class, flysystem());
         $this->assertInstanceOf(\League\Flysystem\MountManager::class, flysystem_manager());
         $this->assertInstanceOf(\Clarity\Support\Redirect\Redirect::class, redirect());
@@ -24,7 +40,7 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(\Phalcon\Mvc\View::class, view());
 
         # getting an error, will check later on
-        // $this->assertInstanceOf(Logger::class, log());
+        $this->assertInstanceOf(\Monolog\Logger::class, logger());
 
         # adapter base functions
 
@@ -35,7 +51,7 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains(
             url()->getBaseUri().'auth/login',
-            route('showLoginForm')
+            route('show-login-form')
         );
 
         $this->assertInstanceOf(
@@ -44,11 +60,16 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test the slayer helpers.
+     *
+     * @return void
+     */
     public function testHelpersSlayer()
     {
         # we are exactly getting the default
         $this->assertInstanceOf(
-            \Phalcon\Di\FactoryDefault::class,
+            \Phalcon\Di::class,
             di()
         );
 

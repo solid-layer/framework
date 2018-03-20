@@ -1,0 +1,46 @@
+<?php
+
+namespace {namespace};
+
+use Phalcon\Di\FactoryDefault;
+use Clarity\Providers\ServiceProvider;
+use Clarity\Contracts\Providers\ModuleInterface;
+
+class RouterServiceProvider extends ServiceProvider implements ModuleInterface
+{
+    /**
+     * @var string
+     */
+    protected $alias = '{raw_module}';
+
+    /**
+     * @var bool
+     */
+    protected $shared = false;
+
+    /**
+     * {@inherit}
+     */
+    public function register()
+    {
+        return $this;
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function module(FactoryDefault $di)
+    {
+        $di
+            ->get('dispatcher')
+            ->setDefaultNamespace('App\{module}\Controllers');
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function afterModuleRun()
+    {
+        require_once realpath(__DIR__.'/../').'/Routes.php';
+    }
+}

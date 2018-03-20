@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Clarity\Support\Phalcon\Mvc\URL as BaseURL;
@@ -19,25 +18,37 @@ use Clarity\Support\Phalcon\Mvc\URL as BaseURL;
 class URL extends ServiceProvider
 {
     /**
-     * {@inheridoc}.
+     * @var bool
      */
-    protected $alias = 'url';
+    protected $defer = true;
+
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['url'];
+    }
 
     /**
      * {@inheridoc}.
      */
-    protected $shared = true;
+    public function boot()
+    {
+        $url = resolve('url');
+        $url->setDI($this->getDI());
+        $url->setBaseUri($url->getFullUrl().'/');
+    }
 
     /**
-     * {@inheridoc}.
-     */
-    protected $after_module = true;
-
-    /**
-     * {@inheridoc}.
+     * {@inheritdoc}
      */
     public function register()
     {
-        return BaseURL::getInstance();
+        $this->app->singleton('url', function () {
+            return new BaseURL();
+        });
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\Script;
 
 use Clarity\Console\CLI;
@@ -47,20 +46,16 @@ class RunCommand extends Brood
 
         foreach ($lists[$script] as $selected) {
             if (is_callable($selected)) {
-                call_user_func($selected);
+                CLI::handleCallback($selected);
                 continue;
             }
 
-            if (! is_array($selected)) {
-                CLI::process($selected);
+            if (is_array($selected)) {
+                CLI::bash($selected);
                 continue;
             }
 
-            CLI::process(
-                isset($selected['script']) ? $selected['script'] : null,
-                isset($selected['prefix']) ? $selected['prefix'] : null,
-                isset($selected['suffix']) ? $selected['suffix'] : null
-            );
+            CLI::process($selected);
         }
     }
 

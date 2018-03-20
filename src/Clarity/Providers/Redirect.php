@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Clarity\Support\Redirect\Redirect as BaseRedirect;
@@ -21,18 +20,8 @@ class Redirect extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'redirect';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseRedirect;
+        $this->app->instance('redirect', new BaseRedirect, $singleton = true);
     }
 }

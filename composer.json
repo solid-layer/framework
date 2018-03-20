@@ -27,22 +27,24 @@
         "composer/composer": "^1.0",
         "fzaninotto/faker": "~1.4",
         "guzzlehttp/guzzle": "6.1.*",
-        "illuminate/support": "5.2.*",
+        "illuminate/support": "5.4.*",
         "jenssegers/blade": "^1.0",
-        "paragonie/random_compat": "1.1.*",
+        "paragonie/random_compat": "~1.4|~2.0",
         "league/flysystem": "^1.0",
         "league/tactician": "^0.6",
-        "mailgun/mailgun-php": "~1.7.2",
+        "mailgun/mailgun-php": "~1.7|~2.2",
         "monolog/monolog": "^1.15",
         "robmorgan/phinx": "0.5.*",
         "swiftmailer/swiftmailer": "^5.4",
         "symfony/console": "^2.7",
-        "symfony/debug": "^2.7",
+        "symfony/debug": "~3.2",
         "symfony/process": "^2.7",
         "symfony/var-dumper": "^2.7",
         "tijsverkoyen/css-to-inline-styles": "^1.5",
         "vlucas/phpdotenv": "^2.0",
-        "psy/psysh": "0.7.*"
+        "psy/psysh": "0.7.*",
+        "php-http/guzzle6-adapter": "1.1.*",
+        "respect/validation": "^1.1"
     },
     "replace": {
         "clarity/console": "self.version",
@@ -76,7 +78,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.4-dev"
+            "dev-master": "1.5-dev"
         }
     },
     "minimum-stability": "dev"

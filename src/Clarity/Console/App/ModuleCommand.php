@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\App;
 
 use Clarity\Console\Brood;
@@ -56,7 +55,7 @@ class ModuleCommand extends Brood
      */
     protected function getBasePath()
     {
-        return realpath('');
+        return getcwd();
     }
 
     /**
@@ -67,7 +66,7 @@ class ModuleCommand extends Brood
     protected function getNamespace()
     {
         return url_trimmer(
-            $this->getAppPath().'/'.$this->getModuleName().'\\Controllers'
+            realpath($this->getAppPath()).'/'.$this->getModuleName()
         );
     }
 
@@ -76,9 +75,15 @@ class ModuleCommand extends Brood
      *
      * @return string
      */
-    protected function getModuleName()
+    protected function getModuleName($namespace = true)
     {
-        return $this->input->getArgument('name');
+        $name = $this->input->getArgument('name');
+
+        if (! $namespace) {
+            return $name;
+        }
+
+        return studly_case(str_slug($name, '_'));
     }
 
     /**
@@ -88,7 +93,7 @@ class ModuleCommand extends Brood
      */
     protected function getBaseControllerStub()
     {
-        return file_get_contents(__DIR__.'/stubs/baseController.stub');
+        return file_get_contents(__DIR__.'/stubs/module/base_controller.stub');
     }
 
     /**
@@ -98,7 +103,17 @@ class ModuleCommand extends Brood
      */
     protected function getBaseRouteStub()
     {
-        return file_get_contents(__DIR__.'/stubs/baseRoute.stub');
+        return file_get_contents(__DIR__.'/stubs/module/base_route.stub');
+    }
+
+    /**
+     * Get the base route provider content stub.
+     *
+     * @return string
+     */
+    protected function getBaseRouteProviderStub()
+    {
+        return file_get_contents(__DIR__.'/stubs/module/base_route_provider.stub');
     }
 
     /**
@@ -108,7 +123,7 @@ class ModuleCommand extends Brood
      */
     protected function getPublicStub()
     {
-        return file_get_contents(__DIR__.'/stubs/publicIndex.stub');
+        return file_get_contents(__DIR__.'/stubs/module/index.stub');
     }
 
     /**
@@ -130,20 +145,31 @@ class ModuleCommand extends Brood
         $public_filesystem = flysystem_manager($this->getPublicPath());
 
         # get the module name
+        $raw_module = $this->getModuleName(false);
         $module = $this->getModuleName();
 
         $this->info('Crafting Module...');
 
-        $controller_buff = $this->getContentByStub($this->getBaseControllerStub());
-        $router_buff = $this->getContentByStub($this->getBaseRouteStub());
+        $controller_buff = $this->getContentByStub($this->getBaseControllerStub(), 'Controllers');
+        $routes_group_buff = $this->getContentByStub($this->getBaseRouteStub(), 'Routes');
         $routes_buff = $this->getContentByStub($this->getRoutesStub());
-        $public_buff = stubify($this->getPublicStub(), ['module' => '\''.$module.'\'']);
+        $public_buff = stubify($this->getPublicStub(), ['module' => '\''.$raw_module.'\'']);
+
+        $base_route_provider_buff = $this->getContentByStub(
+            $this->getBaseRouteProviderStub(),
+            'Providers'
+        );
+        $base_route_provider_buff = stubify($base_route_provider_buff, [
+            'raw_module' => $raw_module,
+            'module' => $module,
+        ]);
 
         # their possible path
-        $base_controller = "$module/controllers/Controller.php";
-        $base_router = "$module/routes/RouteGroup.php";
-        $routes_file = "$module/routes.php";
-        $public_file = $module.'.php';
+        $base_controller = "$module/Controllers/Controller.php";
+        $base_routes = "$module/Routes/RouteGroup.php";
+        $routes_file = "$module/Routes.php";
+        $public_file = $raw_module.'.php';
+        $base_route_provider = "$module/Providers/RouterServiceProvider.php";
 
         # now save the stubbed content into the their path
         if ($app_filesystem->has($base_controller) === false) {
@@ -153,28 +179,40 @@ class ModuleCommand extends Brood
             $this->error('   Base Controller already exists!');
         }
 
-        if ($app_filesystem->has($base_router) === false) {
-            $this->info('   Router Group created!');
-            $app_filesystem->put($base_router, $router_buff);
+        if ($app_filesystem->has($base_routes) === false) {
+            $app_filesystem->put($base_routes, $routes_group_buff);
+            $this->info('   Route Group created!');
         } else {
             $this->error('   Route Group already exists!');
         }
 
         if ($app_filesystem->has($routes_file) === false) {
-            $this->info('   Routes file created!');
             $app_filesystem->put($routes_file, $routes_buff);
+            $this->info('   Routes file created!');
         } else {
             $this->error('   Routes file already exists!');
         }
 
         if ($public_filesystem->has($public_file) === false) {
-            $this->info('   Public Index created!');
             $public_filesystem->put($public_file, $public_buff);
+            $this->info('   Public file created!');
         } else {
             $this->error('   Public Index already exists!');
         }
 
-        $this->callDumpAutoload();
+        if ($app_filesystem->has($base_route_provider) === false) {
+            $app_filesystem->put($base_route_provider, $base_route_provider_buff);
+            $this->info('   Route Service created!');
+        } else {
+            $this->error('   Route Service already exists!');
+        }
+
+        $this->getOutput()->writeln(
+            "\n".'   <comment>Append route service inside [config/app.php]: </comment>'.
+            path_to_namespace(
+                str_replace($this->getBasePath(), '', $this->getNamespace()).'/Providers/RouterServiceProvider'
+            ).'::class'
+        );
     }
 
     /**
@@ -184,7 +222,7 @@ class ModuleCommand extends Brood
      * @param $stub_content
      * @return string
      */
-    private function getContentByStub($stub_content)
+    private function getContentByStub($stub_content, $folder = null)
     {
         return stubify(
             $stub_content,
@@ -192,7 +230,7 @@ class ModuleCommand extends Brood
                 'namespace' => path_to_namespace(
                     # here, we must trim the $namespace by
                     # getting the base path to be our matching trimmer
-                    str_replace($this->getBasePath(), '', $this->getNamespace())
+                    str_replace($this->getBasePath(), '', $this->getNamespace().'/'.$folder)
                 ),
             ]
         );

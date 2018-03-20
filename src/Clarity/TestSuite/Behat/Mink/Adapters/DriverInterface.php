@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,13 +8,24 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\TestSuite\Behat\Mink\Adapters;
 
+/**
+ * A driver contract for behat mink.
+ */
 interface DriverInterface
 {
+    /**
+     * Constructor.
+     *
+     * @param array $args
+     */
     public function __construct($args);
 
+    /**
+     * Get the driver.
+     *
+     * @return mixed
+     */
     public function driver();
 }

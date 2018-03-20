@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\DB;
 
 use Clarity\Support\DB\Factory;
@@ -22,7 +21,7 @@ class SeedFactory extends Brood
     /**
      * {@inheritdoc}
      */
-    protected $name = 'db:seed:factory';
+    protected $name = 'seed:factory';
 
     /**
      * {@inheritdoc}

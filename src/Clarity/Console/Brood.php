@@ -7,8 +7,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console;
 
 use Symfony\Component\Console\Helper;
@@ -26,6 +24,27 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 abstract class Brood extends Command
 {
     use ServiceMagicMethods;
+
+    /**
+     * The command call name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * The command description.
+     *
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * The command help.
+     *
+     * @var string
+     */
+    protected $help;
 
     /**
      * The input interface instance.
@@ -106,6 +125,7 @@ abstract class Brood extends Command
         }
 
         if ($env !== null) {
+            config(['old_environment' => config('environment')]);
             config(['environment' => $env]);
             $folder = $used_env = $env;
         }
@@ -133,11 +153,41 @@ abstract class Brood extends Command
     {
         $timeout = $this->getInput()->getOption('timeout');
 
-        if ($timeout !== static::TIMEOUT) {
-            set_time_limit($timeout);
-        }
+        set_time_limit($timeout);
 
         return $this;
+    }
+
+    /**
+     * Get the timeout option.
+     *
+     * @return array
+     */
+    public static function timeoutOption()
+    {
+        return [
+            'timeout',
+            't',
+            InputOption::VALUE_OPTIONAL,
+            'Set timeout to bypass default execution time',
+            static::TIMEOUT,
+        ];
+    }
+
+    /**
+     * Get the environment option.
+     *
+     * @return array
+     */
+    public static function environmentOption()
+    {
+        return [
+            'env',
+            'e',
+            InputOption::VALUE_OPTIONAL,
+            'The environment to be used',
+            null,
+        ];
     }
 
     /**
@@ -169,6 +219,10 @@ abstract class Brood extends Command
             ->setName($this->name)
             ->setDescription($this->description);
 
+        if ($this->help) {
+            $this->setHelp($this->help);
+        }
+
         if (! empty($this->arguments())) {
             foreach ($this->arguments() as $arg) {
                 $this->addArgument(
@@ -180,28 +234,20 @@ abstract class Brood extends Command
             }
         }
 
+        $options = [];
+
         if ($this->environment_option) {
-            $this->addOption(
-                'env',
-                'e',
-                InputOption::VALUE_OPTIONAL,
-                'The environment to be used',
-                null
-            );
+            $options[] = static::environmentOption();
         }
 
         if ($this->timeout_option) {
-            $this->addOption(
-                'timeout',
-                't',
-                InputOption::VALUE_OPTIONAL,
-                'Set timeout to bypass default execution time',
-                static::TIMEOUT
-            );
+            $options[] = static::timeoutOption();
         }
 
-        if (! empty($this->options())) {
-            foreach ($this->options() as $opt) {
+        $options = array_merge($this->options(), $options);
+
+        if (! empty($options)) {
+            foreach ($options as $opt) {
                 $this->addOption(
                     isset($opt[0]) ? $opt[0] : null,
                     isset($opt[1]) ? $opt[1] : null,
@@ -324,7 +370,7 @@ abstract class Brood extends Command
      * @param  bool|string|int]mixed $default The default value
      * @return mixed
      */
-    public function ask($message, $default)
+    public function ask($message, $default = null)
     {
         $helper = $this->getHelper('question');
 
@@ -337,13 +383,14 @@ abstract class Brood extends Command
      * To confirm that only works with [y/n].
      *
      * @param  string $message The message to be printed
+     * @param  string $default The default value
      * @return mixed
      */
-    public function confirm($message)
+    public function confirm($message, $default = false)
     {
         $helper = $this->getHelper('question');
 
-        $question = new ConfirmationQuestion($message, false);
+        $question = new ConfirmationQuestion($message, $default);
 
         return $helper->ask($this->input, $this->output, $question);
     }

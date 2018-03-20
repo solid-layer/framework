@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use League\Flysystem\Filesystem;
@@ -21,44 +20,40 @@ use League\Flysystem\MountManager;
 class Flysystem extends ServiceProvider
 {
     /**
-     * {@inheridoc}.
+     * @var bool
      */
-    protected $alias = 'flysystem';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
+    protected $defer = true;
 
     /**
      * {@inheridoc}.
      */
     public function register()
     {
-        $manager = $this->manager();
+        $this->app->singleton('flysystem_manager', function () {
+            $flies = [];
 
-        di()->set('flysystem_manager', function () use ($manager) {
-            return $manager;
-        }, true);
+            foreach (config('flysystem') as $prefix => $fly) {
+                $instance = new $fly['class']($fly['config']->toArray());
 
-        return $manager->getFilesystem(config()->app->flysystem);
+                $flies[$prefix] = new Filesystem($instance->getAdapter());
+            }
+
+            return new MountManager($flies);
+        });
+
+        $this->app->singleton('flysystem', function ($app) {
+            return $app->make('flysystem_manager')
+                ->getFilesystem(config('app.flysystem'));
+        });
     }
 
     /**
-     * This manages all the available file system adapters.
+     * Get all this service provider provides.
      *
-     * @return \League\Flysystem\MountManager
+     * @return array
      */
-    protected function manager()
+    public function provides()
     {
-        $flies = [];
-
-        foreach (config()->flysystem as $prefix => $fly) {
-            $instance = new $fly['class']($fly['config']->toArray());
-
-            $flies[$prefix] = new Filesystem($instance->getAdapter());
-        }
-
-        return new MountManager($flies);
+        return ['flysystem_manager', 'flysystem'];
     }
 }

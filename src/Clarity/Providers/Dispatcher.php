@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,13 +8,11 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Clarity\Exceptions\ControllerNotFoundException;
+use Clarity\Support\Phalcon\Events\Manager as PhalconEventsManager;
+use Clarity\Support\Phalcon\Mvc\Dispatcher as PhalconMvcDispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 
 /**
@@ -39,13 +38,12 @@ class Dispatcher extends ServiceProvider
      */
     public function boot()
     {
-        $dispatcher = di()->get('dispatcher');
+        $dispatcher = $this->getDI()->get('dispatcher');
 
-        $event_manager = new EventsManager;
+        $event_manager = new PhalconEventsManager;
 
         $event_manager->attach('dispatch:beforeException',
             function ($event, $dispatcher, $exception) {
-
                 if ($exception instanceof DispatchException) {
                     throw new ControllerNotFoundException(
                         $exception->getMessage()
@@ -58,16 +56,38 @@ class Dispatcher extends ServiceProvider
     }
 
     /**
+     * Override the default controller suffix.
+     *
+     * @return string
+     */
+    public function getControllerSuffix()
+    {
+        return 'Controller';
+    }
+
+    /**
+     * Override the default action suffix.
+     *
+     * @return string
+     */
+    public function getActionSuffix()
+    {
+        return 'Action';
+    }
+
+    /**
      * {@inheridoc}.
      */
     public function register()
     {
-        $dispatcher = new MvcDispatcher();
+        $this->app->singleton('dispatcher', function () {
+            $dispatcher = new PhalconMvcDispatcher();
 
-        $dispatcher->setDefaultNamespace('App\Controllers');
+            $dispatcher->setDefaultNamespace('App\Controllers');
+            $dispatcher->setControllerSuffix($this->getControllerSuffix());
+            $dispatcher->setActionSuffix($this->getActionSuffix());
 
-        $dispatcher->setActionSuffix('');
-
-        return $dispatcher;
+            return $dispatcher;
+        });
     }
 }

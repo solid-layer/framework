@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Http\Response as BaseResponse;
@@ -21,21 +20,8 @@ class Response extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'response';
-
-    /**
-     * {@inheridoc}.
-     */
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseResponse;
+        $this->app->instance('response', new BaseResponse, $singleton = true);
     }
 }

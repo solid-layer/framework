@@ -6,10 +6,22 @@ use Composer\IO\NullIO;
 use Composer\Util\ConfigValidator;
 use Composer\Package\Loader\ValidatingArrayLoader;
 
+/**
+ * A composer builder.
+ */
 class Builder
 {
+    /**
+     * @var array
+     */
     private $config;
 
+    /**
+     * Set the config.
+     *
+     * @param array $config
+     * @return mixed|\Clarity\Util\Composer\Builder
+     */
     public function config($config)
     {
         $this->config = json_decode($config, true);

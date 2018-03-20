@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\Vendor;
 
 use Clarity\Console\Brood;
@@ -89,13 +88,22 @@ class NewCommand extends Brood
         $package = '';
         $default = 'root/'.basename(realpath(''));
 
-        $composer->set(
-            'name',
+        $package_has_slash = false;
+
+        while (! $package_has_slash) {
             $package = $this->ask(
                 'Package name (<vendor>/<name>) ['.$default.']: ',
                 $default
-            )
-        );
+            );
+
+            if (strpos($package, '/') !== false) {
+                $package_has_slash = true;
+            } else {
+                $this->error('Package name must have a <vendor>/<name>');
+            }
+        }
+
+        $composer->set('name', $package);
 
         $composer = $this->otherComposerKeys($composer);
 
@@ -108,6 +116,7 @@ class NewCommand extends Brood
         );
 
         $validation = $composer->validate();
+
         if ($validation['valid'] === false) {
             $this->error(json_encode($validation['errors']));
 
@@ -163,7 +172,12 @@ class NewCommand extends Brood
             $package => '*',
         ]);
 
-        $repo = str_replace(realpath('').'/', '', $this->getSandboxPath()).$package;
+        $repo = str_replace(
+            realpath('').'/',
+            '',
+            realpath($this->getSandboxPath().'/'.$package)
+        );
+
         $composer->merge('repositories', [
             $repo => [
                 'type' => 'path',

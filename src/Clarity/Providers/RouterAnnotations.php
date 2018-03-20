@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Mvc\Router\Annotations as BaseRouter;
@@ -22,21 +21,8 @@ class RouterAnnotations extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'router_annotations';
-
-    /**
-     * {@inheridoc}.
-     */
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = true;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseRouter;
+        $this->app->instance('router_annotations', new BaseRouter, $singleton = true);
     }
 }

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * PhalconSlayer\Framework.
+ *
+ * @copyright 2015-2016 Daison Carino <daison12006013@gmail.com>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://docs.phalconslayer.com
+ */
+
 namespace Slayer\Acceptance;
 
 use Components\Model\User;
@@ -23,11 +31,29 @@ use Clarity\TestSuite\Behat\Mink\Mink;
 */
 class AppTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var mixed|\Clarity\TestSuite\Behat\Mink\Mink
+     */
     private $session;
+
+    /**
+     * @var string
+     */
     private $url;
+
+    /**
+     * @var string
+     */
     private $email;
+
+    /**
+     * @var string
+     */
     private $password;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         $this->session = (new Mink)->get('goutte');
@@ -36,6 +62,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->password = '123qwe';
     }
 
+    /**
+     * Check the welcome page.
+     *
+     * @return void
+     */
     private function triggerWelcomeProcess()
     {
         $this->session->visit($this->url);
@@ -58,6 +89,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
         sleep(5);
     }
 
+    /**
+     * Test the registration page.
+     *
+     * @return void
+     */
     public function testRegistration()
     {
         if (User::count()) {
@@ -98,6 +134,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->session->visit($this->url.'/auth/activation/'.$user->token);
     }
 
+    /**
+     * Test the login page.
+     *
+     * @return void
+     */
     public function testLogin()
     {
         if (! User::count()) {

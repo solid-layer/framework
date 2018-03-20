@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\Server;
 
 use Clarity\Console\CLI;
@@ -62,6 +61,10 @@ class OptimizeCommand extends Brood
         $handle = $preloader->prepareOutput($compile_path);
 
         foreach ($this->getClassFiles() as $file) {
+            if (! file_exists($file)) {
+                continue;
+            }
+
             try {
                 fwrite(
                     $handle,
@@ -77,6 +80,12 @@ class OptimizeCommand extends Brood
         $this->info('   Compiled at '.url_trimmer($compile_path));
     }
 
+    /**
+     * Parse a file index to get the path instead.
+     *
+     * @param array $files
+     * @return array
+     */
     private function filesKey($files)
     {
         foreach ($files as $idx => $path) {

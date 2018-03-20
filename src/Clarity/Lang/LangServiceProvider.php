@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,26 +8,29 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Lang;
 
 use Clarity\Providers\ServiceProvider;
 
+/**
+ * The 'lang' service provider.
+ */
 class LangServiceProvider extends ServiceProvider
 {
-    protected $alias = 'lang';
-    protected $shared = false;
-
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
-        $language = config()->app->lang;
+        $this->app->singleton('lang', function () {
+            $language = config()->app->lang;
 
-        $translation = new Lang($dir);
-        $translation
-            ->setLanguage($language)
-            ->setLangDir(config()->path->lang);
+            $translation = new Lang();
+            $translation
+                ->setLanguage($language)
+                ->setLangDir(config()->path->lang);
 
-        return $translation;
+            return $translation;
+        });
     }
 }

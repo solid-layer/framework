@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,11 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\App;
 
-use League\Flysystem\Filesystem;
 use Clarity\Console\Brood;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use League\Flysystem\Adapter\Local as LeagueFlysystemAdapterLocal;
 
 /**
  * A console command that generates a route template.
@@ -32,21 +30,126 @@ class RouteCommand extends Brood
     protected $description = 'Generate a new route group';
 
     /**
-     * This handles the filesystem app folder.
-     * @var \League\Flysystem\Filesystem
+     * Get the application path.
+     *
+     * @return string
      */
-    private $app;
+    protected function getAppPath()
+    {
+        return config()->path->app;
+    }
 
     /**
-     * {@inheritdoc}
+     * Get the module path.
+     *
+     * @return string
      */
-    public function __construct()
+    protected function getModulePath()
     {
-        $this->app = new Filesystem(
-            new LeagueFlysystemAdapterLocal(config()->path->app, 0)
-        );
+        return url_trimmer($this->getAppPath().'/'.$this->getModuleName());
+    }
 
-        parent::__construct();
+    /**
+     * Get the base path.
+     *
+     * @return string
+     */
+    protected function getBasePath()
+    {
+        return getcwd();
+    }
+
+    /**
+     * Get the namespace to use.
+     *
+     * @return string
+     */
+    protected function getNamespace($folder = 'Routes')
+    {
+        return url_trimmer(
+            realpath($this->getAppPath()).'/'.$this->getModuleName().'/'.$folder
+        );
+    }
+
+    /**
+     * Get the route name.
+     *
+     * @param $is_path
+     * @return string
+     */
+    protected function getRouteName($is_path = true)
+    {
+        $ret = '%s';
+
+        if ($is_path) {
+            $ret = 'Routes/%sRoutes.php';
+        }
+
+        return sprintf(
+            $ret,
+            studly_case(
+                str_slug($this->input->getArgument('name'), '_')
+            )
+        );
+    }
+
+    /**
+     * Get the module name.
+     *
+     * @return string
+     */
+    protected function getModuleName($namespace = true)
+    {
+        $module = $this->input->getArgument('module');
+
+        if (! $namespace) {
+            return $module;
+        }
+
+        return studly_case(str_slug($module, '_'));
+    }
+
+    /**
+     * Get the route content stub.
+     *
+     * @return string
+     */
+    protected function getRouteStub()
+    {
+        return file_get_contents(__DIR__.'/stubs/route/route.stub');
+    }
+
+    /**
+     * Get the functions content stub.
+     *
+     * @return string
+     */
+    protected function getFunctionsStub()
+    {
+        return file_get_contents(__DIR__.'/stubs/route/functions.stub');
+    }
+
+    /**
+     * Get the route functions.
+     *
+     * @return string
+     */
+    protected function getRouteFunctions()
+    {
+        if ($this->input->getOption('emptify')) {
+            return '';
+        }
+
+        return stubify(
+            $this->getFunctionsStub(),
+            [
+                'routeName' => $this->getRouteName(false),
+                'controllerNamespace' => path_to_namespace(
+                    str_replace($this->getBasePath(), '', $this->getNamespace('Controllers'))
+                ),
+                'prefixRouteName' => strtolower($this->getInput()->getArgument('name')),
+            ]
+        );
     }
 
     /**
@@ -54,62 +157,51 @@ class RouteCommand extends Brood
      */
     public function slash()
     {
-        $app_path = str_replace(config('path.root'), '', config()->path->app);
-        $arg_name = studly_case(str_slug($this->input->getArgument('name'), '_'));
+        $app_filesystem = flysystem_manager($this->getAppPath());
 
-        $stub = file_get_contents(__DIR__.'/stubs/makeRoute.stub');
-        $stub = stubify($stub, [
-            'routeName' => $arg_name,
-            'prefixRouteName' => strtolower($arg_name),
-        ]);
+        $raw_module = $this->getModuleName(false);
+        $module = $this->getModuleName();
 
-        $file_name = $arg_name.'Routes.php';
-
-        $module = $this->input->getArgument('module');
-        $has_dir = is_dir(config()->path->app.$module);
-
-        if ($has_dir === false) {
-            $this->error('Module not found `'.$module.'`');
+        # check if module exists, throw error if it doesn't exists
+        if ($app_filesystem->has($module) === false) {
+            $this->error("Module [$module] not found");
 
             return;
         }
 
-        $module = $this->input->getArgument('module');
+        $this->info('Crafting Route Group...');
 
-        if ($this->app->has($module) === false) {
-            $this->error('Module not found `'.$module.'`');
-
-            return;
-        }
-
-        $routes = $module.'/routes/';
-        if ($this->app->has($routes) === false) {
-            $this->error('Routes folder not found from your module: `'.$module.'`');
+        $route = $this->getRouteName();
+        # check route file if exists, throw error if exists
+        if ($app_filesystem->has($module.'/'.$route)) {
+            $this->error(
+                "     Route [{$this->input->getArgument('name')}] ".
+                "already exists in your Module [{$this->input->getArgument('module')}]"
+            );
 
             return;
         }
 
-        $stub = stubify(
-            $stub, [
-                'namespace' => path_to_namespace($app_path.$routes),
-                'controllerNamespace' => path_to_namespace(
-                    $app_path.$module.'/controllers/'
+        # get the route stub and stubify the {routeName}
+        # based on argument route name
+        $buff = stubify(
+            $this->getRouteStub(),
+            [
+                'namespace' => path_to_namespace(
+                    # here, we must trim the $namespace by
+                    # getting the base path to be our matching trimmer
+                    str_replace($this->getBasePath(), '', $this->getNamespace())
                 ),
+                'routeName' => $this->getRouteName(false),
+                'routeFunctions' => $this->getRouteFunctions(),
             ]
         );
 
-        $this->info('Crafting Route...');
+        # now write the content based on $route path
+        $module_filesystem = flysystem_manager($this->getModulePath());
+        $module_filesystem->put($route, $buff);
 
-        if ($this->app->has($file_name)) {
-            $this->error('   Route already exists!');
-
-            return;
-        }
-
-        $this->app->put($routes.$file_name, $stub);
-        $this->info('   '.$file_name.' created!');
-
-        $this->callDumpAutoload();
+        $this->info('     '.$route.' created!');
     }
 
     /**
@@ -118,10 +210,25 @@ class RouteCommand extends Brood
     protected function arguments()
     {
         $arguments = [
-            ['name', InputArgument::REQUIRED, 'The route name to use'],
+            ['name', InputArgument::REQUIRED, 'The route name'],
             ['module', InputArgument::REQUIRED, 'The module to link on'],
         ];
 
         return $arguments;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function options()
+    {
+        return [
+            [
+                'emptify',
+                null,
+                InputOption::VALUE_NONE,
+                'Remove all pre-defined functions',
+            ],
+        ];
     }
 }

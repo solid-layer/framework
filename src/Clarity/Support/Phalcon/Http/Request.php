@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,15 +8,22 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Phalcon\Http;
 
 use Clarity\Support\Curl\RESTful;
 use Phalcon\Http\Request as BaseRequest;
 
+/**
+ * {@inheritdoc}
+ */
 class Request extends BaseRequest
 {
+    /**
+     * Request based on a initialized module.
+     *
+     * @param string $name
+     * @return mixed|\Clarity\Support\Curl\RESTful
+     */
     public function module($name)
     {
         return new RESTful(url()->getFullUrl($name));

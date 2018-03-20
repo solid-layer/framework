@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Console\App;
 
 use Clarity\Console\Brood;
@@ -57,7 +56,7 @@ class ControllerCommand extends Brood
      */
     protected function getBasePath()
     {
-        return realpath('');
+        return getcwd();
     }
 
     /**
@@ -68,7 +67,7 @@ class ControllerCommand extends Brood
     protected function getNamespace()
     {
         return url_trimmer(
-            $this->getAppPath().'/'.$this->getModuleName().'\\Controllers'
+            realpath($this->getAppPath()).'/'.$this->getModuleName().'/Controllers'
         );
     }
 
@@ -80,17 +79,18 @@ class ControllerCommand extends Brood
      */
     protected function getControllerName($is_path = true)
     {
-        $ret = '%s';
+        $ret = '%s%s';
 
         if ($is_path) {
-            $ret = 'controllers/%sController.php';
+            $ret = 'Controllers/%s%s.php';
         }
 
         return sprintf(
             $ret,
             studly_case(
                 str_slug($this->input->getArgument('name'), '_')
-            )
+            ),
+            di()->get('dispatcher')->getControllerSuffix()
         );
     }
 
@@ -99,9 +99,15 @@ class ControllerCommand extends Brood
      *
      * @return string
      */
-    protected function getModuleName()
+    protected function getModuleName($namespace = true)
     {
-        return $this->input->getArgument('module');
+        $module = $this->input->getArgument('module');
+
+        if (! $namespace) {
+            return $module;
+        }
+
+        return studly_case(str_slug($module, '_'));
     }
 
     /**
@@ -111,7 +117,7 @@ class ControllerCommand extends Brood
      */
     protected function getControllerStub()
     {
-        return file_get_contents(__DIR__.'/stubs/makeController.stub');
+        return file_get_contents(__DIR__.'/stubs/controller/controller.stub');
     }
 
     /**
@@ -121,7 +127,7 @@ class ControllerCommand extends Brood
      */
     protected function getFunctionsStub()
     {
-        return file_get_contents(__DIR__.'/stubs/_controllerFunctions.stub');
+        return file_get_contents(__DIR__.'/stubs/controller/functions.stub');
     }
 
     /**
@@ -148,6 +154,7 @@ class ControllerCommand extends Brood
     {
         $app_filesystem = flysystem_manager($this->getAppPath());
 
+        $raw_module = $this->getModuleName(false);
         $module = $this->getModuleName();
 
         # check if module exists, throw error if it doesn't exists
@@ -160,6 +167,7 @@ class ControllerCommand extends Brood
         $this->info('Crafting Controller...');
 
         $controller = $this->getControllerName();
+
         # check controller file if exists, throw error if exists
         if ($app_filesystem->has($module.'/'.$controller)) {
             $this->error(
@@ -191,8 +199,6 @@ class ControllerCommand extends Brood
         $module_filesystem->put($controller, $buff);
 
         $this->info('     '.$controller.' created!');
-
-        $this->callDumpAutoload();
     }
 
     /**

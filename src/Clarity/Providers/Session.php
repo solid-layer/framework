@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 /**
@@ -20,43 +19,29 @@ class Session extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'session';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
-    /**
-     * Get the selected session adapter.
-     *
-     * @return string
-     */
-    protected function getSelectedAdapter()
-    {
-        return config()->app->session_adapter;
-    }
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        $adapter = config()->session->{$this->getSelectedAdapter()}->toArray();
+        $this->app->singleton('session.selected_adapter', function () {
+            $selected_adapter = config()->app->session_adapter;
 
-        $config = [];
-        $class = $adapter['class'];
+            return config()->session->{$selected_adapter};
+        });
 
-        if (isset($adapter['config'])) {
-            $config = $adapter['config'];
-        }
+        $this->app->singleton('session', function ($app) {
+            $adapter = resolve('session.selected_adapter')->toArray();
 
-        $session = new $class($config);
+            $options = [];
+            $class = $adapter['class'];
 
-        session_name(config()->app->session);
+            if (isset($adapter['options'])) {
+                $options = $adapter['options'];
+            }
 
-        $session->start();
+            $session = new $class($options);
+            $session->setName(config()->app->session);
+            $session->start();
 
-        return $session;
+            return $session;
+        });
     }
 }

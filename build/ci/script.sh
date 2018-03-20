@@ -3,13 +3,15 @@
 # +--------------------------+
 # | Run other brood commands |
 # +--------------------------+
+php brood list:routes
+
 # db
-php brood db:seed:factory
+php brood seed:factory
 php brood db:status
 php brood db:rollback
 php brood db:create Test
-php brood db:seed:create Test
-php brood db:seed:run
+php brood seed:create Test
+php brood seed:run
 php brood db:rollback
 
 # app

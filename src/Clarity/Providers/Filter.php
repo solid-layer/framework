@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Phalcon\Filter as BaseFilter;
@@ -25,18 +24,8 @@ class Filter extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'filter';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseFilter;
+        $this->app->instance('filter', new BaseFilter, $singleton = true);
     }
 }

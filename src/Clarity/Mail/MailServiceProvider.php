@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,34 +8,56 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Mail;
 
 use Exception;
 use Clarity\Providers\ServiceProvider;
 
+/**
+ * The 'mail' service provider.
+ */
 class MailServiceProvider extends ServiceProvider
 {
-    protected $alias = 'mail';
-    protected $shared = false;
+    /**
+     * @var bool
+     */
+    protected $defer = true;
 
+    /**
+     * Get all this service provider provides.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['mail.selected_adapter', 'mail'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
-        $adapter = config()->app->mail_adapter;
+        $this->app->singleton('mail.selected_adapter', function () {
+            $selected_adapter = config()->app->mail_adapter;
 
-        $settings = config()->mail->{$adapter};
+            return config()->mail->{$selected_adapter};
+        });
 
-        if (! $settings) {
-            throw new Exception('Adapter not found.');
-        }
+        $this->app->singleton('mail', function ($app) {
+            $adapter = $app->make('mail.selected_adapter')->toArray();
 
-        $settings = $settings->toArray();
+            if (! $adapter) {
+                throw new Exception('Adapter not found.');
+            }
 
-        $class = $settings['class'];
+            if (! $adapter['active']) {
+                return $this;
+            }
 
-        unset($settings['class']);
+            $class = $adapter['class'];
 
-        return new Mail(new $class, $settings);
+            return new Mail(new $class, $adapter['options']);
+        });
     }
 }

@@ -10,17 +10,27 @@ matrix:
 
     # PHP5.6
     - php: 5.6
-      env: FRAMEWORK_VERSION="1.4.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.0.x"
+      env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev"
     - php: 5.6
-      env: FRAMEWORK_VERSION="1.4.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="2.1.x"
+      env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev"
     - php: 5.6
-      env: FRAMEWORK_VERSION="1.4.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="2.0.x"
+      env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev"
 
     # PHP7.0
     - php: 7.0
-      env: FRAMEWORK_VERSION="1.4.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="3.0.x"
+      env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev"
     - php: 7.0
-      env: FRAMEWORK_VERSION="1.4.x-dev" SLAYER_VERSION="dev-dev" PHALCON_VERSION="2.1.x"
+      env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev"
+    - php: 7.0
+      env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev"
+
+    # PHP7.1
+    # - php: 7.1
+    #   env: PHALCON_VERSION="3.2.x" SLAYER_VERSION="dev"
+    # - php: 7.1
+    #   env: PHALCON_VERSION="3.1.x" SLAYER_VERSION="dev"
+    # - php: 7.1
+    #   env: PHALCON_VERSION="3.0.x" SLAYER_VERSION="dev"
 
 env:
   global:
@@ -32,7 +42,7 @@ env:
 
     # mail settings
     - MAIL_ADAPTER="mailgun"
-    - MAILER_MAIL_FROM="postmaster@sandboxa6c86c16840d4756826185daa128e64d.mailgun.org"
+    - MAILER_MAIL_FROM="Solid Layer - TravisCI <postmaster@sandboxa6c86c16840d4756826185daa128e64d.mailgun.org>"
 
     # mailgun settings
     - MAILER_MAILGUN_DOMAIN="sandboxa6c86c16840d4756826185daa128e64d.mailgun.org"
@@ -62,6 +72,7 @@ script:
   - chmod a+x ./vendor/phalconslayer/framework/phpunit.xml
   - ./vendor/bin/phpunit -c ./vendor/phalconslayer/framework/phpunit.xml
   - cat queue-worker.log
+  - cat internal-server.log
 
   # call brood console commands
   - curl -s https://raw.githubusercontent.com/phalconslayer/framework/${TRAVIS_BRANCH}/build/ci/script.sh | bash
@@ -70,3 +81,9 @@ notifications:
   email:
     recipients:
       - daison12006013@gmail.com
+  slack:
+    secure: qfmGfO9sKIO+n1fd90qOH5rYq8TF66xNL8FNNvX6WaeQt1VQ00jcG/gU1mlkl3TFseY5yUvhrYsKwLlD4/CBTvG4tfR9mS3ei51P6flW+i618+hSrE5tP2IPRu9YLtccNrzFoGiLjRJvMhmxrE9FhamdH7Nxv9MDbizLpV6Wen11x2baQdVrJG7bpSApBP2q5Q13GahB+uMSBUPVE24yqJTkCsTuzLVDuZ5xbf13xBgfC+mxNPAj94Q0MQwBYI/NHukFl7Rx7169dUtugYsS5N2Bg4wbfuiCJdu3C6zr64jMCmow8xKtPFLaFbdv7Nfj5uOaJpv7InoOzVmbHOUjipweidjMgKayI2Hk9Kzjyzcn9IH7QVvmUfshqdLjZS4vdUvt7cUKGkh9m0rIhnDfDayAOf461Ntxixf5MQyFGFjddQgcCF5HqmyZmYmc5A1wzLMrdBFt6dh+SPaAH1gR+GUv5ZDbyyYNAPSWmlBMncUqFgbdIihWmu5HEQ6IwqfohM37WxlCXX5fQk04QHozVr3FJE7West7kf9FJ8UYAUPuLE4EPVaXk+DlcpwpjvcqQcEC+7JvEyjQ5dHxhJ1Dfl2N9/HJos52BdKStDwvVrFs6uBUzQdAvSdkGZpepevZr2eiKuYGWCOWMRNbHy70vsY+1NXQlUggz796ZIDOLlk=
+
+# branches:
+#   only:
+#     - master

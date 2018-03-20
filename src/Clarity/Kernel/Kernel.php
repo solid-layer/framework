@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Kernel;
 
 /**
@@ -21,7 +20,7 @@ class Kernel
     /**
      * The dependency injection.
      *
-     * @var mixed
+     * @var \Phalcon\DiInterface
      */
     private $di;
 
@@ -33,39 +32,25 @@ class Kernel
     private $env;
 
     /**
-     * The path/paths provided.
+     * The path provided.
      *
      * @var mixed
      */
-    private $path;
+    private $paths;
 
     /**
-     * The modules pre-inserted.
+     * Set the paths.
      *
-     * @var mixed
+     * @param mixed $paths
+     * @return \Clarity\Kernel\Kernel
      */
-    private $modules;
-
-    /**
-     * Set the path.
-     *
-     * @param mixed $path
-     */
-    public function setPath($path)
+    public function setPaths($paths)
     {
-        $this->path = $path;
+        $this->paths = $paths;
 
-        return $this;
-    }
-
-    /**
-     * Set the modules.
-     *
-     * @param mixed $modules
-     */
-    public function setModules($modules)
-    {
-        $this->modules = $modules;
+        if (is_cli()) {
+            resolve('benchmark')->here('Setting Paths');
+        }
 
         return $this;
     }
@@ -74,10 +59,15 @@ class Kernel
      * Set the environment.
      *
      * @param string $env
+     * @return \Clarity\Kernel\Kernel
      */
     public function setEnvironment($env)
     {
         $this->env = $env;
+
+        if (is_cli()) {
+            resolve('benchmark')->here('Setting Environment');
+        }
 
         return $this;
     }
@@ -99,9 +89,13 @@ class Kernel
      */
     public function modules()
     {
-        config(['modules' => $this->modules]);
+        config(['modules' => $this->di->get('module')->all()]);
 
-        di('application')->registerModules(config()->modules->toArray());
+        $this->di->get('application')->registerModules(config()->modules->toArray());
+
+        if (is_cli()) {
+            resolve('benchmark')->here('Registering All Modules');
+        }
 
         return $this;
     }
@@ -111,17 +105,7 @@ class Kernel
      */
     public function render()
     {
-        echo di('application')->handle()->getContent();
-    }
-
-    /**
-     * This provides the routes.php file.
-     *
-     * Over-ride this function if you want to change the path.
-     */
-    public static function buildRoute($module_name)
-    {
-        return url_trimmer(config()->path->app.'/'.$module_name.'/routes.php');
+        echo $this->di->get('application')->handle()->getContent();
     }
 
     /**
@@ -132,15 +116,9 @@ class Kernel
      */
     public function run($module_name)
     {
-        di('application')->setDefaultModule($module_name);
+        $this->di->get('application')->setDefaultModule($module_name);
 
-        $path = static::buildRoute($module_name);
-
-        if (file_exists($path)) {
-            require $path;
-        }
-
-        $this->loadServices($after_module = true);
+        $this->di->get($module_name)->afterModuleRun();
 
         return $this;
     }

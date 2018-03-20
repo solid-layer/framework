@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 /**
@@ -16,16 +15,6 @@ namespace Clarity\Providers;
  */
 class Cache extends ServiceProvider
 {
-    /**
-     * {@inheridoc}.
-     */
-    protected $alias = 'cache';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
     /**
      * Get the selected cache adapter.
      *
@@ -41,15 +30,17 @@ class Cache extends ServiceProvider
      */
     public function register()
     {
-        $adapter = config()->cache->adapters->{$this->getSelectedAdapter()};
+        $this->app->singleton('cache', function () {
+            $adapter = config()->cache->adapters->{$this->getSelectedAdapter()};
 
-        $backend = $adapter->backend;
-        $frontend = $adapter->frontend;
+            $backend = $adapter->backend;
+            $frontend = $adapter->frontend;
 
-        $front_cache = new $frontend([
-            'lifetime' => $adapter->lifetime,
-        ]);
+            $front_cache = new $frontend([
+                'lifetime' => $adapter->lifetime,
+            ]);
 
-        return new $backend($front_cache, $adapter->options->toArray());
+            return new $backend($front_cache, $adapter->options->toArray());
+        });
     }
 }

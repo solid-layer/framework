@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,14 +8,12 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Exception;
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 use Phalcon\Events\Manager as EventsManager;
+use Monolog\Handler\StreamHandler;
 
 /**
  * This provider handles the relational database adapters, that lives inside the
@@ -36,23 +35,42 @@ class DB extends ServiceProvider
     protected $alias = 'db';
 
     /**
-     * {@inheridoc}.
+     * Magic method call.
+     *
+     * Since we're passing the class itself as dependency, when calling
+     * a model, the connection is empty. In that moment, we could rely
+     * by getting the default connection and do the request method.
+     *
+     * @param  string $method
+     * @param  array $args
+     * @return void
      */
+
     protected $shared = true;
     
     protected $cachedConnections = [];
 
-    /**
-     * Get the database adapters.
-     *
-     * @return mixed
-     */
-    public static function adapters()
+    public function __call($method, $args)
     {
-        return config()
-            ->database
-            ->adapters
-            ->toArray();
+        if (method_exists($default = $this->getDefaultConnection(), $method)) {
+            return call_user_func_array([$default, $method], $args);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register()
+    {
+        $this->app->singleton($this->alias, function () {
+            return $this;
+        });
+
+        foreach ($this->connections() as $adapter => $options) {
+            $this->app->singleton($this->alias.'.'.$adapter, function () use ($adapter) {
+                return $this->connection($adapter);
+            });
+        }
     }
 
     /**
@@ -60,7 +78,7 @@ class DB extends ServiceProvider
      *
      * @return mixed
      */
-    private function getDB()
+    private function getDefaultConnection()
     {
         # get the selected adapter to be our basis
         $selected_adapter = config()->app->db_adapter;
@@ -71,33 +89,7 @@ class DB extends ServiceProvider
             return $this;
         }
 
-        $db = static::connection($selected_adapter);
-
-        $db->setEventsManager($this->getEventLogger());
-
-        return $db;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot()
-    {
-        if (! di()->has($this->alias)) {
-            $db = $this->getDB();
-
-            di()->set($this->alias, function () use ($db) {
-                return $db;
-            }, $this->shared);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function register()
-    {
-        return $this->getDB();
+        return $this->connection($selected_adapter);
     }
 
     /**
@@ -143,7 +135,21 @@ class DB extends ServiceProvider
         $instance->setEventsManager($this->getEventLogger());
 
         $this->cachedConnections[$selected_adapter] = $instance;
+
         return $instance;
+    }
+
+    /**
+     * Get the database adapters/connections.
+     *
+     * @return array
+     */
+    public function connections()
+    {
+        return config()
+            ->database
+            ->adapters
+            ->toArray();
     }
 
     /**
@@ -156,7 +162,6 @@ class DB extends ServiceProvider
         $event_manager = new EventsManager;
 
         $event_manager->attach($this->alias, function ($event, $conn) {
-
             if ($event->getType() == 'beforeQuery') {
                 $logging_name = 'db';
 

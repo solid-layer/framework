@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,8 +8,6 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Providers;
 
 use Clarity\Support\Auth\Auth as BaseAuth;
@@ -21,18 +20,8 @@ class Auth extends ServiceProvider
     /**
      * {@inheridoc}.
      */
-    protected $alias = 'auth';
-
-    /**
-     * {@inheridoc}.
-     */
-    protected $shared = false;
-
-    /**
-     * {@inheridoc}.
-     */
     public function register()
     {
-        return new BaseAuth;
+        $this->app->instance('auth', new BaseAuth, $singleton = true);
     }
 }

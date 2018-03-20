@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -11,7 +12,7 @@ if (! function_exists('application')) {
     /**
      * This returns the service provider 'application'.
      *
-     * @return mixed
+     * @return Phalcon\Mvc\Application
      */
     function application()
     {
@@ -24,7 +25,7 @@ if (! function_exists('auth')) {
     /**
      * This returns the service provider 'auth'.
      *
-     * @return mixed
+     * @return Clarity\Support\Auth\Auth
      */
     function auth()
     {
@@ -40,7 +41,7 @@ if (! function_exists('cache')) {
      * @param string|mixed $option If string passed, it will automatically
      * interpret as ->get(...), if array the index 0 will be the key and value
      * will be index 1
-     * @return mixed
+     * @return Phalcon\Cache\Backend
      */
     function cache($option = null)
     {
@@ -74,7 +75,7 @@ if (! function_exists('config')) {
      *      [$merge_or_default_value = true]
      * @param bool $merge_or_default_value If true, it will automatically merge, else if false
      *      it will replace a config
-     * @return mixed
+     * @return Phalcon\Config
      */
     function config($option = null, $merge_or_default_value = true)
     {
@@ -137,7 +138,7 @@ if (! function_exists('db')) {
     /**
      * This returns the service provider 'db'.
      *
-     * @return mixed
+     * @return Clarity\Providers\DB
      */
     function db()
     {
@@ -150,7 +151,7 @@ if (! function_exists('dispatcher')) {
     /**
      * This returns the service provider 'dispatcher'.
      *
-     * @return mixed
+     * @return Phalcon\Mvc\Dispatcher
      */
     function dispatcher()
     {
@@ -163,7 +164,7 @@ if (! function_exists('filter')) {
     /**
      * This returns the service provider 'filter'.
      *
-     * @return mixed
+     * @return Phalcon\Filter
      */
     function filter()
     {
@@ -176,24 +177,11 @@ if (! function_exists('flash')) {
     /**
      * This returns the service provider 'flash'.
      *
-     * @return mixed
+     * @return Clarity\Providers\Flash
      */
     function flash()
     {
         return di()->get('flash');
-    }
-}
-
-if (! function_exists('flash_bag')) {
-
-    /**
-     * This returns the service provider 'flash_bag'.
-     *
-     * @return mixed
-     */
-    function flash_bag()
-    {
-        return di()->get('flash_bag');
     }
 }
 
@@ -204,7 +192,7 @@ if (! function_exists('flysystem')) {
      * If you passed a value in argument 1, it will call ->get($path) instead.
      *
      * @param string $path The path to be referenced
-     * @return mixed
+     * @return League\Flysystem\Filesystem
      */
     function flysystem($path = null)
     {
@@ -228,7 +216,7 @@ if (! function_exists('flysystem_manager')) {
      * based on the provided path.
      *
      * @param string $path The local path to be referenced
-     * @return mixed
+     * @return League\Flysystem\MountManager
      */
     function flysystem_manager($path = null)
     {
@@ -251,7 +239,7 @@ if (! function_exists('lang')) {
     /**
      * This returns the service provider 'lang'.
      *
-     * @return mixed
+     * @return Clarity\Lang\Lang
      */
     function lang()
     {
@@ -259,14 +247,14 @@ if (! function_exists('lang')) {
     }
 }
 
-if (! function_exists('log')) {
+if (! function_exists('logger')) {
 
     /**
      * This returns the service provider 'log'.
      *
-     * @return mixed
+     * @return Monolog\Logger
      */
-    function log()
+    function logger()
     {
         return di()->get('log');
     }
@@ -277,7 +265,7 @@ if (! function_exists('queue')) {
     /**
      * This returns the service provider 'queue'.
      *
-     * @return mixed
+     * @return Clarity\Support\Queue\Queue
      */
     function queue($class = null, $data = [], $options = [])
     {
@@ -300,7 +288,7 @@ if (! function_exists('redirect')) {
      * This returns the service provider 'redirect'.
      *
      * @param string $to To be interpreted as uri, where 'to' redirect
-     * @return mixed
+     * @return Clarity\Support\Redirect\Redirect|mixed
      */
     function redirect($to = null)
     {
@@ -318,7 +306,7 @@ if (! function_exists('request')) {
     /**
      * This returns the service provider 'request'.
      *
-     * @return mixed
+     * @return Clarity\Support\Phalcon\Http\Request
      */
     function request()
     {
@@ -331,7 +319,7 @@ if (! function_exists('response')) {
     /**
      * This returns the service provider 'response'.
      *
-     * @return mixed
+     * @return Phalcon\Http\Response
      */
     function response()
     {
@@ -343,19 +331,20 @@ if (! function_exists('route')) {
 
     /**
      * This returns the service provider 'route', if you passed a value on first argument
-     * it will call the url() helper instead and will call ->route($name, $params).
+     * it will call the url() helper instead and will call ->route($name, $params, $raw).
      *
      * @param string $name The route name
-     * @param mixed $params The parameters of your route
-     * @return mixed
+     * @param mixed $params A uri parameters for this route
+     * @param mixed $raw A raw parameters for your route
+     * @return Clarity\Support\Phalcon\Mvc\Router|string
      */
-    function route($name = null, $params = [])
+    function route($name = null, $params = [], $raw = [])
     {
         if ($name === null) {
             return di()->get('router');
         }
 
-        return url()->route($name, $params);
+        return url()->route($name, $params, $raw);
     }
 }
 
@@ -364,7 +353,7 @@ if (! function_exists('security')) {
     /**
      * This returns the service provider 'security'.
      *
-     * @return mixed
+     * @return Phalcon\Security
      */
     function security()
     {
@@ -377,7 +366,7 @@ if (! function_exists('session')) {
     /**
      * This returns the service provider 'session'.
      *
-     * @return mixed
+     * @return Phalcon\Session\Adapter
      */
     function session()
     {
@@ -390,7 +379,7 @@ if (! function_exists('tag')) {
     /**
      * This returns the service provider 'tag'.
      *
-     * @return mixed
+     * @return Phalcon\Tag
      */
     function tag()
     {
@@ -406,7 +395,7 @@ if (! function_exists('url')) {
      *
      * @param string $href The uri/url to use
      * @param mixed $params The parameters to append
-     * @return mixed
+     * @return Clarity\Support\Phalcon\Mvc\URL|string
      */
     function url($href = null, $params = [])
     {
@@ -429,7 +418,7 @@ if (! function_exists('view')) {
      *
      * @param string $path
      * @param mixed $params
-     * @return mixed
+     * @return Clarity\Support\Phalcon\Mvc\View|string
      */
     function view($path = null, $params = [])
     {

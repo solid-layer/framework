@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconSlayer\Framework.
  *
@@ -7,26 +8,44 @@
  * @link      http://docs.phalconslayer.com
  */
 
-/**
- */
 namespace Clarity\Support\Redirect;
 
 use Clarity\Support\WithMagicMethodTrait;
 
+/***
+ * Class Redirect
+ * @package Clarity\Support\Redirect
+ *
+ * @method withError(string $message) write error flash message
+ * @method withSuccess(string $message) write success flash message
+ */
 class Redirect
 {
     use WithMagicMethodTrait;
 
+    /**
+     * Redirect based on the provided url.
+     *
+     * @param string $url
+     * @return mixed|\Clarity\Support\Redirect\Redirect
+     */
     public function to($url)
     {
-        di()->get('response')->redirect($url);
+        resolve('response')->redirect($url);
 
         return $this;
     }
 
+    /**
+     * Passing a query param.
+     *
+     * @param string $key
+     * @param string $value
+     * @return mixed|\Clarity\Support\Redirect\Redirect
+     */
     public function with($key, $value)
     {
-        di()->get('flash')->set($key, $value);
+        resolve('flash')->session()->message($key, $value);
 
         return $this;
     }
