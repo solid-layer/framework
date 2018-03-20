@@ -122,7 +122,7 @@ class DB extends ServiceProvider
             return false;
         }
 
-        if (isset$this->cachedConnections[$selected_adapter])) {
+        if (isset($this->cachedConnections[$selected_adapter])) {
             return $this->cachedConnections[$selected_adapter];
         }
 
