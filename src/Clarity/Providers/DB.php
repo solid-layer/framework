@@ -39,6 +39,8 @@ class DB extends ServiceProvider
      * {@inheridoc}.
      */
     protected $shared = true;
+    
+    protected $cachedConnections = null;
 
     /**
      * Get the database adapters.
@@ -104,9 +106,13 @@ class DB extends ServiceProvider
      * @param  string $selected_adapter The adapter name
      * @return mixed An adapter to use you
      */
-    public static function connection($selected_adapter)
+    public function connection($selected_adapter = null)
     {
-        $adapters = static::adapters();
+        if ($selected_adapter === null) {
+            return $this->getDefaultConnection();
+        }
+
+        $adapters = $this->connections();
 
         $has_adapter = isset($adapters[$selected_adapter]);
 
@@ -114,16 +120,30 @@ class DB extends ServiceProvider
         # exists, we should throw an exception error
         if (! $has_adapter) {
             throw new Exception(
-                'Database adapter '.$selected_adapter.
-                ' not found'
+                'Database adapter '.$selected_adapter.' not found'
             );
         }
 
-        $options = $adapters[$selected_adapter];
-        $class = $options['class'];
-        unset($options['class']);
+        $adapter = $adapters[$selected_adapter];
 
-        return new $class($options);
+        if (isset($adapter['active']) && $adapter['active'] === false) {
+            return false;
+        }
+
+        if ($this->cachedConnections[$selected_adapter]) {
+            return $this->cachedConnections[$selected_adapter];
+        }
+
+        $class = $adapter['class'];
+
+        unset($adapter['class']);
+
+        $instance = new $class($adapter);
+
+        $instance->setEventsManager($this->getEventLogger());
+
+        $this->cachedConnections[$selected_adapter] = $instance;
+        return $instance;
     }
 
     /**
@@ -157,7 +177,7 @@ class DB extends ServiceProvider
                 if ($variables) {
                     $logger->info(
                         $conn->getSQLStatement().
-                        ' ['.implode(',', $variables).']'
+                        ' ['. json_encode($variables).']'
                     );
                 } else {
                     $logger->info($conn->getSQLStatement());
